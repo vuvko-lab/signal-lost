@@ -1,0 +1,362 @@
+// === UI RENDERING ===
+
+import { CULTURES, PHENOMENA, CULTURE_DESCRIPTIONS, PHASE_DESCRIPTIONS, STAT_DESCRIPTIONS, PHASE_OBJECTIVES } from './data.js';
+import { getState, getVessel, getPhases, getObjective } from './game.js';
+
+const PHASES = getPhases();
+
+// Escape strings for safe use in HTML attributes
+function escAttr(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Phase icon mapping
+const PHASE_ICONS = {
+  IDLE: 'assets/icons/power.png',
+  SIGNAL: 'assets/icons/signal-alert.png',
+  TRAVERSE: 'assets/icons/network.png',
+  BREACH: 'assets/icons/lock.png',
+  FAULT: 'assets/icons/danger.png',
+  CORE: 'assets/icons/star.png',
+  REBOOT: 'assets/icons/wrench.png',
+};
+
+// === BOOT SCREEN ===
+
+const BOOT_LINES = [
+  '> SIGNAL LOST — OPERATOR CONSOLE v0.1',
+  '> Initializing systems...',
+  '> Satellite handshake: OK',
+  '> Mesh network scan: 3 nodes detected',
+  '> Uplink established.',
+  '> Scanning for active vessels...',
+  '',
+  '> Ready. Enter operator ID or press CONNECT for auto-assign.',
+];
+
+export function renderBootScreen() {
+  return new Promise((resolve) => {
+    const bootText = document.getElementById('boot-text');
+    const bootPrompt = document.getElementById('boot-prompt');
+    const bootSubmit = document.getElementById('boot-submit');
+    const operatorInput = document.getElementById('operator-input');
+
+    let lineIdx = 0;
+    let charIdx = 0;
+
+    function typeNext() {
+      if (lineIdx >= BOOT_LINES.length) {
+        // Show input prompt
+        bootPrompt.classList.remove('hidden');
+        operatorInput.focus();
+
+        const submit = () => {
+          const id = operatorInput.value.trim().toUpperCase() || null;
+          bootSubmit.removeEventListener('click', submit);
+          operatorInput.removeEventListener('keydown', onKey);
+          resolve(id);
+        };
+
+        const onKey = (e) => { if (e.key === 'Enter') submit(); };
+        bootSubmit.addEventListener('click', submit);
+        operatorInput.addEventListener('keydown', onKey);
+        return;
+      }
+
+      const line = BOOT_LINES[lineIdx];
+      if (charIdx === 0 && lineIdx > 0) {
+        bootText.textContent += '\n';
+      }
+
+      if (charIdx < line.length) {
+        bootText.textContent += line[charIdx];
+        charIdx++;
+        setTimeout(typeNext, 15 + Math.random() * 25);
+      } else {
+        lineIdx++;
+        charIdx = 0;
+        setTimeout(typeNext, 200 + Math.random() * 300);
+      }
+    }
+
+    // Add blinking cursor
+    bootText.textContent = '';
+    typeNext();
+  });
+}
+
+export function hideBootScreen() {
+  const boot = document.getElementById('boot-screen');
+  boot.classList.add('hidden');
+}
+
+export function showGameUI() {
+  const gameUI = document.getElementById('game-ui');
+  gameUI.classList.remove('hidden');
+}
+
+// === VESSEL COLUMNS ===
+
+export function createVesselColumn(vessel) {
+  const culture = CULTURES[vessel.culture];
+  const area = document.getElementById('vessels-area');
+  const addCol = document.getElementById('add-vessel-col');
+
+  const col = document.createElement('div');
+  col.className = 'vessel-col';
+  col.id = `col-${vessel.id}`;
+  col.dataset.vesselId = vessel.id;
+
+  const objective = getObjective(vessel.id);
+
+  col.innerHTML = `
+    <div class="vessel-header">
+      <span class="vessel-name"><img class="icon" src="assets/icons/network.png" alt="">${vessel.designation}</span>
+      <span class="culture-tag" data-tooltip="${escAttr(CULTURE_DESCRIPTIONS[vessel.culture] || '')}">${culture.name} | ${vessel.chassis.locomotion}</span>
+    </div>
+    <div class="vessel-stats">
+      <div class="stat">
+        <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HP)}">HP</span>
+        <div class="stat-bar"><div class="stat-bar-fill hp" style="width:${vessel.integrity * 10}%"></div></div>
+        <span class="stat-value stat-hp">${vessel.integrity}/10</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.EN)}">EN</span>
+        <div class="stat-bar"><div class="stat-bar-fill energy" style="width:${vessel.energy * 10}%"></div></div>
+        <span class="stat-value stat-en">${vessel.energy}/10</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.MEM)}">MEM</span>
+        <div class="stat-bar"><div class="stat-bar-fill memory" style="width:${vessel.memory * 10}%"></div></div>
+        <span class="stat-value stat-mem">${vessel.memory}/10</span>
+      </div>
+    </div>
+    <details class="vessel-info">
+      <summary>SYSTEM INFO</summary>
+      <div class="vessel-info-body">
+        <span class="info-directive" data-tooltip="The vessel's original purpose — the task it was built to perform before the Silence."><img class="icon icon-cyan" src="assets/icons/settings.png" alt="">DIR: ${vessel.directive}</span>
+        <br>
+        <span class="info-glitch" data-tooltip="A persistent malfunction that affects the vessel's behavior in unexpected ways."><img class="icon icon-red" src="assets/icons/danger.png" alt="">BUG: ${vessel.glitch}</span>
+      </div>
+    </details>
+    <div class="vessel-location">LOC: ${vessel.location}</div>
+    <div class="vessel-objective" id="obj-${vessel.id}">
+      <span class="obj-label">OBJECTIVE</span>
+      ${objective}
+    </div>
+    <div class="vessel-log" id="log-${vessel.id}"></div>
+    <div class="vessel-phase">
+      <span class="phase-label" data-tooltip="${escAttr(PHASE_DESCRIPTIONS[vessel.mission.phase] || '')}"><img class="icon" src="${PHASE_ICONS[vessel.mission.phase] || PHASE_ICONS.IDLE}" alt="">${vessel.mission.phase}</span>
+      <div class="phase-segments">
+        ${PHASES.map((p, i) => {
+          const currentIdx = PHASES.indexOf(vessel.mission.phase);
+          let cls = 'phase-seg';
+          if (i < currentIdx) cls += ' completed';
+          else if (i === currentIdx) cls += ' active';
+          return `<div class="${cls}" data-tooltip="${escAttr(PHASE_DESCRIPTIONS[p] || p)}" title="${p}"></div>`;
+        }).join('')}
+      </div>
+      <span class="arc-count" data-tooltip="How many full mission cycles this vessel has completed.">Arc #${vessel.mission.arc_count}</span>
+    </div>
+  `;
+
+  // Insert before the add-vessel column
+  area.insertBefore(col, addCol);
+
+  // Render existing log entries (for restored saves)
+  const logContainer = col.querySelector(`#log-${vessel.id}`);
+  for (const entry of vessel.log.slice(-20)) {
+    appendLogEntryDOM(logContainer, entry);
+  }
+
+  return col;
+}
+
+function appendLogEntryDOM(container, entry) {
+  const div = document.createElement('div');
+  let cls = 'log-entry';
+  if (entry.isEvent) cls += ' event-entry glitch-entry';
+  div.className = cls;
+  div.innerHTML = `<span class="timestamp">[${entry.time}]</span> ${entry.text}`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+export function appendLogEntry(vesselId, entry) {
+  const container = document.getElementById(`log-${vesselId}`);
+  if (!container) return;
+  appendLogEntryDOM(container, entry);
+
+  // Trim old entries from DOM (keep last 30)
+  while (container.children.length > 30) {
+    container.removeChild(container.firstChild);
+  }
+}
+
+export function updateStats(vesselId) {
+  const vessel = getVessel(vesselId);
+  if (!vessel) return;
+
+  const col = document.getElementById(`col-${vesselId}`);
+  if (!col) return;
+
+  // Update bars
+  const hpBar = col.querySelector('.stat-bar-fill.hp');
+  hpBar.style.width = `${vessel.integrity * 10}%`;
+  hpBar.style.background = vessel.integrity <= 3 ? 'var(--red)' : vessel.integrity <= 5 ? 'var(--amber)' : '#00cc33';
+
+  col.querySelector('.stat-bar-fill.energy').style.width = `${vessel.energy * 10}%`;
+  col.querySelector('.stat-bar-fill.memory').style.width = `${vessel.memory * 10}%`;
+
+  // Update values
+  const hpVal = col.querySelector('.stat-hp');
+  hpVal.textContent = `${vessel.integrity}/10`;
+  hpVal.style.color = vessel.integrity <= 3 ? 'var(--red)' : '';
+
+  col.querySelector('.stat-en').textContent = `${vessel.energy}/10`;
+  col.querySelector('.stat-mem').textContent = `${vessel.memory}/10`;
+
+  // Update location
+  col.querySelector('.vessel-location').textContent = `LOC: ${vessel.location}`;
+}
+
+export function updatePhase(vesselId) {
+  const vessel = getVessel(vesselId);
+  if (!vessel) return;
+
+  const col = document.getElementById(`col-${vesselId}`);
+  if (!col) return;
+
+  const currentIdx = PHASES.indexOf(vessel.mission.phase);
+  const phaseLabel = col.querySelector('.phase-label');
+  phaseLabel.innerHTML = `<img class="icon" src="${PHASE_ICONS[vessel.mission.phase] || PHASE_ICONS.IDLE}" alt="">${vessel.mission.phase}`;
+  phaseLabel.dataset.tooltip = PHASE_DESCRIPTIONS[vessel.mission.phase] || '';
+  col.querySelector('.arc-count').textContent = `Arc #${vessel.mission.arc_count}`;
+
+  const segments = col.querySelectorAll('.phase-seg');
+  segments.forEach((seg, i) => {
+    seg.className = 'phase-seg';
+    if (i < currentIdx) seg.classList.add('completed');
+    else if (i === currentIdx) seg.classList.add('active');
+  });
+
+  // Update objective
+  updateObjective(vesselId);
+}
+
+export function updateObjective(vesselId) {
+  const objEl = document.getElementById(`obj-${vesselId}`);
+  if (!objEl) return;
+  const objective = getObjective(vesselId);
+  objEl.innerHTML = `<span class="obj-label">OBJECTIVE</span>${objective}`;
+}
+
+// === TOP BANNER ===
+
+export function updateSatelliteHealth() {
+  const state = getState();
+  if (!state) return;
+
+  const healthEl = document.getElementById('sat-health');
+  const statusEl = document.getElementById('sat-status');
+  healthEl.textContent = state.world.satellite_health;
+
+  statusEl.className = '';
+  if (state.world.satellite_health <= 2) statusEl.className = 'critical';
+  else if (state.world.satellite_health <= 3) statusEl.className = 'degraded';
+}
+
+// === GLOBAL EVENTS ===
+
+export function showGlobalEvent(phenomenon) {
+  const banner = document.getElementById('global-event');
+  const text = document.getElementById('global-event-text');
+  const gameUI = document.getElementById('game-ui');
+
+  text.textContent = `[${phenomenon.name}] ${phenomenon.banner}`;
+  banner.classList.remove('hidden');
+
+  // Trigger glitch effects
+  gameUI.classList.add('glitch-active', 'glitch-chromatic', 'glitch-bars');
+  banner.classList.add('glitch-text');
+
+  // Clean up glitch classes after animations complete
+  setTimeout(() => {
+    gameUI.classList.remove('glitch-active', 'glitch-chromatic', 'glitch-bars');
+    banner.classList.remove('glitch-text');
+  }, 2000);
+
+  // Auto-hide after 15 seconds
+  setTimeout(() => {
+    banner.classList.add('hidden');
+  }, 15000);
+}
+
+export function hideGlobalEvent() {
+  document.getElementById('global-event').classList.add('hidden');
+}
+
+// === SELECTED VESSEL (for operator commands) ===
+
+let selectedVesselId = null;
+
+export function getSelectedVesselId() { return selectedVesselId; }
+
+export function setupVesselSelection() {
+  document.getElementById('vessels-area').addEventListener('click', (e) => {
+    const col = e.target.closest('.vessel-col');
+    if (!col || col.classList.contains('add-col')) return;
+
+    // Deselect previous
+    document.querySelectorAll('.vessel-col.selected').forEach(el => el.classList.remove('selected'));
+
+    col.classList.add('selected');
+    selectedVesselId = col.dataset.vesselId;
+
+    // Update command target display
+    const vessel = getVessel(selectedVesselId);
+    const targetEl = document.getElementById('cmd-target');
+    if (targetEl && vessel) {
+      targetEl.textContent = `TARGET: ${vessel.designation}`;
+      targetEl.classList.remove('dim');
+    }
+  });
+}
+
+// === TOOLTIP SYSTEM ===
+
+export function setupTooltips() {
+  const tooltip = document.getElementById('tooltip');
+  if (!tooltip) return;
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('[data-tooltip]');
+    if (!target || !target.dataset.tooltip) return;
+
+    tooltip.textContent = target.dataset.tooltip;
+    tooltip.classList.remove('hidden');
+
+    const rect = target.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    // Position above the element, centered
+    let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+    let top = rect.top - tooltipRect.height - 8;
+
+    // Keep within viewport
+    if (left < 8) left = 8;
+    if (left + tooltipRect.width > window.innerWidth - 8) left = window.innerWidth - tooltipRect.width - 8;
+    if (top < 8) {
+      top = rect.bottom + 8; // flip below if no room above
+    }
+
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const target = e.target.closest('[data-tooltip]');
+    if (!target) return;
+    tooltip.classList.add('hidden');
+  });
+}

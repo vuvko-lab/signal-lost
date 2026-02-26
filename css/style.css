@@ -1,0 +1,659 @@
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f;
+  --panel: #0d0d14;
+  --border: #1a3a1a;
+  --green: #00ff41;
+  --green-dim: #00aa2a;
+  --green-dark: #004d15;
+  --amber: #ffb000;
+  --red: #ff3333;
+  --cyan: #00e5ff;
+  --purple: #b060ff;
+  --text: #00ff41;
+  --text-dim: #337a33;
+  --glow: rgba(0, 255, 65, 0.4);
+  --glow-amber: rgba(255, 176, 0, 0.4);
+  --font-terminal: 'VT323', monospace;
+  --font-ui: 'IBM Plex Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-terminal);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* === CRT OVERLAY === */
+#crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  transition: opacity 0.3s;
+}
+
+#crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+#crt-overlay.crt-off { opacity: 0; }
+
+/* === BOOT SCREEN === */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--bg);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#boot-text {
+  white-space: pre-wrap;
+  font-size: 20px;
+  text-shadow: 0 0 5px var(--glow);
+  min-height: 200px;
+}
+
+#boot-prompt {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prompt-label {
+  text-shadow: 0 0 5px var(--glow);
+}
+
+#operator-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--green);
+  color: var(--green);
+  font-family: var(--font-terminal);
+  font-size: 20px;
+  padding: 4px 8px;
+  outline: none;
+  width: 200px;
+  text-shadow: 0 0 5px var(--glow);
+}
+
+#operator-input::placeholder {
+  color: var(--text-dim);
+}
+
+#boot-submit {
+  background: var(--green-dark);
+  color: var(--green);
+  border: 1px solid var(--green);
+  font-family: var(--font-terminal);
+  font-size: 18px;
+  padding: 4px 16px;
+  cursor: pointer;
+  text-shadow: 0 0 5px var(--glow);
+}
+
+#boot-submit:hover {
+  background: var(--green);
+  color: var(--bg);
+}
+
+/* === MAIN GAME UI === */
+#game-ui {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0;
+}
+
+/* Top banner */
+#top-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+#title {
+  font-size: 16px;
+  font-weight: 700;
+  text-shadow: 0 0 8px var(--glow);
+  letter-spacing: 2px;
+}
+
+.dim { color: var(--text-dim); }
+
+#banner-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#crt-toggle-btn, #mute-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+#crt-toggle-btn:hover, #mute-btn:hover { color: var(--green); border-color: var(--green); }
+#mute-btn.muted { color: var(--red); border-color: var(--red); }
+#crt-toggle-btn.crt-off { color: var(--text-dim); opacity: 0.5; }
+
+#sat-status {
+  color: var(--cyan);
+  text-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
+}
+
+#sat-status.degraded { color: var(--amber); text-shadow: 0 0 5px var(--glow-amber); }
+#sat-status.critical { color: var(--red); }
+
+/* Global event banner */
+#global-event {
+  background: rgba(255, 176, 0, 0.1);
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 16px;
+  text-shadow: 0 0 5px var(--glow-amber);
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: var(--amber); }
+  50% { border-color: transparent; }
+}
+
+/* Vessels area */
+#vessels-area {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  overflow-x: auto;
+  align-items: stretch;
+}
+
+/* Vessel column */
+.vessel-col {
+  min-width: 280px;
+  max-width: 360px;
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.vessel-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vessel-col.selected {
+  border-color: var(--green);
+  box-shadow: 0 0 8px var(--glow), inset 0 0 8px rgba(0, 255, 65, 0.05);
+}
+
+.vessel-col.selected .vessel-header {
+  border-bottom-color: var(--green-dim);
+}
+
+.vessel-header .culture-tag {
+  color: var(--cyan);
+  font-weight: 400;
+  font-size: 11px;
+  cursor: help;
+}
+
+/* Stats row */
+.vessel-stats {
+  padding: 6px 12px;
+  display: flex;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label { color: var(--text-dim); }
+
+.stat-bar {
+  width: 50px;
+  height: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.stat-bar-fill.hp { background: #00cc33; }
+.stat-bar-fill.energy { background: #3399ff; }
+.stat-bar-fill.memory { background: var(--purple); }
+
+.vessel-location {
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: var(--font-ui);
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Objective/mission context row */
+.vessel-objective {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-family: var(--font-terminal);
+  color: var(--amber);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 176, 0, 0.03);
+  line-height: 1.3;
+}
+
+.vessel-objective .obj-label {
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Vessel info row (directive + glitch) — collapsible */
+.vessel-info {
+  border-bottom: 1px solid var(--border);
+}
+
+.vessel-info summary {
+  padding: 4px 12px;
+  font-size: 10px;
+  font-family: var(--font-ui);
+  color: var(--text-dim);
+  cursor: pointer;
+  letter-spacing: 1px;
+  list-style: none;
+  user-select: none;
+}
+
+.vessel-info summary::-webkit-details-marker { display: none; }
+
+.vessel-info summary::before {
+  content: '\25B6';
+  font-size: 8px;
+  margin-right: 6px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.vessel-info[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.vessel-info summary:hover { color: var(--green); }
+
+.vessel-info-body {
+  padding: 2px 12px 6px;
+  font-size: 11px;
+  font-family: var(--font-ui);
+  line-height: 1.4;
+  animation: fade-in 0.2s ease;
+}
+
+.vessel-info .info-directive { color: var(--cyan); opacity: 0.7; }
+.vessel-info .info-glitch { color: var(--red); opacity: 0.6; }
+
+/* Log feed */
+.vessel-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--green-dark) var(--bg);
+}
+
+.log-entry {
+  font-size: 16px;
+  line-height: 1.3;
+  animation: fade-in 0.5s ease;
+}
+
+.log-entry .timestamp {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.log-entry.event-entry {
+  color: var(--amber);
+  text-shadow: 0 0 3px var(--glow-amber);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Phase bar */
+.vessel-phase {
+  padding: 6px 12px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phase-label {
+  min-width: 70px;
+  text-shadow: 0 0 5px var(--glow);
+}
+
+.phase-segments {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+}
+
+.phase-seg {
+  flex: 1;
+  height: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.phase-seg.active {
+  background: var(--green);
+  box-shadow: 0 0 4px var(--glow);
+}
+
+.phase-seg.completed {
+  background: var(--green-dark);
+}
+
+/* Add vessel column */
+.add-col {
+  min-width: 180px;
+  max-width: 200px;
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.add-col:hover { opacity: 1; }
+
+.add-vessel-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+#add-vessel-btn {
+  background: var(--green-dark);
+  color: var(--green);
+  border: 1px solid var(--green);
+  font-family: var(--font-terminal);
+  font-size: 16px;
+  padding: 6px 24px;
+  cursor: pointer;
+}
+
+#add-vessel-btn:hover {
+  background: var(--green);
+  color: var(--bg);
+}
+
+/* Bottom bar */
+#bottom-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border);
+}
+
+#cmd-target {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  min-width: 120px;
+  transition: color 0.3s;
+}
+
+.cmd-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--font-terminal);
+  font-size: 16px;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cmd-btn:hover:not(:disabled) {
+  color: var(--green);
+  border-color: var(--green);
+  text-shadow: 0 0 5px var(--glow);
+}
+
+.cmd-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.cmd-btn .cooldown-timer {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+/* === TOOLTIP === */
+#tooltip {
+  position: fixed;
+  z-index: 500;
+  background: #0d0d14;
+  border: 1px solid var(--green-dim);
+  color: var(--green);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 8px 12px;
+  max-width: 320px;
+  line-height: 1.5;
+  text-shadow: 0 0 3px var(--glow);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.15);
+  pointer-events: none;
+}
+
+[data-tooltip] {
+  cursor: help;
+}
+
+/* === UTILITIES === */
+.hidden { display: none !important; }
+
+/* Blinking cursor for boot screen */
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background: var(--green);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* === ICONS === */
+.icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  /* Dark icons (black on transparent) → invert to white, then tint green */
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(85deg) brightness(0.7);
+  margin-right: 4px;
+}
+
+.icon.icon-amber {
+  filter: invert(1) sepia(1) saturate(10) hue-rotate(10deg) brightness(0.9);
+}
+
+.icon.icon-red {
+  filter: invert(1) sepia(1) saturate(10) hue-rotate(330deg) brightness(0.8);
+}
+
+.icon.icon-cyan {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(150deg) brightness(0.9);
+}
+
+/* === GLITCH EFFECTS === */
+
+/* Applied to #game-ui during global phenomena */
+.glitch-active {
+  animation: glitch-shake 0.4s ease-in-out;
+}
+
+@keyframes glitch-shake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2px, 1px); }
+  20% { transform: translate(2px, -1px); }
+  30% { transform: translate(-1px, -2px); }
+  40% { transform: translate(1px, 2px); }
+  50% { transform: translate(-2px, 0px); }
+  60% { transform: translate(2px, 1px); }
+  70% { transform: translate(0px, -1px); }
+  80% { transform: translate(-1px, 1px); }
+  90% { transform: translate(1px, -2px); }
+}
+
+/* Chromatic aberration overlay — applied during glitch */
+.glitch-chromatic::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  background:
+    linear-gradient(90deg, rgba(255, 0, 0, 0.03) 0%, transparent 33%),
+    linear-gradient(90deg, transparent 66%, rgba(0, 0, 255, 0.03) 100%);
+  animation: chromatic-shift 0.3s ease-in-out 3;
+}
+
+@keyframes chromatic-shift {
+  0%, 100% { opacity: 0; }
+  25% { opacity: 1; transform: translateX(-3px); }
+  50% { opacity: 1; transform: translateX(3px); }
+  75% { opacity: 1; transform: translateX(-1px); }
+}
+
+/* Glitch bar — random horizontal displacement bars */
+.glitch-bars::after {
+  content: '';
+  position: fixed;
+  left: 0; right: 0;
+  height: 4px;
+  pointer-events: none;
+  z-index: 901;
+  background: var(--green);
+  opacity: 0.15;
+  animation: glitch-bar-sweep 0.6s linear 2;
+}
+
+@keyframes glitch-bar-sweep {
+  0% { top: 10%; transform: scaleX(0.8) translateX(-5%); opacity: 0.2; }
+  25% { top: 35%; transform: scaleX(1.2) translateX(3%); opacity: 0.15; }
+  50% { top: 60%; transform: scaleX(0.6) translateX(-2%); opacity: 0.25; }
+  75% { top: 80%; transform: scaleX(1.1) translateX(4%); opacity: 0.1; }
+  100% { top: 95%; transform: scaleX(0.9) translateX(0); opacity: 0; }
+}
+
+/* Text scramble for event banner during glitch */
+#global-event.glitch-text {
+  animation: pulse-border 2s ease-in-out infinite, glitch-text-flicker 0.15s linear 5;
+}
+
+@keyframes glitch-text-flicker {
+  0%, 100% { opacity: 1; transform: translateX(0); }
+  20% { opacity: 0.8; transform: translateX(2px) skewX(2deg); }
+  40% { opacity: 1; transform: translateX(-1px) skewX(-1deg); }
+  60% { opacity: 0.6; transform: translateX(1px); }
+  80% { opacity: 1; transform: translateX(-2px) skewX(1deg); }
+}
+
+/* Vessel column glitch — brief distortion on event log entries */
+.log-entry.glitch-entry {
+  animation: entry-glitch 0.5s ease;
+}
+
+@keyframes entry-glitch {
+  0% { opacity: 0; transform: translateX(-20px) skewX(-5deg); filter: hue-rotate(90deg); }
+  30% { opacity: 1; transform: translateX(5px) skewX(2deg); filter: hue-rotate(45deg); }
+  60% { transform: translateX(-2px) skewX(-1deg); filter: hue-rotate(0deg); }
+  100% { transform: translateX(0) skewX(0deg); filter: none; }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dark); }
+::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }

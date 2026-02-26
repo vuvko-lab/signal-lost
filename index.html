@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGNAL LOST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- CRT scanline overlay -->
+  <div id="crt-overlay"></div>
+
+  <!-- Boot screen -->
+  <div id="boot-screen">
+    <div id="boot-text"></div>
+    <div id="boot-prompt" class="hidden">
+      <span class="prompt-label">&gt; OPERATOR ID: </span>
+      <input type="text" id="operator-input" maxlength="16" placeholder="AUTO-ASSIGN" autofocus>
+      <button id="boot-submit">CONNECT</button>
+    </div>
+  </div>
+
+  <!-- Main game UI -->
+  <div id="game-ui" class="hidden">
+    <!-- Top banner -->
+    <header id="top-banner">
+      <div id="title">SIGNAL LOST <span class="dim">- OPERATOR CONSOLE</span></div>
+      <div id="banner-right">
+        <button id="crt-toggle-btn" title="Toggle CRT effect">CRT</button>
+        <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
+        <span id="sat-status"><img class="icon icon-cyan" src="assets/icons/signal-alert.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
+      </div>
+    </header>
+
+    <!-- Global event banner -->
+    <div id="global-event" class="hidden">
+      <img class="icon icon-amber" src="assets/icons/danger.png" alt="">
+      <span id="global-event-text"></span>
+    </div>
+
+    <!-- Vessel columns area -->
+    <main id="vessels-area">
+      <!-- Vessel columns injected here by JS -->
+
+      <!-- Add vessel button -->
+      <div id="add-vessel-col" class="vessel-col add-col">
+        <div class="vessel-header">+ ADD VESSEL</div>
+        <div class="add-vessel-body">
+          <p>Scan for new<br>signal feed?</p>
+          <button id="add-vessel-btn">SCAN</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom operator commands -->
+    <footer id="bottom-bar">
+      <span id="cmd-target" class="dim">TARGET: none</span>
+      <button class="cmd-btn" id="cmd-boost" title="Improve next tick outcome for selected vessel"><img class="icon" src="assets/icons/power.png" alt="">Boost</button>
+      <button class="cmd-btn" id="cmd-ping" title="Force a scan — may find loot"><img class="icon" src="assets/icons/scan.png" alt="">Ping</button>
+      <button class="cmd-btn" id="cmd-inject" title="Send a message to the vessel"><img class="icon" src="assets/icons/message.png" alt="">Inject</button>
+    </footer>
+
+    <!-- Tooltip overlay -->
+    <div id="tooltip" class="hidden"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
