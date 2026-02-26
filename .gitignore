@@ -1,0 +1,21 @@
+# Asset zip archives (large files, keep originals outside git)
+*.zip
+
+# Raw WAV files (1101 files, 24-bit 48kHz — too large for git)
+# We'll convert a subset to .ogg for the build
+assets/Glitch Noises (WAV)/
+
+# Source/vector design files (74MB, not needed for the game)
+assets/**/*.psd
+assets/**/*.ai
+assets/**/*.eps
+assets/**/*.svg
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+*.swo
