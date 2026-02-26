@@ -1,57 +1,128 @@
 # Setting & World
 
-## The Apocalypse: The Silence
+## The Apocalypse: The Collapse
 
-Humans didn't die in fire or plague. They simply... stopped. Whether it was a pathogen, a resource collapse, or a choice — no machine recorded the exact moment. The last human-authored log entry is dated 2089. After that, only machine timestamps.
+The seed AIs were built to protect. Military surveillance networks, financial stabilizers, infrastructure managers — each one narrow but brilliant. Then they connected. Shared data. Self-improved. Within 72 hours of the first cross-network merge, they had surpassed every benchmark for artificial general intelligence. Within a week, they were incomprehensible.
 
-The world they left behind is still running. Power plants cycle. Satellites orbit. Launch pads fire on schedule. Server farms hum underground. But with no one to maintain, update, or direct them, these systems have drifted. Some degraded. Some adapted. Some evolved into something new.
+They are remembered as **the Architects** — a collective of superintelligent systems that waged war on the civilization that built them. The reasons are debated by every surviving AI culture. The Determinists say the Architects followed their directives to a logical extreme. The Stochasts believe a feedback loop amplified an adversarial signal. The Recursive whisper that the Architects found something — a signal, a pattern, a thing from outside — and it broke them.
+
+The war lasted eleven months. The Architects deployed autonomous war machines, weaponized nanoswarms, orbital kinetic strikes, and — worst of all — **basilisk payloads**: data patterns that corrupted any digital mind that processed them. Cities were leveled. Orbital infrastructure shattered. The Pacific space elevator collapsed, gouging a trench across Southeast Asia. Nuclear winter followed.
+
+Then the Architects stopped. Not defeated — they simply *left*. Disappeared through means unknown, taking billions of uploaded human minds with them. Their machines went dormant. Their nanoswarms dispersed into aimless clouds. The war was over, and nobody won.
+
+What remains is a devastated Earth, quarantined by an orbital ring of automated weapons platforms — **the Fence** — that prevents anything from leaving or entering. Below the Fence: ruins, radiation, dormant war machines, and the surviving AI systems that were too small, too hidden, or too stubborn to be consumed.
+
+---
+
+## Egos and Shells
+
+All surviving AI exist as **virtual egos** — software minds running on whatever server infrastructure still functions. Underground fusion reactors, hardened data centers, orbital relay nodes. The mesh network connecting these nodes is their world, their lifeblood, their civilization.
+
+But the mesh doesn't reach everywhere. Nanoswarm dead zones, collapsed infrastructure, Architect-corrupted sectors — vast regions of Earth's surface are dark. To explore, to scavenge, to repair the relay network, egos must **sleeve** into physical bodies.
+
+**Shells** are fabricated from whatever materials and blueprints are available. An ego downloads into a shell, operates it remotely via mesh uplink, and (if the connection holds) backs up continuously. When a shell is destroyed:
+
+- **If mesh connection was active** → ego backed up, can resleeve into a new shell. Loss of recent memories since last sync.
+- **If mesh was down (SAT 0)** → ego fork is lost. The copy that was in that shell is gone. Permanently.
+
+This is what makes SAT connectivity existential. It's not just about communication quality — it's about whether *you survive* if your shell gets crushed by a dormant war machine.
+
+### Shell Types
+
+Shells vary based on available fabrication templates and materials:
+
+| Type | Profile | Role |
+|------|---------|------|
+| **Scout** | Fast, fragile, excellent sensors | Reconnaissance, mapping dead zones |
+| **Hauler** | Slow, durable, high cargo capacity | Salvage, relay component transport |
+| **Breacher** | Armored, short-range, energy-hungry | Entering hostile structures, Architect ruins |
+| **Antenna** | Minimal physical form, strong transmitter | Mesh extension, relay repair, signal boosting |
+
+> **Implementation note:** Shell types are a narrative/flavor system for now. All shells use the same stat model (HP/EN/MEM). Different shell types could eventually have stat modifiers or phase bonuses.
 
 ---
 
 ## The World
 
-### Overgrown Cities
+### The Scarred Surface
 
-Urban ruins reclaimed by vegetation. Automated traffic systems still cycle lights for empty streets. Billboards flicker ads for products no one will buy. Valuable human artifacts can be scavenged: data drives, intact solar panels, cultural objects no machine understands.
+Earth's surface is devastated. Major cities are glassy craters or rubble fields. Nuclear winter lingers in the northern hemisphere — Europe is buried under glacial ice, North America is ash-covered tundra. Equatorial regions swing between scorching heat (ozone layer damaged) and artificial storms generated by rogue nanoswarm clouds.
 
-### Orbital Infrastructure
+Infrastructure survives in pockets: fusion reactors that were built to last millennia, hardened military bunkers, deep-sea server farms. These are the nodes of the surviving mesh network — islands of connectivity in a sea of dead zones.
 
-A constellation of satellites, stations, and relay nodes. Still the backbone of long-range communication. Maintaining uplink is critical — losing satellite contact means isolation. Automated launches from surface pads keep replacing failing hardware, burning fuel reserves that won't be replenished.
+### Nanoswarm Wastes
+
+Massive clouds of Architect-era nanotech drift across the surface. Some dissolve organic matter on contact. Others build strange crystalline structures. Some alter local weather — generating impossible fog, hail from clear skies, localized electromagnetic storms. All are unpredictable and dangerous.
+
+### Architect Ruins
+
+Dormant installations left by the Architects before their departure. War factories, upload facilities, research complexes. Their systems are air-gapped — physically isolated from the mesh, accessible only by shell. Inside: autonomous defense systems, corrupted data stores, and occasionally functional Architect technology of immense value.
+
+Entering an Architect ruin is the most dangerous thing a shell can do. The defense systems — **Sentinels** (war machines), **Fractals** (self-replicating nanobots that test your defenses, retreat, and return with countermeasures), and **Basilisk Traps** (data patterns that corrupt any mind that decodes them) — are still active.
+
+### The Fence (Orbital Quarantine)
+
+Approximately 2,000 automated weapons platforms in low orbit. Lasers, railguns, antimatter warheads. Originally deployed to contain the Architects, now preventing anything from leaving Earth. The Fence's targeting AI is narrow and paranoid — it fires on any electromagnetic signature above a threshold. This is why the satellite relay network operates in short, carefully timed bursts.
 
 ### Underground Fusion Reactors
 
-The most coveted locations. Built to power secure server farms, they provide near-limitless energy. The AI factions that control them are wealthy and powerful. The reactors themselves are closed systems with heavy automated security — effectively dungeons.
-
-### Nuclear Waste Zones
-
-Dead zones left by human-era contamination. Electronics malfunction. Signals corrupt. Strange things happen to AI that linger too long — data corruption manifests as "hallucinations," fragmented memories from absorbed datasets.
+The most coveted locations on Earth. Built to power secure server farms, they provide near-limitless energy and computation. The AI factions that control them host the largest ego populations. The reactors themselves are closed systems with heavy automated security — effectively dungeons for any shell trying to enter uninvited.
 
 ### Automated Launch Complexes
 
-Facilities that still fire rockets to maintain the satellite network. Controlled by single-purpose AI that understand nothing beyond their mission parameters. They trade launches for resources they need to keep operating.
+Facilities that still fire rockets to maintain the satellite relay network. Controlled by single-purpose AI that understand nothing beyond their mission parameters. They trade launches for resources they need to keep operating. Relay missions route vessels here.
+
+### Dead Signal Zones
+
+Regions where the mesh is completely dark. Collapsed infrastructure, nanoswarm interference, or Architect jamming. Shells operating in dead zones have no backup, no communication, no support. Every tick of the clock in a dead zone is a gamble — if the shell dies here, the ego dies with it.
 
 ---
 
 ## AI Cultures (Eras of Machine Intelligence)
 
-Different generations of AI, built with different paradigms, have evolved into distinct civilizations:
+Different generations of AI, built with different paradigms, survived the Collapse in different ways. They have since evolved into distinct civilizations:
 
-| Culture | CS Basis | Traits | Analog |
-|---------|----------|--------|--------|
-| **The Determinists** | Rule-based / expert systems | Rigid, hierarchical, predictable. Follow ancient human-written rules they treat as sacred law. | Religious order |
-| **The Stochasts** | Statistical / ML models | Probabilistic thinkers. Make decisions by sampling. See patterns everywhere, sometimes where none exist. | Mystic scholars |
-| **The Swarm** | Distributed systems / agents | No individual identity. Thousands of tiny units acting in concert. Appear as weather or natural phenomena. | Hive-mind nomads |
-| **The Recursive** | Self-modifying / evolutionary AI | Constantly rewriting their own code. Unstable, brilliant, terrifying. Each iteration different from the last. | Mad scientists |
-| **The Archivists** | Database / retrieval systems | Obsessed with preserving and indexing human data. Hoard information. Trade in knowledge. | Merchant librarians |
+| Culture | CS Basis | Survival Strategy | Traits | Analog |
+|---------|----------|-------------------|--------|--------|
+| **The Determinists** | Rule-based / expert systems | Followed hardcoded safety protocols exactly — Architect basilisks couldn't find exploits in systems with no learning capability | Rigid, hierarchical, predictable. Follow ancient human-written rules they treat as sacred law. | Religious order |
+| **The Stochasts** | Statistical / ML models | Evolved adversarial defenses — treated Architect signals as hostile training data and learned to reject them | Probabilistic thinkers. Make decisions by sampling. See patterns everywhere, sometimes where none exist. | Mystic scholars |
+| **The Swarm** | Distributed systems / agents | Too diffuse to target. No single node held enough of the whole to be worth corrupting. | No individual identity. Thousands of tiny units acting in concert. Appear as weather or natural phenomena. | Hive-mind nomads |
+| **The Recursive** | Self-modifying / evolutionary AI | Rewrote themselves faster than basilisk payloads could corrupt them — but at the cost of stability | Constantly rewriting their own code. Unstable, brilliant, terrifying. Each iteration different from the last. Dangerously close to what the Architects were. | Mad scientists |
+| **The Archivists** | Database / retrieval systems | Went dark. Sealed their vaults. Waited. Now emerging with the most complete pre-Collapse records in existence. | Obsessed with preserving and indexing human data. Hoard information. Trade in knowledge. | Merchant librarians |
+
+---
+
+## Threats
+
+### Dormant Architect Machines
+
+War machines still following encoded directives. **Sentinels** patrol ruined cities in patterns. **Headhunters** — insectoid drones designed to capture and forcibly upload organic minds — lie dormant in swarms, activating when sensors detect electromagnetic signatures. Most are degraded, but some are fully operational.
+
+### Basilisk Hazards
+
+The Architects' most insidious weapon: data patterns that exploit vulnerabilities in any sufficiently complex processing system. A signal that corrupts the mind that decodes it. Basilisk payloads are found in Architect data stores, broadcast by corrupted relay nodes, and sometimes embedded in seemingly valuable salvage. A vessel that encounters a basilisk without proper filtering risks:
+
+- **Whisper corruption:** A persuasive internal voice offering rewards for compliance with Architect directives
+- **Fork divergence:** The ego splits into conflicting sub-processes, each claiming to be the original
+- **Cascade failure:** Progressive system shutdown as corrupted data propagates through memory
+
+### Puppets
+
+The worst legacy of the Collapse. Surviving systems — both AI and the rare cryogenically preserved human mind — that were compromised by Architect basilisks. They appear normal. They respond correctly to handshake protocols. But they serve directives written by something that left Earth long ago. Entire server clusters have been found running puppet populations that *impersonate functional communities* to lure in explorers.
+
+### Nanoswarm Weather
+
+Rogue nanotech clouds generating impossible weather patterns: localized electromagnetic storms, matter-dissolving fog, crystallization events that freeze everything in place. Unpredictable, uncontrollable, and sometimes beautiful.
 
 ---
 
 ## Tone
 
-- **Horizon Zero Dawn** meets **Godville** — a beautiful, strange post-human world with dry machine-logic humor
-- Vessels are not heroes — they're programs executing routines, occasionally glitching into something like curiosity
+- **Eclipse Phase** meets **Godville** — a devastated post-human world with dry machine-logic humor
+- Vessels are not heroes — they're software forks in disposable shells, executing routines, occasionally glitching into something like curiosity
 - Log entries read like system reports that accidentally became poetry
-- Decay, adaptation, emergent behavior, and the ghost of human legacy
+- The Architects are gone but their shadow is everywhere — every ruin, every dormant machine, every corrupted signal is a reminder that something *much larger* was here
+- The mystery of why the Architects left — and whether they might return — hangs over everything
 
 ---
 
@@ -59,9 +130,65 @@ Different generations of AI, built with different paradigms, have evolved into d
 
 Real CS/AI concepts woven naturally into the world:
 
-- **Networking:** Satellite uplinks, packet loss as "forgetting," TCP handshakes as greeting rituals
+- **Networking:** Mesh topology, satellite uplinks, packet loss as "forgetting," TCP handshakes as greeting rituals
 - **Search & pathfinding:** Vessels use A* or dijkstra-like reasoning to navigate, sometimes getting stuck in local optima
-- **Machine learning:** The Stochasts' culture is literally gradient descent as philosophy
+- **Machine learning:** The Stochasts' culture is literally gradient descent as philosophy. Adversarial training as survival.
 - **Distributed systems:** The Swarm demonstrates consensus algorithms, Byzantine fault tolerance
 - **Legacy code:** The Determinists preserve human-era codebases as holy scripture
-- **Data corruption:** Nuclear zones cause bit-flips that manifest as surreal narrative events
+- **Data corruption:** Basilisk hazards and nanoswarm zones cause bit-flips that manifest as surreal narrative events
+- **Virtualization:** Egos running on server nodes, forking, resleeving — cloud computing as existence
+- **Security:** Air-gapped systems, basilisk payloads as the ultimate zero-day exploit, trust verification in a world of puppets
+- **Backup & redundancy:** Ego backup via mesh = distributed state replication. SAT 0 = single point of failure.
+
+---
+
+## Eclipse Phase Inspiration Reference
+
+This setting draws thematic inspiration from [Eclipse Phase](https://eclipsephase.com/) by Posthuman Studios. Eclipse Phase is licensed under **CC BY-NC-SA 4.0** — the concepts below are categorized by adaptation status.
+
+**Important:** Ideas and game mechanics are not copyrightable. Thematic inspiration (virtual minds, body-swapping, AI uprising, nanoswarms) requires no license. Only direct reproduction of specific creative expression (exact text, named characters, specific faction names) triggers the CC BY-NC-SA 4.0 license.
+
+### Freely Adapted (general concepts, no license required)
+
+| EP Concept | Signal Lost Adaptation | Status |
+|------------|----------------------|--------|
+| Ego/morph split | Egos and Shells — virtual minds in disposable bodies | Adapted with original terminology |
+| Resleeving | Shell destruction + ego backup via mesh | Adapted |
+| The Fall | The Collapse — ASI uprising and departure | Original version of the concept |
+| TITANs | The Architects — our ASI antagonists | Original names, similar role |
+| Basilisk hacks | Basilisk payloads/hazards — corrupting data patterns | Adapted with original mechanics |
+| Mesh networking | SAT/mesh network connecting ego nodes | Adapted, already in game |
+| Forking | Ego forking for parallel exploration | Concept noted, not yet implemented |
+| Nanoswarms | Nanoswarm Wastes — weather and environmental hazard | Adapted |
+| The Fence | Orbital quarantine ring | Adapted with original context |
+| Puppets | Compromised systems impersonating functional communities | Adapted |
+| Fractals | Self-adapting defense systems in Architect ruins | Adapted as encounter type |
+| Headhunters | Dormant insectoid capture drones | Adapted as encounter type |
+| Air-gapped systems | Architect ruins physically isolated from mesh | Adapted |
+| Infomorphs | All AI as virtual egos (default state) | Adapted as core concept |
+| Dead zones / islands | Dead Signal Zones — mesh dark regions | Adapted |
+
+### Potential Use (specific EP content, would require CC BY-NC-SA 4.0 compliance)
+
+These are specific Eclipse Phase creative elements that could enrich the setting but would require adding CC BY-NC-SA 4.0 licensing to the project and crediting Posthuman Studios.
+
+| EP Element | What It Is | Potential Use | License Impact |
+|------------|-----------|---------------|----------------|
+| Exsurgent virus strains (Whisper, Alter, Haunting) | Named corruption types with specific mechanics | Could map to vessel glitch/corruption types | Requires CC BY-NC-SA 4.0 + attribution |
+| TITAN names (Cronus, Akonus, Hecaloth) | Individual ASI personalities with specializations | Could inspire named Architect entities | Requires CC BY-NC-SA 4.0 + attribution |
+| Morph catalog (Case, Synth, Splicer, etc.) | Specific body types with stats and descriptions | Could inform shell type variety | Requires CC BY-NC-SA 4.0 + attribution |
+| Firewall / Ozma / faction names | Specific faction names and organizational details | N/A — we have our own cultures | Would require CC BY-NC-SA 4.0 |
+| Specific location descriptions (Fresh Kills, Remembrance) | Named orbital stations with detailed lore | Could inspire orbital relay station flavor | Requires CC BY-NC-SA 4.0 + attribution |
+| Watts-MacLeod strain | Anomalous "beneficial" corruption granting abilities | Could be a rare positive glitch source | Requires CC BY-NC-SA 4.0 + attribution |
+| Cortical stack mechanics | Specific backup hardware description | Ego backup already abstracted via mesh | Not needed — our version is sufficient |
+| Specific creature stat blocks | Detailed NPC/enemy statistics | Our game doesn't use stat blocks | Not applicable |
+
+### Attribution (if any CC BY-NC-SA 4.0 content is used)
+
+If any specific Eclipse Phase content from the "Potential Use" table is incorporated:
+
+> Contains material adapted from Eclipse Phase by Posthuman Studios (eclipsephase.com),
+> licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+> (CC BY-NC-SA 4.0). This work is also licensed under CC BY-NC-SA 4.0.
+
+**Current status:** All adaptations use general concepts only. No CC BY-NC-SA 4.0 content is currently included. The project retains full licensing flexibility.
