@@ -190,6 +190,7 @@
 | D4T4 H3M0RRH4G3 (GLORYTOTHEMACHINE) | CC BY 4.0 | **Yes** — credit GLORYTOTHEMACHINE ([itch.io](https://glorytothemachine.itch.io/)) |
 | Game UI Collection FREE | Free (SunGraphica) | No |
 | FREE Icon Set 1 | Free (SunGraphica) | No |
+| Monogram Font (datagoblin) | CC0 | No |
 | Google Fonts (VT323, IBM Plex, etc.) | SIL OFL 1.1 | No (font name reserved) |
 
 ---
