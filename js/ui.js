@@ -447,12 +447,12 @@ export function setupTooltips() {
 
 // === VESSEL REMOVAL ===
 
-function removeVesselColumn(vesselId) {
+export function removeVesselColumn(vesselId) {
   const col = document.getElementById(`col-${vesselId}`);
   if (col) col.remove();
 }
 
-function removeVesselTab(vesselId) {
+export function removeVesselTab(vesselId) {
   const tabBar = document.getElementById('vessel-tabs');
   if (!tabBar) return;
   const tab = tabBar.querySelector(`.vessel-tab[data-vessel-id="${vesselId}"]`);

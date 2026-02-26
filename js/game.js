@@ -28,8 +28,8 @@ const PHASE_EFFECTS = {
   IDLE:     (v) => { v.energy = Math.min(10, v.energy + 1); },
   SIGNAL:   () => {},
   TRAVERSE: (v) => { v.energy = Math.max(0, v.energy - 1); },
-  BREACH:   (v) => { if (Math.random() < 0.3) v.integrity = Math.max(1, v.integrity - 1); },
-  FAULT:    (v) => { v.integrity = Math.max(1, v.integrity - randInt(1, 2)); },
+  BREACH:   (v) => { if (Math.random() < 0.3) v.integrity = Math.max(0, v.integrity - 1); },
+  FAULT:    (v) => { v.integrity = Math.max(0, v.integrity - randInt(1, 2)); },
   CORE:     (v) => { v.memory = Math.max(1, v.memory - 1); },
   REBOOT:   (v) => {
     v.integrity = Math.min(10, v.integrity + randInt(1, 2));
@@ -43,6 +43,7 @@ let onLogEntry = null;  // callback: (vesselId, entry) => void
 let onPhaseChange = null;  // callback: (vesselId, phase) => void
 let onStatsChange = null;  // callback: (vesselId) => void
 let onGlobalEvent = null;  // callback: (phenomenon) => void
+let onVesselDestroyed = null;  // callback: (vesselId) => void
 
 // === STATE CREATION ===
 
@@ -195,6 +196,23 @@ export function tick(vessel) {
     vessel.boosted = false;
   }
 
+  // Vessel destruction check
+  if (vessel.integrity <= 0) {
+    const deathEntry = {
+      time: formatTime(Date.now()),
+      text: `[VESSEL LOST] ${vessel.designation} — integrity critical. All systems offline. Signal terminated.`,
+      phase: vessel.mission.phase,
+      isEvent: true,
+    };
+    vessel.log.push(deathEntry);
+    if (onLogEntry) onLogEntry(vessel.id, deathEntry);
+    if (onVesselDestroyed) onVesselDestroyed(vessel.id);
+    const idx = state.vessels.indexOf(vessel);
+    if (idx !== -1) state.vessels.splice(idx, 1);
+    save();
+    return deathEntry;
+  }
+
   // Loot chance during TRAVERSE and CORE
   if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < 0.3) {
     if (vessel.inventory.length < 6) {
@@ -343,7 +361,7 @@ export function checkGlobalEvent() {
   for (const vessel of state.vessels) {
     // Stat effects
     if (phenomenon.effect.integrity) {
-      vessel.integrity = Math.max(1, Math.min(10, vessel.integrity + phenomenon.effect.integrity));
+      vessel.integrity = Math.max(0, Math.min(10, vessel.integrity + phenomenon.effect.integrity));
     }
     if (phenomenon.effect.energy) {
       vessel.energy = Math.max(0, Math.min(10, vessel.energy + phenomenon.effect.energy));
@@ -371,6 +389,23 @@ export function checkGlobalEvent() {
     }
 
     if (onStatsChange) onStatsChange(vessel.id);
+  }
+
+  // Check for vessel destruction after applying damage
+  for (let i = state.vessels.length - 1; i >= 0; i--) {
+    const v = state.vessels[i];
+    if (v.integrity <= 0) {
+      const deathEntry = {
+        time: formatTime(Date.now()),
+        text: `[VESSEL LOST] ${v.designation} — integrity critical. All systems offline. Signal terminated.`,
+        phase: v.mission.phase,
+        isEvent: true,
+      };
+      v.log.push(deathEntry);
+      if (onLogEntry) onLogEntry(v.id, deathEntry);
+      if (onVesselDestroyed) onVesselDestroyed(v.id);
+      state.vessels.splice(i, 1);
+    }
   }
 
   // Schedule next event
@@ -591,9 +626,10 @@ export function getObjective(vesselId) {
   return pick(PHASE_OBJECTIVES[vessel.mission.phase] || PHASE_OBJECTIVES.IDLE);
 }
 
-export function setCallbacks({ onLog, onPhase, onStats, onEvent }) {
+export function setCallbacks({ onLog, onPhase, onStats, onEvent, onDestroyed }) {
   onLogEntry = onLog || null;
   onPhaseChange = onPhase || null;
   onStatsChange = onStats || null;
   onGlobalEvent = onEvent || null;
+  onVesselDestroyed = onDestroyed || null;
 }

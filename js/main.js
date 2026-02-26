@@ -12,7 +12,7 @@ import {
   updateSatelliteHealth, showGlobalEvent, setupVesselSelection,
   getSelectedVesselId, setupTooltips, updateObjective,
   addVesselTab, switchToVesselTab, setupMobileResize,
-  updateDarkMode,
+  updateDarkMode, removeVesselColumn, removeVesselTab,
 } from './ui.js';
 
 import { initAudio } from './audio.js';
@@ -30,7 +30,7 @@ function startGameLoop() {
     if (!state) return;
 
     const now = Date.now();
-    for (const vessel of state.vessels) {
+    for (const vessel of [...state.vessels]) {
       if (now >= vessel.nextTick) {
         tick(vessel);
       }
@@ -80,6 +80,22 @@ setCallbacks({
     for (const v of state.vessels) {
       updateStats(v.id);
       updatePhase(v.id);
+    }
+  },
+  onDestroyed: (vesselId) => {
+    removeVesselColumn(vesselId);
+    removeVesselTab(vesselId);
+    // Select another vessel if the destroyed one was selected
+    const state = getState();
+    const remaining = state.vessels;
+    if (remaining.length > 0) {
+      switchToVesselTab(remaining[0].id);
+    } else {
+      const targetEl = document.getElementById('cmd-target');
+      if (targetEl) {
+        targetEl.textContent = 'TARGET: none';
+        targetEl.classList.add('dim');
+      }
     }
   },
 });
