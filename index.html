@@ -29,6 +29,8 @@
     <header id="top-banner">
       <div id="title">SIGNAL LOST <span class="dim">- OPERATOR CONSOLE</span></div>
       <div id="banner-right">
+        <button id="font-down-btn" title="Decrease font size">A-</button>
+        <button id="font-up-btn" title="Increase font size">A+</button>
         <button id="crt-toggle-btn" title="Toggle CRT effect">CRT</button>
         <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
         <span id="sat-status"><img class="icon icon-cyan" src="assets/icons/signal-alert.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
@@ -40,6 +42,9 @@
       <img class="icon icon-amber" src="assets/icons/danger.png" alt="">
       <span id="global-event-text"></span>
     </div>
+
+    <!-- Mobile vessel tabs (shown via CSS media query on small screens) -->
+    <nav id="vessel-tabs"></nav>
 
     <!-- Vessel columns area -->
     <main id="vessels-area">

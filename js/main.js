@@ -10,6 +10,7 @@ import {
   createVesselColumn, appendLogEntry, updateStats, updatePhase,
   updateSatelliteHealth, showGlobalEvent, setupVesselSelection,
   getSelectedVesselId, setupTooltips, updateObjective,
+  addVesselTab, switchToVesselTab, setupMobileResize,
 } from './ui.js';
 
 import { initAudio } from './audio.js';
@@ -151,6 +152,43 @@ function setupCRTToggle() {
   });
 }
 
+// === FONT SIZE ===
+
+const FONT_SCALES = [0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4];
+const DEFAULT_SCALE_IDX = 2; // 1.0
+
+function setupFontSize() {
+  const downBtn = document.getElementById('font-down-btn');
+  const upBtn = document.getElementById('font-up-btn');
+
+  // Restore saved preference
+  const saved = localStorage.getItem('signal_lost_font_scale');
+  let idx = saved !== null ? FONT_SCALES.indexOf(parseFloat(saved)) : DEFAULT_SCALE_IDX;
+  if (idx === -1) idx = DEFAULT_SCALE_IDX;
+
+  applyFontScale(FONT_SCALES[idx]);
+
+  downBtn.addEventListener('click', () => {
+    if (idx > 0) {
+      idx--;
+      applyFontScale(FONT_SCALES[idx]);
+      localStorage.setItem('signal_lost_font_scale', FONT_SCALES[idx]);
+    }
+  });
+
+  upBtn.addEventListener('click', () => {
+    if (idx < FONT_SCALES.length - 1) {
+      idx++;
+      applyFontScale(FONT_SCALES[idx]);
+      localStorage.setItem('signal_lost_font_scale', FONT_SCALES[idx]);
+    }
+  });
+}
+
+function applyFontScale(scale) {
+  document.documentElement.style.setProperty('--font-scale', scale);
+}
+
 // === ADD VESSEL ===
 
 function setupAddVessel() {
@@ -162,6 +200,8 @@ function setupAddVessel() {
     }
     const vessel = createVessel();
     createVesselColumn(vessel);
+    addVesselTab(vessel);
+    switchToVesselTab(vessel.id);
 
     // Add initial log entry
     const entry = {
@@ -189,6 +229,7 @@ async function init() {
     // Rebuild UI from state
     for (const vessel of savedState.vessels) {
       createVesselColumn(vessel);
+      addVesselTab(vessel);
     }
     updateSatelliteHealth();
 
@@ -198,11 +239,18 @@ async function init() {
       vessel.nextTick = now + Math.random() * 5000;
     }
 
+    // Activate first vessel tab on mobile
+    if (savedState.vessels.length > 0) {
+      switchToVesselTab(savedState.vessels[0].id);
+    }
+
     setupVesselSelection();
     setupCommands();
     setupAddVessel();
     setupCRTToggle();
+    setupFontSize();
     setupTooltips();
+    setupMobileResize();
     startGameLoop();
   } else {
     // Fresh start — boot sequence
@@ -215,6 +263,8 @@ async function init() {
     const state = createWorld(operatorId);
     const vessel = createVessel();
     createVesselColumn(vessel);
+    addVesselTab(vessel);
+    switchToVesselTab(vessel.id);
 
     // Initial log entry
     const entry = {
@@ -231,7 +281,9 @@ async function init() {
     setupCommands();
     setupAddVessel();
     setupCRTToggle();
+    setupFontSize();
     setupTooltips();
+    setupMobileResize();
     startGameLoop();
   }
 }

@@ -1,3 +1,28 @@
+/* === FONTS === */
+@font-face {
+  font-family: 'Monogram';
+  src: url('../assets/font/monogram/monogram.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Monogram Extended';
+  src: url('../assets/font/monogram/monogram-extended.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Monogram Extended';
+  src: url('../assets/font/monogram/monogram-extended-italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* === RESET & BASE === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,6 +43,8 @@
   --glow-amber: rgba(255, 176, 0, 0.4);
   --font-terminal: 'VT323', monospace;
   --font-ui: 'IBM Plex Mono', monospace;
+  --font-pixel: 'Monogram Extended', 'Monogram', monospace;
+  --font-scale: 1;
 }
 
 html, body {
@@ -26,7 +53,7 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-terminal);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.4;
 }
 
@@ -75,7 +102,8 @@ html, body {
 
 #boot-text {
   white-space: pre-wrap;
-  font-size: 20px;
+  font-family: var(--font-pixel);
+  font-size: calc(26px * var(--font-scale));
   text-shadow: 0 0 5px var(--glow);
   min-height: 200px;
 }
@@ -97,7 +125,7 @@ html, body {
   border-bottom: 2px solid var(--green);
   color: var(--green);
   font-family: var(--font-terminal);
-  font-size: 20px;
+  font-size: calc(22px * var(--font-scale));
   padding: 4px 8px;
   outline: none;
   width: 200px;
@@ -112,8 +140,8 @@ html, body {
   background: var(--green-dark);
   color: var(--green);
   border: 1px solid var(--green);
-  font-family: var(--font-terminal);
-  font-size: 18px;
+  font-family: var(--font-pixel);
+  font-size: 22px;
   padding: 4px 16px;
   cursor: pointer;
   text-shadow: 0 0 5px var(--glow);
@@ -128,7 +156,7 @@ html, body {
 #game-ui {
   height: 100vh;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto auto 1fr auto;
   gap: 0;
 }
 
@@ -144,10 +172,11 @@ html, body {
 }
 
 #title {
-  font-size: 16px;
-  font-weight: 700;
+  font-family: var(--font-pixel);
+  font-size: calc(24px * var(--font-scale));
+  font-weight: 400;
   text-shadow: 0 0 8px var(--glow);
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
 .dim { color: var(--text-dim); }
@@ -158,7 +187,7 @@ html, body {
   gap: 16px;
 }
 
-#crt-toggle-btn, #mute-btn {
+#crt-toggle-btn, #mute-btn, #font-down-btn, #font-up-btn {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-dim);
@@ -168,7 +197,7 @@ html, body {
   cursor: pointer;
 }
 
-#crt-toggle-btn:hover, #mute-btn:hover { color: var(--green); border-color: var(--green); }
+#crt-toggle-btn:hover, #mute-btn:hover, #font-down-btn:hover, #font-up-btn:hover { color: var(--green); border-color: var(--green); }
 #mute-btn.muted { color: var(--red); border-color: var(--red); }
 #crt-toggle-btn.crt-off { color: var(--text-dim); opacity: 0.5; }
 
@@ -187,7 +216,7 @@ html, body {
   color: var(--amber);
   text-align: center;
   padding: 8px 16px;
-  font-size: 16px;
+  font-size: calc(17px * var(--font-scale));
   text-shadow: 0 0 5px var(--glow-amber);
   animation: pulse-border 2s ease-in-out infinite;
 }
@@ -221,10 +250,10 @@ html, body {
 .vessel-header {
   padding: 8px 12px;
   border-bottom: 1px solid var(--border);
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-family: var(--font-pixel);
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 400;
+  letter-spacing: 2px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -242,7 +271,7 @@ html, body {
 .vessel-header .culture-tag {
   color: var(--cyan);
   font-weight: 400;
-  font-size: 11px;
+  font-size: calc(12px * var(--font-scale));
   cursor: help;
 }
 
@@ -252,7 +281,7 @@ html, body {
   display: flex;
   gap: 8px;
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: calc(12px * var(--font-scale));
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
 }
@@ -284,7 +313,7 @@ html, body {
 
 .vessel-location {
   padding: 4px 12px;
-  font-size: 11px;
+  font-size: calc(12px * var(--font-scale));
   font-family: var(--font-ui);
   color: var(--text-dim);
   border-bottom: 1px solid var(--border);
@@ -293,7 +322,7 @@ html, body {
 /* Objective/mission context row */
 .vessel-objective {
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: calc(14px * var(--font-scale));
   font-family: var(--font-terminal);
   color: var(--amber);
   border-bottom: 1px solid var(--border);
@@ -318,7 +347,7 @@ html, body {
 
 .vessel-info summary {
   padding: 4px 12px;
-  font-size: 10px;
+  font-size: calc(11px * var(--font-scale));
   font-family: var(--font-ui);
   color: var(--text-dim);
   cursor: pointer;
@@ -345,7 +374,7 @@ html, body {
 
 .vessel-info-body {
   padding: 2px 12px 6px;
-  font-size: 11px;
+  font-size: calc(12px * var(--font-scale));
   font-family: var(--font-ui);
   line-height: 1.4;
   animation: fade-in 0.2s ease;
@@ -367,14 +396,14 @@ html, body {
 }
 
 .log-entry {
-  font-size: 16px;
+  font-size: calc(18px * var(--font-scale));
   line-height: 1.3;
   animation: fade-in 0.5s ease;
 }
 
 .log-entry .timestamp {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: calc(15px * var(--font-scale));
 }
 
 .log-entry.event-entry {
@@ -399,7 +428,9 @@ html, body {
 }
 
 .phase-label {
-  min-width: 70px;
+  min-width: 80px;
+  font-family: var(--font-pixel);
+  font-size: calc(18px * var(--font-scale));
   text-shadow: 0 0 5px var(--glow);
 }
 
@@ -444,15 +475,15 @@ html, body {
   gap: 16px;
   text-align: center;
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: calc(15px * var(--font-scale));
 }
 
 #add-vessel-btn {
   background: var(--green-dark);
   color: var(--green);
   border: 1px solid var(--green);
-  font-family: var(--font-terminal);
-  font-size: 16px;
+  font-family: var(--font-pixel);
+  font-size: 20px;
   padding: 6px 24px;
   cursor: pointer;
 }
@@ -482,8 +513,8 @@ html, body {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-dim);
-  font-family: var(--font-terminal);
-  font-size: 16px;
+  font-family: var(--font-pixel);
+  font-size: 18px;
   padding: 6px 16px;
   cursor: pointer;
   transition: all 0.2s;
@@ -650,6 +681,208 @@ html, body {
   30% { opacity: 1; transform: translateX(5px) skewX(2deg); filter: hue-rotate(45deg); }
   60% { transform: translateX(-2px) skewX(-1deg); filter: hue-rotate(0deg); }
   100% { transform: translateX(0) skewX(0deg); filter: none; }
+}
+
+/* === MOBILE VESSEL TABS === */
+#vessel-tabs {
+  display: none; /* shown via media query */
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#vessel-tabs::-webkit-scrollbar { display: none; }
+
+.vessel-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.vessel-tab:hover { color: var(--green); }
+
+.vessel-tab.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+  text-shadow: 0 0 5px var(--glow);
+}
+
+.vessel-tab.tab-add {
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+
+.vessel-tab.tab-add:hover { opacity: 1; color: var(--green); }
+
+/* === RESPONSIVE — MOBILE (<768px) === */
+@media (max-width: 767px) {
+  html, body {
+    font-size: 18px;
+  }
+
+  /* Adjust grid to include tabs row */
+  #game-ui {
+    grid-template-rows: auto auto auto 1fr auto;
+  }
+
+  /* Show tab bar */
+  #vessel-tabs {
+    display: flex !important;
+  }
+
+  /* Top banner: compact */
+  #top-banner {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  #title {
+    font-size: calc(18px * var(--font-scale));
+    letter-spacing: 1px;
+  }
+
+  #title .dim { display: none; }
+
+  #banner-right { gap: 6px; }
+
+  #crt-toggle-btn, #mute-btn, #font-down-btn, #font-up-btn {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  #sat-status { font-size: 11px; }
+
+  /* Global event banner: smaller */
+  #global-event {
+    font-size: calc(14px * var(--font-scale));
+    padding: 6px 10px;
+  }
+
+  /* Vessels area: single column, show only active */
+  #vessels-area {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .vessel-col {
+    min-width: 100%;
+    max-width: 100%;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    display: none; /* hidden by default, JS shows active */
+  }
+
+  .vessel-col.mobile-active {
+    display: flex;
+  }
+
+  /* Hide the add-vessel column in vessels area (use tab instead) */
+  #add-vessel-col {
+    display: none !important;
+  }
+
+  /* Bottom bar: wrap for narrow screens */
+  #bottom-bar {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  #cmd-target {
+    width: 100%;
+    text-align: center;
+    min-width: auto;
+    font-size: 11px;
+  }
+
+  .cmd-btn {
+    font-size: 14px;
+    padding: 6px 10px;
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Boot screen: mobile friendly */
+  #boot-screen {
+    padding: 20px;
+  }
+
+  #boot-prompt {
+    flex-wrap: wrap;
+  }
+
+  #operator-input {
+    width: 140px;
+  }
+
+  /* Tooltip: full-width at bottom on mobile */
+  #tooltip {
+    left: 8px !important;
+    right: 8px;
+    bottom: 60px !important;
+    top: auto !important;
+    max-width: none;
+  }
+
+  /* Vessel column internals */
+  .vessel-header {
+    font-size: calc(17px * var(--font-scale));
+  }
+
+  .vessel-stats {
+    font-size: calc(11px * var(--font-scale));
+  }
+
+  .stat-bar { width: 40px; }
+
+  .log-entry {
+    font-size: calc(15px * var(--font-scale));
+  }
+
+  .log-entry .timestamp {
+    font-size: calc(13px * var(--font-scale));
+  }
+
+  .vessel-objective {
+    font-size: calc(13px * var(--font-scale));
+  }
+
+  #boot-text {
+    font-size: calc(22px * var(--font-scale));
+    min-height: 150px;
+  }
+
+  #operator-input {
+    font-size: calc(20px * var(--font-scale));
+  }
+}
+
+/* === RESPONSIVE — SMALL PHONES (<400px) === */
+@media (max-width: 399px) {
+  #title { font-size: 14px; }
+
+  .cmd-btn {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .vessel-tab {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
 }
 
 /* Scrollbar styling */

@@ -360,3 +360,87 @@ export function setupTooltips() {
     tooltip.classList.add('hidden');
   });
 }
+
+// === MOBILE TAB SYSTEM ===
+
+function isMobile() {
+  return window.matchMedia('(max-width: 767px)').matches;
+}
+
+export function addVesselTab(vessel) {
+  const tabBar = document.getElementById('vessel-tabs');
+  if (!tabBar) return;
+
+  // Remove the add-tab if it exists (we'll re-add it at the end)
+  const existingAddTab = tabBar.querySelector('.tab-add');
+  if (existingAddTab) existingAddTab.remove();
+
+  const tab = document.createElement('button');
+  tab.className = 'vessel-tab';
+  tab.dataset.vesselId = vessel.id;
+  tab.textContent = vessel.designation;
+  tab.addEventListener('click', () => switchToVesselTab(vessel.id));
+  tabBar.appendChild(tab);
+
+  // Re-add the "+" tab
+  const addTab = document.createElement('button');
+  addTab.className = 'vessel-tab tab-add';
+  addTab.textContent = '+ ADD';
+  addTab.addEventListener('click', () => {
+    document.getElementById('add-vessel-btn').click();
+  });
+  tabBar.appendChild(addTab);
+
+  // If this is the first vessel or on mobile, activate it
+  if (tabBar.querySelectorAll('.vessel-tab:not(.tab-add)').length === 1) {
+    switchToVesselTab(vessel.id);
+  }
+}
+
+export function switchToVesselTab(vesselId) {
+  const tabBar = document.getElementById('vessel-tabs');
+
+  // Update tab active state
+  tabBar.querySelectorAll('.vessel-tab').forEach(t => t.classList.remove('active'));
+  const activeTab = tabBar.querySelector(`.vessel-tab[data-vessel-id="${vesselId}"]`);
+  if (activeTab) activeTab.classList.add('active');
+
+  // On mobile: show only the active vessel column
+  if (isMobile()) {
+    document.querySelectorAll('.vessel-col:not(.add-col)').forEach(col => {
+      col.classList.remove('mobile-active');
+    });
+    const col = document.getElementById(`col-${vesselId}`);
+    if (col) col.classList.add('mobile-active');
+  }
+
+  // Also select this vessel for commands
+  document.querySelectorAll('.vessel-col.selected').forEach(el => el.classList.remove('selected'));
+  const col = document.getElementById(`col-${vesselId}`);
+  if (col) col.classList.add('selected');
+  selectedVesselId = vesselId;
+
+  const vessel = getVessel(vesselId);
+  const targetEl = document.getElementById('cmd-target');
+  if (targetEl && vessel) {
+    targetEl.textContent = `TARGET: ${vessel.designation}`;
+    targetEl.classList.remove('dim');
+  }
+}
+
+// On window resize, sync mobile-active state
+export function setupMobileResize() {
+  window.addEventListener('resize', () => {
+    if (isMobile()) {
+      // Ensure one vessel is visible
+      const anyActive = document.querySelector('.vessel-col.mobile-active');
+      if (!anyActive) {
+        const first = document.querySelector('.vessel-col:not(.add-col)');
+        if (first) {
+          first.classList.add('mobile-active');
+          switchToVesselTab(first.dataset.vesselId);
+        }
+      }
+    }
+  });
+}
