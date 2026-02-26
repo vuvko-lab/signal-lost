@@ -169,7 +169,7 @@
 | VT323 | [Google Fonts](https://fonts.google.com/specimen/VT323) | SIL OFL | Primary log text — authentic CRT terminal |
 | IBM Plex Mono | [Google Fonts](https://fonts.google.com/specimen/IBM+Plex+Mono) | SIL OFL | Readable body text, "institutional AI" feel |
 | Space Mono | [Google Fonts](https://fonts.google.com/specimen/Space+Mono) | SIL OFL | Headers and titles |
-| Monogram | [datagoblin - itch.io](https://datagoblin.itch.io/monogram) | CC0 | Pixel UI labels, small text |
+| Monogram | [datagoblin - itch.io](https://datagoblin.itch.io/monogram) | CC0 | Pixel UI labels, small text — **downloaded** to `assets/font/monogram/` (regular, extended, extended-italic TTF) |
 | Press Start 2P | [Google Fonts](https://fonts.google.com/specimen/Press+Start+2P) | SIL OFL | Retro-pixel accent text |
 
 ---
