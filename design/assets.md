@@ -84,6 +84,29 @@
 
 ## Ambient / Atmosphere Audio
 
+### D4T4 H3M0RRH4G3 — by GLORYTOTHEMACHINE (in `assets/`)
+
+**License:** CC BY 4.0 — **attribution required** (credit GLORYTOTHEMACHINE)
+**Source:** [glorytothemachine.itch.io](https://glorytothemachine.itch.io/)
+**Path:** `assets/GloryToTheMachine/`
+**Format:** MP3, seamless melodic loops, no percussion, pure synthesis
+
+| Track | Duration | Game Use |
+|-------|----------|----------|
+| NASOD | 1:46 | **Primary ambient** — dark electronic, fits operator console |
+| BIOHAZARD | 2:00 | Nuclear waste zones, hazard areas |
+| CYBER_CELESTE | 2:15 | Orbital/satellite scenes, ethereal atmosphere |
+| CYPHER | 1:24 | BREACH phase, security/hacking tension |
+| SATURN'S_RING | 1:36 | Orbital infrastructure, satellite uplink |
+| UNKNOWN_ENTITY | 2:49 | CORE phase encounters, mystery/tension |
+| NOSTALGIA | 3:02 | Archivist culture, human legacy locations |
+| WATERBENDER | 2:43 | Underground fusion reactor ambiance |
+| WATER_LVL | 0:51 | Short loop, transition/menu music |
+| WALKING_ON_WATER | 1:24 | TRAVERSE phase, exploration |
+| XTRA001 ; PEACEFUL_FIREWORKS | 1:40 | REBOOT phase, calm/recovery moments |
+
+**Note:** WAV versions available in a .rar archive (download incomplete — retry needed). MP3 versions are sufficient for the jam build.
+
 ### SoundsofTheMachine — Freesound (not yet downloaded)
 
 **Source:** [freesound.org/people/SoundsofTheMachine](https://freesound.org/people/SoundsofTheMachine/)
@@ -164,6 +187,7 @@
 | Asset Pack | License | Attribution Required? |
 |------------|---------|----------------------|
 | Glitch Noises (WAV) | CC0 1.0 | No (credit appreciated: credits@vladislavzh.net) |
+| D4T4 H3M0RRH4G3 (GLORYTOTHEMACHINE) | CC BY 4.0 | **Yes** — credit GLORYTOTHEMACHINE ([itch.io](https://glorytothemachine.itch.io/)) |
 | Game UI Collection FREE | Free (SunGraphica) | No |
 | FREE Icon Set 1 | Free (SunGraphica) | No |
 | Google Fonts (VT323, IBM Plex, etc.) | SIL OFL 1.1 | No (font name reserved) |
