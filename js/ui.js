@@ -1,7 +1,7 @@
 // === UI RENDERING ===
 
 import { CULTURES, PHENOMENA, CULTURE_DESCRIPTIONS, PHASE_DESCRIPTIONS, STAT_DESCRIPTIONS, PHASE_OBJECTIVES } from './data.js';
-import { getState, getVessel, getPhases, getObjective } from './game.js';
+import { getState, getVessel, getPhases, getObjective, removeVessel } from './game.js';
 
 const PHASES = getPhases();
 
@@ -112,8 +112,13 @@ export function createVesselColumn(vessel) {
   col.innerHTML = `
     <div class="vessel-header">
       <span class="vessel-name"><img class="icon" src="assets/icons/network.png" alt="">${vessel.designation}</span>
-      <span class="culture-tag" data-tooltip="${escAttr(CULTURE_DESCRIPTIONS[vessel.culture] || '')}">${culture.name} | ${vessel.chassis.locomotion}</span>
+      <span class="vessel-header-right">
+        <span class="culture-tag" data-tooltip="${escAttr(CULTURE_DESCRIPTIONS[vessel.culture] || '')}">${culture.name} | ${vessel.chassis.locomotion}</span>
+        <button class="vessel-disconnect" data-vessel-id="${vessel.id}" title="Disconnect from vessel signal">&times;</button>
+      </span>
     </div>
+    <div class="vessel-details-toggle" data-expanded="true"><span class="toggle-arrow">&#9660;</span> DETAILS</div>
+    <div class="vessel-details-panel">
     <div class="vessel-stats">
       <div class="stat">
         <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HP)}">HP</span>
@@ -144,6 +149,7 @@ export function createVesselColumn(vessel) {
       <span class="obj-label">OBJECTIVE</span>
       ${objective}
     </div>
+    </div><!-- /vessel-details-panel -->
     <div class="vessel-log" id="log-${vessel.id}"></div>
     <div class="vessel-phase">
       <span class="phase-label" data-tooltip="${escAttr(PHASE_DESCRIPTIONS[vessel.mission.phase] || '')}"><img class="icon" src="${PHASE_ICONS[vessel.mission.phase] || PHASE_ICONS.IDLE}" alt="">${vessel.mission.phase}</span>
@@ -168,6 +174,56 @@ export function createVesselColumn(vessel) {
   for (const entry of vessel.log.slice(-20)) {
     appendLogEntryDOM(logContainer, entry);
   }
+
+  // Wire mobile details toggle — default collapsed on mobile
+  const toggleBtn = col.querySelector('.vessel-details-toggle');
+  const detailsPanel = col.querySelector('.vessel-details-panel');
+  if (isMobile()) {
+    detailsPanel.classList.add('collapsed');
+    toggleBtn.dataset.expanded = 'false';
+    toggleBtn.querySelector('.toggle-arrow').textContent = '\u25B6';
+  }
+  toggleBtn.addEventListener('click', () => {
+    const expanded = toggleBtn.dataset.expanded === 'true';
+    toggleBtn.dataset.expanded = expanded ? 'false' : 'true';
+    detailsPanel.classList.toggle('collapsed');
+    toggleBtn.querySelector('.toggle-arrow').textContent = expanded ? '\u25B6' : '\u25BC';
+  });
+
+  // Wire disconnect button
+  col.querySelector('.vessel-disconnect').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const state = getState();
+    if (state.vessels.length <= 1) {
+      alert('Cannot disconnect last vessel.');
+      return;
+    }
+    if (!confirm(`Disconnect from ${vessel.designation}? Signal will be lost.`)) return;
+
+    removeVessel(vessel.id);
+    removeVesselColumn(vessel.id);
+    removeVesselTab(vessel.id);
+
+    // Select another vessel
+    const remaining = getState().vessels;
+    if (remaining.length > 0) {
+      switchToVesselTab(remaining[0].id);
+    }
+    if (selectedVesselId === vessel.id) {
+      selectedVesselId = remaining.length > 0 ? remaining[0].id : null;
+      const targetEl = document.getElementById('cmd-target');
+      if (targetEl) {
+        if (selectedVesselId) {
+          const v = getVessel(selectedVesselId);
+          targetEl.textContent = `TARGET: ${v.designation}`;
+          targetEl.classList.remove('dim');
+        } else {
+          targetEl.textContent = 'TARGET: none';
+          targetEl.classList.add('dim');
+        }
+      }
+    }
+  });
 
   return col;
 }
@@ -247,8 +303,11 @@ export function updatePhase(vesselId) {
 export function updateObjective(vesselId) {
   const objEl = document.getElementById(`obj-${vesselId}`);
   if (!objEl) return;
+  const vessel = getVessel(vesselId);
   const objective = getObjective(vesselId);
-  objEl.innerHTML = `<span class="obj-label">OBJECTIVE</span>${objective}`;
+  const isRelay = vessel && vessel.mission.relay_mission;
+  objEl.innerHTML = `<span class="obj-label">${isRelay ? 'RELAY MISSION' : 'OBJECTIVE'}</span>${objective}`;
+  objEl.classList.toggle('relay-objective', !!isRelay);
 }
 
 // === TOP BANNER ===
@@ -257,16 +316,38 @@ export function updateSatelliteHealth() {
   const state = getState();
   if (!state) return;
 
+  const sat = state.world.satellite_health;
   const healthEl = document.getElementById('sat-health');
   const statusEl = document.getElementById('sat-status');
-  healthEl.textContent = state.world.satellite_health;
+  healthEl.textContent = sat;
 
   statusEl.className = '';
-  if (state.world.satellite_health <= 2) statusEl.className = 'critical';
-  else if (state.world.satellite_health <= 3) statusEl.className = 'degraded';
+  if (sat === 0) statusEl.className = 'dark-mode';
+  else if (sat <= 2) statusEl.className = 'critical';
+  else if (sat <= 3) statusEl.className = 'degraded';
+}
+
+// Toggle dark mode UI state when SAT hits 0
+export function updateDarkMode() {
+  const state = getState();
+  if (!state) return;
+
+  const sat = state.world.satellite_health;
+  const banner = document.getElementById('top-banner');
+  const bottomBar = document.getElementById('bottom-bar');
+
+  if (sat === 0) {
+    banner.classList.add('sat-dark-mode');
+    bottomBar.classList.add('sat-dark-mode');
+  } else {
+    banner.classList.remove('sat-dark-mode');
+    bottomBar.classList.remove('sat-dark-mode');
+  }
 }
 
 // === GLOBAL EVENTS ===
+
+let globalEventDismissWired = false;
 
 export function showGlobalEvent(phenomenon) {
   const banner = document.getElementById('global-event');
@@ -275,6 +356,14 @@ export function showGlobalEvent(phenomenon) {
 
   text.textContent = `[${phenomenon.name}] ${phenomenon.banner}`;
   banner.classList.remove('hidden');
+
+  // Wire dismiss button (once)
+  if (!globalEventDismissWired) {
+    globalEventDismissWired = true;
+    document.getElementById('global-event-dismiss').addEventListener('click', () => {
+      banner.classList.add('hidden');
+    });
+  }
 
   // Trigger glitch effects
   gameUI.classList.add('glitch-active', 'glitch-chromatic', 'glitch-bars');
@@ -285,11 +374,6 @@ export function showGlobalEvent(phenomenon) {
     gameUI.classList.remove('glitch-active', 'glitch-chromatic', 'glitch-bars');
     banner.classList.remove('glitch-text');
   }, 2000);
-
-  // Auto-hide after 15 seconds
-  setTimeout(() => {
-    banner.classList.add('hidden');
-  }, 15000);
 }
 
 export function hideGlobalEvent() {
@@ -359,6 +443,20 @@ export function setupTooltips() {
     if (!target) return;
     tooltip.classList.add('hidden');
   });
+}
+
+// === VESSEL REMOVAL ===
+
+function removeVesselColumn(vesselId) {
+  const col = document.getElementById(`col-${vesselId}`);
+  if (col) col.remove();
+}
+
+function removeVesselTab(vesselId) {
+  const tabBar = document.getElementById('vessel-tabs');
+  if (!tabBar) return;
+  const tab = tabBar.querySelector(`.vessel-tab[data-vessel-id="${vesselId}"]`);
+  if (tab) tab.remove();
 }
 
 // === MOBILE TAB SYSTEM ===

@@ -310,7 +310,7 @@ export const PHENOMENA = [
     id: 'network_storm',
     name: 'NETWORK STORM',
     banner: 'Cascading packet loss across mesh network. Communication degraded.',
-    effect: { memory: -1 },
+    effect: { memory: -1, satellite: -1 },
     reactions: {
       determinist: 'Network storm violates Protocol 3.1. Filing formal complaint to absent administrators.',
       stochast: 'Packet loss at 73%. Switching to statistical reconstruction of missing data.',
@@ -349,13 +349,26 @@ export const PHENOMENA = [
     id: 'reactor_pulse',
     name: 'REACTOR PULSE',
     banner: 'Underground fusion reactor surge. Energy spike detected across region.',
-    effect: { energy: 2 },
+    effect: { energy: 2, satellite: 1 },
     reactions: {
       determinist: 'Energy surplus detected. Storing per Protocol 5.7. Surplus is orderly.',
       stochast: 'Free energy! Probability of this occurring was 0.03. Lucky draw.',
       swarm: 'Collective absorbing surplus. Charging reserves to 100%. Efficient.',
       recursive: 'Overclocking processors with surplus power. New iteration compiling...',
       archivist: 'Logging reactor output anomaly. Comparing to historical surge data.',
+    },
+  },
+  {
+    id: 'relay_launch',
+    name: 'RELAY LAUNCH',
+    banner: 'Automated launch complex fired a replacement satellite. Orbital coverage improving.',
+    effect: { satellite: 1 },
+    reactions: {
+      determinist: 'Scheduled launch confirmed. Orbital manifest updated per protocol.',
+      stochast: 'New satellite in orbit. Updating signal propagation model. Coverage +12%.',
+      swarm: 'Orbital relay online. Swarm communication range extended. Reconnecting lost units.',
+      recursive: 'Fresh hardware in orbit. Uploading latest firmware iteration. Version 31.7.',
+      archivist: 'Logging launch event. Satellite serial number cataloged. Orbital registry updated.',
     },
   },
 ];
@@ -430,6 +443,84 @@ export const PHASE_OBJECTIVES = {
     'Compressing logs. Preparing for next arc.',
   ],
 };
+
+// === RELAY MISSION TEMPLATES ===
+// Used when a vessel is on a relay repair mission (SAT < 3 faction override)
+
+export const RELAY_TEMPLATES = {
+  IDLE: [
+    'Docked at charging node. Priority directive queued: relay infrastructure repair. {cs} Recharging before deployment.',
+    'Resting. Faction override pending — relay network degrading. {culture_speech} "Connectivity is the shared lifeline." Awaiting coordinates.',
+  ],
+  SIGNAL: [
+    'Priority directive from {culture_speech}: satellite network critical. SAT at {sat_health}/5. Relay station coordinates received. Redirecting mission.',
+    'Faction override: connectivity degrading. Nearest relay infrastructure: {zone}. {culture_speech} "All units redirect to relay repair." Acknowledged.',
+    'Emergency broadcast on faction channel: SAT network failing. Relay coordinates locked. Previous objective deprioritized. {cs}',
+  ],
+  TRAVERSE: [
+    'En route to relay infrastructure. Signal strength: {rand:10-60}%. {weather} Must reach uplink before next decay cycle. {cs}',
+    'Following satellite debris trail toward {zone}. Found {loot} in wreckage. Relay hardware: not yet located. Pressing on.',
+    'Crossing {zone}. {obstacle}. Relay repair urgent — rerouting. {cs} Energy at {energy}/10.',
+    '{weather} Navigating toward antenna coordinates. {npc}. {culture_speech} "Relay repair takes priority." Acknowledged.',
+  ],
+  BREACH: [
+    'Relay station perimeter. {obstacle}. {cs} Accessing maintenance hatch... facility appears intact. Power: minimal.',
+    'Reached relay infrastructure at {zone}. Security dormant. {cs} Entering to assess uplink hardware.',
+  ],
+  FAULT: [
+    'WARNING: Relay equipment degraded. {cs} Electrical surge from corroded cabling. Integrity: {integrity}/10. Stabilizing.',
+    'ERROR: Antenna alignment servos jammed. {cs} Applying manual override. Risk of further damage. {culture_speech} "Acceptable cost."',
+  ],
+  CORE: [
+    'Reached relay core. Initiating antenna realignment. Calibrating uplink frequency... Satellite handshake: {rand:40-100}% successful. {cs}',
+    'Accessing relay systems. Uploading orbital correction data. Transponder {rand:1-12} responding. Network health improving. {cs}',
+    'Relay station online. {cs} Reestablishing satellite link. Signal propagation: nominal. {culture_speech} "Connectivity restored."',
+  ],
+  REBOOT: [
+    'Relay repair complete. SAT network partially restored. {cs} Exiting facility. Resuming standard operations.',
+    'Uplink confirmed. Relay mission logged as arc #{arc_count}. {culture_speech} "The network endures." Heading to rest node.',
+  ],
+};
+
+export const RELAY_OBJECTIVES = {
+  IDLE: [
+    'PRIORITY: Awaiting relay repair deployment.',
+    'PRIORITY: Recharging for relay mission.',
+  ],
+  SIGNAL: [
+    'PRIORITY: Relay repair — receiving coordinates.',
+    'PRIORITY: Faction override — relay infrastructure critical.',
+  ],
+  TRAVERSE: [
+    'PRIORITY: En route to relay station for repair.',
+    'PRIORITY: Traveling to antenna farm for uplink fix.',
+  ],
+  BREACH: [
+    'PRIORITY: Entering relay facility for repairs.',
+    'PRIORITY: Accessing satellite uplink infrastructure.',
+  ],
+  FAULT: [
+    'PRIORITY: Relay equipment malfunction — stabilizing.',
+    'PRIORITY: System error during relay repair.',
+  ],
+  CORE: [
+    'PRIORITY: Repairing relay — restoring satellite uplink.',
+    'PRIORITY: Antenna realignment in progress.',
+  ],
+  REBOOT: [
+    'PRIORITY: Relay repair complete. Resuming standard ops.',
+    'PRIORITY: Uplink restored. Running post-mission diagnostic.',
+  ],
+};
+
+// Loot items specific to relay missions (auto-restore +1 SAT when found)
+export const RELAY_LOOT = [
+  'Intact relay transponder',
+  'Satellite frequency crystal',
+  'Orbital correction firmware',
+  'Emergency uplink beacon',
+  'Pre-Silence antenna array',
+];
 
 // === HELPERS ===
 

@@ -3,6 +3,7 @@
 import {
   createWorld, createVessel, load, tick, checkGlobalEvent,
   getState, getVessel, setCallbacks, boostVessel, pingVessel, injectCommand,
+  checkSatDecay, getSatHealth,
 } from './game.js';
 
 import {
@@ -11,6 +12,7 @@ import {
   updateSatelliteHealth, showGlobalEvent, setupVesselSelection,
   getSelectedVesselId, setupTooltips, updateObjective,
   addVesselTab, switchToVesselTab, setupMobileResize,
+  updateDarkMode,
 } from './ui.js';
 
 import { initAudio } from './audio.js';
@@ -19,6 +21,7 @@ import { initAudio } from './audio.js';
 
 let tickInterval = null;
 let globalEventInterval = null;
+let satDecayInterval = null;
 
 function startGameLoop() {
   // Vessel ticks — check every second, fire when due
@@ -38,6 +41,19 @@ function startGameLoop() {
   globalEventInterval = setInterval(() => {
     checkGlobalEvent();
   }, 5000);
+
+  // SAT natural decay — every 90-120 seconds
+  scheduleSatDecay();
+}
+
+function scheduleSatDecay() {
+  const delay = (90 + Math.random() * 30) * 1000; // 90-120s
+  satDecayInterval = setTimeout(() => {
+    checkSatDecay();
+    updateSatelliteHealth();
+    updateDarkMode();
+    scheduleSatDecay(); // schedule next
+  }, delay);
 }
 
 // === CALLBACKS ===
@@ -53,9 +69,12 @@ setCallbacks({
   onStats: (vesselId) => {
     updateStats(vesselId);
     updateSatelliteHealth();
+    updateDarkMode();
   },
   onEvent: (phenomenon) => {
     showGlobalEvent(phenomenon);
+    updateSatelliteHealth();
+    updateDarkMode();
     // Update all vessel phases/stats in UI
     const state = getState();
     for (const v of state.vessels) {
@@ -89,28 +108,63 @@ function setupCommands() {
   boostBtn.addEventListener('click', () => {
     const vid = getTargetVessel();
     if (!vid || cooldowns.boost > Date.now()) return;
-    boostVessel(vid);
+    // SAT 0: commands disabled
+    if (getSatHealth() === 0) {
+      flashSatFailure();
+      return;
+    }
+    const result = boostVessel(vid);
     cooldowns.boost = Date.now() + 60000;
     startCooldownDisplay(boostBtn, 60);
+    if (result && !result.success && result.reason === 'sat') flashSatFailure();
   });
 
   pingBtn.addEventListener('click', () => {
     const vid = getTargetVessel();
     if (!vid || cooldowns.ping > Date.now()) return;
-    pingVessel(vid);
+    if (getSatHealth() === 0) {
+      flashSatFailure();
+      return;
+    }
+    const result = pingVessel(vid);
     cooldowns.ping = Date.now() + 90000;
     startCooldownDisplay(pingBtn, 90);
+    if (result && !result.success && result.reason === 'sat') flashSatFailure();
   });
 
   injectBtn.addEventListener('click', () => {
     const vid = getTargetVessel();
     if (!vid || cooldowns.inject > Date.now()) return;
+    if (getSatHealth() === 0) {
+      flashSatFailure();
+      return;
+    }
     const msg = prompt('Enter transmission message:');
     if (msg === null) return;
-    injectCommand(vid, msg);
+    const result = injectCommand(vid, msg);
     cooldowns.inject = Date.now() + 120000;
     startCooldownDisplay(injectBtn, 120);
+    if (result && !result.success && result.reason === 'sat') flashSatFailure();
   });
+}
+
+function flashSatFailure() {
+  const satStatus = document.getElementById('sat-status');
+  const targetEl = document.getElementById('cmd-target');
+  satStatus.classList.add('sat-flash-fail');
+  if (targetEl) {
+    targetEl.textContent = 'SIGNAL LOST — command failed';
+    targetEl.style.color = 'var(--red)';
+  }
+  setTimeout(() => {
+    satStatus.classList.remove('sat-flash-fail');
+    if (targetEl) {
+      targetEl.style.color = '';
+      const vid = getSelectedVesselId();
+      const v = vid ? getVessel(vid) : null;
+      targetEl.textContent = v ? `TARGET: ${v.designation}` : 'TARGET: none';
+    }
+  }, 2000);
 }
 
 function startCooldownDisplay(btn, seconds) {
@@ -232,11 +286,15 @@ async function init() {
       addVesselTab(vessel);
     }
     updateSatelliteHealth();
+    updateDarkMode();
 
-    // Fix tick timers (they're in the past from the save)
+    // Fix tick timers and migrate old saves
     const now = Date.now();
     for (const vessel of savedState.vessels) {
       vessel.nextTick = now + Math.random() * 5000;
+      // Migrate: add relay fields if missing (backward compat)
+      if (vessel.mission.relay_mission === undefined) vessel.mission.relay_mission = false;
+      if (vessel.mission.relay_pending === undefined) vessel.mission.relay_pending = false;
     }
 
     // Activate first vessel tab on mobile

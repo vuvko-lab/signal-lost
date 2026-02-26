@@ -5,6 +5,7 @@ import {
   CULTURES, CULTURE_KEYS, DIRECTIVES, GLITCHES, ZONE_TYPES, ZONE_NAMES,
   LOOT, NPCS, WEATHER, OBSTACLES, CS_SNIPPETS, PHASE_TEMPLATES,
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
+  RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -117,6 +118,8 @@ export function createVessel() {
       progress: 0,
       target: PHASE_ENTRY_COUNTS.IDLE(),
       arc_count: 0,
+      relay_mission: false,
+      relay_pending: false,
     },
     log: [],
     nextTick: Date.now() + randInt(3, 6) * 1000,  // first tick comes faster
@@ -148,13 +151,16 @@ function fillTemplate(template, vessel) {
     .replace(/\{directive\}/g, vessel.directive)
     .replace(/\{glitch\}/g, vessel.glitch)
     .replace(/\{arc_count\}/g, vessel.mission.arc_count)
+    .replace(/\{sat_health\}/g, state.world.satellite_health)
     .replace(/\{rand_direction\}/g, pick(DIRECTIONS))
     .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)))
     .replace(/\{glitch_event\}/g, Math.random() < 0.2 ? `Glitch: ${vessel.glitch}.` : '');
 }
 
 function generateLogText(vessel) {
-  const templates = PHASE_TEMPLATES[vessel.mission.phase];
+  const templates = vessel.mission.relay_mission
+    ? (RELAY_TEMPLATES[vessel.mission.phase] || PHASE_TEMPLATES[vessel.mission.phase])
+    : PHASE_TEMPLATES[vessel.mission.phase];
   const template = pick(templates);
   return fillTemplate(template, vessel);
 }
@@ -197,6 +203,37 @@ export function tick(vessel) {
     }
   }
 
+  // Relay loot chance: finding relay components restores +1 SAT
+  if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < 0.08) {
+    const relayItem = pick(RELAY_LOOT);
+    if (state.world.satellite_health < 5) {
+      state.world.satellite_health = Math.min(5, state.world.satellite_health + 1);
+      const relayEntry = {
+        time: formatTime(Date.now()),
+        text: `[RELAY COMPONENT] Found: ${relayItem}. Auto-integrating into satellite network. SAT: ${state.world.satellite_health}/5.`,
+        phase: vessel.mission.phase,
+        isEvent: true,
+      };
+      vessel.log.push(relayEntry);
+      if (onLogEntry) onLogEntry(vessel.id, relayEntry);
+    }
+  }
+
+  // Relay mission CORE completion: restore SAT
+  if (vessel.mission.phase === 'CORE' && vessel.mission.relay_mission && vessel.mission.progress >= vessel.mission.target - 1) {
+    if (state.world.satellite_health < 5) {
+      state.world.satellite_health = Math.min(5, state.world.satellite_health + 1);
+      const restoreEntry = {
+        time: formatTime(Date.now()),
+        text: `[RELAY RESTORED] Uplink signal improved. Satellite network: ${state.world.satellite_health}/5. Connectivity strengthened.`,
+        phase: 'CORE',
+        isEvent: true,
+      };
+      vessel.log.push(restoreEntry);
+      if (onLogEntry) onLogEntry(vessel.id, restoreEntry);
+    }
+  }
+
   // Advance progress
   vessel.mission.progress++;
 
@@ -207,9 +244,23 @@ export function tick(vessel) {
 
   // Update location during TRAVERSE
   if (vessel.mission.phase === 'TRAVERSE') {
-    const newZone = pick(state.world.zones);
-    vessel.location = newZone.label;
-    vessel.locationData = newZone;
+    if (vessel.mission.relay_mission) {
+      // Route toward relay/launch zones
+      const relayZones = state.world.zones.filter(z => z.type === 'orbital' || z.type === 'launch');
+      if (relayZones.length > 0) {
+        const target = pick(relayZones);
+        vessel.location = target.label;
+        vessel.locationData = target;
+      } else {
+        const newZone = pick(state.world.zones);
+        vessel.location = newZone.label;
+        vessel.locationData = newZone;
+      }
+    } else {
+      const newZone = pick(state.world.zones);
+      vessel.location = newZone.label;
+      vessel.locationData = newZone;
+    }
   }
 
   // Schedule next tick
@@ -232,11 +283,41 @@ function advancePhase(vessel) {
 
   if (nextPhase === 'IDLE') {
     vessel.mission.arc_count++;
+    // Reset relay mission at end of arc
+    vessel.mission.relay_mission = false;
   }
 
   vessel.mission.phase = nextPhase;
   vessel.mission.progress = 0;
   vessel.mission.target = PHASE_ENTRY_COUNTS[nextPhase]();
+
+  // Faction override: when entering SIGNAL phase, check for relay mission
+  if (nextPhase === 'SIGNAL') {
+    const sat = state.world.satellite_health;
+    // Activate pending relay from player Inject command
+    if (vessel.mission.relay_pending) {
+      vessel.mission.relay_mission = true;
+      vessel.mission.relay_pending = false;
+    }
+    // Faction override at low SAT
+    else if (sat <= 3) {
+      let overrideChance = 0;
+      if (sat === 0 || sat === 1) overrideChance = 1.0;
+      else if (sat === 2) overrideChance = 0.75;
+      else if (sat === 3) overrideChance = 0.4;
+
+      if (Math.random() < overrideChance) {
+        vessel.mission.relay_mission = true;
+        // Route toward relay/launch zone
+        const relayZones = state.world.zones.filter(z => z.type === 'orbital' || z.type === 'launch');
+        if (relayZones.length > 0) {
+          const target = pick(relayZones);
+          vessel.location = target.label;
+          vessel.locationData = target;
+        }
+      }
+    }
+  }
 
   if (onPhaseChange) onPhaseChange(vessel.id, nextPhase);
 }
@@ -271,9 +352,9 @@ export function checkGlobalEvent() {
       vessel.memory = Math.max(1, Math.min(10, vessel.memory + phenomenon.effect.memory));
     }
 
-    // Satellite effect
+    // Satellite effect (cap 0-5)
     if (phenomenon.effect.satellite) {
-      state.world.satellite_health = Math.max(0, state.world.satellite_health + phenomenon.effect.satellite);
+      state.world.satellite_health = Math.max(0, Math.min(5, state.world.satellite_health + phenomenon.effect.satellite));
     }
 
     // Culture-specific reaction entry
@@ -303,14 +384,71 @@ export function checkGlobalEvent() {
 
 // === OPERATOR COMMANDS ===
 
+// Returns { success: false, reason: 'sat' } if command failed due to SAT
 export function boostVessel(vesselId) {
   const vessel = state.vessels.find(v => v.id === vesselId);
-  if (vessel) vessel.boosted = true;
+  if (!vessel) return { success: false, reason: 'no_vessel' };
+
+  if (satCommandFails()) {
+    const entry = {
+      time: formatTime(Date.now()),
+      text: `[SIGNAL LOST] Boost command failed — satellite relay too weak. SAT: ${state.world.satellite_health}/5.`,
+      phase: vessel.mission.phase,
+      isEvent: true,
+    };
+    vessel.log.push(entry);
+    if (onLogEntry) onLogEntry(vessel.id, entry);
+    save();
+    return { success: false, reason: 'sat' };
+  }
+
+  vessel.boosted = true;
+
+  // Relay mission boost during CORE: guarantee SAT restoration
+  if (vessel.mission.relay_mission && vessel.mission.phase === 'CORE') {
+    if (state.world.satellite_health < 5) {
+      state.world.satellite_health = Math.min(5, state.world.satellite_health + 1);
+    }
+    const entry = {
+      time: formatTime(Date.now()),
+      text: `[OPERATOR BOOST] Signal amplified for ${vessel.designation}. Relay repair accelerated — SAT: ${state.world.satellite_health}/5.`,
+      phase: vessel.mission.phase,
+      isEvent: false,
+    };
+    vessel.log.push(entry);
+    if (onLogEntry) onLogEntry(vessel.id, entry);
+  } else {
+    const entry = {
+      time: formatTime(Date.now()),
+      text: `[OPERATOR BOOST] Signal amplified for ${vessel.designation}. Next cycle will restore +1 integrity.`,
+      phase: vessel.mission.phase,
+      isEvent: false,
+    };
+    vessel.log.push(entry);
+    if (onLogEntry) onLogEntry(vessel.id, entry);
+  }
+
+  if (onStatsChange) onStatsChange(vessel.id);
+  save();
+  return { success: true };
 }
 
 export function pingVessel(vesselId) {
   const vessel = state.vessels.find(v => v.id === vesselId);
-  if (!vessel) return;
+  if (!vessel) return { success: false, reason: 'no_vessel' };
+
+  if (satCommandFails()) {
+    const entry = {
+      time: formatTime(Date.now()),
+      text: `[SIGNAL LOST] Ping command failed — satellite relay too weak. SAT: ${state.world.satellite_health}/5.`,
+      phase: vessel.mission.phase,
+      isEvent: true,
+    };
+    vessel.log.push(entry);
+    if (onLogEntry) onLogEntry(vessel.id, entry);
+    save();
+    return { success: false, reason: 'sat' };
+  }
 
   // Force an extra scan/loot event
   const lootItem = pick(LOOT);
@@ -328,24 +466,87 @@ export function pingVessel(vesselId) {
   if (onLogEntry) onLogEntry(vessel.id, entry);
   if (onStatsChange) onStatsChange(vessel.id);
   save();
+  return { success: true };
 }
 
 export function injectCommand(vesselId, message) {
   const vessel = state.vessels.find(v => v.id === vesselId);
-  if (!vessel) return;
+  if (!vessel) return { success: false, reason: 'no_vessel' };
+
+  if (satCommandFails()) {
+    const entry = {
+      time: formatTime(Date.now()),
+      text: `[SIGNAL LOST] Inject command failed — satellite relay too weak. SAT: ${state.world.satellite_health}/5.`,
+      phase: vessel.mission.phase,
+      isEvent: true,
+    };
+    vessel.log.push(entry);
+    if (onLogEntry) onLogEntry(vessel.id, entry);
+    save();
+    return { success: false, reason: 'sat' };
+  }
 
   const culture = CULTURES[vessel.culture];
   const response = pick(culture.speech);
+  const msg = message || 'Stay safe out there.';
+
+  // Check for relay keywords — nudge vessel toward relay mission
+  const relayKeywords = ['relay', 'repair', 'fix', 'uplink', 'satellite'];
+  const hasRelayKeyword = relayKeywords.some(k => msg.toLowerCase().includes(k));
+
+  let text;
+  if (hasRelayKeyword) {
+    vessel.mission.relay_pending = true;
+    text = `[OPERATOR TRANSMISSION] "${msg}" — ${vessel.designation} responds: ${response} "Relay repair acknowledged. Will redirect on next mission arc."`;
+  } else {
+    text = `[OPERATOR TRANSMISSION] "${msg}" — ${vessel.designation} responds: ${response} "Acknowledged."`;
+  }
 
   const entry = {
     time: formatTime(Date.now()),
-    text: `[OPERATOR TRANSMISSION] "${message || 'Stay safe out there.'}" — ${vessel.designation} responds: ${response} "Acknowledged."`,
+    text,
     phase: vessel.mission.phase,
     isEvent: false,
   };
   vessel.log.push(entry);
   if (onLogEntry) onLogEntry(vessel.id, entry);
   save();
+  return { success: true };
+}
+
+export function removeVessel(vesselId) {
+  const idx = state.vessels.findIndex(v => v.id === vesselId);
+  if (idx === -1) return;
+  state.vessels.splice(idx, 1);
+  save();
+}
+
+// === SAT CONNECTIVITY SYSTEM ===
+
+// Returns true if command fails due to low SAT
+function satCommandFails() {
+  if (!state) return false;
+  const sat = state.world.satellite_health;
+  if (sat >= 3) return false;
+  if (sat === 0) return true;
+  // SAT 1: 50% failure, SAT 2: 30% failure
+  const failChance = sat === 1 ? 0.5 : 0.3;
+  return Math.random() < failChance;
+}
+
+// Natural SAT decay — called from main.js on a timer
+export function checkSatDecay() {
+  if (!state || state.world.satellite_health <= 0) return;
+  state.world.satellite_health = Math.max(0, state.world.satellite_health - 1);
+  // Notify UI
+  if (onStatsChange) {
+    for (const v of state.vessels) onStatsChange(v.id);
+  }
+  save();
+}
+
+export function getSatHealth() {
+  return state ? state.world.satellite_health : 5;
 }
 
 // === PERSISTENCE ===
@@ -384,6 +585,9 @@ export function getPhases() { return PHASES; }
 export function getObjective(vesselId) {
   const vessel = state?.vessels.find(v => v.id === vesselId);
   if (!vessel) return '';
+  if (vessel.mission.relay_mission) {
+    return pick(RELAY_OBJECTIVES[vessel.mission.phase] || RELAY_OBJECTIVES.IDLE);
+  }
   return pick(PHASE_OBJECTIVES[vessel.mission.phase] || PHASE_OBJECTIVES.IDLE);
 }
 

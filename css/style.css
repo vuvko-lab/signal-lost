@@ -156,7 +156,7 @@ html, body {
 #game-ui {
   height: 100vh;
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   gap: 0;
 }
 
@@ -207,18 +207,72 @@ html, body {
 }
 
 #sat-status.degraded { color: var(--amber); text-shadow: 0 0 5px var(--glow-amber); }
-#sat-status.critical { color: var(--red); }
+#sat-status.critical { color: var(--red); text-shadow: 0 0 5px rgba(255, 51, 51, 0.4); }
+#sat-status.dark-mode { color: var(--red); animation: sat-dark-pulse 1.5s ease-in-out infinite; }
+#sat-status.sat-flash-fail { animation: sat-flash 0.3s ease 3; }
 
-/* Global event banner */
+@keyframes sat-dark-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes sat-flash {
+  0%, 100% { color: var(--red); }
+  50% { color: #ff0000; text-shadow: 0 0 12px rgba(255, 0, 0, 0.8); }
+}
+
+/* SAT Dark Mode — commands disabled overlay */
+.sat-dark-mode .cmd-btn { opacity: 0.2; pointer-events: none; }
+#top-banner.sat-dark-mode::after {
+  content: 'DARK MODE — COMMANDS OFFLINE';
+  color: var(--red);
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  animation: sat-dark-pulse 1.5s ease-in-out infinite;
+  margin-left: 12px;
+}
+
+/* Global event banner — floating overlay */
 #global-event {
-  background: rgba(255, 176, 0, 0.1);
+  position: fixed;
+  top: 42px;
+  left: 16px;
+  right: 16px;
+  z-index: 800;
+  background: rgba(10, 10, 15, 0.95);
   border: 1px solid var(--amber);
   color: var(--amber);
   text-align: center;
-  padding: 8px 16px;
+  padding: 10px 40px 10px 16px;
   font-size: calc(17px * var(--font-scale));
   text-shadow: 0 0 5px var(--glow-amber);
   animation: pulse-border 2s ease-in-out infinite;
+  box-shadow: 0 4px 20px rgba(255, 176, 0, 0.15);
+}
+
+#global-event-dismiss {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+}
+
+#global-event-dismiss:hover {
+  opacity: 1;
+  background: rgba(255, 176, 0, 0.15);
 }
 
 @keyframes pulse-border {
@@ -268,11 +322,46 @@ html, body {
   border-bottom-color: var(--green-dim);
 }
 
+.vessel-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .vessel-header .culture-tag {
   color: var(--cyan);
   font-weight: 400;
   font-size: calc(12px * var(--font-scale));
   cursor: help;
+}
+
+.vessel-disconnect {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vessel-disconnect:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+/* Mobile details toggle — hidden on desktop */
+.vessel-details-toggle {
+  display: none;
+}
+
+.vessel-details-panel.collapsed {
+  display: none;
 }
 
 /* Stats row */
@@ -338,6 +427,18 @@ html, body {
   letter-spacing: 1px;
   display: block;
   margin-bottom: 2px;
+}
+
+/* Relay mission objective — cyan accent */
+.vessel-objective.relay-objective {
+  border-left: 3px solid var(--cyan);
+  background: rgba(0, 229, 255, 0.03);
+  color: var(--cyan);
+}
+
+.vessel-objective.relay-objective .obj-label {
+  color: var(--cyan);
+  opacity: 0.7;
 }
 
 /* Vessel info row (directive + glitch) — collapsible */
@@ -729,9 +830,9 @@ html, body {
     font-size: 18px;
   }
 
-  /* Adjust grid to include tabs row */
+  /* Grid: banner, tabs, vessels, bottom bar */
   #game-ui {
-    grid-template-rows: auto auto auto 1fr auto;
+    grid-template-rows: auto auto 1fr auto;
   }
 
   /* Show tab bar */
@@ -761,10 +862,13 @@ html, body {
 
   #sat-status { font-size: 11px; }
 
-  /* Global event banner: smaller */
+  /* Global event overlay: mobile adjustments */
   #global-event {
+    top: 36px;
+    left: 8px;
+    right: 8px;
     font-size: calc(14px * var(--font-scale));
-    padding: 6px 10px;
+    padding: 8px 32px 8px 10px;
   }
 
   /* Vessels area: single column, show only active */
@@ -835,6 +939,26 @@ html, body {
     bottom: 60px !important;
     top: auto !important;
     max-width: none;
+  }
+
+  /* Mobile details toggle — show and default collapsed */
+  .vessel-details-toggle {
+    display: block;
+    padding: 4px 12px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    letter-spacing: 1px;
+    user-select: none;
+  }
+
+  .vessel-details-toggle:hover { color: var(--green); }
+
+  .toggle-arrow {
+    font-size: 8px;
+    margin-right: 4px;
   }
 
   /* Vessel column internals */

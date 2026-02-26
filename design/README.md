@@ -29,6 +29,7 @@ A browser-based zero-player RPG (ZPG) in the spirit of [Godville](https://en.wik
 | [chartopia.md](chartopia.md) | API integration, table strategy, generation flow |
 | [technical.md](technical.md) | Tech stack, game state schema, asset pipeline |
 | [assets.md](assets.md) | Audio, visual, font, and effect asset references |
+| [interaction.md](interaction.md) | Vessel-world interaction expansion: zones, inter-vessel events, enhanced commands |
 | [scope.md](scope.md) | MVP priorities, open questions |
 
 ---
