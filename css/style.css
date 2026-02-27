@@ -949,6 +949,8 @@ html, body {
   }
 
   .stat-bar { width: 40px; }
+
+  #credits { display: none; }
 }
 
 /* === RESPONSIVE — SMALL PHONES (<400px) === */
