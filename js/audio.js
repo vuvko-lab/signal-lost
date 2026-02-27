@@ -23,12 +23,17 @@ const BG_TRACKS = [
 ];
 
 // Ambient noise layers — intermittent, tagged by location keywords
+// Volumes kept very low so they sit beneath music as subtle texture
 const NOISE_LAYERS = [
-  { src: 'assets/ambient/air-conditioning.ogg', volume: 0.04, label: 'Air Conditioning', tags: ['underground', 'reactor', 'server', 'bunker'] },
-  { src: 'assets/ambient/fridge-hum.ogg', volume: 0.03, label: 'Fridge Hum', tags: ['server', 'reactor', 'data', 'archive'] },
-  { src: 'assets/ambient/machinery.ogg', volume: 0.025, label: 'Machinery', tags: ['factory', 'launch', 'reactor', 'industrial'] },
-  { src: 'assets/ambient/plague-drone.ogg', volume: 0.035, label: 'Drone Loop', tags: ['waste', 'ruin', 'orbital', 'dead'] },
-  { src: 'assets/ambient/radio-loop.ogg', volume: 0.02, label: 'Radio Static', tags: ['relay', 'signal', 'antenna', 'zone'] },
+  { src: 'assets/ambient/air-conditioning.ogg', volume: 0.015, label: 'Air Conditioning', tags: ['underground', 'reactor', 'server', 'bunker'] },
+  { src: 'assets/ambient/air-conditioning-2.ogg', volume: 0.012, label: 'HVAC Loop', tags: ['underground', 'facility', 'data', 'archive'] },
+  { src: 'assets/ambient/fridge-hum.ogg', volume: 0.012, label: 'Fridge Hum', tags: ['server', 'reactor', 'data', 'archive'] },
+  { src: 'assets/ambient/machinery.ogg', volume: 0.01, label: 'Machinery', tags: ['factory', 'launch', 'reactor', 'industrial'] },
+  { src: 'assets/ambient/factory-tone.ogg', volume: 0.01, label: 'Factory Tone', tags: ['factory', 'industrial', 'launch', 'reactor'] },
+  { src: 'assets/ambient/enginehum.ogg', volume: 0.012, label: 'Engine Hum', tags: ['orbital', 'launch', 'shuttle', 'transport'] },
+  { src: 'assets/ambient/enginehum3.ogg', volume: 0.01, label: 'Engine Idle', tags: ['orbital', 'shuttle', 'station', 'dock'] },
+  { src: 'assets/ambient/plague-drone.ogg', volume: 0.015, label: 'Drone Loop', tags: ['waste', 'ruin', 'orbital', 'dead'] },
+  { src: 'assets/ambient/radio-loop.ogg', volume: 0.008, label: 'Radio Static', tags: ['relay', 'signal', 'antenna', 'zone'] },
 ];
 
 const BG_VOLUME = 0.3;
