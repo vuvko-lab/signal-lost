@@ -63,7 +63,11 @@ zip -r signal-lost.zip \
 ### Short Description (shown in listings)
 > A zero-player RPG. Watch AI vessels navigate the ruins of a post-human Earth. You are the operator — but the signal is fading.
 
-### Full Description (Markdown)
+### Full Description
+
+Use `ITCH_PAGE.html` — paste its contents into the itch.io HTML description editor. The HTML includes inline cyberpunk styling (colored culture names, red Architects, green commands, `##` header prefixes).
+
+Below is the plain-text reference:
 
 ```markdown
 ## What is this?
