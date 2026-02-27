@@ -15,3 +15,13 @@ assets/_unused/
 
 # Test output
 tests/
+
+# Build artifact
+signal-lost.zip
+
+# Tool intermediates
+tools/cover/frame_*.png
+tools/cover/palette.png
+tools/cover/frames.txt
+tools/narrative-transcripts.txt
+tools/narrative-judge-raw-*.txt
