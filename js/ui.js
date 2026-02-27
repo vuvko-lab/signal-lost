@@ -437,7 +437,7 @@ export function updatePhase(vesselId) {
   if (!col) return;
 
   const phaseLabel = col.querySelector('.phase-label');
-  phaseLabel.innerHTML = `<img class="icon" src="${PHASE_ICONS[vessel.mission.phase] || PHASE_ICONS.IDLE}" alt="">${vessel.mission.phase}`;
+  phaseLabel.innerHTML = `${vessel.mission.phase}`;
   phaseLabel.dataset.tooltip = PHASE_DESCRIPTIONS[vessel.mission.phase] || '';
   col.querySelector('.arc-count').textContent = `Arc #${vessel.mission.arc_count}`;
 
