@@ -3,10 +3,12 @@
 
 import os
 import http.server
+import random
 import threading
 import time
 import subprocess
 
+from PIL import Image, ImageDraw
 from playwright.sync_api import sync_playwright
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,6 +42,47 @@ def screenshot(page, name):
     return path
 
 
+def gen_glitch_frame(src_path, out_name, intensity=1.0):
+    """Generate a glitch transition frame from a source screenshot.
+
+    Creates horizontal slice displacement, RGB channel offset,
+    and scanline corruption.
+    """
+    img = Image.open(src_path).convert('RGB')
+    w, h = img.size
+    pixels = img.load()
+
+    # 1) Horizontal slice displacement — shift random strips left/right
+    result = img.copy()
+    num_slices = random.randint(6, 14)
+    for _ in range(num_slices):
+        y = random.randint(0, h - 1)
+        slice_h = random.randint(2, int(30 * intensity))
+        shift = random.randint(int(-80 * intensity), int(80 * intensity))
+        strip = img.crop((0, y, w, min(y + slice_h, h)))
+        result.paste(strip, (shift, y))
+
+    # 2) RGB channel offset — shift red channel horizontally
+    r, g, b = result.split()
+    r_shift = random.randint(int(-6 * intensity), int(6 * intensity))
+    r = r.transform(r.size, Image.AFFINE, (1, 0, r_shift, 0, 1, 0))
+    result = Image.merge('RGB', (r, g, b))
+
+    # 3) Scanline corruption — black/green horizontal bars
+    draw = ImageDraw.Draw(result)
+    num_bars = random.randint(3, 8)
+    for _ in range(num_bars):
+        y = random.randint(0, h - 1)
+        bar_h = random.randint(1, 3)
+        color = random.choice([(0, 0, 0), (0, 255, 65, 40)])
+        draw.rectangle([(0, y), (w, y + bar_h)], fill=color[:3])
+
+    out_path = os.path.join(OUT_DIR, out_name)
+    result.save(out_path)
+    print(f'  {out_name} (glitch)')
+    return out_path
+
+
 TITLE_HTML = f'''<!DOCTYPE html>
 <html>
 <head>
@@ -66,24 +109,24 @@ TITLE_HTML = f'''<!DOCTYPE html>
     pointer-events: none;
   }}
   .title {{
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Courier Prime', monospace;
     font-size: 52px; font-weight: 700;
     color: #ff3333;
     letter-spacing: 6px;
     text-shadow: 0 0 20px rgba(255,51,51,0.5);
   }}
   .subtitle {{
-    font-family: 'VT323', monospace;
-    font-size: 22px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 32px;
     color: #00ff41;
     margin-top: 18px;
     letter-spacing: 4px;
   }}
   .bottom {{
-    font-family: 'VT323', monospace;
-    font-size: 16px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 28px;
     color: #337a33;
-    margin-top: 30px;
+    margin-top: 32px;
   }}
   .cursor {{
     color: #00ff41;
@@ -116,6 +159,10 @@ def gen_title_frames(browser):
     page.evaluate('document.querySelector(".cursor").classList.add("hidden")')
     screenshot(page, 'frame_002.png')
 
+    # Glitch transition: title → boot
+    gen_glitch_frame(os.path.join(OUT_DIR, 'frame_002.png'), 'frame_003.png', intensity=1.5)
+    gen_glitch_frame(os.path.join(OUT_DIR, 'frame_002.png'), 'frame_004.png', intensity=2.0)
+
     page.close()
     print('Title frames generated')
 
@@ -145,6 +192,9 @@ def capture_gameplay(browser):
     page.fill('#operator-input', 'OPERATOR-7')
     time.sleep(0.5)
     screenshot(page, 'frame_012.png')
+
+    # Glitch transition: boot → game
+    gen_glitch_frame(os.path.join(OUT_DIR, 'frame_012.png'), 'frame_013.png', intensity=1.2)
 
     # Boot and enter game
     page.click('#boot-submit')
@@ -177,6 +227,9 @@ def capture_gameplay(browser):
     time.sleep(5)
     screenshot(page, 'frame_042.png')
 
+    # Glitch transition: gameplay → phenomenon
+    gen_glitch_frame(os.path.join(OUT_DIR, 'frame_042.png'), 'frame_045.png', intensity=1.5)
+
     # === FRAME: Phenomenon ===
     print('Capturing phenomenon...')
     page.evaluate('''() => {
@@ -202,6 +255,9 @@ def capture_gameplay(browser):
     time.sleep(2)
     screenshot(page, 'frame_060.png')
 
+    # Glitch transition: SAT critical → dark mode
+    gen_glitch_frame(os.path.join(OUT_DIR, 'frame_060.png'), 'frame_065.png', intensity=2.0)
+
     # === FRAME: SAT 0 / dark mode ===
     page.evaluate('''() => {
         document.getElementById('sat-health').textContent = '0';
@@ -220,6 +276,9 @@ def capture_gameplay(browser):
         document.getElementById('bottom-bar').classList.remove('sat-dark-mode');
     }''')
     time.sleep(2)
+
+    # Glitch transition: → vessel death
+    gen_glitch_frame(os.path.join(OUT_DIR, 'frame_070.png'), 'frame_075.png', intensity=1.8)
 
     # === FRAME: Vessel death ===
     print('Capturing vessel death...')
@@ -271,11 +330,18 @@ def assemble_gif():
     print(f'Assembling {len(frames)} frames into GIF...')
 
     # Create a concat file with durations
+    # Glitch frame names (short flash durations)
+    glitch_names = {'frame_003.png', 'frame_004.png', 'frame_013.png',
+                    'frame_045.png', 'frame_065.png', 'frame_075.png'}
+
     concat_path = os.path.join(OUT_DIR, 'frames.txt')
     with open(concat_path, 'w') as f:
         for frame in frames:
             fpath = os.path.join(OUT_DIR, frame)
-            if frame.startswith('frame_00'):
+            if frame in glitch_names:
+                # Glitch transitions: quick flash
+                f.write(f"file '{fpath}'\nduration 0.12\n")
+            elif frame.startswith('frame_00'):
                 # Title cards: 1.5s
                 f.write(f"file '{fpath}'\nduration 1.5\n")
             elif frame.startswith('frame_01'):
