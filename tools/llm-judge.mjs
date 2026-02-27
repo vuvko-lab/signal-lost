@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// LLM-as-Judge: Evaluates and expands game narrative templates via DeepInfra API
+// LLM-as-Judge: Evaluates and expands game narrative templates via multi-provider LLM APIs
 // Usage: node tools/llm-judge.mjs [--expand] [--phase PHASE] [--culture CULTURE]
-// Models are rotated randomly each cycle: 1 generator + 2 judges from diverse pool
+// Models rotated randomly each cycle: 1 generator + 2 judges from diverse pool
+// Providers: DeepInfra + OpenRouter (free tier)
 
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -10,10 +11,10 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// Load API key from .env
+// Load keys from .env
 const envPath = join(ROOT, '.env');
 if (!existsSync(envPath)) {
-  console.error('Missing .env file. Create one with DEEPINFRA_API_KEY=your_key');
+  console.error('Missing .env file. Create one with DEEPINFRA_API_KEY and/or OPENROUTER_API_KEY');
   process.exit(1);
 }
 const envVars = Object.fromEntries(
@@ -21,40 +22,66 @@ const envVars = Object.fromEntries(
     .filter(l => l.includes('=') && !l.startsWith('#'))
     .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; })
 );
-const API_KEY = envVars.DEEPINFRA_API_KEY;
-if (!API_KEY) { console.error('DEEPINFRA_API_KEY not found in .env'); process.exit(1); }
 
-const API_URL = 'https://api.deepinfra.com/v1/openai/chat/completions';
+// Provider configs
+const PROVIDERS = {};
+if (envVars.DEEPINFRA_API_KEY) {
+  PROVIDERS.deepinfra = {
+    url: 'https://api.deepinfra.com/v1/openai/chat/completions',
+    key: envVars.DEEPINFRA_API_KEY,
+  };
+}
+if (envVars.OPENROUTER_API_KEY) {
+  PROVIDERS.openrouter = {
+    url: 'https://openrouter.ai/api/v1/chat/completions',
+    key: envVars.OPENROUTER_API_KEY,
+  };
+}
+if (Object.keys(PROVIDERS).length === 0) {
+  console.error('No API keys found. Set DEEPINFRA_API_KEY and/or OPENROUTER_API_KEY in .env');
+  process.exit(1);
+}
 
-// Model pools — diverse families for cross-validation
-const JUDGE_POOL = [
-  'google/gemma-3-27b-it',
-  'mistralai/Mistral-Small-3.2-24B-Instruct-2506',
-  'openai/gpt-oss-120b',
-  'Qwen/Qwen2.5-72B-Instruct',
-  'meta-llama/Llama-3.3-70B-Instruct-Turbo',
-  'deepseek-ai/DeepSeek-V3.2',
+// Model pool: each entry has { id, provider, label }
+// DeepInfra models (paid, reliable)
+const DEEPINFRA_MODELS = [
+  { id: 'google/gemma-3-27b-it', provider: 'deepinfra', label: 'Gemma 3 27B' },
+  { id: 'mistralai/Mistral-Small-3.2-24B-Instruct-2506', provider: 'deepinfra', label: 'Mistral Small 3.2' },
+  { id: 'openai/gpt-oss-120b', provider: 'deepinfra', label: 'GPT-OSS 120B' },
+  { id: 'Qwen/Qwen2.5-72B-Instruct', provider: 'deepinfra', label: 'Qwen 2.5 72B' },
+  { id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', provider: 'deepinfra', label: 'Llama 3.3 70B' },
+  { id: 'deepseek-ai/DeepSeek-V3.2', provider: 'deepinfra', label: 'DeepSeek V3.2' },
 ];
 
-const GEN_POOL = [
-  'google/gemma-3-27b-it',
-  'mistralai/Mistral-Small-3.2-24B-Instruct-2506',
-  'openai/gpt-oss-120b',
-  'meta-llama/Llama-3.3-70B-Instruct-Turbo',
-  'Qwen/Qwen3-32B',
-  'deepseek-ai/DeepSeek-V3.2',
+// OpenRouter free models (no cost, may have rate limits)
+const OPENROUTER_MODELS = [
+  { id: 'google/gemma-3-27b-it:free', provider: 'openrouter', label: 'Gemma 3 27B (OR)' },
+  { id: 'meta-llama/llama-3.3-70b-instruct:free', provider: 'openrouter', label: 'Llama 3.3 70B (OR)' },
+  { id: 'mistralai/mistral-small-3.1-24b-instruct:free', provider: 'openrouter', label: 'Mistral Small 3.1 (OR)' },
+  { id: 'nousresearch/hermes-3-llama-3.1-405b:free', provider: 'openrouter', label: 'Hermes 3 405B (OR)' },
+  { id: 'openai/gpt-oss-120b:free', provider: 'openrouter', label: 'GPT-OSS 120B (OR)' },
+  { id: 'qwen/qwen3-coder:free', provider: 'openrouter', label: 'Qwen3 Coder 480B (OR)' },
+  { id: 'nvidia/nemotron-3-nano-30b-a3b:free', provider: 'openrouter', label: 'Nemotron Nano 30B (OR)' },
+  { id: 'stepfun/step-3.5-flash:free', provider: 'openrouter', label: 'Step 3.5 Flash (OR)' },
+  { id: 'qwen/qwen3-next-80b-a3b-instruct:free', provider: 'openrouter', label: 'Qwen3 Next 80B (OR)' },
+];
+
+// Build available pool based on which providers have keys
+const ALL_MODELS = [
+  ...(PROVIDERS.deepinfra ? DEEPINFRA_MODELS : []),
+  ...(PROVIDERS.openrouter ? OPENROUTER_MODELS : []),
 ];
 
 function pickRandom(arr, exclude = []) {
-  const pool = arr.filter(m => !exclude.includes(m));
+  const pool = arr.filter(m => !exclude.some(e => e.id === m.id));
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-// Select models for this run: 1 generator, 2 judges (all different families)
+// Select models: 1 generator, 2 judges (all different)
 function selectModels() {
-  const gen = pickRandom(GEN_POOL);
-  const judge1 = pickRandom(JUDGE_POOL, [gen]);
-  const judge2 = pickRandom(JUDGE_POOL, [gen, judge1]);
+  const gen = pickRandom(ALL_MODELS);
+  const judge1 = pickRandom(ALL_MODELS, [gen]);
+  const judge2 = pickRandom(ALL_MODELS, [gen, judge1]);
   return { gen, judges: [judge1, judge2] };
 }
 
@@ -128,17 +155,27 @@ function fillTemplate(template, phase, culture) {
   return text;
 }
 
-// Call DeepInfra API with retry + exponential backoff
-async function llmCall(model, messages, temperature = 0.7, maxRetries = 5) {
+// Call LLM API with retry + exponential backoff (supports DeepInfra + OpenRouter)
+async function llmCall(modelObj, messages, temperature = 0.7, maxRetries = 5) {
+  const provider = PROVIDERS[modelObj.provider];
+  if (!provider) throw new Error(`No API key for provider: ${modelObj.provider}`);
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${provider.key}`,
+  };
+  // OpenRouter requires HTTP-Referer
+  if (modelObj.provider === 'openrouter') {
+    headers['HTTP-Referer'] = 'https://signal.vuvko.net';
+    headers['X-Title'] = 'Signal Lost LLM Judge';
+  }
+
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const resp = await fetch(API_URL, {
+      const resp = await fetch(provider.url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_KEY}`,
-        },
-        body: JSON.stringify({ model, messages, temperature, max_tokens: 8000 }),
+        headers,
+        body: JSON.stringify({ model: modelObj.id, messages, temperature, max_tokens: 8000 }),
       });
       if (resp.status === 429 || resp.status === 503) {
         const wait = Math.min(2000 * Math.pow(2, attempt), 30000);
@@ -215,7 +252,7 @@ Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrap
   const parsed = [];
   for (let j = 0; j < judgeResults.length; j++) {
     const r = judgeResults[j];
-    const modelName = MODELS.judges[j].split('/').pop();
+    const modelName = MODELS.judges[j].label;
     if (r.status === 'rejected') {
       console.error(`  [${modelName}] failed: ${r.reason?.message}`);
       continue;
@@ -230,7 +267,7 @@ Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrap
       const end = text.lastIndexOf('}');
       if (start !== -1 && end !== -1) {
         const obj = JSON.parse(text.slice(start, end + 1));
-        obj._judge = MODELS.judges[j];
+        obj._judge = MODELS.judges[j].label;
         parsed.push(obj);
       }
     } catch (e) {
@@ -239,7 +276,7 @@ Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrap
   }
 
   if (parsed.length === 0) {
-    return { verdict: 'PARSE_ERROR', scores: [], _judges: MODELS.judges };
+    return { verdict: 'PARSE_ERROR', scores: [], _judges: MODELS.judges.map(m => m.label) };
   }
 
   // Merge: average scores across judges, union weak_spots and missing_themes
@@ -249,7 +286,7 @@ Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrap
     weak_spots: [...new Set(parsed.flatMap(p => p.weak_spots || []))],
     missing_themes: [...new Set(parsed.flatMap(p => p.missing_themes || []))],
     new_templates: [...new Set(parsed.flatMap(p => p.new_templates || []))],
-    _judges: MODELS.judges,
+    _judges: MODELS.judges.map(m => m.label),
   };
 
   // If both parsed, average the scores
@@ -348,8 +385,8 @@ let totalPass = 0;
 let totalFail = 0;
 
 console.log('=== SIGNAL LOST — LLM-AS-JUDGE ===');
-console.log(`Judges:    ${MODELS.judges.join(' + ')}`);
-console.log(`Generator: ${MODELS.gen}`);
+console.log(`Judges:    ${MODELS.judges.map(m => `${m.label} [${m.provider}]`).join(' + ')}`);
+console.log(`Generator: ${MODELS.gen.label} [${MODELS.gen.provider}]`);
 console.log(`Mode:        ${doExpand ? 'EVALUATE + EXPAND' : 'EVALUATE ONLY'}`);
 console.log(`Filters:     phase=${phaseFilter || 'all'} culture=${cultureFilter || 'all'}`);
 console.log('');
@@ -490,16 +527,16 @@ async function run() {
   console.log('=== SUMMARY ===');
   console.log(`PASS: ${totalPass}  NEEDS_WORK: ${totalFail}`);
   console.log(`Models used:`);
-  console.log(`  Judges:    ${MODELS.judges.join(' + ')}`);
-  console.log(`  Generator: ${MODELS.gen}`);
+  console.log(`  Judges:    ${MODELS.judges.map(m => `${m.label} [${m.provider}]`).join(' + ')}`);
+  console.log(`  Generator: ${MODELS.gen.label} [${MODELS.gen.provider}]`);
 
   // Save full results with model metadata
   const reportPath = join(ROOT, 'tools/judge-report.json');
   const report = {
     _meta: {
       timestamp: new Date().toISOString(),
-      judges: MODELS.judges,
-      generator: MODELS.gen,
+      judges: MODELS.judges.map(m => ({ id: m.id, provider: m.provider, label: m.label })),
+      generator: { id: MODELS.gen.id, provider: MODELS.gen.provider, label: MODELS.gen.label },
       pass: totalPass,
       needs_work: totalFail,
     },
