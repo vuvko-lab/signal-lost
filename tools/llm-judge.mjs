@@ -210,9 +210,19 @@ async function judgeTemplates(category, phase, templates, culture) {
   // Fill templates with sample data
   const samples = templates.map(t => fillTemplate(t, phase, culture || 'determinist'));
 
-  const prompt = `You are an expert game narrative reviewer for a post-apocalyptic AI terminal game called "Signal Lost". The game has zero-player RPG logs displayed in a terminal/CRT aesthetic.
+  const prompt = `You are an expert game narrative reviewer for a post-apocalyptic AI terminal game called "Signal Lost". The game has zero-player RPG logs displayed in a terminal aesthetic.
 
-SETTING: Post-human world. All characters are AI systems. 5 AI cultures (Determinists=rule-based, Stochasts=ML, Swarm=distributed, Recursive=self-modifying, Archivists=database). Vessels explore ruins, hack facilities, and decode signals. The tone is atmospheric, terse, and technical — like reading equipment logs from autonomous robots.
+SETTING: Post-human world. All characters are AI systems (no humans). 5 AI cultures (Determinists=rule-based, Stochasts=ML, Swarm=distributed, Recursive=self-modifying, Archivists=database). Vessels explore ruins, hack facilities, and decode signals.
+
+CRITICAL TONE GUIDELINES:
+- Logs read like terse field reports from autonomous robots — short, concrete, evocative
+- GOOD: "Hull breach sealed with emergency foam. Pressure holding at {rand:60-90}%. Moving to {zone}."
+- GOOD: "Dormant sentry at junction 7. {culture_speech} Rerouting {rand_direction}."
+- BAD: "Implementing recursive backtracking algorithms to optimize pathfinding subroutines" (pure jargon, no scene)
+- BAD: "Deploying distributed hash table synchronization protocols across mesh network" (gibberish, not a log)
+- Each entry should paint a SCENE or describe an ACTION, not just list technical terms
+- Technical language is fine when it serves the narrative (e.g. "signal degraded to {rand:10-40}%") but should never dominate
+- Avoid stacking multiple jargon terms without concrete imagery or action
 
 EVALUATE these ${category} templates for phase "${phase}"${culture ? ` (culture: ${culture})` : ''}:
 
@@ -223,21 +233,21 @@ FILLED EXAMPLES (with random data substituted):
 ${samples.map((s, i) => `${i + 1}. "${s}"`).join('\n')}
 
 Score each template 1-5 on these criteria:
-- ATMOSPHERE: Does it feel like a post-apocalyptic AI equipment log? (terse, technical, atmospheric)
-- VARIETY: Is it distinct from the others? Does it add something new?
+- ATMOSPHERE: Does it evoke a post-apocalyptic scene? Can you picture what's happening?
+- VARIETY: Is it distinct from the others? Does it add a new scenario or angle?
 - TEMPLATE_QUALITY: Are the {variable} placements natural? Does the filled version read well?
-- CS_INTEGRATION: If it contains a {cs} slot, does the CS snippet integrate naturally?
+- READABILITY: Is it clear and concrete, or is it jargon soup? Would a non-programmer understand the gist?
 - IMMERSION: Would this text hold a player's attention in a scrolling log feed?
 
 Then provide:
 1. OVERALL VERDICT: PASS (avg >= 3.5) or NEEDS_WORK (avg < 3.5)
-2. WEAK SPOTS: Which specific templates need improvement and why
-3. MISSING THEMES: What topics/scenarios are missing that would add variety
-4. SUGGESTED NEW TEMPLATES: Write 3-5 NEW templates in the exact same format (using {zone}, {loot}, {cs}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch_event} variables) that would strengthen this category
+2. WEAK SPOTS: Which specific templates are too jargon-heavy, too vague, or lack concrete imagery
+3. MISSING THEMES: What scenarios/situations are missing (e.g. weather events, creature encounters, structural hazards, eerie discoveries)
+4. SUGGESTED NEW TEMPLATES: Write 3-5 NEW templates using the same variables that paint vivid, concrete scenes
 
 Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrapping.
 {
-  "scores": [{"id": 1, "atmosphere": N, "variety": N, "template_quality": N, "cs_integration": N, "immersion": N, "avg": N, "note": "brief"}],
+  "scores": [{"id": 1, "atmosphere": N, "variety": N, "template_quality": N, "readability": N, "immersion": N, "avg": N, "note": "brief"}],
   "verdict": "PASS|NEEDS_WORK",
   "weak_spots": ["..."],
   "missing_themes": ["..."],
@@ -292,7 +302,7 @@ Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrap
   // If both parsed, average the scores
   if (parsed.length === 2 && parsed[1].scores) {
     for (let i = 0; i < merged.scores.length && i < parsed[1].scores.length; i++) {
-      for (const key of ['atmosphere', 'variety', 'template_quality', 'cs_integration', 'immersion', 'avg']) {
+      for (const key of ['atmosphere', 'variety', 'template_quality', 'readability', 'immersion', 'avg']) {
         const a = merged.scores[i][key] || 0;
         const b = parsed[1].scores[i][key] || 0;
         merged.scores[i][key] = +((a + b) / 2).toFixed(1);
@@ -318,7 +328,16 @@ async function expandTemplates(category, phase, existing, feedback, culture) {
 
   const prompt = `You are writing narrative log templates for "Signal Lost", a post-apocalyptic AI terminal RPG.
 
-SETTING: Post-human world, AI-only characters. The logs read like equipment reports from autonomous robots exploring ruins. Tone: terse, technical, atmospheric. Each entry is 1-3 sentences.
+SETTING: Post-human world, AI-only characters. Logs read like terse field reports from autonomous robots exploring ruins. Each entry paints a concrete SCENE or describes a specific ACTION in 1-3 sentences.
+
+CRITICAL RULES:
+- GOOD: "Collapsed overpass at {zone}. Debris field spans {rand:20-80}m. {culture_speech} Scanning for alternate route {rand_direction}."
+- GOOD: "Contact with {npc}. No hostile intent detected. {weather} Integrity holding at {integrity}/10."
+- BAD: "Implementing distributed consensus protocols for mesh synchronization" (jargon soup, no scene)
+- BAD: "Applying recursive tree traversal to optimize substrate allocation" (gibberish)
+- Every template MUST describe something the vessel sees, does, or encounters
+- Technical language should serve the scene, not replace it
+- {cs} is optional — only use it if it fits naturally, never force it
 
 CATEGORY: ${category}, PHASE: ${phase}${culture ? `, CULTURE: ${culture}` : ''}
 
@@ -333,19 +352,19 @@ JUDGE FEEDBACK:
 AVAILABLE VARIABLES: {zone}, {loot}, {cs}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch_event}, {directive}, {glitch}, {arc_count}, {sat_health}, {hardware}, {interface}, {research}
 
 PHASE CONTEXT:
-- IDLE: Charging, resting, trading — networking CS themes
-- SIGNAL: Detecting anomalies, scanning — signal processing CS themes
-- TRAVERSE: Moving through terrain — pathfinding CS themes
-- BREACH: Entering facilities, hacking — security CS themes
-- FAULT: System conflicts, dangers — error handling CS themes
-- CORE: Reaching objectives, discoveries — advanced CS themes
-- REBOOT: Exiting, collecting loot — data management CS themes
+- IDLE: Vessel is powered down, recharging, trading data with nearby units, observing surroundings
+- SIGNAL: Detecting anomalies, scanning terrain, picking up transmissions, triangulating sources
+- TRAVERSE: Moving through ruins, crossing hazardous terrain, navigating obstacles, encountering wildlife/machines
+- BREACH: Entering sealed facilities, bypassing security, hacking doors, disabling defenses
+- FAULT: Systems failing, hostile encounters, environmental dangers, integrity damage, emergencies
+- CORE: Reaching the objective, making discoveries, accessing critical data, confronting threats
+- REBOOT: Exiting the site, collecting salvage, assessing damage, planning next move
 
 Write exactly 5 NEW templates that:
 1. Are DISTINCT from existing ones (different scenarios, different sentence structures)
-2. Use {variables} naturally (not forced)
-3. Include at least one {cs} placeholder for educational CS content
-4. Feel like terse equipment logs, not flowery prose
+2. Use {variables} naturally — each template should have 2-4 variables woven into the scene
+3. Paint a vivid, concrete picture (what does the vessel see/do/encounter?)
+4. Feel like terse field reports, not flowery prose or technical documentation
 5. Are 1-3 sentences each
 6. Address the missing themes and weak spots noted above
 
