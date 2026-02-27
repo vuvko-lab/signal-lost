@@ -1131,6 +1131,9 @@ html, body {
   text-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
 }
 
+.tagline-link { color: inherit; text-decoration: underline; }
+.tagline-link:hover { color: inherit; }
+
 .about-section {
   margin-top: 14px;
   padding-top: 10px;
