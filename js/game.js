@@ -118,32 +118,56 @@ export function createVessel() {
     designation = pick(DESIGNATIONS);
   } while (usedNames.includes(designation));
 
-  // Ego recruitment: new egos share something with an existing ego
+  // Ego recruitment: new egos share something with an existing ego,
+  // but faction diversity is weighted — under-represented factions preferred
   let culture, zone, directive, recruitLink = null;
   const existing = state.vessels.filter(v => v.designation !== designation);
 
   if (existing.length > 0) {
     const anchor = pick(existing);
-    // Pick a link type: faction (50%), location (30%), directive (20%)
+
+    // Count faction representation among existing vessels
+    const factionCounts = {};
+    for (const f of state.world.factions) factionCounts[f] = 0;
+    for (const v of existing) factionCounts[v.culture] = (factionCounts[v.culture] || 0) + 1;
+
+    // Build weighted faction pool — under-represented factions get higher weight
+    const maxCount = Math.max(...Object.values(factionCounts), 1);
+    const factionWeights = state.world.factions.map(f => ({
+      faction: f,
+      weight: maxCount + 1 - (factionCounts[f] || 0),
+    }));
+    const totalFW = factionWeights.reduce((s, fw) => s + fw.weight, 0);
+
+    function pickWeightedFaction() {
+      let r = Math.random() * totalFW;
+      for (const fw of factionWeights) {
+        r -= fw.weight;
+        if (r <= 0) return fw.faction;
+      }
+      return factionWeights[factionWeights.length - 1].faction;
+    }
+
+    // Pick link type: location (35%), directive (30%), faction (35%)
     const roll = Math.random();
-    if (roll < 0.5) {
+    if (roll < 0.35) {
+      // Same location — detected nearby
+      culture = pickWeightedFaction();
+      zone = anchor.locationData;
+      directive = pick(DIRECTIVES);
+      recruitLink = { type: 'location', anchorId: anchor.id, anchorName: anchor.designation, shared: zone.name };
+    } else if (roll < 0.65) {
+      // Same directive — parallel mission
+      culture = pickWeightedFaction();
+      zone = pick(state.world.zones);
+      directive = anchor.directive;
+      recruitLink = { type: 'directive', anchorId: anchor.id, anchorName: anchor.designation, shared: directive };
+    } else {
       // Same faction — recruited through cultural network
       culture = anchor.culture;
       zone = pick(state.world.zones);
       directive = pick(DIRECTIVES);
       recruitLink = { type: 'faction', anchorId: anchor.id, anchorName: anchor.designation, shared: CULTURES[culture].name };
-    } else if (roll < 0.8) {
-      // Same location — detected nearby
-      culture = pick(state.world.factions);
-      zone = anchor.locationData;
-      directive = pick(DIRECTIVES);
-      recruitLink = { type: 'location', anchorId: anchor.id, anchorName: anchor.designation, shared: zone.name };
-    } else {
-      // Same directive — parallel mission
-      culture = pick(state.world.factions);
-      zone = pick(state.world.zones);
-      directive = anchor.directive;
-      recruitLink = { type: 'directive', anchorId: anchor.id, anchorName: anchor.designation, shared: directive };
     }
   } else {
     culture = pick(state.world.factions);
