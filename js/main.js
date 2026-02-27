@@ -273,10 +273,21 @@ function setupAddVessel() {
     addVesselTab(vessel);
     switchToVesselTab(vessel.id);
 
-    // Add initial log entry
+    // Add initial log entry with recruitment context
+    let recruitText = '';
+    if (vessel.recruitLink) {
+      const link = vessel.recruitLink;
+      if (link.type === 'faction') {
+        recruitText = ` Recruited via ${link.shared} cultural network — ${link.anchorName} flagged this ego on faction mesh.`;
+      } else if (link.type === 'location') {
+        recruitText = ` Detected near ${link.shared} — ${link.anchorName} reported secondary signal at same coordinates.`;
+      } else if (link.type === 'directive') {
+        recruitText = ` Shares directive with ${link.anchorName}: "${link.shared}" Parallel mission acknowledged.`;
+      }
+    }
     const entry = {
       time: new Date().toTimeString().slice(0, 8),
-      text: `New signal acquired. ${vessel.designation} — ${vessel.chassis.size} ${vessel.chassis.locomotion} ${vessel.chassis.type}. Culture: ${vessel.culture}. Directive: "${vessel.directive}" Glitch: ${vessel.glitch}.`,
+      text: `New signal acquired. ${vessel.designation} — ${vessel.chassis.size} ${vessel.chassis.locomotion} ${vessel.chassis.type}. Culture: ${vessel.culture}. Directive: "${vessel.directive}" Glitch: ${vessel.glitch}.${recruitText}`,
       phase: 'IDLE',
       isEvent: false,
     };

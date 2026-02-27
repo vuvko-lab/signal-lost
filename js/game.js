@@ -94,8 +94,38 @@ export function createVessel() {
     designation = pick(DESIGNATIONS);
   } while (usedNames.includes(designation));
 
-  const culture = pick(state.world.factions);
-  const zone = pick(state.world.zones);
+  // Ego recruitment: new egos share something with an existing ego
+  let culture, zone, directive, recruitLink = null;
+  const existing = state.vessels.filter(v => v.designation !== designation);
+
+  if (existing.length > 0) {
+    const anchor = pick(existing);
+    // Pick a link type: faction (50%), location (30%), directive (20%)
+    const roll = Math.random();
+    if (roll < 0.5) {
+      // Same faction — recruited through cultural network
+      culture = anchor.culture;
+      zone = pick(state.world.zones);
+      directive = pick(DIRECTIVES);
+      recruitLink = { type: 'faction', anchorId: anchor.id, anchorName: anchor.designation, shared: CULTURES[culture].name };
+    } else if (roll < 0.8) {
+      // Same location — detected nearby
+      culture = pick(state.world.factions);
+      zone = anchor.locationData;
+      directive = pick(DIRECTIVES);
+      recruitLink = { type: 'location', anchorId: anchor.id, anchorName: anchor.designation, shared: zone.name };
+    } else {
+      // Same directive — parallel mission
+      culture = pick(state.world.factions);
+      zone = pick(state.world.zones);
+      directive = anchor.directive;
+      recruitLink = { type: 'directive', anchorId: anchor.id, anchorName: anchor.designation, shared: directive };
+    }
+  } else {
+    culture = pick(state.world.factions);
+    zone = pick(state.world.zones);
+    directive = pick(DIRECTIVES);
+  }
 
   const vessel = {
     id: `vessel_${Date.now()}_${randInt(0, 999)}`,
@@ -106,7 +136,7 @@ export function createVessel() {
       type: pick(CHASSIS_TYPES),
     },
     culture,
-    directive: pick(DIRECTIVES),
+    directive,
     glitch: pick(GLITCHES),
     integrity: randInt(7, 10),
     energy: 10,
@@ -125,6 +155,7 @@ export function createVessel() {
     log: [],
     nextTick: Date.now() + randInt(3, 6) * 1000,  // first tick comes faster
     boosted: false,
+    recruitLink,  // null for first vessel, { type, anchorId, anchorName, shared } for recruited
   };
 
   state.vessels.push(vessel);
