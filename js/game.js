@@ -98,6 +98,46 @@ let onStatsChange = null;  // callback: (vesselId) => void
 let onGlobalEvent = null;  // callback: (phenomenon) => void
 let onVesselDestroyed = null;  // callback: (vesselId) => void
 
+// === ZONE SELECTION ===
+
+// Pick a zone weighted by vessel proximity (faction competition flavor).
+// Zones with more vessels nearby get higher weight — vessels cluster.
+function pickContestableZone(vessel, zones) {
+  if (!state || !zones || zones.length === 0) return pick(zones || state.world.zones);
+
+  const others = state.vessels.filter(v => v.id !== vessel.id);
+  if (others.length === 0) return pick(zones);
+
+  // Count how many vessels are at each zone
+  const zoneCounts = {};
+  for (const z of zones) {
+    zoneCounts[z.label] = 0;
+  }
+  for (const v of others) {
+    if (zoneCounts[v.location] !== undefined) {
+      zoneCounts[v.location]++;
+    }
+  }
+
+  // Weight: zones with vessels get 3x, zones adjacent (same type) get 2x, empty zones get 1x
+  const otherZoneTypes = new Set(others.map(v => v.locationData?.type).filter(Boolean));
+  const weights = zones.map(z => {
+    let w = 1;
+    if (zoneCounts[z.label] > 0) w = 3;  // other vessel present — faction competition
+    else if (otherZoneTypes.has(z.type)) w = 2;  // same type zone — similar interest
+    return w;
+  });
+
+  // Weighted random pick
+  const total = weights.reduce((a, b) => a + b, 0);
+  let roll = Math.random() * total;
+  for (let i = 0; i < zones.length; i++) {
+    roll -= weights[i];
+    if (roll <= 0) return zones[i];
+  }
+  return zones[zones.length - 1];
+}
+
 // === STATE CREATION ===
 
 export function createWorld(operatorId) {
@@ -710,12 +750,12 @@ export function tick(vessel) {
         vessel.location = target.label;
         vessel.locationData = target;
       } else {
-        const newZone = pick(state.world.zones);
+        const newZone = pickContestableZone(vessel, state.world.zones);
         vessel.location = newZone.label;
         vessel.locationData = newZone;
       }
     } else {
-      const newZone = pick(state.world.zones);
+      const newZone = pickContestableZone(vessel, state.world.zones);
       vessel.location = newZone.label;
       vessel.locationData = newZone;
     }
@@ -857,7 +897,12 @@ function advancePhase(vessel) {
       }
     }
 
-    // 5. Free exploration — default (no special mission flags set)
+    // 5. Free exploration — pick contestable zone (faction competition)
+    if (!assigned) {
+      const target = pickContestableZone(vessel, state.world.zones);
+      vessel.location = target.label;
+      vessel.locationData = target;
+    }
   }
 
   if (onPhaseChange) onPhaseChange(vessel.id, nextPhase);

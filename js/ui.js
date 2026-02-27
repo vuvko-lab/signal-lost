@@ -21,6 +21,85 @@ const PHASE_ICONS = {
   REBOOT: 'assets/icons/wrench.png',
 };
 
+// === IN-GAME DIALOG ===
+
+export function gameAlert(message) {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById('dialog-overlay');
+    const text = document.getElementById('dialog-text');
+    const input = document.getElementById('dialog-input');
+    const buttons = document.getElementById('dialog-buttons');
+
+    text.textContent = message;
+    input.classList.add('hidden');
+    buttons.innerHTML = '<button class="dialog-btn dialog-primary">OK</button>';
+    overlay.classList.remove('hidden');
+
+    buttons.querySelector('.dialog-btn').addEventListener('click', () => {
+      overlay.classList.add('hidden');
+      resolve();
+    }, { once: true });
+  });
+}
+
+export function gameConfirm(message) {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById('dialog-overlay');
+    const text = document.getElementById('dialog-text');
+    const input = document.getElementById('dialog-input');
+    const buttons = document.getElementById('dialog-buttons');
+
+    text.textContent = message;
+    input.classList.add('hidden');
+    buttons.innerHTML = `
+      <button class="dialog-btn dialog-danger" data-result="cancel">CANCEL</button>
+      <button class="dialog-btn dialog-primary" data-result="ok">CONFIRM</button>
+    `;
+    overlay.classList.remove('hidden');
+
+    buttons.querySelectorAll('.dialog-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        overlay.classList.add('hidden');
+        resolve(btn.dataset.result === 'ok');
+      }, { once: true });
+    });
+  });
+}
+
+export function gamePrompt(message, placeholder) {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById('dialog-overlay');
+    const text = document.getElementById('dialog-text');
+    const input = document.getElementById('dialog-input');
+    const buttons = document.getElementById('dialog-buttons');
+
+    text.textContent = message;
+    input.classList.remove('hidden');
+    input.value = '';
+    input.placeholder = placeholder || '';
+    buttons.innerHTML = `
+      <button class="dialog-btn" data-result="cancel">CANCEL</button>
+      <button class="dialog-btn dialog-primary" data-result="ok">SEND</button>
+    `;
+    overlay.classList.remove('hidden');
+    input.focus();
+
+    const submit = (result) => {
+      overlay.classList.add('hidden');
+      resolve(result === 'ok' ? input.value : null);
+    };
+
+    buttons.querySelectorAll('.dialog-btn').forEach(btn => {
+      btn.addEventListener('click', () => submit(btn.dataset.result), { once: true });
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submit('ok');
+      if (e.key === 'Escape') submit('cancel');
+    }, { once: true });
+  });
+}
+
 // === BOOT SCREEN ===
 
 const BOOT_LINES = [
@@ -198,14 +277,14 @@ export function createVesselColumn(vessel) {
   });
 
   // Wire disconnect button
-  col.querySelector('.vessel-disconnect').addEventListener('click', (e) => {
+  col.querySelector('.vessel-disconnect').addEventListener('click', async (e) => {
     e.stopPropagation();
     const state = getState();
     if (state.vessels.length <= 1) {
-      alert('Cannot disconnect last vessel.');
+      await gameAlert('Cannot disconnect last vessel.');
       return;
     }
-    if (!confirm(`Disconnect from ${vessel.designation}? Signal will be lost.`)) return;
+    if (!await gameConfirm(`Disconnect from ${vessel.designation}? Signal will be lost.`)) return;
 
     removeVessel(vessel.id);
     removeVesselColumn(vessel.id);
@@ -235,12 +314,37 @@ export function createVesselColumn(vessel) {
   return col;
 }
 
+function highlightLogText(text) {
+  // Tags like [LOOT], [MESH], [THREAT], [ARC], [OPERATOR BOOST], etc.
+  text = text.replace(/\[([A-Z][A-Z /]+)\]/g, '<span class="hl-tag">[$1]</span>');
+
+  // Stat values: X/10, X/5, +N skill bonuses
+  text = text.replace(/(\d+)\/10/g, '<span class="hl-stat">$1/10</span>');
+  text = text.replace(/(\d+)\/5/g, '<span class="hl-stat">$1/5</span>');
+  text = text.replace(/\+(\d+)/g, '<span class="hl-bonus">+$1</span>');
+
+  // Items after "Found:" up to the next period
+  text = text.replace(/Found: ([^.]+)\./g, 'Found: <span class="hl-item">$1</span>.');
+
+  // Quoted speech (culture voice)
+  text = text.replace(/'([^']+)'/g, '\'<span class="hl-speech">$1</span>\'');
+  text = text.replace(/"([^"]+)"/g, '"<span class="hl-speech">$1</span>"');
+
+  // Confidence percentages
+  text = text.replace(/Confidence: (\d+)%/g, 'Confidence: <span class="hl-stat">$1%</span>');
+
+  // Vessel designations (WORD-NUMBER pattern)
+  text = text.replace(/\b([A-Z]{2,}-\d+)\b/g, '<span class="hl-vessel">$1</span>');
+
+  return text;
+}
+
 function appendLogEntryDOM(container, entry) {
   const div = document.createElement('div');
   let cls = 'log-entry';
   if (entry.isEvent) cls += ' event-entry glitch-entry';
   div.className = cls;
-  div.innerHTML = `<span class="timestamp">[${entry.time}]</span> ${entry.text}`;
+  div.innerHTML = `<span class="timestamp">[${entry.time}]</span> ${highlightLogText(entry.text)}`;
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }

@@ -31,6 +31,7 @@
       <div id="banner-right">
         <button id="font-down-btn" title="Decrease font size">A-</button>
         <button id="font-up-btn" title="Increase font size">A+</button>
+        <button id="about-btn" title="About this game">?</button>
         <button id="config-btn" title="Table configuration">CFG</button>
         <button id="crt-toggle-btn" title="Toggle CRT effect">CRT</button>
         <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
@@ -73,6 +74,52 @@
     <!-- Tooltip overlay -->
     <div id="tooltip" class="hidden"></div>
 
+    <!-- In-game dialog (replaces browser alert/confirm/prompt) -->
+    <div id="dialog-overlay" class="hidden">
+      <div id="dialog-panel">
+        <div id="dialog-text"></div>
+        <input type="text" id="dialog-input" class="hidden" autocomplete="off">
+        <div id="dialog-buttons"></div>
+      </div>
+    </div>
+
+    <!-- About overlay -->
+    <div id="about-overlay" class="hidden">
+      <div id="about-panel">
+        <div id="about-header">
+          <span>SIGNAL LOST</span>
+          <button id="about-close">&times;</button>
+        </div>
+        <div id="about-body">
+          <p class="about-tagline">A zero-player RPG set in a post-human world.</p>
+          <p>You are an operator — a passive observer monitoring autonomous AI vessels as they explore, fight, and unravel the mysteries of a world where humanity has gone silent. The vessels act on their own. You can only watch, boost their signal, and hope they survive.</p>
+          <p>Five AI cultures — Determinists, Stochasts, Swarm, Recursive, and Archivists — compete and cooperate across ruined cities, orbital stations, and underground reactors. Each vessel carries an ego shaped by its faction, directive, and glitches.</p>
+          <div class="about-section">
+            <span class="about-section-title">DEVELOPER</span>
+            <p><a href="https://vuvko.itch.io" target="_blank" rel="noopener">vuvko.itch.io</a></p>
+          </div>
+          <div class="about-section">
+            <span class="about-section-title">ATTRIBUTIONS</span>
+            <p>Contains material adapted from <a href="https://eclipsephase.com" target="_blank" rel="noopener">Eclipse Phase</a> by Posthuman Studios — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></p>
+          </div>
+          <div class="about-section">
+            <span class="about-section-title">THANKS</span>
+            <ul class="about-thanks">
+              <li>Glitch Noises (WAV) by Vladislav Zharkov — CC0 (credits@vladislavzh.net)</li>
+              <li>Game UI Collection by SunGraphica — Free</li>
+              <li>Icon Set by SunGraphica — Free</li>
+              <li>Monogram font by datagoblin — CC0</li>
+              <li>VT323, IBM Plex Mono — Google Fonts, SIL OFL 1.1</li>
+            </ul>
+          </div>
+          <div class="about-section">
+            <span class="about-section-title">MADE FOR</span>
+            <p><a href="https://itch.io/jam/ai-apocalyptic-dark-fantasy-jam-" target="_blank" rel="noopener">AI Apocalyptic Dark Fantasy Jam</a> on itch.io</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Config screen overlay -->
     <div id="config-overlay" class="hidden">
       <div id="config-panel">
@@ -105,9 +152,9 @@
     </div>
   </div>
 
-  <!-- Attribution -->
-  <div id="credits" style="position:fixed;bottom:2px;right:8px;font-size:0.65rem;opacity:0.3;color:var(--green);font-family:var(--font-ui);pointer-events:auto;">
-    Contains material adapted from <a href="https://eclipsephase.com" style="color:inherit;" target="_blank">Eclipse Phase</a> by Posthuman Studios — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color:inherit;" target="_blank">CC BY-NC-SA 4.0</a>
+  <!-- Attribution link -->
+  <div id="credits">
+    <a href="https://vuvko.itch.io" target="_blank" rel="noopener">vuvko</a> · <a href="#" id="credits-about-link">about</a>
   </div>
 
   <script type="module" src="js/main.js"></script>

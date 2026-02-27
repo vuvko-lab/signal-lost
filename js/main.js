@@ -13,6 +13,7 @@ import {
   getSelectedVesselId, setupTooltips, updateObjective,
   addVesselTab, switchToVesselTab, setupMobileResize,
   updateDarkMode, removeVesselColumn, removeVesselTab,
+  gameAlert, gameConfirm, gamePrompt,
 } from './ui.js';
 
 import { initAudio } from './audio.js';
@@ -164,14 +165,14 @@ function setupCommands() {
     if (result && !result.success && result.reason === 'sat') flashSatFailure();
   });
 
-  injectBtn.addEventListener('click', () => {
+  injectBtn.addEventListener('click', async () => {
     const vid = getTargetVessel();
     if (!vid || cooldowns.inject > Date.now()) return;
     if (getSatHealth() === 0) {
       flashSatFailure();
       return;
     }
-    const msg = prompt('Enter transmission message:');
+    const msg = await gamePrompt('Enter transmission message:', 'Message text...');
     if (msg === null) return;
     const result = injectCommand(vid, msg);
     cooldowns.inject = Date.now() + 120000;
@@ -278,10 +279,10 @@ function applyFontScale(scale) {
 // === ADD VESSEL ===
 
 function setupAddVessel() {
-  document.getElementById('add-vessel-btn').addEventListener('click', () => {
+  document.getElementById('add-vessel-btn').addEventListener('click', async () => {
     const state = getState();
     if (state.vessels.length >= 4) {
-      alert('Maximum 4 vessel feeds.');
+      await gameAlert('Maximum 4 vessel feeds.');
       return;
     }
     const vessel = createVessel();
@@ -310,6 +311,28 @@ function setupAddVessel() {
     vessel.log.push(entry);
     appendLogEntry(vessel.id, entry);
   });
+}
+
+// === ABOUT SCREEN ===
+
+function setupAboutScreen() {
+  const overlay = document.getElementById('about-overlay');
+  const closeBtn = document.getElementById('about-close');
+  const aboutBtn = document.getElementById('about-btn');
+  const creditsLink = document.getElementById('credits-about-link');
+
+  aboutBtn.addEventListener('click', () => overlay.classList.remove('hidden'));
+  closeBtn.addEventListener('click', () => overlay.classList.add('hidden'));
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.add('hidden');
+  });
+
+  if (creditsLink) {
+    creditsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      overlay.classList.remove('hidden');
+    });
+  }
 }
 
 // === TABLE CONFIG ===
@@ -382,13 +405,13 @@ function setupConfigScreen() {
     const file = importFile.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       const result = importTables(reader.result);
       if (result.success) {
         renderTableList();
-        alert(`Imported ${result.imported} tables (version: ${result.version})`);
+        await gameAlert(`Imported ${result.imported} tables (version: ${result.version})`);
       } else {
-        alert(`Import failed: ${result.error}`);
+        await gameAlert(`Import failed: ${result.error}`);
       }
     };
     reader.readAsText(file);
@@ -396,8 +419,8 @@ function setupConfigScreen() {
   });
 
   // Reset all
-  resetAllBtn.addEventListener('click', () => {
-    if (!confirm('Reset ALL tables to defaults? Custom changes will be lost.')) return;
+  resetAllBtn.addEventListener('click', async () => {
+    if (!await gameConfirm('Reset ALL tables to defaults? Custom changes will be lost.')) return;
     resetAllTables();
     renderTableList();
   });
@@ -452,8 +475,8 @@ function setupConfigScreen() {
   });
 
   // Reset single table
-  editorReset.addEventListener('click', () => {
-    if (!confirm(`Reset ${currentEditTable} to default?`)) return;
+  editorReset.addEventListener('click', async () => {
+    if (!await gameConfirm(`Reset ${currentEditTable} to default?`)) return;
     resetTable(currentEditTable);
     editorTextarea.value = JSON.stringify(getTable(currentEditTable), null, 2);
     editorStatus.textContent = 'Reset to default.';
@@ -502,6 +525,7 @@ async function init() {
     setupCRTToggle();
     setupFontSize();
     setupConfigScreen();
+    setupAboutScreen();
     setupTooltips();
     setupMobileResize();
     startGameLoop();
@@ -536,6 +560,7 @@ async function init() {
     setupCRTToggle();
     setupFontSize();
     setupConfigScreen();
+    setupAboutScreen();
     setupTooltips();
     setupMobileResize();
     startGameLoop();
