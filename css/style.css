@@ -60,9 +60,9 @@
   --text-dim: #337a33;
   --glow: rgba(0, 255, 65, 0.4);
   --glow-amber: rgba(255, 176, 0, 0.4);
-  --font-terminal: 'VT323', 'Monogram Extended', monospace;
-  --font-ui: 'IBM Plex Mono', 'Monogram Extended', monospace;
-  --font-pixel: 'Monogram Extended', 'Monogram', monospace;
+  --font-terminal: 'Courier Prime', monospace;
+  --font-ui: 'Courier New', monospace;
+  --font-pixel: 'Courier Prime', monospace;
   --font-scale: 1;
   --fs-base: calc(16px * var(--font-scale));
   --fs-title: calc(18px * var(--font-scale));
@@ -564,11 +564,11 @@ html, body {
    Fira Mono: (stands in for Input) customizable coding font — Recursive (self-modifying)
    Courier Prime: (stands in for X11) traditional, most readable — Archivists (old records)
 */
-.culture-determinist .vessel-log { font-family: 'Terminus', monospace; }
+/* .culture-determinist .vessel-log { font-family: 'Terminus', monospace; }
 .culture-stochast .vessel-log    { font-family: 'ProggyClean', monospace; font-size: calc(var(--fs-title) * 1.15); }
 .culture-swarm .vessel-log       { font-family: 'Dina', monospace; font-size: calc(var(--fs-title) * 1.1); }
 .culture-recursive .vessel-log   { font-family: 'Fira Mono', monospace; }
-.culture-archivist .vessel-log   { font-family: 'Courier Prime', 'Courier New', monospace; }
+.culture-archivist .vessel-log   { font-family: 'Courier Prime', 'Courier New', monospace; } */
 
 /* Font label indicator — shows which font is in use per vessel */
 .vessel-font-label {

@@ -1,19 +1,64 @@
 #!/usr/bin/env node
 // LLM-as-Judge: Evaluates and expands game narrative templates via DeepInfra API
 // Usage: node tools/llm-judge.mjs [--expand] [--phase PHASE] [--culture CULTURE]
+// Models are rotated randomly each cycle: 1 generator + 2 judges from diverse pool
 
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// DeepInfra config
-const API_KEY = 'WrVFkDKwVihBDwU8pdIBwDKNZFAXHhRd';
+// Load API key from .env
+const envPath = join(ROOT, '.env');
+if (!existsSync(envPath)) {
+  console.error('Missing .env file. Create one with DEEPINFRA_API_KEY=your_key');
+  process.exit(1);
+}
+const envVars = Object.fromEntries(
+  readFileSync(envPath, 'utf8').split('\n')
+    .filter(l => l.includes('=') && !l.startsWith('#'))
+    .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; })
+);
+const API_KEY = envVars.DEEPINFRA_API_KEY;
+if (!API_KEY) { console.error('DEEPINFRA_API_KEY not found in .env'); process.exit(1); }
+
 const API_URL = 'https://api.deepinfra.com/v1/openai/chat/completions';
-const JUDGE_MODEL = 'Qwen/Qwen2.5-72B-Instruct';
-const GEN_MODEL = 'meta-llama/Llama-3.3-70B-Instruct-Turbo';
+
+// Model pools — diverse families for cross-validation
+const JUDGE_POOL = [
+  'google/gemma-3-27b-it',
+  'mistralai/Mistral-Small-3.2-24B-Instruct-2506',
+  'openai/gpt-oss-120b',
+  'Qwen/Qwen2.5-72B-Instruct',
+  'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+  'deepseek-ai/DeepSeek-V3.2',
+];
+
+const GEN_POOL = [
+  'google/gemma-3-27b-it',
+  'mistralai/Mistral-Small-3.2-24B-Instruct-2506',
+  'openai/gpt-oss-120b',
+  'meta-llama/Llama-3.3-70B-Instruct-Turbo',
+  'Qwen/Qwen3-32B',
+  'deepseek-ai/DeepSeek-V3.2',
+];
+
+function pickRandom(arr, exclude = []) {
+  const pool = arr.filter(m => !exclude.includes(m));
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// Select models for this run: 1 generator, 2 judges (all different families)
+function selectModels() {
+  const gen = pickRandom(GEN_POOL);
+  const judge1 = pickRandom(JUDGE_POOL, [gen]);
+  const judge2 = pickRandom(JUDGE_POOL, [gen, judge1]);
+  return { gen, judges: [judge1, judge2] };
+}
+
+const MODELS = selectModels();
 
 // Import game data dynamically
 const dataPath = join(ROOT, 'js/data.js');
@@ -162,28 +207,69 @@ Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrap
   "new_templates": ["template string with {variables}..."]
 }`;
 
-  const result = await llmCall(JUDGE_MODEL, [
-    { role: 'user', content: prompt },
-  ], 0.3);
+  // Query both judges in parallel
+  const judgeResults = await Promise.allSettled(
+    MODELS.judges.map(model => llmCall(model, [{ role: 'user', content: prompt }], 0.3))
+  );
 
-  // Extract JSON from response (handle markdown code blocks)
-  let json;
-  try {
-    const jsonMatch = result.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, result];
-    // Try to find JSON object in the text
-    const text = jsonMatch[1] || result;
-    const start = text.indexOf('{');
-    const end = text.lastIndexOf('}');
-    if (start !== -1 && end !== -1) {
-      json = JSON.parse(text.slice(start, end + 1));
+  const parsed = [];
+  for (let j = 0; j < judgeResults.length; j++) {
+    const r = judgeResults[j];
+    const modelName = MODELS.judges[j].split('/').pop();
+    if (r.status === 'rejected') {
+      console.error(`  [${modelName}] failed: ${r.reason?.message}`);
+      continue;
     }
-  } catch (e) {
-    console.error(`  Failed to parse judge response for ${category}/${phase}: ${e.message}`);
-    console.error(`  Raw response (first 500 chars): ${result.slice(0, 500)}`);
-    json = { verdict: 'PARSE_ERROR', raw: result.slice(0, 1000) };
+    try {
+      const raw = r.value;
+      // Strip thinking tags (Qwen3 etc.)
+      const cleaned = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+      const jsonMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, cleaned];
+      const text = jsonMatch[1] || cleaned;
+      const start = text.indexOf('{');
+      const end = text.lastIndexOf('}');
+      if (start !== -1 && end !== -1) {
+        const obj = JSON.parse(text.slice(start, end + 1));
+        obj._judge = MODELS.judges[j];
+        parsed.push(obj);
+      }
+    } catch (e) {
+      console.error(`  [${modelName}] parse error: ${e.message}`);
+    }
   }
 
-  return json;
+  if (parsed.length === 0) {
+    return { verdict: 'PARSE_ERROR', scores: [], _judges: MODELS.judges };
+  }
+
+  // Merge: average scores across judges, union weak_spots and missing_themes
+  const merged = {
+    scores: parsed[0].scores || [],
+    verdict: 'PASS',
+    weak_spots: [...new Set(parsed.flatMap(p => p.weak_spots || []))],
+    missing_themes: [...new Set(parsed.flatMap(p => p.missing_themes || []))],
+    new_templates: [...new Set(parsed.flatMap(p => p.new_templates || []))],
+    _judges: MODELS.judges,
+  };
+
+  // If both parsed, average the scores
+  if (parsed.length === 2 && parsed[1].scores) {
+    for (let i = 0; i < merged.scores.length && i < parsed[1].scores.length; i++) {
+      for (const key of ['atmosphere', 'variety', 'template_quality', 'cs_integration', 'immersion', 'avg']) {
+        const a = merged.scores[i][key] || 0;
+        const b = parsed[1].scores[i][key] || 0;
+        merged.scores[i][key] = +((a + b) / 2).toFixed(1);
+      }
+    }
+  }
+
+  // Recalculate verdict from averaged scores
+  if (merged.scores.length > 0) {
+    const overallAvg = merged.scores.reduce((s, t) => s + (t.avg || 0), 0) / merged.scores.length;
+    merged.verdict = overallAvg >= 3.5 ? 'PASS' : 'NEEDS_WORK';
+  }
+
+  return merged;
 }
 
 // ============================================================
@@ -229,13 +315,15 @@ Write exactly 5 NEW templates that:
 Return ONLY a JSON array of 5 template strings. No explanation.
 ["template1...", "template2...", ...]`;
 
-  const result = await llmCall(GEN_MODEL, [
+  const result = await llmCall(MODELS.gen, [
     { role: 'user', content: prompt },
   ], 0.8);
 
   try {
-    const jsonMatch = result.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, result];
-    const text = jsonMatch[1] || result;
+    // Strip thinking tags (Qwen3 etc.)
+    const cleaned = result.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    const jsonMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, cleaned];
+    const text = jsonMatch[1] || cleaned;
     const start = text.indexOf('[');
     const end = text.lastIndexOf(']');
     if (start !== -1 && end !== -1) {
@@ -260,8 +348,8 @@ let totalPass = 0;
 let totalFail = 0;
 
 console.log('=== SIGNAL LOST — LLM-AS-JUDGE ===');
-console.log(`Judge model: ${JUDGE_MODEL}`);
-console.log(`Gen model:   ${GEN_MODEL}`);
+console.log(`Judges:    ${MODELS.judges.join(' + ')}`);
+console.log(`Generator: ${MODELS.gen}`);
 console.log(`Mode:        ${doExpand ? 'EVALUATE + EXPAND' : 'EVALUATE ONLY'}`);
 console.log(`Filters:     phase=${phaseFilter || 'all'} culture=${cultureFilter || 'all'}`);
 console.log('');
@@ -401,10 +489,23 @@ async function run() {
   // Summary
   console.log('=== SUMMARY ===');
   console.log(`PASS: ${totalPass}  NEEDS_WORK: ${totalFail}`);
+  console.log(`Models used:`);
+  console.log(`  Judges:    ${MODELS.judges.join(' + ')}`);
+  console.log(`  Generator: ${MODELS.gen}`);
 
-  // Save full results
+  // Save full results with model metadata
   const reportPath = join(ROOT, 'tools/judge-report.json');
-  writeFileSync(reportPath, JSON.stringify(results, null, 2));
+  const report = {
+    _meta: {
+      timestamp: new Date().toISOString(),
+      judges: MODELS.judges,
+      generator: MODELS.gen,
+      pass: totalPass,
+      needs_work: totalFail,
+    },
+    ...results,
+  };
+  writeFileSync(reportPath, JSON.stringify(report, null, 2));
   console.log(`Full report: ${reportPath}`);
 
   // Save new templates if expanding
