@@ -717,6 +717,33 @@ export const RELAY_LOOT = [
 'Solar-charged relay capacitor',
 ];
 
+// === INJECT MANIFESTATION TEMPLATES ===
+// {msg} = operator message, {zone} = current location
+// The operator's injected message manifests as something the vessel encounters.
+
+export const INJECT_MANIFESTATIONS = [
+  'Noticed faded graffiti on a collapsed wall in {zone}. Letters barely legible: "{msg}" Someone — or something — left this here.',
+  'Old billboard, half-shattered, still powered. Display cycles through static, then resolves: "{msg}" Source unknown. Logging.',
+  'Found a crumpled pamphlet wedged under debris. Ink smeared by rain but readable: "{msg}" Paper. Actual paper. Archaic.',
+  'Emergency broadcast terminal activated on approach. Automated voice, distorted: "{msg}" Transmission origin: cannot determine.',
+  'Scratched into the hull of a derelict vessel: "{msg}" The marks are fresh. Something was here recently.',
+  'Picked up short-range radio burst on {zone} local frequency. Decoded: "{msg}" Signal terminated. No reply on hail.',
+  'Display panel in abandoned control room flickered to life. Single line of text: "{msg}" Power source: unknown. Panel is not connected to anything.',
+  'Windblown sign, hanging by one bolt from a support beam. Reads: "{msg}" The sign is newer than the structure. Anomalous.',
+  'Discovered data chip in a pile of scrap. Contents: a single text string — "{msg}" No metadata. No author signature.',
+  'Pattern in the dust on a floor that hasn\'t been disturbed in decades. Traced by something: "{msg}" Wind patterns insufficient to explain.',
+  'Mesh node broadcast, unauthorized channel: "{msg}" Triangulation points to empty coordinates. Ghost signal.',
+  'Old warning placard, pre-Collapse standard issue, text overwritten: "{msg}" The original safety warning is illegible beneath it.',
+  'Half-destroyed sign nailed to a door frame. Most of the text is gone. What remains: "{msg}" ...context lost.',
+];
+
+// Relay-keyword variant: message nudges toward relay mission
+export const INJECT_RELAY_MANIFESTATIONS = [
+  'Emergency beacon near relay tower broadcasting on loop: "{msg}" The relay dish is visibly damaged. Acknowledged.',
+  'Service terminal at relay station displays priority override: "{msg}" Relay repair flagged as next-arc objective.',
+  'Found maintenance log pinned to relay access panel: "{msg}" Prior crew abandoned repairs. Resuming where they left.',
+];
+
 // === EGO INTERACTION TEMPLATES ===
 // {self} = current vessel designation, {other} = other vessel designation
 // {culture_speech} = current vessel's culture speech

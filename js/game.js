@@ -8,6 +8,7 @@ import {
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
   INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS, SKILL_LOOT,
   ARC_STRUCTURES, ARC_MODIFIERS, ENCOUNTER_THEMES,
+  INJECT_MANIFESTATIONS, INJECT_RELAY_MANIFESTATIONS,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -1182,13 +1183,20 @@ export function injectCommand(vesselId, message) {
   const relayKeywords = ['relay', 'repair', 'fix', 'uplink', 'satellite'];
   const hasRelayKeyword = relayKeywords.some(k => msg.toLowerCase().includes(k));
 
-  let text;
+  // Message manifests as something the vessel encounters in the world
+  let manifestation;
   if (hasRelayKeyword) {
     vessel.mission.relay_pending = true;
-    text = `[OPERATOR TRANSMISSION] "${msg}" — ${vessel.designation} responds: ${response} "Relay repair acknowledged. Will redirect on next mission arc."`;
+    manifestation = pick(INJECT_RELAY_MANIFESTATIONS);
   } else {
-    text = `[OPERATOR TRANSMISSION] "${msg}" — ${vessel.designation} responds: ${response} "Acknowledged."`;
+    manifestation = pick(INJECT_MANIFESTATIONS);
   }
+
+  // Fill the manifestation template
+  const text = manifestation
+    .replace(/\{msg\}/g, msg)
+    .replace(/\{zone\}/g, vessel.location)
+  + ` ${response} "Acknowledged."`;
 
   const entry = {
     time: formatTime(Date.now()),
