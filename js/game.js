@@ -750,7 +750,7 @@ export function checkGlobalEvent() {
   }
 
   // Schedule next event
-  state.global_events.next_event_at = Date.now() + randInt(120, 300) * 1000;
+  state.global_events.next_event_at = Date.now() + randInt(180, 420) * 1000;
 
   if (onGlobalEvent) onGlobalEvent(phenomenon);
 

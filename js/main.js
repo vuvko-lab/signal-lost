@@ -47,7 +47,7 @@ function startGameLoop() {
 }
 
 function scheduleSatDecay() {
-  const delay = (90 + Math.random() * 30) * 1000; // 90-120s
+  const delay = (180 + Math.random() * 120) * 1000; // 180-300s (3-5 min)
   satDecayInterval = setTimeout(() => {
     checkSatDecay();
     updateSatelliteHealth();
