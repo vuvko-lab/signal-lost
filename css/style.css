@@ -443,6 +443,18 @@ html, body {
   opacity: 0.7;
 }
 
+/* Faction priority mission objective — purple accent */
+.vessel-objective.faction-objective {
+  border-left: 3px solid var(--purple);
+  background: rgba(176, 96, 255, 0.03);
+  color: var(--purple);
+}
+
+.vessel-objective.faction-objective .obj-label {
+  color: var(--purple);
+  opacity: 0.7;
+}
+
 /* Vessel info row (directive + glitch) — collapsible */
 .vessel-info {
   border-bottom: 1px solid var(--border);

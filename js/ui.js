@@ -299,8 +299,11 @@ export function updateObjective(vesselId) {
   const vessel = getVessel(vesselId);
   const objective = getObjective(vesselId);
   const isRelay = vessel && vessel.mission.relay_mission;
-  objEl.innerHTML = `<span class="obj-label">${isRelay ? 'RELAY MISSION' : 'OBJECTIVE'}</span>${objective}`;
+  const isFaction = vessel && vessel.mission.faction_mission;
+  const label = isRelay ? 'RELAY MISSION' : isFaction ? 'FACTION MISSION' : 'OBJECTIVE';
+  objEl.innerHTML = `<span class="obj-label">${label}</span>${objective}`;
   objEl.classList.toggle('relay-objective', !!isRelay);
+  objEl.classList.toggle('faction-objective', !!isFaction);
 }
 
 // === TOP BANNER ===

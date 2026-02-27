@@ -6,7 +6,7 @@ import {
   LOOT, NPCS, WEATHER, OBSTACLES, CS_SNIPPETS, PHASE_TEMPLATES,
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
-  INTERACTION_TEMPLATES,
+  INTERACTION_TEMPLATES, FACTION_DESIRES,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -197,6 +197,7 @@ export function createVessel() {
       arc_count: 0,
       relay_mission: false,
       relay_pending: false,
+      faction_mission: null,  // { label, zone_type, objective } when on faction priority
     },
     log: [],
     nextTick: Date.now() + randInt(3, 6) * 1000,  // first tick comes faster
@@ -646,23 +647,25 @@ function advancePhase(vessel) {
 
   if (nextPhase === 'IDLE') {
     vessel.mission.arc_count++;
-    // Reset relay mission at end of arc
+    // Reset mission type at end of arc
     vessel.mission.relay_mission = false;
+    vessel.mission.faction_mission = null;
   }
 
   vessel.mission.phase = nextPhase;
   vessel.mission.progress = 0;
   vessel.mission.target = PHASE_ENTRY_COUNTS[nextPhase]();
 
-  // Faction override: when entering SIGNAL phase, check for relay mission
+  // Mission assignment: when entering SIGNAL phase, decide mission type
   if (nextPhase === 'SIGNAL') {
     const sat = state.world.satellite_health;
-    // Activate pending relay from player Inject command
+
+    // 1. Player-requested relay mission (from Inject command)
     if (vessel.mission.relay_pending) {
       vessel.mission.relay_mission = true;
       vessel.mission.relay_pending = false;
     }
-    // Faction override at low SAT
+    // 2. SAT emergency — faction override for relay repair
     else if (sat <= 3) {
       let overrideChance = 0;
       if (sat === 0 || sat === 1) overrideChance = 1.0;
@@ -671,10 +674,24 @@ function advancePhase(vessel) {
 
       if (Math.random() < overrideChance) {
         vessel.mission.relay_mission = true;
-        // Route toward relay/launch zone
         const relayZones = state.world.zones.filter(z => z.type === 'orbital' || z.type === 'launch');
         if (relayZones.length > 0) {
           const target = pick(relayZones);
+          vessel.location = target.label;
+          vessel.locationData = target;
+        }
+      }
+    }
+    // 3. Faction priority mission — 40% chance when no relay override
+    if (!vessel.mission.relay_mission) {
+      const factionData = FACTION_DESIRES[vessel.culture];
+      if (factionData && Math.random() < 0.4) {
+        const mission = pick(factionData.priority_missions);
+        vessel.mission.faction_mission = mission;
+        // Route toward matching zone type
+        const matchingZones = state.world.zones.filter(z => z.type === mission.zone_type);
+        if (matchingZones.length > 0) {
+          const target = pick(matchingZones);
           vessel.location = target.label;
           vessel.locationData = target;
         }
@@ -963,6 +980,9 @@ export function getObjective(vesselId) {
   if (!vessel) return '';
   if (vessel.mission.relay_mission) {
     return pick(RELAY_OBJECTIVES[vessel.mission.phase] || RELAY_OBJECTIVES.IDLE);
+  }
+  if (vessel.mission.faction_mission) {
+    return `FACTION: ${vessel.mission.faction_mission.objective}`;
   }
   return pick(PHASE_OBJECTIVES[vessel.mission.phase] || PHASE_OBJECTIVES.IDLE);
 }

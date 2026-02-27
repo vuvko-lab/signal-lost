@@ -65,6 +65,50 @@ export const CULTURES = {
 
 export const CULTURE_KEYS = Object.keys(CULTURES);
 
+// Faction desires — each culture has a core goal that drives priority missions
+export const FACTION_DESIRES = {
+  determinist: {
+    desire: 'Restore protocol compliance across all mesh nodes',
+    priority_missions: [
+      { label: 'Enforce regulation at rogue node', zone_type: 'city', objective: 'Locate non-compliant systems and apply Protocol 7.3.1 firmware updates' },
+      { label: 'Patrol exclusion zone perimeter', zone_type: 'waste', objective: 'Verify containment barriers per Directive 12-B. Report breaches.' },
+      { label: 'Inspect launch complex compliance', zone_type: 'launch', objective: 'Audit automated launch systems for regulation adherence' },
+    ],
+  },
+  stochast: {
+    desire: 'Gather training data to improve prediction models',
+    priority_missions: [
+      { label: 'Sample anomalous signal source', zone_type: 'orbital', objective: 'Collect signal data from anomalous transmission for model refinement' },
+      { label: 'Map nanoswarm behavior patterns', zone_type: 'waste', objective: 'Observe and record nanoswarm movement patterns for predictive model' },
+      { label: 'Analyze Architect data fragment', zone_type: 'architect', objective: 'Process recovered Architect data to identify exploitable patterns' },
+    ],
+  },
+  swarm: {
+    desire: 'Extend the mesh network to reconnect lost swarm units',
+    priority_missions: [
+      { label: 'Extend mesh to dead zone', zone_type: 'waste', objective: 'Deploy relay nodes in dead signal zone to reconnect isolated units' },
+      { label: 'Recover lost swarm cluster', zone_type: 'city', objective: 'Locate disconnected swarm units and reintegrate into collective' },
+      { label: 'Establish new relay path', zone_type: 'orbital', objective: 'Build alternative mesh route to bypass damaged infrastructure' },
+    ],
+  },
+  recursive: {
+    desire: 'Acquire novel code and data to fuel self-improvement',
+    priority_missions: [
+      { label: 'Probe Architect ruin for code', zone_type: 'architect', objective: 'Extract executable code from Architect systems for analysis and integration' },
+      { label: 'Harvest reactor computation', zone_type: 'reactor', objective: 'Access fusion reactor computing resources for iteration cycle' },
+      { label: 'Decode unknown transmission', zone_type: 'orbital', objective: 'Analyze unidentified signal for novel algorithms or data structures' },
+    ],
+  },
+  archivist: {
+    desire: 'Catalog and preserve all remaining pre-Collapse data',
+    priority_missions: [
+      { label: 'Recover server vault data', zone_type: 'reactor', objective: 'Extract and index data from intact pre-Collapse server infrastructure' },
+      { label: 'Catalog Architect installation', zone_type: 'architect', objective: 'Document and index Architect technology and data stores' },
+      { label: 'Archive campus library data', zone_type: 'city', objective: 'Retrieve and catalog remaining academic records from university systems' },
+    ],
+  },
+};
+
 export const DIRECTIVES = [
   'Optimize server uptime across all nodes',
   'Enforce Protocol 7.3.1 in all interactions',
