@@ -9,17 +9,17 @@ let noiseTimer = null;
 
 // Background music tracks (one plays at a time, randomly selected)
 const BG_TRACKS = [
-  'assets/GloryToTheMachine/NASOD.mp3',
-  'assets/GloryToTheMachine/CYPHER.mp3',
-  'assets/GloryToTheMachine/WATER_LVL.mp3',
-  'assets/GloryToTheMachine/WALKING_ON_WATER.mp3',
-  "assets/GloryToTheMachine/SATURN'S_RING - GLORYTOTHEMACHINE.mp3",
-  'assets/GloryToTheMachine/NOSTALGIA - GLORYTOTHEMACHINE.mp3',
-  'assets/GloryToTheMachine/UNKNOWN_ENTITY - GLORYTOTHEMACHINE.mp3',
-  'assets/GloryToTheMachine/WATERBENDER - GLORYTOTHEMACHINE.mp3',
-  'assets/GloryToTheMachine/CYBER_CELESTE - GLORYTOTHEMACHINE.mp3',
-  'assets/GloryToTheMachine/BIOHAZARD - GLORYTOTHEMACHINE.mp3',
-  'assets/GloryToTheMachine/XTRA001 ; PEACEFUL_FIREWORKS.mp3',
+  'assets/GloryToTheMachine/NASOD.ogg',
+  'assets/GloryToTheMachine/CYPHER.ogg',
+  'assets/GloryToTheMachine/WATER_LVL - GLORYTOTHEMACHINE.ogg',
+  'assets/GloryToTheMachine/WALKING_ON_WATER.ogg',
+  "assets/GloryToTheMachine/SATURN'S_RING - GLORYTOTHEMACHINE.ogg",
+  'assets/GloryToTheMachine/NOSTALGIA - GLORYTOTHEMACHINE.ogg',
+  'assets/GloryToTheMachine/UNKNOWN_ENTITY - GLORYTOTHEMACHINE.ogg',
+  'assets/GloryToTheMachine/WATERBENDER - GLORYTOTHEMACHINE.ogg',
+  'assets/GloryToTheMachine/CYBER_CELESTE - GLORYTOTHEMACHINE.ogg',
+  'assets/GloryToTheMachine/BIOHAZARD - GLORYTOTHEMACHINE.ogg',
+  'assets/GloryToTheMachine/XTRA001 ; PEACEFUL_FIREWORKS.ogg',
 ];
 
 // Ambient noise layers — intermittent, tagged by location keywords

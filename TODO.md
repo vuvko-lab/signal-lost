@@ -21,6 +21,11 @@ After each completed step commit, check the step as completed, update CLAUDE.md 
 - [x] Analyse https://www.gridsagegames.com/blog/2014/09/fonts-in-roguelikes/ and https://www.gridsagegames.com/blog/2014/09/cogmind-fonts/ and https://www.gridsagegames.com/blog/2015/07/readable-text-fonts-roguelikes/ and suggest font changes. Create a temp version of the game where different vessels would have different fonts, indicate which font was used.
 - [x] Remove italic font usage, make color adjusted for that instead.
 
-- [ ] Playtest and tune ambient noise volumes — adjust per-layer levels if mix is too busy or too quiet
-- [ ] Decide whether to keep vessel font labels (FONT: ...) or remove them after evaluation
-- [ ] Convert remaining GloryToTheMachine MP3s to OGG to reduce total download size (~30MB currently)
+- [x] Playtest and tune ambient noise volumes — adjust per-layer levels if mix is too busy or too quiet
+- [x] Decide whether to keep vessel font labels (FONT: ...) or remove them after evaluation
+- [x] Convert remaining GloryToTheMachine MP3s to OGG to reduce total download size (~30MB currently)
+- [x] Add a link to zero-player rpg wiki page for the reference.
+- [x] Please make noises quiter, and not constant. Link them to some tags related to location of the targeted vessel.
+- [x] The destroyed vessel is simply removed from the list. Let's make the loss of the vessel somewhat more drammatic, and have a placeholder with the logs intact and "Signal lost" overlay, with "🮌" symbol as a background (or something similar).
+- [x] The DIR and BUG seems not useful for the story and only generates noise, let's remove them entirely. Same for the chassis_locomotion.
+- [x] I don't see entity names from the eclipse phase setting. Please re-evaluate the templates for uses and refer setting.md . For starters, let's add EGO and MORPH, following other terms.
