@@ -1,12 +1,12 @@
 # Mission Phase Detail & Narrative Examples
 
-Each mission arc consists of 7 phases. This document details the Chartopia tables used, narrative template approach, CS educational thread, and example log entries for each phase.
+Each mission arc consists of 7 phases. This document details the local tables used, narrative template approach, CS educational thread, and example log entries for each phase.
 
 ---
 
 ## IDLE (1-2 entries)
 
-**Tables:** Colony Ideas (100656), Android Models (4505), NPC Generator (62369)
+**Tables:** settlements, androidModels, npcGenerator
 
 **Template:** Vessel recharges at a settlement or power node. Trades data/scrap. Receives network gossip.
 
@@ -18,7 +18,7 @@ Each mission arc consists of 7 phases. This document details the Chartopia table
 
 ## SIGNAL (1 entry)
 
-**Tables:** Space Station Generator (109981), Anomalies (75885), Mission Generator (51958)
+**Tables:** spaceStations, anomalies, missions
 
 **Template:** An anomaly, signal, or objective emerges. Sets the destination.
 
@@ -30,7 +30,7 @@ Each mission arc consists of 7 phases. This document details the Chartopia table
 
 ## TRAVERSE (2-4 entries)
 
-**Tables:** City Encounters (17379), Junk Loot (2115), Weather (45259), Scrap (6256), Post-Apoc Settings (45271)
+**Tables:** cityEncounters, junkLoot, weather, scrap, postApocSettings
 
 **Template:** Travel through zones. Random encounters, environmental hazards, scavenging.
 
@@ -42,7 +42,7 @@ Each mission arc consists of 7 phases. This document details the Chartopia table
 
 ## BREACH (1-2 entries)
 
-**Tables:** Security Generator (27367), Net Architecture (28494), Ruin Rooms (39327), Machine Malfunction (64698)
+**Tables:** security, netArchitecture, ruinRooms, machineMalfunction
 
 **Template:** Enter a closed system — a reactor, a sealed facility, an orbital dock. Dungeon crawl.
 
@@ -54,7 +54,7 @@ Each mission arc consists of 7 phases. This document details the Chartopia table
 
 ## FAULT (1 entry)
 
-**Tables:** Complications (32606), Android Malfunction (4436), Malfunction (64698), Encounters (17379)
+**Tables:** complications, androidMalfunction, machineMalfunction, cityEncounters
 
 **Template:** Something goes wrong — rival AI, system failure, trap, moral paradox.
 
@@ -66,7 +66,7 @@ Each mission arc consists of 7 phases. This document details the Chartopia table
 
 ## CORE (1-2 entries)
 
-**Tables:** Mission payload (51958), Boss encounters (custom), Anomalies (75885), Wounds (39442)
+**Tables:** missions, bossEncounters, anomalies, wounds
 
 **Template:** The heart of the facility. Major encounter or discovery.
 
@@ -78,7 +78,7 @@ Each mission arc consists of 7 phases. This document details the Chartopia table
 
 ## REBOOT (1-2 entries)
 
-**Tables:** Loot (39287), Colony Abandoned (4434), NPC Generator (62369)
+**Tables:** loot, abandonedColonies, npcGenerator
 
 **Template:** Exit. Process results. Integrate new data. Rest.
 

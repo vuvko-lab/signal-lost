@@ -8,10 +8,10 @@
 | Styling | CSS with CRT/terminal effects | Scanlines, phosphor glow, monospace — fits AI console aesthetic |
 | Audio | Howler.js (or HTML5 Audio) | Lightweight, handles ambient loops + SFX |
 | Fonts | VT323 + IBM Plex Mono (Google Fonts) | Terminal aesthetic + readable body text |
-| Backend | None — fully client-side | Chartopia `/gen/` called directly from browser |
+| Backend | None — fully client-side | All logic and content generation runs in browser |
 | Data | localStorage | Persist game state between sessions |
+| Content | Local tables in js/data.js | All random content generated from local JS tables |
 | Hosting | itch.io (HTML5 zip upload) | Required by jam |
-| API | Chartopia `/gen/` endpoint | No auth, no backend needed |
 
 ### Asset Pipeline
 
@@ -19,7 +19,7 @@ Assets bundled in the itch.io zip. Ambient audio loops as .ogg/.mp3 (small files
 
 ### Why No Backend
 
-- The `/gen/` endpoint needs no authentication
+- All content generation uses local tables in js/data.js — no external API needed
 - All game logic runs client-side (state machine, templates, timers)
 - localStorage handles save/load
 - This means we can ship as a zip of static files to itch.io

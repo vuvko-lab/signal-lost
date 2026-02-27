@@ -16,7 +16,7 @@ design/           # Game design documents (8 files)
   gameplay.md     # User journey, game loop, multi-vessel UI
   phenomena.md    # 8 global event types, mechanics
   narrative.md    # 7 mission phases with examples
-  chartopia.md    # API integration, 24 tables, generation flow
+  tables.md       # Local table system, generation flow
   technical.md    # Tech stack, game state schema, visual direction
   assets.md       # Audio/visual/font inventory and licenses
   scope.md        # MVP priorities, open questions
@@ -30,7 +30,7 @@ assets/           # Downloaded asset packs (DO NOT commit zips)
 
 - **Vanilla HTML/CSS/JS** — no framework, no build step
 - **Howler.js** for audio (ambient loops + SFX)
-- **Chartopia `/gen/` API** — POST `{ "raw": "..." }`, no auth needed
+- **Local tables** in js/data.js — all content generation, no external API
 - **Google Fonts CDN** — VT323 (terminal), IBM Plex Mono (body), Space Mono (headers)
 - **CSS-only CRT effects** — scanlines, phosphor glow, text-shadow
 - **localStorage** for game state persistence
@@ -43,18 +43,11 @@ assets/           # Downloaded asset packs (DO NOT commit zips)
 - **Multi-vessel UI:** vertical columns, each an independent signal feed (up to 3-4)
 - **Operator commands:** Boost Signal (60s CD), Ping Vessel (90s CD), Inject Command (120s CD)
 - **Global phenomena:** 8 types, timer 120-300s, visible across all vessel feeds
-- **Chartopia `/gen/` endpoint** is the primary content engine — all narrative generated at runtime
-
-## Key Chartopia Table IDs
-
-82853 (cyberpunk city), 58585 (robot/drone), 60164 (android names), 75885 (anomalies), 2115 (junk loot), 28494 (net architecture), 109981 (space station), 51958 (mission gen), 4436 (android malfunction), 4506 (android agenda), 27367 (security gen), 64698 (machine malfunction)
+- **Local tables** (js/data.js) are the primary content engine — all narrative generated at runtime
 
 ## Open Questions
 
-1. **CORS on Chartopia `/gen/`** — untested from browser. Fallback: proxy or pre-generate
-2. **Rate limits** — multi-vessel = more API calls, may need staggered ticks
-3. **Custom tables** — Chartopia UI vs local JSON fallback
-4. **Ambient music** — still selecting from Freesound (CC0 candidates identified)
+1. **Ambient music** — still selecting from Freesound (CC0 candidates identified)
 
 ## Asset Licenses
 
@@ -70,6 +63,6 @@ All assets are free/CC0. See `design/assets.md` for full license table.
 - Single-file or minimal-file approach — keep it simple for 2-day jam
 - No transpilation, no TypeScript — plain JS with ES modules if needed
 - Game state as a single JS object, saved to localStorage
-- Chartopia calls via fetch() to `/gen/` endpoint
+- Content generation via local tables in js/data.js
 - CSS custom properties for theming (terminal green/amber palette)
 - Dark background (#0a0a0f), monospace everything

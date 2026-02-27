@@ -12,7 +12,7 @@
 
 A browser-based zero-player RPG (ZPG) in the spirit of [Godville](https://en.wikipedia.org/wiki/Godville), set in a post-human world populated entirely by AI systems. The game plays itself — autonomous AI agents (Vessels) travel a ruined Earth, exploring legacy infrastructure, encountering other machine intelligences, and transmitting their experiences as log entries. The player is a passive observer — an operator console receiving feeds from one or more Vessels simultaneously.
 
-**Core Innovation:** All narrative content is generated at runtime by chaining [Chartopia](https://chartopia.d12dev.com/) random tables through its API, assembled into coherent story beats following a predefined story structure. AI (Claude) is used for development; Chartopia tables act as the procedural storytelling engine.
+**Core Innovation:** All narrative content is generated at runtime from local random tables (js/data.js), assembled into coherent story beats following a predefined story structure. AI (Claude) is used for development; local tables act as the procedural storytelling engine.
 
 **Educational Angle:** Each Vessel represents a different era or paradigm of AI development. Diary entries weave in real CS concepts — networking protocols, search algorithms, machine learning paradigms, distributed systems — as the natural "culture" and "religion" of machine civilizations.
 
@@ -26,7 +26,7 @@ A browser-based zero-player RPG (ZPG) in the spirit of [Godville](https://en.wik
 | [gameplay.md](gameplay.md) | User journey, game loop, multi-vessel UI, player interaction |
 | [phenomena.md](phenomena.md) | Global cross-vessel events and mechanics |
 | [narrative.md](narrative.md) | Mission phase detail with example log entries |
-| [chartopia.md](chartopia.md) | API integration, table strategy, generation flow |
+| [tables.md](tables.md) | Local table system, generation flow |
 | [technical.md](technical.md) | Tech stack, game state schema, asset pipeline |
 | [assets.md](assets.md) | Audio, visual, font, and effect asset references |
 | [interaction.md](interaction.md) | Vessel-world interaction expansion: zones, inter-vessel events, enhanced commands |
@@ -41,21 +41,6 @@ A browser-based zero-player RPG (ZPG) in the spirit of [Godville](https://en.wik
 - [Godville - Wikipedia](https://en.wikipedia.org/wiki/Godville)
 - [Godville (Game) - GodWiki](https://wiki.godvillegame.com/Godville_(Game))
 - [AI Apocalyptic Dark Fantasy Jam](https://itch.io/jam/ai-apocalyptic-dark-fantasy-jam-)
-
-### Chartopia
-
-- [Chartopia - RPG Random Tables](https://chartopia.d12dev.com/)
-- [Chartopia Domain Language Docs](https://chartopia.d12dev.com/docs/domain-language/)
-- [Cyberpunk City Generator (82853)](https://chartopia.d12dev.com/chart/82853/)
-- [Cyberpunk RED Net Architecture (28494)](https://chartopia.d12dev.com/chart/28494/)
-- [Robot/Drone Generator (58585)](https://chartopia.d12dev.com/chart/58585/)
-- [Android Names (60164)](https://chartopia.d12dev.com/chart/60164/)
-- [Strange Anomalies Radioactive Wasteland (75885)](https://chartopia.d12dev.com/chart/75885/)
-- [Post Apocalyptic Junk Loot (2115)](https://chartopia.d12dev.com/chart/2115/)
-- [The Expanse Space Station Generator (109981)](https://chartopia.d12dev.com/chart/109981/)
-- [CBR+PNK Mission Generator (51958)](https://chartopia.d12dev.com/chart/51958/)
-- [Shadowrun Security Generator (27367)](https://chartopia.d12dev.com/chart/27367/)
-- [Machine Catastrophic Malfunction (64698)](https://chartopia.d12dev.com/chart/64698/)
 
 ### Assets
 

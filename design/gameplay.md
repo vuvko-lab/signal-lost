@@ -20,9 +20,9 @@ The player sees a terminal-style boot screen:
 
 ## World Seeding (One-time Setup)
 
-Using Chartopia tables, we generate the persistent world:
+Using local tables, we generate the persistent world:
 
-- **The world state** — via [Cyberpunk City Generator (82853)](https://chartopia.d12dev.com/chart/82853/) adapted: 3 dominant AI factions, 5 districts/zones, faction goals and conflicts
+- **The world state** — 3 dominant AI factions, 5 districts/zones, faction goals and conflicts
 - **Orbital status** — satellite health, communication range, dead zones
 - **Key locations** — fusion reactors, launch complexes, archive vaults, waste zones
 
@@ -32,12 +32,12 @@ Using Chartopia tables, we generate the persistent world:
 
 Each Vessel is auto-generated with:
 
-- **Designation** — from [Android Names (60164)](https://chartopia.d12dev.com/chart/60164/) e.g. "CALC-7", "Electro-mek", "XV-7"
-- **Chassis** — from [Robot/Drone Generator (58585)](https://chartopia.d12dev.com/chart/58585/) — size, locomotion, type
+- **Designation** — e.g. "CALC-7", "Electro-mek", "XV-7"
+- **Chassis** — size, locomotion, type
 - **AI Generation** — which culture/era they belong to (Determinist, Stochast, etc.)
 - **Directive** — their core programming purpose (now obsolete or misinterpreted)
-- **Glitch** — a defining malfunction from [What's Wrong with the Android (4436)](https://chartopia.d12dev.com/chart/4436/)
-- **Starting Module** — one piece of salvaged equipment from [Junk Loot (2115)](https://chartopia.d12dev.com/chart/2115/)
+- **Glitch** — a defining malfunction
+- **Starting Module** — one piece of salvaged equipment
 
 ---
 
@@ -61,7 +61,7 @@ Each Vessel follows a **repeating mission cycle** — a compressed story arc:
 └─────────────────────────────────────────────────────┘
 ```
 
-Each phase generates 1-3 log entries using Chartopia tables. See [narrative.md](narrative.md) for detailed phase breakdowns with example entries.
+Each phase generates 1-3 log entries using local tables. See [narrative.md](narrative.md) for detailed phase breakdowns with example entries.
 
 ---
 
