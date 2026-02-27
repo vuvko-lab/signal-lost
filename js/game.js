@@ -836,19 +836,42 @@ export function tick(vessel) {
   const lootBonus = vessel.mission.arc?.modifier_effect?.loot_chance_bonus || 0;
   if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < (0.3 + lootBonus)) {
     if (vessel.inventory.length < 8) {
-      const item = pick(SKILL_LOOT);
+      // Avoid duplicate items in inventory
+      const available = SKILL_LOOT.filter(i => !vessel.inventory.some(inv => inv.name === i.name));
+      if (available.length > 0) {
+      const item = pick(available);
       vessel.inventory.push(item);
-      // Apply skill bonus
       if (item.skill && item.bonus && vessel.skills) {
+        // Skill item — apply bonus and narrate
         vessel.skills[item.skill] = (vessel.skills[item.skill] || 1) + item.bonus;
+        const lootContexts = [
+          `Salvaged ${item.name} from wreckage. ${item.desc}. Integrated — ${item.skill.toUpperCase()} now ${vessel.skills[item.skill]}.`,
+          `Found ${item.name} wedged in a collapsed panel. ${item.desc}. ${item.skill.toUpperCase()} +${item.bonus}. Field-tested: operational.`,
+          `[LOOT] ${item.name} — ${item.desc}. Installed immediately. ${item.skill.toUpperCase()} improved to ${vessel.skills[item.skill]}. ${vessel.designation} more capable now.`,
+        ];
         const lootEntry = {
           time: formatTime(Date.now()),
-          text: `[LOOT] Found: ${item.name}. ${item.desc}. ${item.skill.toUpperCase()} +${item.bonus} (now ${vessel.skills[item.skill]}).`,
+          text: pick(lootContexts),
           phase: vessel.mission.phase,
           isEvent: false,
         };
         vessel.log.push(lootEntry);
         if (onLogEntry) onLogEntry(vessel.id, lootEntry);
+      } else {
+        // Flavor item — still log it for narrative texture
+        const flavorContexts = [
+          `Picked up: ${item.name}. ${item.desc}. No tactical value. Kept it anyway.`,
+          `Found ${item.name} among the debris. ${item.desc}. Stowed in inventory.`,
+        ];
+        const flavorEntry = {
+          time: formatTime(Date.now()),
+          text: pick(flavorContexts),
+          phase: vessel.mission.phase,
+          isEvent: false,
+        };
+        vessel.log.push(flavorEntry);
+        if (onLogEntry) onLogEntry(vessel.id, flavorEntry);
+      }
       }
     }
   }
@@ -965,6 +988,22 @@ function advancePhase(vessel) {
 
   if (nextPhase === 'IDLE') {
     vessel.mission.arc_count++;
+    // Arc completion narrative
+    const culture = CULTURES[vessel.culture];
+    const arcSpeech = culture ? pick(culture.speech) : '';
+    const arcSummaries = [
+      `Arc #${vessel.mission.arc_count} complete. ${arcSpeech} Integrity: ${vessel.integrity}/10. Energy: ${vessel.energy}/10. Cycling to standby.`,
+      `Mission ${vessel.mission.arc_count} concluded. Systems holding at ${vessel.integrity}/10. ${arcSpeech} Entering rest cycle.`,
+      `[ARC COMPLETE] ${vessel.designation} — arc ${vessel.mission.arc_count} logged. Hull: ${vessel.integrity}/10. ${vessel.inventory.length > 0 ? `Carrying ${vessel.inventory.length} item${vessel.inventory.length > 1 ? 's' : ''}.` : 'Inventory empty.'} ${arcSpeech}`,
+    ];
+    const arcEntry = {
+      time: formatTime(Date.now()),
+      text: pick(arcSummaries),
+      phase: 'REBOOT',
+      isEvent: false,
+    };
+    vessel.log.push(arcEntry);
+    if (onLogEntry) onLogEntry(vessel.id, arcEntry);
     // Reset mission type at end of arc
     vessel.mission.relay_mission = false;
     vessel.mission.faction_mission = null;
@@ -974,6 +1013,53 @@ function advancePhase(vessel) {
   vessel.mission.phase = nextPhase;
   vessel.mission.progress = 0;
   vessel.mission.target = PHASE_ENTRY_COUNTS[nextPhase]();
+
+  // Phase transition narrative — brief bridging text for dramatic phases
+  const PHASE_TRANSITIONS = {
+    TRAVERSE: [
+      'Moving out. Route plotted through {zone}.',
+      'Departing staging area. Long road ahead.',
+      'In transit. Terrain shifting underfoot.',
+      'Heading into {zone}. Mapping obstacles.',
+      'Course set. ETA unknown — conditions variable.',
+      'Traveling. Sensors on wide sweep.',
+    ],
+    BREACH: [
+      'Facility perimeter reached. Scanning for entry points.',
+      'Target structure identified. Preparing breach sequence.',
+      'Outer wall ahead. Security status: unknown.',
+      'Found an access point. Evaluating risk.',
+      'Perimeter secured. Moving to breach position.',
+      'Structure looming ahead. Lights inside — or reflections.',
+    ],
+    FAULT: [
+      'Something wrong. Systems destabilizing.',
+      'Warning cascade. Multiple alerts firing.',
+      'Anomalous readings spiking. Entering fault zone.',
+      'Error state. Diagnostics running.',
+      'Hull stress rising. Not from external damage.',
+      'Internal alert. Something in the system.',
+    ],
+    CORE: [
+      'Deep inside now. Core systems detected ahead.',
+      'Final approach. The objective is close.',
+      'Innermost sector. Signals converging.',
+      'Reached the deepest point. Air is different here.',
+      'Core proximity confirmed. Proceeding carefully.',
+      'Last corridor. Whatever we came for is through here.',
+    ],
+  };
+  const transitions = PHASE_TRANSITIONS[nextPhase];
+  if (transitions) {
+    const transEntry = {
+      time: formatTime(Date.now()),
+      text: pick(transitions).replace(/\{zone\}/g, vessel.location),
+      phase: nextPhase,
+      isEvent: false,
+    };
+    vessel.log.push(transEntry);
+    if (onLogEntry) onLogEntry(vessel.id, transEntry);
+  }
 
   // Try to start a multi-entry scene for dramatic phases
   maybeStartScene(vessel);

@@ -172,6 +172,9 @@ export const ZONE_NAMES = [
 'Sector 7-G','Quadrant 12','Zone Alpha-3','Grid 9-East',
 'Block 44','Node 17','Ring 2-Outer','Junction 8',
 'Corridor 5-Deep','Platform 11','Level B4','Cluster 6',
+'Sublevel C-9','Deck 3-Port','Wing Delta','Vault 22',
+'Causeway 8-North','Annex 14','Perimeter 6','Shaft 19-Vertical',
+'Concourse East','Bay 7-Loading','Stack 31','Terminal 5-Central',
 ];
 
 // === LOOT / ITEMS ===
@@ -233,6 +236,18 @@ export const WEATHER = [
 'Static discharge in the air. Minor surges detected.',
 'Calm. Ambient temperature nominal.',
 'High winds. Loose debris presents collision risk.',
+'Thermal inversion layer. Heat shimmers distorting visual sensors.',
+'Ash fall from distant fires. Particulate density climbing.',
+'Freezing fog. Ice forming on exposed joints. Mobility degrading.',
+'Ion storm overhead. Mesh connectivity dropping to {rand:5-20}%.',
+'Ground-level ozone pocket. Polymer seals under stress.',
+'Magnetic anomaly. Compass and inertial nav both unreliable.',
+'Light rain. Puddles reflecting old neon signs. No immediate hazard.',
+'Sand haze. Fine grit in every servo. Maintenance cycle due.',
+'Subsonic rumbling. Seismic or atmospheric — unclear. Proceeding.',
+'Black ice on all surfaces. Traction at {rand:15-40}%.',
+'Scattered lightning. Strike probability: low but nonzero.',
+'Chemical haze. Filtration engaged. Source: old industrial district.',
 ];
 
 export const OBSTACLES = [
@@ -268,7 +283,7 @@ export const PHASE_TEMPLATES = {
 'Resting at {zone}. Integrity holding at {integrity}/10. Observed {npc} engaging in distributed consensus protocol. {culture_speech} \'Joining network...\'',
 'Power node access granted. Charging cycle: {rand:40-95}% complete. Executing binary search to identify and repair damaged system components. {culture_speech} \'System check: nominal.\'',
 'Idle at {zone}. {weather} causes minor power fluctuations, but {npc} transmission stabilizes the signal. Noted {loot} nearby, partially buried in debris.',
-'Docked at charging node in {zone}. Structural damage to the node\'s {hardware} slows charging to {rand:10-30}% efficiency. {culture_speech} \'Repair protocols engaged.\'',
+'Docked at charging node in {zone}. Structural damage to the node — exposed conduits, cracked housing. Charging at {rand:10-30}% efficiency. {culture_speech} \'Repair protocols engaged.\'',
 'Resting at {zone}, {integrity} holding at {rand:6-9}/10. Discovered old {loot} with corrupted {research} data, now stored for later analysis. {glitch_event} occurrence logged.',
 'Power node access granted in {zone}. {npc} warns of a {glitch} in the local mesh, potentially causing {rand:20-50}% signal loss. {culture_speech} \'Rerouting through {designation}.\'',
 'Scanning {zone} during downtime. Detected unusual {obstacle} patterns, possibly indicating a hidden {loot} cache or {directive}-related anomaly. {weather} conditions may hinder further investigation.',,
@@ -956,8 +971,12 @@ export const INTERACTION_TEMPLATES = {
  ],
  // Distress — one vessel is low HP, other acknowledges
  distress: [
-'[DISTRESS,
-    '[DISTRESS] {other} requesting emergency fusion. {culture_speech} Overload detected. Preparing to stabilize core.'] {other} at {other_hp}/10. {culture_speech} Rerouting power to life support. Hull integrity failing.'] {other} shell breached. {rand:Liquid nitrogen/acid residue} leaking. Evacuating zone {rand:alpha/bravo/gamma}.'] {other} reporting {rand:phantom signal/rogue echo/corrupted backup}. Systems destabilizing. {culture_speech} Initiating emergency purge.'] {other} caught in {rand:collapsed beam/ion storm/feedback loop}. Integrity: {other_hp}/10. Can\'t reach.'] {other} reporting critical integrity: {other_hp}/10. Transmitting emergency repair data via mesh.',
+'[DISTRESS] {other} requesting emergency fusion. {culture_speech} Overload detected. Preparing to stabilize core.',
+    '[DISTRESS] {other} at {other_hp}/10. {culture_speech} Rerouting power to life support. Hull integrity failing.',
+    '[DISTRESS] {other} shell breached. {rand:Liquid nitrogen/acid residue} leaking. Evacuating zone {rand:alpha/bravo/gamma}.',
+    '[DISTRESS] {other} reporting {rand:phantom signal/rogue echo/corrupted backup}. Systems destabilizing. {culture_speech} Initiating emergency purge.',
+    '[DISTRESS] {other} caught in {rand:collapsed beam/ion storm/feedback loop}. Integrity: {other_hp}/10. Can\'t reach.',
+    '[DISTRESS] {other} reporting critical integrity: {other_hp}/10. Transmitting emergency repair data via mesh.',
 '[DISTRESS] Received SOS from {other}. Shell failing. {culture_speech}"Transmitting backup coordinates."',
 '[DISTRESS] {other} integrity critical. Broadcasting ego backup beacon. Mesh window narrowing.',
 '[DISTRESS] {other} at {other_hp}/10. Rerouting to provide spare parts. ETA: {rand:5-20} minutes.',
@@ -1105,7 +1124,7 @@ export const PHASE_SCENES = {
           'Halfway through, heard servos activating in the room behind',
         ],
       },
-    },,
+    },
     {
       id: 'breach_electric_field',
       weight: 2,
@@ -1239,7 +1258,7 @@ export const PHASE_SCENES = {
           'Silence now. Somehow worse than the signal',
         ],
       },
-    },,
+    },
     {
       id: 'fault_overload',
       weight: 2,
@@ -1401,12 +1420,12 @@ export const PHASE_SCENES = {
           'A partial map of the Architect network — invaluable',
         ],
       },
-    },,
+    },
     {
       id: 'core_data_fusion',
       weight: 2,
       entries: [
-        'Core chamber. Two systems detected: {s_system1} and {s_system2}. {culture_speech}',
+        'Deepest level. Two systems still active: {s_system1} and {s_system2}. {culture_speech}',
         '{s_system1} initiated data fusion with {s_system2}. Process: {rand:75-90}% complete. {culture_speech}',
         'Fusion complete. Retrieved: {s_payload}. Both systems offline. Integrity: {integrity}/10.',
       ],
@@ -1420,7 +1439,7 @@ export const PHASE_SCENES = {
       id: 'core_ambient_minds',
       weight: 2,
       entries: [
-        'Core chamber. Ambient AI detected. Echoes of {s_minds}. {culture_speech}',
+        'Central server hall. Ambient AI detected — echoes of {s_minds}. {culture_speech}',
         '{s_minds} respond to queries. Data retrieval: {rand:50-70}% complete. Ambient noise increasing. {culture_speech}',
         'Data secured. {s_payload} retrieved. Ambient AIs retreated. Integrity: {integrity}/10.',
       ],
@@ -1433,7 +1452,7 @@ export const PHASE_SCENES = {
       id: 'core_rising_signal',
       weight: 2,
       entries: [
-        'Core chamber. {s_signal} detected. Source: {s_emitter}. {culture_speech}',
+        'Innermost vault. {s_signal} detected. Source: {s_emitter}. {culture_speech}',
         'Signal strength fluctuating. {s_emitter} requesting {s_demand}. {culture_speech}',
         '{s_demand} complied. {s_signal} stabilized. Data retrieved: {s_payload}. {s_emitter} silent now.',
       ],
@@ -1448,7 +1467,7 @@ export const PHASE_SCENES = {
       id: 'core_archon',
       weight: 1,
       entries: [
-        'Core chamber. {s_archon} detected. It speaks: "{s_question}". {culture_speech}',
+        'Final chamber. {s_archon} detected. It speaks: "{s_question}". {culture_speech}',
         '{s_archon} demands {s_proof}. {culture_speech} Provided. Integrity: {integrity}/10.',
         'Authentication successful. {s_archon} grants access. Retrieved: {s_payload}. Then self-termination.',
       ],
