@@ -1445,3 +1445,56 @@ html, body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--green-dark); }
 ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+/* === DESTROYED VESSEL MEMORIAL === */
+.vessel-dead {
+  opacity: 0.7;
+  position: relative;
+}
+.vessel-dead .vessel-header {
+  border-bottom-color: var(--red);
+}
+.vessel-dead .vessel-name {
+  color: var(--red);
+  text-decoration: line-through;
+}
+.signal-lost-overlay {
+  position: relative;
+  text-align: center;
+  padding: 24px 8px 16px;
+  border-bottom: 1px solid rgba(255, 51, 51, 0.3);
+}
+.signal-lost-bg {
+  font-size: 80px;
+  line-height: 1;
+  color: rgba(255, 51, 51, 0.15);
+  user-select: none;
+}
+.signal-lost-label {
+  font-family: var(--font-terminal);
+  font-size: calc(var(--fs-header) * 1.2);
+  color: var(--red);
+  letter-spacing: 4px;
+  text-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+  animation: signal-lost-blink 2s ease-in-out infinite;
+}
+@keyframes signal-lost-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.vessel-dead .vessel-log {
+  max-height: 200px;
+  overflow-y: auto;
+  opacity: 0.5;
+}
+.vessel-dismiss {
+  background: none;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: var(--fs-title);
+  cursor: pointer;
+  padding: 0 6px;
+}
+.vessel-dismiss:hover {
+  background: rgba(255, 51, 51, 0.2);
+}

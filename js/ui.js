@@ -241,11 +241,10 @@ export function createVesselColumn(vessel) {
     <div class="vessel-header">
       <span class="vessel-name"><img class="icon" src="assets/icons/network.png" alt="">${vessel.designation}</span>
       <span class="vessel-header-right">
-        <span class="culture-tag" data-tooltip="${escAttr(CULTURE_DESCRIPTIONS[vessel.culture] || '')}">${culture.name} | ${vessel.chassis.locomotion}</span>
+        <span class="culture-tag" data-tooltip="${escAttr(CULTURE_DESCRIPTIONS[vessel.culture] || '')}">${culture.name}</span>
         <button class="vessel-disconnect" data-vessel-id="${vessel.id}" title="Disconnect from vessel signal">&times;</button>
       </span>
     </div>
-    <div class="vessel-font-label">FONT: ${fontName}</div>
     <div class="vessel-details-toggle" data-expanded="true"><span class="toggle-arrow">&#9660;</span> DETAILS</div>
     <div class="vessel-details-panel">
     <div class="vessel-stats">
@@ -272,14 +271,6 @@ export function createVesselColumn(vessel) {
         <span class="stat-value stat-rs">${vessel.skills?.research || 1}</span>
       </div>
     </div>
-    <details class="vessel-info">
-      <summary>SYSTEM INFO</summary>
-      <div class="vessel-info-body">
-        <span class="info-directive" data-tooltip="The vessel's original purpose — the task it was built to perform before the Silence."><img class="icon icon-cyan" src="assets/icons/settings.png" alt="">DIR: ${vessel.directive}</span>
-        <br>
-        <span class="info-glitch" data-tooltip="A persistent malfunction that affects the vessel's behavior in unexpected ways."><img class="icon icon-red" src="assets/icons/danger.png" alt="">BUG: ${vessel.glitch}</span>
-      </div>
-    </details>
     <div class="vessel-location">LOC: ${vessel.location}</div>
     <div class="vessel-objective" id="obj-${vessel.id}">
       <span class="obj-label">OBJECTIVE</span>
@@ -620,11 +611,47 @@ export function setupTooltips() {
   });
 }
 
-// === VESSEL REMOVAL ===
+// === VESSEL DESTRUCTION / REMOVAL ===
 
 export function removeVesselColumn(vesselId) {
   const col = document.getElementById(`col-${vesselId}`);
-  if (col) col.remove();
+  if (!col) return;
+
+  // Convert to "signal lost" memorial instead of removing
+  const header = col.querySelector('.vessel-header');
+  const name = header?.querySelector('.vessel-name')?.textContent || 'UNKNOWN';
+
+  // Keep the log intact, overlay the rest
+  const detailsPanel = col.querySelector('.vessel-details-panel');
+  if (detailsPanel) detailsPanel.remove();
+  const detailsToggle = col.querySelector('.vessel-details-toggle');
+  if (detailsToggle) detailsToggle.remove();
+  const phaseBar = col.querySelector('.vessel-phase');
+  if (phaseBar) phaseBar.remove();
+  const disconnectBtn = col.querySelector('.vessel-disconnect');
+  if (disconnectBtn) disconnectBtn.remove();
+
+  // Add signal-lost overlay
+  col.classList.add('vessel-dead');
+  const overlay = document.createElement('div');
+  overlay.className = 'signal-lost-overlay';
+  overlay.innerHTML = `
+    <div class="signal-lost-bg">&#x1FBCC;</div>
+    <div class="signal-lost-label">SIGNAL LOST</div>
+  `;
+  col.insertBefore(overlay, col.querySelector('.vessel-log'));
+
+  // Add dismiss button to header
+  const dismissBtn = document.createElement('button');
+  dismissBtn.className = 'vessel-dismiss';
+  dismissBtn.title = 'Dismiss memorial';
+  dismissBtn.textContent = '\u00d7';
+  dismissBtn.addEventListener('click', () => col.remove());
+  const headerRight = col.querySelector('.vessel-header-right');
+  if (headerRight) {
+    headerRight.innerHTML = '';
+    headerRight.appendChild(dismissBtn);
+  }
 }
 
 export function removeVesselTab(vesselId) {

@@ -1,10 +1,11 @@
 // === AUDIO MANAGER ===
-// Background music + layered ambient noise loops with volume control
+// Background music + intermittent ambient noise layers linked to vessel locations
 
 let bgMusic = null;
 let noiseLayers = [];
 let muted = false;
 let audioStarted = false;
+let noiseTimer = null;
 
 // Background music tracks (one plays at a time, randomly selected)
 const BG_TRACKS = [
@@ -21,14 +22,13 @@ const BG_TRACKS = [
   'assets/GloryToTheMachine/XTRA001 ; PEACEFUL_FIREWORKS.mp3',
 ];
 
-// Ambient noise layers — played simultaneously on top of music
-// Each has its own volume so the mix stays balanced
+// Ambient noise layers — intermittent, tagged by location keywords
 const NOISE_LAYERS = [
-  { src: 'assets/ambient/air-conditioning.ogg', volume: 0.08, label: 'Air Conditioning' },
-  { src: 'assets/ambient/fridge-hum.ogg', volume: 0.06, label: 'Fridge Hum' },
-  { src: 'assets/ambient/machinery.ogg', volume: 0.05, label: 'Machinery' },
-  { src: 'assets/ambient/plague-drone.ogg', volume: 0.07, label: 'Drone Loop' },
-  { src: 'assets/ambient/radio-loop.ogg', volume: 0.04, label: 'Radio Static' },
+  { src: 'assets/ambient/air-conditioning.ogg', volume: 0.04, label: 'Air Conditioning', tags: ['underground', 'reactor', 'server', 'bunker'] },
+  { src: 'assets/ambient/fridge-hum.ogg', volume: 0.03, label: 'Fridge Hum', tags: ['server', 'reactor', 'data', 'archive'] },
+  { src: 'assets/ambient/machinery.ogg', volume: 0.025, label: 'Machinery', tags: ['factory', 'launch', 'reactor', 'industrial'] },
+  { src: 'assets/ambient/plague-drone.ogg', volume: 0.035, label: 'Drone Loop', tags: ['waste', 'ruin', 'orbital', 'dead'] },
+  { src: 'assets/ambient/radio-loop.ogg', volume: 0.02, label: 'Radio Static', tags: ['relay', 'signal', 'antenna', 'zone'] },
 ];
 
 const BG_VOLUME = 0.3;
@@ -37,8 +37,25 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// Smooth volume fade
+function fadeVolume(audio, target, durationMs = 2000) {
+  const start = audio.volume;
+  const diff = target - start;
+  const steps = 20;
+  const stepMs = durationMs / steps;
+  let step = 0;
+  const interval = setInterval(() => {
+    step++;
+    audio.volume = Math.max(0, Math.min(1, start + diff * (step / steps)));
+    if (step >= steps) {
+      clearInterval(interval);
+      audio.volume = target;
+      if (target === 0) audio.pause();
+    }
+  }, stepMs);
+}
+
 // Preload audio files and report progress via callback
-// Returns a promise that resolves when critical audio (first bg track + noise layers) is ready
 export function preloadAudio(onProgress) {
   const trackSrc = pickRandom(BG_TRACKS);
 
@@ -81,7 +98,6 @@ export function preloadAudio(onProgress) {
       };
 
       audio.addEventListener('canplaythrough', done, { once: true });
-      // Fallback: if loading stalls after 8s, continue anyway
       setTimeout(done, 8000);
       audio.src = file.src;
     }
@@ -90,7 +106,6 @@ export function preloadAudio(onProgress) {
 
 export function initAudio(preloaded) {
   if (preloaded) {
-    // Use preloaded audio elements
     const bgResult = preloaded.find(r => r.type === 'bg');
     bgMusic = bgResult.audio;
     bgMusic.loop = false;
@@ -98,11 +113,10 @@ export function initAudio(preloaded) {
 
     for (const r of preloaded.filter(r => r.type === 'noise')) {
       r.audio.loop = true;
-      r.audio.volume = r.config.volume;
-      noiseLayers.push({ audio: r.audio, config: r.config });
+      r.audio.volume = 0; // start silent — noise cycle will fade them in
+      noiseLayers.push({ audio: r.audio, config: r.config, active: false });
     }
   } else {
-    // Fallback: create without preloading
     const trackSrc = pickRandom(BG_TRACKS);
     bgMusic = new Audio(trackSrc);
     bgMusic.loop = false;
@@ -115,8 +129,8 @@ export function initAudio(preloaded) {
     for (const layer of selected) {
       const audio = new Audio(layer.src);
       audio.loop = true;
-      audio.volume = layer.volume;
-      noiseLayers.push({ audio, config: layer });
+      audio.volume = 0;
+      noiseLayers.push({ audio, config: layer, active: false });
     }
   }
 
@@ -131,18 +145,57 @@ export function initAudio(preloaded) {
   const muteBtn = document.getElementById('mute-btn');
   muteBtn.addEventListener('click', toggleMute);
 
-  // Autoplay requires user interaction — start on first click anywhere
+  // Autoplay requires user interaction — start on first click
   const startAudio = () => {
     if (!audioStarted && !muted) {
       audioStarted = true;
       bgMusic.play().catch(() => {});
+      // Start all noise layers playing (at volume 0 — cycle will fade them)
       for (const layer of noiseLayers) {
         layer.audio.play().catch(() => {});
       }
+      // Start the intermittent noise cycle
+      startNoiseCycle();
     }
     document.removeEventListener('click', startAudio);
   };
   document.addEventListener('click', startAudio);
+}
+
+// Intermittent noise cycle: every 15-40s, fade one layer in or out
+// based on whether it matches current vessel locations
+function startNoiseCycle() {
+  const cycle = () => {
+    if (muted) return;
+
+    // Get current vessel locations from the DOM
+    const locationEls = document.querySelectorAll('.vessel-location');
+    const locationText = Array.from(locationEls).map(el => el.textContent.toLowerCase()).join(' ');
+
+    for (const layer of noiseLayers) {
+      // Check if any tag matches current vessel locations
+      const matches = layer.config.tags.some(tag => locationText.includes(tag));
+      const shouldPlay = matches || Math.random() < 0.2; // 20% chance even without match
+
+      if (shouldPlay && !layer.active) {
+        // Fade in
+        layer.active = true;
+        layer.audio.play().catch(() => {});
+        fadeVolume(layer.audio, layer.config.volume, 3000);
+      } else if (!shouldPlay && layer.active) {
+        // Fade out
+        layer.active = false;
+        fadeVolume(layer.audio, 0, 3000);
+      }
+    }
+
+    // Schedule next cycle: 15-40 seconds
+    const nextDelay = 15000 + Math.random() * 25000;
+    noiseTimer = setTimeout(cycle, nextDelay);
+  };
+
+  // First cycle after a short delay
+  noiseTimer = setTimeout(cycle, 3000);
 }
 
 function toggleMute() {
@@ -153,15 +206,15 @@ function toggleMute() {
     bgMusic.pause();
     for (const layer of noiseLayers) {
       layer.audio.pause();
+      layer.active = false;
     }
+    if (noiseTimer) clearTimeout(noiseTimer);
     muteBtn.classList.add('muted');
     muteBtn.innerHTML = '<img class="icon icon-red" src="assets/icons/mute.png" alt="">MUTE';
   } else {
     bgMusic.play().catch(() => {});
-    for (const layer of noiseLayers) {
-      layer.audio.play().catch(() => {});
-    }
     audioStarted = true;
+    startNoiseCycle();
     muteBtn.classList.remove('muted');
     muteBtn.innerHTML = '<img class="icon" src="assets/icons/volume.png" alt="">VOL';
   }

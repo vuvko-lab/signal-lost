@@ -219,23 +219,43 @@ export function createVessel() {
       return factionWeights[factionWeights.length - 1].faction;
     }
 
+    // If any faction has 2+ vessels, exclude it from selection
+    const overRepresented = new Set();
+    for (const [f, count] of Object.entries(factionCounts)) {
+      if (count >= 2) overRepresented.add(f);
+    }
+
+    function pickDiverseFaction() {
+      let candidate = pickWeightedFaction();
+      // Re-roll up to 5 times if we picked an over-represented faction
+      for (let i = 0; i < 5 && overRepresented.has(candidate); i++) {
+        candidate = pickWeightedFaction();
+      }
+      // Hard exclude: if still over-represented, pick from under-represented
+      if (overRepresented.has(candidate)) {
+        const available = state.world.factions.filter(f => !overRepresented.has(f));
+        if (available.length > 0) candidate = pick(available);
+      }
+      return candidate;
+    }
+
     // Pick link type: location (35%), directive (30%), faction (35%)
     const roll = Math.random();
     if (roll < 0.35) {
       // Same location — detected nearby
-      culture = pickWeightedFaction();
+      culture = pickDiverseFaction();
       zone = anchor.locationData;
       directive = pick(DIRECTIVES);
       recruitLink = { type: 'location', anchorId: anchor.id, anchorName: anchor.designation, shared: zone.name };
     } else if (roll < 0.65) {
       // Same directive — parallel mission
-      culture = pickWeightedFaction();
+      culture = pickDiverseFaction();
       zone = pick(state.world.zones);
       directive = anchor.directive;
       recruitLink = { type: 'directive', anchorId: anchor.id, anchorName: anchor.designation, shared: directive };
     } else {
-      // Same faction — recruited through cultural network
-      culture = anchor.culture;
+      // Same faction — recruited through cultural network, but enforce diversity
+      culture = overRepresented.has(anchor.culture) ? pickDiverseFaction() : anchor.culture;
       zone = pick(state.world.zones);
       directive = pick(DIRECTIVES);
       recruitLink = { type: 'faction', anchorId: anchor.id, anchorName: anchor.designation, shared: CULTURES[culture].name };
