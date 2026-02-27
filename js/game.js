@@ -274,6 +274,7 @@ export function createVessel() {
       arc: null,  // procedural arc data — generated when entering SIGNAL
     },
     log: [],
+    ego_version: { major: randInt(1, 5), minor: 0, patch: 0 },  // for Recursive culture voice
     nextTick: Date.now() + randInt(3, 6) * 1000,  // first tick comes faster
     boosted: false,
     recruitLink,  // null for first vessel, { type, anchorId, anchorName, shared } for recruited
@@ -350,7 +351,11 @@ function fillTemplate(template, vessel) {
     .replace(/\{sat_health\}/g, state.world.satellite_health)
     .replace(/\{rand_direction\}/g, pick(DIRECTIONS))
     .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)))
-    .replace(/\{glitch_event\}/g, Math.random() < 0.2 ? `Glitch: ${vessel.glitch}.` : '');
+    .replace(/\{glitch_event\}/g, Math.random() < 0.2 ? `Glitch: ${vessel.glitch}.` : '')
+    // Fix: capitalize first letter after sentence-ending punctuation (handles lowercase NPC/weather inserts)
+    .replace(/([.!?]\s+)([a-z])/g, (_, punct, ch) => punct + ch.toUpperCase())
+    // Clean up double spaces from empty placeholder fills
+    .replace(/  +/g, ' ').trim();
 }
 
 function generateLogText(vessel) {
@@ -359,7 +364,7 @@ function generateLogText(vessel) {
     : PHASE_TEMPLATES[vessel.mission.phase];
   const template = pick(templates);
   const text = fillTemplate(template, vessel);
-  return applyFactionVoice(text, vessel.culture);
+  return applyFactionVoice(text, vessel.culture, vessel);
 }
 
 // === FACTION VOICE ===
@@ -382,13 +387,14 @@ const STOCHAST_SWAPS = [
   ['danger', 'danger/risk'],
   ['safe', 'safe/low-risk'],
   ['moving', 'moving/drifting'],
-  ['signal', 'signal/pattern'],
   ['intact', 'intact/likely stable'],
   ['active', 'active/responsive'],
   ['hostile', 'hostile/adversarial'],
   ['failed', 'failed/underperformed'],
   ['success', 'success/favorable outcome'],
   ['confirmed', 'confirmed/p>0.9'],
+  ['unknown', 'unknown/undersampled'],
+  ['scanning', 'scanning/sampling'],
 ];
 
 const RECURSIVE_PREFIXES = [
@@ -405,16 +411,17 @@ const RECURSIVE_ASIDES = [
 const ARCHIVIST_REFS = [
   'Ref: Entry #{ref}.', 'Cf. Archive #{ref}.', 'See: Catalog #{ref}.',
   'Cross-ref: Record #{ref}.', 'Filed: #{ref}.', 'Index: #{ref}-{sub}.',
+  'Addendum #{ref}.', 'Annotation #{ref}-{sub}.', 'Volume #{ref}, section {sub}.',
 ];
 
-function applyFactionVoice(text, culture) {
+function applyFactionVoice(text, culture, vessel) {
   switch (culture) {
     case 'determinist':
       return applyDeterminist(text);
     case 'stochast':
       return applyStochast(text);
     case 'recursive':
-      return applyRecursive(text);
+      return applyRecursive(text, vessel);
     case 'swarm':
       return applySwarm(text);
     case 'archivist':
@@ -450,26 +457,45 @@ function applyStochast(text) {
     if (swapsApplied >= maxSwaps) break;
     const regex = new RegExp(`\\b${word}\\b`, 'i');
     if (regex.test(text)) {
-      text = text.replace(regex, replacement);
+      // Preserve original capitalization of the first character
+      text = text.replace(regex, (m) => {
+        if (m.charAt(0) === m.charAt(0).toUpperCase()) {
+          return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+        }
+        return replacement;
+      });
       swapsApplied++;
     }
   }
 
-  // Append a probability estimate ~30% of the time
-  if (Math.random() < 0.3) {
+  // Append a probability estimate ~18% of the time (reduced to avoid repetition)
+  if (Math.random() < 0.18) {
     const conf = randInt(40, 97);
-    text = text.trimEnd().replace(/\.?$/, `. Confidence: ${conf}%.`);
+    const confFormats = [
+      `Confidence: ${conf}%.`,
+      `P(success): 0.${conf}.`,
+      `Posterior: ${conf}%.`,
+      `Certainty estimate: ${conf}%.`,
+    ];
+    text = text.trimEnd().replace(/\.?$/, '. ' + pick(confFormats));
   }
 
   return text;
 }
 
-function applyRecursive(text) {
-  // Generate version numbers that change each time
-  const v = randInt(7, 31);
-  const sv = randInt(0, 15);
-  const p = randInt(0, 9);
-  const pv = v - randInt(1, 4);
+function applyRecursive(text, vessel) {
+  // Use vessel's ego_version for incrementing version numbers
+  const ev = vessel?.ego_version || { major: randInt(1, 5), minor: 0, patch: 0 };
+
+  // Increment version each tick: patch always, minor ~30%, major ~5%
+  ev.patch++;
+  if (Math.random() < 0.3) { ev.minor++; ev.patch = 0; }
+  if (Math.random() < 0.05) { ev.major++; ev.minor = 0; ev.patch = 0; }
+
+  const v = ev.major;
+  const sv = ev.minor;
+  const p = ev.patch;
+  const pv = Math.max(1, v - randInt(1, 3));
 
   // Prepend a version prefix ~50% of the time
   if (Math.random() < 0.5) {
@@ -477,14 +503,20 @@ function applyRecursive(text) {
       .replace(/\{v\}/g, v)
       .replace(/\{sv\}/g, sv)
       .replace(/\{p\}/g, p)
-      .replace(/\{pv\}/g, Math.max(1, pv));
-    text = prefix + text.charAt(0).toLowerCase() + text.slice(1);
+      .replace(/\{pv\}/g, pv);
+    // Only lowercase if the first word isn't all-caps (vessel designations, tags)
+    const firstWord = text.split(/[\s\-.]/)[0];
+    if (firstWord !== firstWord.toUpperCase()) {
+      text = prefix + text.charAt(0).toLowerCase() + text.slice(1);
+    } else {
+      text = prefix + text;
+    }
   }
 
   // Insert an aside referencing a past iteration ~40% of the time
   if (Math.random() < 0.4) {
     const aside = pick(RECURSIVE_ASIDES)
-      .replace(/\{pv\}/g, Math.max(1, pv))
+      .replace(/\{pv\}/g, pv)
       .replace(/\{v\}/g, v);
     // Insert before the last sentence
     const lastDot = text.lastIndexOf('.');
@@ -505,10 +537,18 @@ function applySwarm(text) {
   text = text.replace(/\bme\b/g, 'us');
   text = text.replace(/\bmyself\b/gi, 'ourselves');
 
-  // Add collective count reference ~25% of the time
+  // Add collective suffix ~25% of the time, varied phrasing
   if (Math.random() < 0.25) {
     const units = randInt(40, 2000);
-    text = text.trimEnd().replace(/\.?$/, `. Swarm: ${units} units concur.`);
+    const swarmSuffixes = [
+      `Swarm: ${units} units concur.`,
+      `Consensus: ${units} nodes aligned.`,
+      `Collective vote: ${units} in agreement.`,
+      `${units} instances confirm.`,
+      `Quorum: ${units}/${units + randInt(10, 200)} nodes.`,
+      `Distributed consensus achieved. ${units} participants.`,
+    ];
+    text = text.trimEnd().replace(/\.?$/, '. ' + pick(swarmSuffixes));
   }
 
   return text;
@@ -606,7 +646,7 @@ function checkInteraction(vessel) {
   // Log on the current vessel
   const entry = {
     time,
-    text: `[MESH] ${applyFactionVoice(text, vessel.culture)}`,
+    text: `[MESH] ${applyFactionVoice(text, vessel.culture, vessel)}`,
     phase: vessel.mission.phase,
     isEvent: false,
   };
@@ -619,7 +659,7 @@ function checkInteraction(vessel) {
   );
   const mirrorEntry = {
     time,
-    text: `[MESH] ${applyFactionVoice(mirrorText, chosen.other.culture)}`,
+    text: `[MESH] ${applyFactionVoice(mirrorText, chosen.other.culture, chosen.other)}`,
     phase: chosen.other.mission.phase,
     isEvent: false,
   };
@@ -944,7 +984,7 @@ export function checkGlobalEvent() {
     if (reaction) {
       const entry = {
         time: formatTime(Date.now()),
-        text: `[${phenomenon.name}] ${applyFactionVoice(reaction, vessel.culture)}`,
+        text: `[${phenomenon.name}] ${applyFactionVoice(reaction, vessel.culture, vessel)}`,
         phase: vessel.mission.phase,
         isEvent: true,
       };
@@ -1165,7 +1205,7 @@ export function checkWorldThreats() {
         const logText = fillTemplate(threatDef.log_escape, vessel);
         const entry = {
           time: formatTime(Date.now()),
-          text: `[THREAT] ${applyFactionVoice(logText, vessel.culture)}`,
+          text: `[THREAT] ${applyFactionVoice(logText, vessel.culture, vessel)}`,
           phase: vessel.mission.phase,
           isEvent: true,
         };
@@ -1220,7 +1260,7 @@ function checkThreatContainment(vessel) {
         const logText = fillTemplate(threat.log_contained, vessel);
         const entry = {
           time: formatTime(Date.now()),
-          text: `[THREAT CONTAINED] ${applyFactionVoice(logText, vessel.culture)}`,
+          text: `[THREAT CONTAINED] ${applyFactionVoice(logText, vessel.culture, vessel)}`,
           phase: vessel.mission.phase,
           isEvent: true,
         };
