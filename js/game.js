@@ -6,7 +6,7 @@ import {
   LOOT, NPCS, WEATHER, OBSTACLES, CS_SNIPPETS, PHASE_TEMPLATES,
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
-  INTERACTION_TEMPLATES, FACTION_DESIRES,
+  INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -92,6 +92,8 @@ export function createWorld(operatorId) {
       factions,
       zones,
       satellite_health: 5,
+      active_threats: [],  // { ...threat, zone, spawned_at, contained: false }
+      next_threat_check: Date.now() + randInt(300, 600) * 1000,
     },
     vessels: [],
     global_events: {
@@ -598,6 +600,9 @@ export function tick(vessel) {
     }
   }
 
+  // Check threat containment during CORE phase
+  checkThreatContainment(vessel);
+
   // Advance progress
   vessel.mission.progress++;
 
@@ -912,6 +917,136 @@ export function removeVessel(vesselId) {
   if (idx === -1) return;
   state.vessels.splice(idx, 1);
   save();
+}
+
+// === WORLD THREATS ===
+
+export function checkWorldThreats() {
+  if (!state) return;
+  // Migrate old saves
+  if (!state.world.active_threats) state.world.active_threats = [];
+  if (!state.world.next_threat_check) state.world.next_threat_check = Date.now() + randInt(300, 600) * 1000;
+
+  if (Date.now() < state.world.next_threat_check) return;
+
+  // Max 2 active threats at once
+  const activeCount = state.world.active_threats.filter(t => !t.contained).length;
+  if (activeCount < 2 && Math.random() < 0.4) {
+    // Spawn a new threat
+    const activeIds = state.world.active_threats.map(t => t.id);
+    const available = WORLD_THREATS.filter(t => !activeIds.includes(t.id));
+    if (available.length > 0) {
+      const threatDef = pick(available);
+      const matchingZones = state.world.zones.filter(z => z.type === threatDef.origin_zone);
+      const zone = matchingZones.length > 0 ? pick(matchingZones) : pick(state.world.zones);
+
+      const threat = {
+        ...threatDef,
+        zone: zone.label,
+        zoneData: zone,
+        spawned_at: Date.now(),
+        contained: false,
+      };
+      state.world.active_threats.push(threat);
+
+      // Apply escape effects to all vessels
+      for (const vessel of state.vessels) {
+        if (threatDef.effect_on_escape.integrity) {
+          vessel.integrity = Math.max(0, vessel.integrity + threatDef.effect_on_escape.integrity);
+        }
+        if (threatDef.effect_on_escape.energy) {
+          vessel.energy = Math.max(0, vessel.energy + threatDef.effect_on_escape.energy);
+        }
+        if (threatDef.effect_on_escape.satellite) {
+          state.world.satellite_health = Math.max(0, Math.min(5, state.world.satellite_health + threatDef.effect_on_escape.satellite));
+        }
+
+        const logText = fillTemplate(threatDef.log_escape, vessel);
+        const entry = {
+          time: formatTime(Date.now()),
+          text: `[THREAT] ${applyFactionVoice(logText, vessel.culture)}`,
+          phase: vessel.mission.phase,
+          isEvent: true,
+        };
+        vessel.log.push(entry);
+        if (onLogEntry) onLogEntry(vessel.id, entry);
+        if (onStatsChange) onStatsChange(vessel.id);
+      }
+
+      // Check vessel destruction from threat damage
+      for (let i = state.vessels.length - 1; i >= 0; i--) {
+        const v = state.vessels[i];
+        if (v.integrity <= 0) {
+          const deathEntry = {
+            time: formatTime(Date.now()),
+            text: `[VESSEL LOST] ${v.designation} — integrity critical. All systems offline. Signal terminated.`,
+            phase: v.mission.phase,
+            isEvent: true,
+          };
+          v.log.push(deathEntry);
+          if (onLogEntry) onLogEntry(v.id, deathEntry);
+          if (onVesselDestroyed) onVesselDestroyed(v.id);
+          state.vessels.splice(i, 1);
+        }
+      }
+
+      if (onGlobalEvent) onGlobalEvent({ id: threat.id, name: threat.name, banner: threat.desc });
+    }
+  }
+
+  state.world.next_threat_check = Date.now() + randInt(300, 600) * 1000;
+  save();
+}
+
+// Called when a vessel reaches CORE phase at a threat's location
+function checkThreatContainment(vessel) {
+  if (!state.world.active_threats) return;
+
+  for (const threat of state.world.active_threats) {
+    if (threat.contained) continue;
+    if (vessel.location === threat.zone && vessel.mission.phase === 'CORE') {
+      // Chance to contain based on danger level: danger 2=60%, 3=40%, 4=25%
+      const containChance = threat.danger <= 2 ? 0.6 : threat.danger === 3 ? 0.4 : 0.25;
+      if (Math.random() < containChance) {
+        threat.contained = true;
+
+        // Apply containment rewards
+        const reward = threat.containment_reward || {};
+        if (reward.integrity) vessel.integrity = Math.min(10, vessel.integrity + reward.integrity);
+        if (reward.energy) vessel.energy = Math.min(10, vessel.energy + reward.energy);
+        if (reward.sat) state.world.satellite_health = Math.min(5, state.world.satellite_health + reward.sat);
+
+        const logText = fillTemplate(threat.log_contained, vessel);
+        const entry = {
+          time: formatTime(Date.now()),
+          text: `[THREAT CONTAINED] ${applyFactionVoice(logText, vessel.culture)}`,
+          phase: vessel.mission.phase,
+          isEvent: true,
+        };
+        vessel.log.push(entry);
+        if (onLogEntry) onLogEntry(vessel.id, entry);
+        if (onStatsChange) onStatsChange(vessel.id);
+
+        // Broadcast to all other vessels
+        for (const other of state.vessels) {
+          if (other.id === vessel.id) continue;
+          const bcastEntry = {
+            time: formatTime(Date.now()),
+            text: `[MESH] ${threat.name} at ${threat.zone} contained by ${vessel.designation}. Threat level reduced.`,
+            phase: other.mission.phase,
+            isEvent: true,
+          };
+          other.log.push(bcastEntry);
+          if (onLogEntry) onLogEntry(other.id, bcastEntry);
+        }
+      }
+    }
+  }
+}
+
+export function getActiveThreats() {
+  if (!state || !state.world.active_threats) return [];
+  return state.world.active_threats.filter(t => !t.contained);
 }
 
 // === SAT CONNECTIVITY SYSTEM ===

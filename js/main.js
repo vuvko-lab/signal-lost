@@ -3,7 +3,7 @@
 import {
   createWorld, createVessel, load, tick, checkGlobalEvent,
   getState, getVessel, setCallbacks, boostVessel, pingVessel, injectCommand,
-  checkSatDecay, getSatHealth,
+  checkSatDecay, getSatHealth, checkWorldThreats,
 } from './game.js';
 
 import {
@@ -40,6 +40,7 @@ function startGameLoop() {
   // Global event check — every 5 seconds
   globalEventInterval = setInterval(() => {
     checkGlobalEvent();
+    checkWorldThreats();
   }, 5000);
 
   // SAT natural decay — every 90-120 seconds

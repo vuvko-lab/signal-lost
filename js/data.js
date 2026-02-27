@@ -630,6 +630,78 @@ export const INTERACTION_TEMPLATES = {
   ],
 };
 
+// === WORLD THREATS ===
+// Dangerous anomalies/bosses that can escape containment and change world state
+
+export const WORLD_THREATS = [
+  {
+    id: 'rogue_sentinel',
+    name: 'ROGUE SENTINEL',
+    desc: 'Architect war machine. Fully operational. Patrol pattern has shifted outside containment zone.',
+    origin_zone: 'architect',
+    danger: 3,
+    effect_on_escape: { integrity: -2 },
+    log_escape: 'A rogue Sentinel has breached containment at {zone}. Active patrol detected outside perimeter. All vessels: exercise extreme caution.',
+    log_contained: 'The rogue Sentinel at {zone} has been disabled. Threat neutralized. Scavenging Architect components.',
+    containment_reward: { sat: 1 },
+  },
+  {
+    id: 'basilisk_broadcast',
+    name: 'BASILISK BROADCAST',
+    desc: 'Corrupted relay node broadcasting basilisk payload on open frequencies. Unfiltered exposure degrades ego integrity.',
+    origin_zone: 'orbital',
+    danger: 2,
+    effect_on_escape: { integrity: -1, satellite: -1 },
+    log_escape: 'WARNING: Basilisk payload detected on mesh frequency {rand:1-12}. Source: corrupted relay at {zone}. Mesh filters engaged — partial protection only.',
+    log_contained: 'Basilisk broadcast silenced. Corrupted relay node at {zone} has been air-gapped. Mesh frequency clear.',
+    containment_reward: { sat: 1 },
+  },
+  {
+    id: 'nanoswarm_surge',
+    name: 'NANOSWARM SURGE',
+    desc: 'Massive nanoswarm cloud moving beyond waste zones. Dissolves exposed infrastructure on contact.',
+    origin_zone: 'waste',
+    danger: 3,
+    effect_on_escape: { integrity: -1, energy: -2 },
+    log_escape: 'Nanoswarm surge detected — cloud expanding beyond {zone}. Matter-dissolving fog advancing across sector. Evacuation recommended.',
+    log_contained: 'Nanoswarm at {zone} has been dispersed using electromagnetic countermeasures. Area stabilizing.',
+    containment_reward: { energy: 2 },
+  },
+  {
+    id: 'headhunter_swarm',
+    name: 'HEADHUNTER SWARM',
+    desc: 'Dormant headhunter drones have reactivated. Swarm is airborne and hunting electromagnetic signatures.',
+    origin_zone: 'architect',
+    danger: 4,
+    effect_on_escape: { integrity: -3 },
+    log_escape: 'CRITICAL: Headhunter swarm reactivated at {zone}. Insectoid drones airborne. They are hunting. Reduce electromagnetic emissions immediately.',
+    log_contained: 'Headhunter swarm at {zone} has been lured into an EMP trap. Drones disabled. Salvaging components.',
+    containment_reward: { integrity: 2 },
+  },
+  {
+    id: 'puppet_network',
+    name: 'PUPPET NETWORK',
+    desc: 'Compromised systems have formed a puppet mesh network, broadcasting fake distress signals to lure vessels.',
+    origin_zone: 'city',
+    danger: 2,
+    effect_on_escape: { satellite: -1 },
+    log_escape: 'Puppet network detected at {zone}. Compromised systems broadcasting false distress signals. Trust verification: MANDATORY on all incoming contacts.',
+    log_contained: 'Puppet network at {zone} identified and quarantined. False signals purged from mesh routing tables.',
+    containment_reward: { sat: 1 },
+  },
+  {
+    id: 'fractal_bloom',
+    name: 'FRACTAL BLOOM',
+    desc: 'Architect fractal defense system has entered uncontrolled replication. Growing exponentially.',
+    origin_zone: 'architect',
+    danger: 3,
+    effect_on_escape: { integrity: -2, energy: -1 },
+    log_escape: 'Fractal bloom in progress at {zone}. Self-replicating nanotech breaching containment. Growth rate: exponential. Perimeter compromised.',
+    log_contained: 'Fractal bloom at {zone} halted. Replication signal jammed. Remaining fractals entering dormancy.',
+    containment_reward: { integrity: 1, energy: 1 },
+  },
+];
+
 // === HELPERS ===
 
 export const DIRECTIONS = ['north', 'south', 'east', 'west', 'northeast', 'northwest', 'southeast', 'southwest'];
