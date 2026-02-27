@@ -367,7 +367,6 @@ function fillTemplate(template, vessel) {
     .replace(/\{npc\}/g, pick(NPCS))
     .replace(/\{weather\}/g, pick(WEATHER))
     .replace(/\{obstacle\}/g, pick(OBSTACLES))
-    .replace(/\s*\{cs\}\s*/g, ' ') // CS snippets removed — caused jargon soup
     .replace(/\{integrity\}/g, vessel.integrity)
     .replace(/\{energy\}/g, vessel.energy)
     .replace(/\{hardware\}/g, vessel.skills?.hardware || 1)

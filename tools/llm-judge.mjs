@@ -118,7 +118,6 @@ function extractArray(name) {
 
 const PHASE_TEMPLATES = extractArray('PHASE_TEMPLATES');
 const RELAY_TEMPLATES = extractArray('RELAY_TEMPLATES');
-const CS_SNIPPETS = extractArray('CS_SNIPPETS');
 const INTERACTION_TEMPLATES = extractArray('INTERACTION_TEMPLATES');
 const PHASE_OBJECTIVES = extractArray('PHASE_OBJECTIVES');
 const RELAY_OBJECTIVES = extractArray('RELAY_OBJECTIVES');
@@ -145,7 +144,6 @@ function fillTemplate(template, phase, culture) {
   text = text.replace(/\{npc\}/g, NPCS ? pick(NPCS) : 'a dormant sentry turret');
   text = text.replace(/\{weather\}/g, WEATHER ? pick(WEATHER) : 'Electromagnetic interference detected.');
   text = text.replace(/\{obstacle\}/g, OBSTACLES ? pick(OBSTACLES) : 'Collapsed tunnel ahead.');
-  text = text.replace(/\{cs\}/g, CS_SNIPPETS ? pick(CS_SNIPPETS[phase] || []) : '');
   text = text.replace(/\{integrity\}/g, String(randInt(3, 10)));
   text = text.replace(/\{energy\}/g, String(randInt(2, 10)));
   text = text.replace(/\{hardware\}/g, String(randInt(1, 5)));
