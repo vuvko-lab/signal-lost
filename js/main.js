@@ -14,9 +14,10 @@ import {
   addVesselTab, switchToVesselTab, setupMobileResize,
   updateDarkMode, removeVesselColumn, removeVesselTab,
   gameAlert, gameConfirm, gamePrompt,
+  updateBootLoadProgress, finishBootLoading, continueBootAfterLoad,
 } from './ui.js';
 
-import { initAudio } from './audio.js';
+import { initAudio, preloadAudio } from './audio.js';
 
 import {
   initTableConfig, getTable, setTable, resetTable, resetAllTables,
@@ -492,10 +493,12 @@ async function init() {
   const savedState = load();
 
   if (savedState) {
-    // Restore from save
+    // Restore from save — preload audio while restoring
     hideBootScreen();
     showGameUI();
-    initAudio();
+
+    const preloaded = await preloadAudio();
+    initAudio(preloaded);
 
     // Rebuild UI from state
     for (const vessel of savedState.vessels) {
@@ -530,11 +533,20 @@ async function init() {
     setupMobileResize();
     startGameLoop();
   } else {
-    // Fresh start — boot sequence
-    const operatorId = await renderBootScreen();
+    // Fresh start — boot sequence with audio preloading
+    await renderBootScreen(); // type initial boot lines
+
+    // Preload audio — show progress in boot text
+    const preloaded = await preloadAudio((loaded, total, label) => {
+      updateBootLoadProgress(loaded, total, label);
+    });
+    finishBootLoading();
+
+    // Continue boot sequence (remaining lines + operator prompt)
+    const operatorId = await continueBootAfterLoad();
     hideBootScreen();
     showGameUI();
-    initAudio();
+    initAudio(preloaded);
 
     // Create world and first vessel
     const state = createWorld(operatorId);

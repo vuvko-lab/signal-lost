@@ -1,0 +1,466 @@
+#!/usr/bin/env node
+// LLM-as-Judge: Evaluates and expands game narrative templates via DeepInfra API
+// Usage: node tools/llm-judge.mjs [--expand] [--phase PHASE] [--culture CULTURE]
+
+import { readFileSync, writeFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+
+// DeepInfra config
+const API_KEY = 'WrVFkDKwVihBDwU8pdIBwDKNZFAXHhRd';
+const API_URL = 'https://api.deepinfra.com/v1/openai/chat/completions';
+const JUDGE_MODEL = 'Qwen/Qwen2.5-72B-Instruct';
+const GEN_MODEL = 'meta-llama/Llama-3.3-70B-Instruct-Turbo';
+
+// Import game data dynamically
+const dataPath = join(ROOT, 'js/data.js');
+const dataSource = readFileSync(dataPath, 'utf8');
+
+// Parse key arrays from data.js (they're ES module exports, so we eval-extract)
+function extractArray(name) {
+  const re = new RegExp(`export const ${name}\\s*=\\s*(\\{[\\s\\S]*?\\});|export const ${name}\\s*=\\s*(\\[[\\s\\S]*?\\]);`, 'm');
+  const match = dataSource.match(re);
+  if (!match) return null;
+  const raw = match[1] || match[2];
+  try {
+    return Function(`"use strict"; return (${raw})`)();
+  } catch (e) {
+    return null;
+  }
+}
+
+const PHASE_TEMPLATES = extractArray('PHASE_TEMPLATES');
+const RELAY_TEMPLATES = extractArray('RELAY_TEMPLATES');
+const CS_SNIPPETS = extractArray('CS_SNIPPETS');
+const INTERACTION_TEMPLATES = extractArray('INTERACTION_TEMPLATES');
+const PHASE_OBJECTIVES = extractArray('PHASE_OBJECTIVES');
+const RELAY_OBJECTIVES = extractArray('RELAY_OBJECTIVES');
+const CULTURES = extractArray('CULTURES');
+const LOOT = extractArray('LOOT');
+const NPCS = extractArray('NPCS');
+const WEATHER = extractArray('WEATHER');
+const OBSTACLES = extractArray('OBSTACLES');
+const DIRECTIONS = extractArray('DIRECTIONS');
+
+const PHASES = ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'FAULT', 'CORE', 'REBOOT'];
+const CULTURE_KEYS = CULTURES ? Object.keys(CULTURES) : ['determinist', 'stochast', 'swarm', 'recursive', 'archivist'];
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function randInt(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+
+// Simulate template filling (simplified version of game.js fillTemplate)
+function fillTemplate(template, phase, culture) {
+  let text = template;
+  text = text.replace(/\{designation\}/g, `${pick(['CALC','VECT','NODE','UNIT','FLUX'])}-${randInt(1,99)}`);
+  text = text.replace(/\{culture_speech\}/g, CULTURES ? pick(CULTURES[culture].speech) : 'Protocol states:');
+  text = text.replace(/\{zone\}/g, pick(['Dead Mall Sector', 'Reactor Sub-Level 3', 'Orbital Relay Gamma', 'Overgrown Server Farm', 'Nuclear Cooling Pond']));
+  text = text.replace(/\{loot\}/g, LOOT ? pick(LOOT) : 'corroded data chip');
+  text = text.replace(/\{npc\}/g, NPCS ? pick(NPCS) : 'a dormant sentry turret');
+  text = text.replace(/\{weather\}/g, WEATHER ? pick(WEATHER) : 'Electromagnetic interference detected.');
+  text = text.replace(/\{obstacle\}/g, OBSTACLES ? pick(OBSTACLES) : 'Collapsed tunnel ahead.');
+  text = text.replace(/\{cs\}/g, CS_SNIPPETS ? pick(CS_SNIPPETS[phase] || []) : '');
+  text = text.replace(/\{integrity\}/g, String(randInt(3, 10)));
+  text = text.replace(/\{energy\}/g, String(randInt(2, 10)));
+  text = text.replace(/\{hardware\}/g, String(randInt(1, 5)));
+  text = text.replace(/\{interface\}/g, String(randInt(1, 5)));
+  text = text.replace(/\{research\}/g, String(randInt(1, 5)));
+  text = text.replace(/\{directive\}/g, pick(['Map subsurface tunnels', 'Maintain cooling systems', 'Catalog surviving databases', 'Patrol exclusion zone']));
+  text = text.replace(/\{glitch\}/g, pick(['phantom echoes on sonar', 'spontaneous reboot every 72h', 'left motor draws 2x power']));
+  text = text.replace(/\{arc_count\}/g, String(randInt(1, 8)));
+  text = text.replace(/\{sat_health\}/g, String(randInt(0, 5)));
+  text = text.replace(/\{rand_direction\}/g, DIRECTIONS ? pick(DIRECTIONS) : 'northeast');
+  text = text.replace(/\{rand:(\d+)-(\d+)\}/g, (_, a, b) => String(randInt(parseInt(a), parseInt(b))));
+  text = text.replace(/\{glitch_event\}/g, '');
+  // Interaction-specific
+  text = text.replace(/\{self\}/g, `UNIT-${randInt(1,50)}`);
+  text = text.replace(/\{other\}/g, `NODE-${randInt(1,50)}`);
+  text = text.replace(/\{other_hp\}/g, String(randInt(1, 10)));
+  text = text.replace(/\{other_arc\}/g, String(randInt(1, 8)));
+  text = text.replace(/\{culture_speech_other\}/g, 'Pattern confidence:');
+  return text;
+}
+
+// Call DeepInfra API with retry + exponential backoff
+async function llmCall(model, messages, temperature = 0.7, maxRetries = 5) {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({ model, messages, temperature, max_tokens: 8000 }),
+      });
+      if (resp.status === 429 || resp.status === 503) {
+        const wait = Math.min(2000 * Math.pow(2, attempt), 30000);
+        if (attempt < maxRetries) {
+          process.stdout.write(`[retry ${attempt + 1} in ${(wait/1000).toFixed(0)}s] `);
+          await new Promise(r => setTimeout(r, wait));
+          continue;
+        }
+      }
+      if (!resp.ok) {
+        const err = await resp.text();
+        throw new Error(`API error ${resp.status}: ${err}`);
+      }
+      const data = await resp.json();
+      return data.choices[0].message.content;
+    } catch (e) {
+      if (attempt < maxRetries && (e.message.includes('429') || e.message.includes('503') || e.message.includes('fetch'))) {
+        const wait = Math.min(2000 * Math.pow(2, attempt), 30000);
+        process.stdout.write(`[retry ${attempt + 1} in ${(wait/1000).toFixed(0)}s] `);
+        await new Promise(r => setTimeout(r, wait));
+        continue;
+      }
+      throw e;
+    }
+  }
+}
+
+// ============================================================
+// JUDGE: Evaluate a batch of filled templates
+// ============================================================
+async function judgeTemplates(category, phase, templates, culture) {
+  // Fill templates with sample data
+  const samples = templates.map(t => fillTemplate(t, phase, culture || 'determinist'));
+
+  const prompt = `You are an expert game narrative reviewer for a post-apocalyptic AI terminal game called "Signal Lost". The game has zero-player RPG logs displayed in a terminal/CRT aesthetic.
+
+SETTING: Post-human world. All characters are AI systems. 5 AI cultures (Determinists=rule-based, Stochasts=ML, Swarm=distributed, Recursive=self-modifying, Archivists=database). Vessels explore ruins, hack facilities, and decode signals. The tone is atmospheric, terse, and technical — like reading equipment logs from autonomous robots.
+
+EVALUATE these ${category} templates for phase "${phase}"${culture ? ` (culture: ${culture})` : ''}:
+
+RAW TEMPLATES:
+${templates.map((t, i) => `${i + 1}. "${t}"`).join('\n')}
+
+FILLED EXAMPLES (with random data substituted):
+${samples.map((s, i) => `${i + 1}. "${s}"`).join('\n')}
+
+Score each template 1-5 on these criteria:
+- ATMOSPHERE: Does it feel like a post-apocalyptic AI equipment log? (terse, technical, atmospheric)
+- VARIETY: Is it distinct from the others? Does it add something new?
+- TEMPLATE_QUALITY: Are the {variable} placements natural? Does the filled version read well?
+- CS_INTEGRATION: If it contains a {cs} slot, does the CS snippet integrate naturally?
+- IMMERSION: Would this text hold a player's attention in a scrolling log feed?
+
+Then provide:
+1. OVERALL VERDICT: PASS (avg >= 3.5) or NEEDS_WORK (avg < 3.5)
+2. WEAK SPOTS: Which specific templates need improvement and why
+3. MISSING THEMES: What topics/scenarios are missing that would add variety
+4. SUGGESTED NEW TEMPLATES: Write 3-5 NEW templates in the exact same format (using {zone}, {loot}, {cs}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch_event} variables) that would strengthen this category
+
+Respond in JSON format. Keep "note" fields under 15 words each. No markdown wrapping.
+{
+  "scores": [{"id": 1, "atmosphere": N, "variety": N, "template_quality": N, "cs_integration": N, "immersion": N, "avg": N, "note": "brief"}],
+  "verdict": "PASS|NEEDS_WORK",
+  "weak_spots": ["..."],
+  "missing_themes": ["..."],
+  "new_templates": ["template string with {variables}..."]
+}`;
+
+  const result = await llmCall(JUDGE_MODEL, [
+    { role: 'user', content: prompt },
+  ], 0.3);
+
+  // Extract JSON from response (handle markdown code blocks)
+  let json;
+  try {
+    const jsonMatch = result.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, result];
+    // Try to find JSON object in the text
+    const text = jsonMatch[1] || result;
+    const start = text.indexOf('{');
+    const end = text.lastIndexOf('}');
+    if (start !== -1 && end !== -1) {
+      json = JSON.parse(text.slice(start, end + 1));
+    }
+  } catch (e) {
+    console.error(`  Failed to parse judge response for ${category}/${phase}: ${e.message}`);
+    console.error(`  Raw response (first 500 chars): ${result.slice(0, 500)}`);
+    json = { verdict: 'PARSE_ERROR', raw: result.slice(0, 1000) };
+  }
+
+  return json;
+}
+
+// ============================================================
+// EXPAND: Generate new templates based on judge feedback
+// ============================================================
+async function expandTemplates(category, phase, existing, feedback, culture) {
+  const missingThemes = feedback.missing_themes || [];
+  const weakSpots = feedback.weak_spots || [];
+
+  const prompt = `You are writing narrative log templates for "Signal Lost", a post-apocalyptic AI terminal RPG.
+
+SETTING: Post-human world, AI-only characters. The logs read like equipment reports from autonomous robots exploring ruins. Tone: terse, technical, atmospheric. Each entry is 1-3 sentences.
+
+CATEGORY: ${category}, PHASE: ${phase}${culture ? `, CULTURE: ${culture}` : ''}
+
+EXISTING TEMPLATES (${existing.length}):
+${existing.map((t, i) => `${i + 1}. "${t}"`).join('\n')}
+
+JUDGE FEEDBACK:
+- Weak spots: ${weakSpots.join('; ') || 'None noted'}
+- Missing themes: ${missingThemes.join('; ') || 'None noted'}
+- Suggested improvements from judge: ${(feedback.new_templates || []).join(' | ').slice(0, 500)}
+
+AVAILABLE VARIABLES: {zone}, {loot}, {cs}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch_event}, {directive}, {glitch}, {arc_count}, {sat_health}, {hardware}, {interface}, {research}
+
+PHASE CONTEXT:
+- IDLE: Charging, resting, trading — networking CS themes
+- SIGNAL: Detecting anomalies, scanning — signal processing CS themes
+- TRAVERSE: Moving through terrain — pathfinding CS themes
+- BREACH: Entering facilities, hacking — security CS themes
+- FAULT: System conflicts, dangers — error handling CS themes
+- CORE: Reaching objectives, discoveries — advanced CS themes
+- REBOOT: Exiting, collecting loot — data management CS themes
+
+Write exactly 5 NEW templates that:
+1. Are DISTINCT from existing ones (different scenarios, different sentence structures)
+2. Use {variables} naturally (not forced)
+3. Include at least one {cs} placeholder for educational CS content
+4. Feel like terse equipment logs, not flowery prose
+5. Are 1-3 sentences each
+6. Address the missing themes and weak spots noted above
+
+Return ONLY a JSON array of 5 template strings. No explanation.
+["template1...", "template2...", ...]`;
+
+  const result = await llmCall(GEN_MODEL, [
+    { role: 'user', content: prompt },
+  ], 0.8);
+
+  try {
+    const jsonMatch = result.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, result];
+    const text = jsonMatch[1] || result;
+    const start = text.indexOf('[');
+    const end = text.lastIndexOf(']');
+    if (start !== -1 && end !== -1) {
+      return JSON.parse(text.slice(start, end + 1));
+    }
+  } catch (e) {
+    console.error(`  Failed to parse expansion for ${category}/${phase}: ${e.message}`);
+  }
+  return [];
+}
+
+// ============================================================
+// MAIN: Run the judge loop
+// ============================================================
+const args = process.argv.slice(2);
+const doExpand = args.includes('--expand');
+const phaseFilter = args.includes('--phase') ? args[args.indexOf('--phase') + 1]?.toUpperCase() : null;
+const cultureFilter = args.includes('--culture') ? args[args.indexOf('--culture') + 1] : null;
+
+const results = {};
+let totalPass = 0;
+let totalFail = 0;
+
+console.log('=== SIGNAL LOST — LLM-AS-JUDGE ===');
+console.log(`Judge model: ${JUDGE_MODEL}`);
+console.log(`Gen model:   ${GEN_MODEL}`);
+console.log(`Mode:        ${doExpand ? 'EVALUATE + EXPAND' : 'EVALUATE ONLY'}`);
+console.log(`Filters:     phase=${phaseFilter || 'all'} culture=${cultureFilter || 'all'}`);
+console.log('');
+
+async function run() {
+  const allNewTemplates = {};
+
+  // 1. Judge PHASE_TEMPLATES
+  if (PHASE_TEMPLATES) {
+    console.log('--- PHASE_TEMPLATES ---');
+    for (const phase of PHASES) {
+      if (phaseFilter && phase !== phaseFilter) continue;
+      const templates = PHASE_TEMPLATES[phase];
+      if (!templates || templates.length === 0) continue;
+
+      process.stdout.write(`  ${phase} (${templates.length} templates)... `);
+      const feedback = await judgeTemplates('PHASE_TEMPLATES', phase, templates);
+      const verdict = feedback.verdict || 'UNKNOWN';
+      const avgScore = feedback.scores
+        ? (feedback.scores.reduce((s, t) => s + (t.avg || 0), 0) / feedback.scores.length).toFixed(1)
+        : '?';
+
+      if (verdict === 'PASS') totalPass++;
+      else totalFail++;
+
+      console.log(`${verdict} (avg: ${avgScore})`);
+
+      if (feedback.weak_spots?.length) {
+        for (const w of feedback.weak_spots.slice(0, 2)) {
+          console.log(`    ! ${w}`);
+        }
+      }
+
+      results[`PHASE_TEMPLATES.${phase}`] = feedback;
+
+      if (doExpand && (verdict !== 'PASS' || templates.length < 8)) {
+        process.stdout.write(`    Expanding... `);
+        const newTemplates = await expandTemplates('PHASE_TEMPLATES', phase, templates, feedback);
+        console.log(`+${newTemplates.length} templates`);
+        if (newTemplates.length > 0) {
+          allNewTemplates[`PHASE_TEMPLATES.${phase}`] = newTemplates;
+          for (const t of newTemplates) {
+            console.log(`    + "${t.slice(0, 80)}${t.length > 80 ? '...' : ''}"`);
+          }
+        }
+      }
+    }
+    console.log('');
+  }
+
+  // 2. Judge RELAY_TEMPLATES
+  if (RELAY_TEMPLATES) {
+    console.log('--- RELAY_TEMPLATES ---');
+    for (const phase of PHASES) {
+      if (phaseFilter && phase !== phaseFilter) continue;
+      const templates = RELAY_TEMPLATES[phase];
+      if (!templates || templates.length === 0) continue;
+
+      process.stdout.write(`  ${phase} (${templates.length} templates)... `);
+      const feedback = await judgeTemplates('RELAY_TEMPLATES', phase, templates);
+      const verdict = feedback.verdict || 'UNKNOWN';
+      const avgScore = feedback.scores
+        ? (feedback.scores.reduce((s, t) => s + (t.avg || 0), 0) / feedback.scores.length).toFixed(1)
+        : '?';
+
+      if (verdict === 'PASS') totalPass++;
+      else totalFail++;
+
+      console.log(`${verdict} (avg: ${avgScore})`);
+      results[`RELAY_TEMPLATES.${phase}`] = feedback;
+
+      if (doExpand && (verdict !== 'PASS' || templates.length < 6)) {
+        process.stdout.write(`    Expanding... `);
+        const newTemplates = await expandTemplates('RELAY_TEMPLATES', phase, templates, feedback);
+        console.log(`+${newTemplates.length} templates`);
+        if (newTemplates.length > 0) {
+          allNewTemplates[`RELAY_TEMPLATES.${phase}`] = newTemplates;
+        }
+      }
+    }
+    console.log('');
+  }
+
+  // 3. Judge INTERACTION_TEMPLATES
+  if (INTERACTION_TEMPLATES) {
+    console.log('--- INTERACTION_TEMPLATES ---');
+    for (const type of Object.keys(INTERACTION_TEMPLATES)) {
+      const templates = INTERACTION_TEMPLATES[type];
+      if (!templates || templates.length === 0) continue;
+
+      process.stdout.write(`  ${type} (${templates.length} templates)... `);
+      const feedback = await judgeTemplates('INTERACTION_TEMPLATES', type, templates);
+      const verdict = feedback.verdict || 'UNKNOWN';
+      const avgScore = feedback.scores
+        ? (feedback.scores.reduce((s, t) => s + (t.avg || 0), 0) / feedback.scores.length).toFixed(1)
+        : '?';
+
+      if (verdict === 'PASS') totalPass++;
+      else totalFail++;
+
+      console.log(`${verdict} (avg: ${avgScore})`);
+      results[`INTERACTION_TEMPLATES.${type}`] = feedback;
+
+      if (doExpand && (verdict !== 'PASS' || templates.length < 6)) {
+        process.stdout.write(`    Expanding... `);
+        const newTemplates = await expandTemplates('INTERACTION_TEMPLATES', type, templates, feedback);
+        console.log(`+${newTemplates.length} templates`);
+        if (newTemplates.length > 0) {
+          allNewTemplates[`INTERACTION_TEMPLATES.${type}`] = newTemplates;
+        }
+      }
+    }
+    console.log('');
+  }
+
+  // 4. Judge PHASE_OBJECTIVES
+  if (PHASE_OBJECTIVES) {
+    console.log('--- PHASE_OBJECTIVES ---');
+    for (const phase of PHASES) {
+      if (phaseFilter && phase !== phaseFilter) continue;
+      const templates = PHASE_OBJECTIVES[phase];
+      if (!templates || templates.length === 0) continue;
+
+      process.stdout.write(`  ${phase} (${templates.length} templates)... `);
+      const feedback = await judgeTemplates('PHASE_OBJECTIVES', phase, templates);
+      const verdict = feedback.verdict || 'UNKNOWN';
+
+      if (verdict === 'PASS') totalPass++;
+      else totalFail++;
+
+      console.log(`${verdict}`);
+      results[`PHASE_OBJECTIVES.${phase}`] = feedback;
+    }
+    console.log('');
+  }
+
+  // Summary
+  console.log('=== SUMMARY ===');
+  console.log(`PASS: ${totalPass}  NEEDS_WORK: ${totalFail}`);
+
+  // Save full results
+  const reportPath = join(ROOT, 'tools/judge-report.json');
+  writeFileSync(reportPath, JSON.stringify(results, null, 2));
+  console.log(`Full report: ${reportPath}`);
+
+  // Save new templates if expanding
+  if (doExpand && Object.keys(allNewTemplates).length > 0) {
+    const expandPath = join(ROOT, 'tools/judge-expansions.json');
+    writeFileSync(expandPath, JSON.stringify(allNewTemplates, null, 2));
+    console.log(`New templates: ${expandPath}`);
+    console.log(`\nTo apply: node tools/llm-judge.mjs --apply`);
+  }
+
+  // Apply mode: inject new templates into data.js
+  if (args.includes('--apply')) {
+    const expandPath = join(ROOT, 'tools/judge-expansions.json');
+    try {
+      const expansions = JSON.parse(readFileSync(expandPath, 'utf8'));
+      let modified = readFileSync(dataPath, 'utf8');
+      let applied = 0;
+
+      for (const [key, newTemplates] of Object.entries(expansions)) {
+        const [tableName, subKey] = key.split('.');
+        // Find the array in data.js and append templates
+        for (const template of newTemplates) {
+          // Validate template has proper variables
+          if (!template.includes('{') && !template.match(/^[A-Z]/)) continue;
+          // Clean the template
+          const clean = template.replace(/'/g, "\\'").trim();
+          if (clean.length < 10) continue;
+
+          // Find the closing bracket of the sub-array
+          const searchKey = subKey.toUpperCase ? subKey : subKey;
+          // This is fragile but works for the known structure
+          const pattern = new RegExp(
+            `(${tableName}[\\s\\S]*?${searchKey}:\\s*\\[[^\\]]*?)(\\s*\\])`,
+            'm'
+          );
+          const match = modified.match(pattern);
+          if (match) {
+            modified = modified.replace(pattern, `$1,\n    '${clean}'$2`);
+            applied++;
+          }
+        }
+      }
+
+      if (applied > 0) {
+        writeFileSync(dataPath, modified);
+        console.log(`Applied ${applied} new templates to js/data.js`);
+      } else {
+        console.log('No templates applied (check expansions file).');
+      }
+    } catch (e) {
+      console.error(`Cannot apply: ${e.message}`);
+    }
+  }
+}
+
+run().catch(e => {
+  console.error('Fatal:', e.message);
+  process.exit(1);
+});

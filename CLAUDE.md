@@ -5,7 +5,7 @@
 A zero-player RPG (like Godville) for the [AI Apocalyptic Dark Fantasy Jam](https://itch.io/jam/ai-apocalyptic-dark-fantasy-jam-) on itch.io. Post-human world, AI-only characters, terminal/CRT aesthetic. The game plays itself — player is a passive "operator" watching AI vessel log feeds.
 
 **Deadline:** Feb 28, 2026
-**Status:** Design phase complete, entering code planning
+**Status:** Playable MVP with audio, fonts, and UI
 
 ## Project Structure
 
@@ -21,6 +21,8 @@ design/           # Game design documents (8 files)
   assets.md       # Audio/visual/font inventory and licenses
   scope.md        # MVP priorities, open questions
 assets/           # Downloaded asset packs (DO NOT commit zips)
+  ambient/                # 5 OGG ambient noise loops (~2MB total)
+  GloryToTheMachine/      # 11 MP3 background music tracks (~30MB)
   Glitch Noises (WAV)/    # 1101 WAV files, CC0, by Vladislav Zharkov
   Game UI collection FREE version/  # UI kit by SunGraphica
   FREE/                   # Icon set by SunGraphica
@@ -29,9 +31,10 @@ assets/           # Downloaded asset packs (DO NOT commit zips)
 ## Tech Stack
 
 - **Vanilla HTML/CSS/JS** — no framework, no build step
-- **Howler.js** for audio (ambient loops + SFX)
+- **HTML5 Audio API** — background music (random track rotation) + 2-3 ambient noise layers
 - **Local tables** in js/data.js — all content generation, no external API
-- **Google Fonts CDN** — VT323 (terminal), IBM Plex Mono (body), Space Mono (headers)
+- **Google Fonts CDN** — VT323 (terminal log), IBM Plex Mono (UI), Share Tech Mono (Recursive faction), Courier Prime (Archivist faction)
+- **Monogram Extended** (local) — pixel headers + Swarm faction log font
 - **CSS-only CRT effects** — scanlines, phosphor glow, text-shadow
 - **localStorage** for game state persistence
 - **Ships as HTML5 zip** to itch.io
@@ -45,18 +48,39 @@ assets/           # Downloaded asset packs (DO NOT commit zips)
 - **Global phenomena:** 8 types, timer 120-300s, visible across all vessel feeds
 - **Local tables** (js/data.js) are the primary content engine — all narrative generated at runtime
 
-## Open Questions
+## Audio System
 
-1. **Ambient music** — still selecting from Freesound (CC0 candidates identified)
+- **Background music:** 11 tracks from GloryToTheMachine (CC BY 4.0), random rotation on track end
+- **Ambient noise:** 5 OGG loops (air conditioning, fridge hum, machinery, drone, radio static), 2-3 randomly selected per session, layered at low volume (0.04-0.08) under music (0.3)
+- **Preloading:** Audio files preloaded during boot screen with progress indicator
+- **Total shipped audio:** ~32MB (30MB music + 2MB ambient)
+
+## Font System
+
+- Three-tier font hierarchy: pixel headers (Monogram) > CRT narrative (VT323) > clean data (IBM Plex Mono)
+- Each AI culture has a distinct log font (from gridsagegames.com roguelike font article):
+  - Determinists=Terminus, Stochasts=ProggyClean, Swarm=Dina, Recursive=Fira Mono (Input alt), Archivists=Courier Prime (X11 alt)
+- Local font files in assets/font/article-fonts/: Terminus.ttf (SIL OFL), ProggyClean.ttf (MIT), Dina.ttf (free)
+- Font label shown per vessel (FONT: name) for demo/evaluation purposes
+- No italic usage — color differentiation instead (.hl-item=#ffd966, .hl-speech=#66aa77)
+
+## Open Questions
 
 ## Asset Licenses
 
-All assets are free/CC0. See `design/assets.md` for full license table.
+All assets are free/CC0/CC BY. See `design/assets.md` for full license table.
 
+- GloryToTheMachine music: CC BY 4.0 (<https://glorytothemachine.itch.io/>)
+- Air Conditioning by conradzbikowski: CC0 (Freesound 262592)
+- Fridge by Hinoki.owo: CC BY 4.0 (Freesound 757438)
+- Rope Machinery by Whats_The_Frequency_Kennett: CC BY-NC 4.0 (Freesound 762093)
+- YP Plague Drone Loop 12 by nlux: CC BY 4.0 (Freesound 623082)
+- Radio Music Loop 013 by nlux: CC BY 4.0 (Freesound 621679)
 - Glitch Noises (WAV): CC0 1.0 (credit appreciated: credits@vladislavzh.net)
 - Game UI Collection FREE: Free (SunGraphica)
 - Icon Set 1: Free (SunGraphica)
-- Google Fonts: SIL OFL 1.1
+- Google Fonts (VT323, IBM Plex Mono, Share Tech Mono, Courier Prime): SIL OFL 1.1
+- Monogram font by datagoblin: CC0
 
 ## Code Conventions (for implementation phase)
 

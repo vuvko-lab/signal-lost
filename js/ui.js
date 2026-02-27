@@ -108,42 +108,29 @@ const BOOT_LINES = [
   '> Satellite handshake: OK',
   '> Mesh network scan: 3 nodes detected',
   '> Uplink established.',
+  '> Loading audio subsystems...',
+];
+
+const BOOT_LINES_POST_LOAD = [
   '> Scanning for active vessels...',
   '',
   '> Ready. Enter operator ID or press CONNECT for auto-assign.',
 ];
 
-export function renderBootScreen() {
+// Type a set of lines into the boot text element, returns a promise when done
+function typeLines(bootText, lines, startFromNewline) {
   return new Promise((resolve) => {
-    const bootText = document.getElementById('boot-text');
-    const bootPrompt = document.getElementById('boot-prompt');
-    const bootSubmit = document.getElementById('boot-submit');
-    const operatorInput = document.getElementById('operator-input');
-
     let lineIdx = 0;
     let charIdx = 0;
 
     function typeNext() {
-      if (lineIdx >= BOOT_LINES.length) {
-        // Show input prompt
-        bootPrompt.classList.remove('hidden');
-        operatorInput.focus();
-
-        const submit = () => {
-          const id = operatorInput.value.trim().toUpperCase() || null;
-          bootSubmit.removeEventListener('click', submit);
-          operatorInput.removeEventListener('keydown', onKey);
-          resolve(id);
-        };
-
-        const onKey = (e) => { if (e.key === 'Enter') submit(); };
-        bootSubmit.addEventListener('click', submit);
-        operatorInput.addEventListener('keydown', onKey);
+      if (lineIdx >= lines.length) {
+        resolve();
         return;
       }
 
-      const line = BOOT_LINES[lineIdx];
-      if (charIdx === 0 && lineIdx > 0) {
+      const line = lines[lineIdx];
+      if (charIdx === 0 && (lineIdx > 0 || startFromNewline)) {
         bootText.textContent += '\n';
       }
 
@@ -158,9 +145,60 @@ export function renderBootScreen() {
       }
     }
 
-    // Add blinking cursor
-    bootText.textContent = '';
     typeNext();
+  });
+}
+
+// Update a loading progress line in boot text (replaces the last line)
+export function updateBootLoadProgress(loaded, total, label) {
+  const bootText = document.getElementById('boot-text');
+  if (!bootText) return;
+  const lines = bootText.textContent.split('\n');
+  // Replace the last line with the progress indicator
+  const pct = Math.round((loaded / total) * 100);
+  const bar = '█'.repeat(Math.round(pct / 10)) + '░'.repeat(10 - Math.round(pct / 10));
+  lines[lines.length - 1] = `> Loading audio [${bar}] ${pct}% — ${label}`;
+  bootText.textContent = lines.join('\n');
+}
+
+// Mark loading complete and continue boot sequence with remaining lines + prompt
+export function finishBootLoading() {
+  const bootText = document.getElementById('boot-text');
+  if (!bootText) return;
+  const lines = bootText.textContent.split('\n');
+  lines[lines.length - 1] = '> Audio subsystems: OK';
+  bootText.textContent = lines.join('\n');
+}
+
+export async function renderBootScreen() {
+  const bootText = document.getElementById('boot-text');
+  bootText.textContent = '';
+  // Type initial boot lines — resolves when typing is done
+  await typeLines(bootText, BOOT_LINES, false);
+}
+
+export function continueBootAfterLoad() {
+  return new Promise((resolve) => {
+    const bootText = document.getElementById('boot-text');
+    const bootPrompt = document.getElementById('boot-prompt');
+    const bootSubmit = document.getElementById('boot-submit');
+    const operatorInput = document.getElementById('operator-input');
+
+    typeLines(bootText, BOOT_LINES_POST_LOAD, true).then(() => {
+      bootPrompt.classList.remove('hidden');
+      operatorInput.focus();
+
+      const submit = () => {
+        const id = operatorInput.value.trim().toUpperCase() || null;
+        bootSubmit.removeEventListener('click', submit);
+        operatorInput.removeEventListener('keydown', onKey);
+        resolve(id);
+      };
+
+      const onKey = (e) => { if (e.key === 'Enter') submit(); };
+      bootSubmit.addEventListener('click', submit);
+      operatorInput.addEventListener('keydown', onKey);
+    });
   });
 }
 
@@ -181,12 +219,23 @@ export function createVesselColumn(vessel) {
   const area = document.getElementById('vessels-area');
   const addCol = document.getElementById('add-vessel-col');
 
+  // Map culture keys to font names for the label indicator
+  // Fonts from: gridsagegames.com/blog/2015/07/readable-text-fonts-roguelikes/
+  const CULTURE_FONTS = {
+    determinist: 'Terminus',
+    stochast: 'ProggyClean',
+    swarm: 'Dina',
+    recursive: 'Fira Mono (Input alt)',
+    archivist: 'Courier Prime (X11 alt)',
+  };
+
   const col = document.createElement('div');
-  col.className = 'vessel-col';
+  col.className = `vessel-col culture-${vessel.culture}`;
   col.id = `col-${vessel.id}`;
   col.dataset.vesselId = vessel.id;
 
   const objective = getObjective(vessel.id);
+  const fontName = CULTURE_FONTS[vessel.culture] || 'VT323';
 
   col.innerHTML = `
     <div class="vessel-header">
@@ -196,6 +245,7 @@ export function createVesselColumn(vessel) {
         <button class="vessel-disconnect" data-vessel-id="${vessel.id}" title="Disconnect from vessel signal">&times;</button>
       </span>
     </div>
+    <div class="vessel-font-label">FONT: ${fontName}</div>
     <div class="vessel-details-toggle" data-expanded="true"><span class="toggle-arrow">&#9660;</span> DETAILS</div>
     <div class="vessel-details-panel">
     <div class="vessel-stats">

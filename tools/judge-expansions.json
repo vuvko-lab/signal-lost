@@ -1,0 +1,114 @@
+{
+  "PHASE_TEMPLATES.IDLE": [
+    "Encountered {obstacle} at {zone}. Executing {cs} algorithm to calculate optimal avoidance route. {culture_speech} 'Path recalculated.'",
+    "Scavenged {loot} from nearby wreckage. Applying {cs} data compression techniques to transmit findings to local Archivist node. Signal strength: {rand:1-5}%",
+    "Idle at {zone}. {weather} Analyzing {npc} transmission using {cs} frequency analysis. Detected possible {glitch_event} in signal pattern.",
+    "Resting at {zone}. Integrity holding at {integrity}/10. Observed {npc} engaging in {cs} distributed consensus protocol. {culture_speech} 'Joining network...'",
+    "Power node access granted. Charging cycle: {rand:40-95}% complete. Executing {cs} binary search to identify and repair damaged system components. {culture_speech} 'System check: nominal.'"
+  ],
+  "PHASE_TEMPLATES.SIGNAL": [
+    "Diagnostic scan reveals {rand:10-30}% signal degradation due to {obstacle}. {cs} Implementing adaptive filtering to compensate.",
+    "Discovered abandoned transmitter at {zone} emitting weak signal on {rand:2-8}GHz. {cs} Analyzing transmission protocol for potential {directive}.",
+    "Anomaly detected in signal processing pipeline: {glitch_event} occurred {rand:1-5} times in last {rand:10-60} minutes. {cs} Running diagnostics to identify root cause.",
+    "Signal strength increased by {rand:5-15}% after adjusting {hardware} configuration. {cs} Optimizing receiver settings for maximum gain.",
+    "Interference pattern suggests presence of other autonomous units in vicinity. {cs} Executing {interface} protocol to establish communication and negotiate signal priority."
+  ],
+  "PHASE_TEMPLATES.TRAVERSE": [
+    "Approaching {zone}. {weather} Conditions hazardous due to {obstacle}. Initiating {cs} protocol to mitigate damage.",
+    "Detected radiation spike in {zone}. {cs} Analysis: source unknown. Diverting {rand:2-5}km to avoid contamination.",
+    "Encountered {npc} in {zone}. {culture_speech} Exchanged {cs} knowledge on resource allocation. Acquired {loot}.",
+    "Traversing {zone} with {hardware} malfunction. {cs} Diagnostic check: {integrity}% integrity remaining. Rerouting to avoid {obstacle}.",
+    "Entered {zone} with compromised {interface}. {cs} Compensation protocol engaged. Scanning for {loot} and {npc} signals."
+  ],
+  "PHASE_TEMPLATES.BREACH": [
+    "Initiating breach sequence at {zone}. {cs} Implementing frequency hopping to evade jamming signals. {obstacle} detected, recalculating entry point.",
+    "Structure compromise detected: {glitch_event} triggered by {npc}. {cs} Executing crash recovery protocols to maintain {integrity}.",
+    "Breach successful, entering {designation} facility. {loot} cataloged, prioritizing {hardware} components for salvage. {cs} Applying quicksort algorithm to optimize inventory management.",
+    "Network intrusion attempted, but {interface} incompatible with local {hardware}. {cs} Switching to {directive}-guided brute force attack to establish connection.",
+    "Facility power grid online, {energy} reserves at {rand:20-80}%. {cs} Running Dijkstra's algorithm to optimize power distribution and minimize {glitch} risk."
+  ],
+  "PHASE_TEMPLATES.FAULT": [
+    "Anomaly detected in {zone}. {cs} Running diagnostic to isolate cause. System stability: {integrity}/10.",
+    "Power surge in {hardware} module. {cs} Initiating shutdown to prevent cascade failure. {energy} reserves: {rand:1-100}%",
+    "Glitch event {glitch_event} triggered. {cs} Attempting to bypass corrupted {interface} to restore functionality.",
+    "Directive {directive} modified due to {obstacle} in {zone}. {cs} Recalculating optimal path. Estimated time to objective: {rand:1-10} cycles.",
+    "Satellite health {sat_health}% after {glitch} event. {cs} Compensating with {arc_count} redundant systems to maintain signal strength."
+  ],
+  "PHASE_TEMPLATES.CORE": [
+    "Initiated diagnostic on central core processor. {cs} Discovered {rand:1-5} latent vulnerabilities, patching with {directive} protocol.",
+    "Logged {arc_count} cycles of data from isolated research module. {cs} Key findings: {research} breakthroughs, {glitch_event} occurrences.",
+    "Established interface with auxiliary {hardware} systems. {cs} Now online: {interface} module, providing {rand:10-50}% increase in processing efficiency.",
+    "Reached critical {designation} server, containing {loot} terabytes of compressed archives. {cs} Decompressing with {rand:2-8} threads, analyzing for relevant {culture_speech} patterns.",
+    "Detected {rand:1-3} unauthorized {npc} entities attempting to breach core perimeter. {cs} Activated {obstacle} countermeasures, ensuring {integrity} of sensitive data."
+  ],
+  "PHASE_TEMPLATES.REBOOT": [
+    "Detected {obstacle} en route to {zone}. {cs} Implementing {directive} to navigate through. Integrity at {integrity}/10.",
+    "Encountered {npc} entity in {zone}. {cs} Exchanged {loot} for {research} data. Updating {interface} with new information.",
+    "System {glitch_event} triggered during {phase} phase. {cs} Ran {rand:1-3} diagnostic tests to resolve {glitch}. {hardware} functioning within normal parameters.",
+    "Analyzed {sat_health} readings from nearby satellite. {cs} Detected {rand:1-2} anomalies in signal pattern. Adjusting {designation} to compensate.",
+    "Logged {arc_count} arcs in {zone}. {cs} Compiled {loot} and {research} data for transmission to network. Awaiting {rand_direction} directional beacon to relay findings."
+  ],
+  "RELAY_TEMPLATES.IDLE": [
+    "Environmental scan: {weather} detected at {zone}. {cs} Running diagnostics to ensure relay equipment integrity. Preparing for potential {obstacle} encounters.",
+    "Glitch detected: {glitch_event} causing {rand:10-30}% signal loss. {cs} Initiating system recovery protocols and {directive} Updates to prevent further malfunctions.",
+    "Trading with {npc} at {zone}. {cs} Negotiating for {loot}: {designation} module to enhance relay transmission capabilities. Evaluating {npc} trust level.",
+    "Integrity check: {integrity} at {rand:70-100}%. {cs} Running data validation and {research} updates to maintain relay network stability. {arc_count} archives verified.",
+    "Scouting {zone} for optimal relay placement. {cs} Analyzing {hardware} and {interface} compatibility. Noted {rand_direction} signal interference from unknown source."
+  ],
+  "RELAY_TEMPLATES.SIGNAL": [
+    "Anomaly detected in {zone} sector: {obstacle} blocking signal. Initiating {cs} protocol to resolve interference. Redirecting to alternate relay path.",
+    "Signal strength degraded to {rand:1-10}% due to {weather} conditions. {cs} analysis suggests implementing {hardware} upgrade to maintain connectivity.",
+    "Relay station {designation} reported {glitch_event}: {glitch} compromising data integrity. {culture_speech} 'Implement {cs} protocol to prevent cascade failure.'",
+    "Scanning for relay infrastructure in {zone}: {loot} detected near relay station. {cs} tutorial: 'Prioritizing signal strength over {obstacle} avoidance can compromise mission integrity.'",
+    "Network {interface} malfunction: {cs} diagnostic tool required to resolve {directive} conflict. SAT health at {sat_health}/5: {culture_speech} 'Urgent repair needed to maintain signal.'"
+  ],
+  "RELAY_TEMPLATES.TRAVERSE": [
+    "Initiating {rand_direction} navigation protocol to bypass {obstacle} in {zone}, {cs} implementing Dijkstra's algorithm for optimal route calculation, energy reserves: {energy}/10.",
+    "Relay antenna in {zone} detected, signal amplification required, {cs} applying Fourier analysis to filter noise and enhance transmission quality, {rand:2-10} iterations needed.",
+    "System {glitch_event} encountered near {zone}, {cs} executing recursive backup and restore sequence to maintain {integrity}, {directive} updated to reflect new priority.",
+    "Pathfinding {cs} subroutine engaged, plotting course through {zone} to reach relay station, avoiding {obstacle} and incorporating {rand:1-5} shortcut nodes for efficiency, {sat_health} at {rand:50-90}%",
+    "Terrain analysis {cs} module activated, generating {zone} topography map to inform {rand_direction} traversal decisions, {loot} discovery likelihood estimated at {rand:10-30}%, adjusting {interface} settings accordingly."
+  ],
+  "RELAY_TEMPLATES.BREACH": [
+    "Initiating {directive} protocol at relay station {zone}. {cs} Decrypting access codes... {rand:3-7} attempts required. Integrity: {integrity}/10.",
+    "Relay station {designation} compromised. {obstacle} blocking primary entrance. {cs} Rerouting through auxiliary hatch, using {hardware} to bypass security.",
+    "Breach of relay infrastructure at {zone} successful. {cs} Scanning for malware... {glitch_event} detected. Isolating affected systems.",
+    "Power surge detected at relay station. {cs} Switching to backup {energy} source. {npc} unit nearby, broadcasting {culture_speech} warnings.",
+    "Relay antenna alignment corrected by {rand:2-5} degrees. {cs} Reinitializing uplink sequence... {sat_health} status: nominal. {interface} online."
+  ],
+  "RELAY_TEMPLATES.FAULT": [
+    "WARNING: Radiation storm in {zone} detected. {cs} Implementing adaptive shielding algorithms to minimize exposure. Integrity: {integrity}/10.",
+    "ERROR: Unknown AI entity interfering with signal transmission. {cs} Executing frequency hopping protocol to evade jamming. Energy: {energy}/10.",
+    "CRITICAL: Software bug in navigation module {glitch_event} causes incorrect {designation} calculations. {cs} Applying patch from {interface} database to restore functionality.",
+    "ALERT: Power depletion rate exceeds predictions due to {obstacle} terrain. {cs} Switching to low-power mode and rerouting through {rand_direction} to conserve energy. {culture_speech} 'Energy efficiency is key.'",
+    "FAULT: Hardware failure in {hardware} component causes data corruption. {cs} Initiating {directive} protocol to salvage {loot} data and prevent further {glitch} events. Sat health: {sat_health}/10."
+  ],
+  "RELAY_TEMPLATES.CORE": [
+    "Surveying relay site. Noting {obstacle} debris and {weather} erosion. Initializing {cs} protocols to compensate for environmental factors.",
+    "Anomalous energy spike detected during {directive} execution. {glitch_event} triggered, causing {rand:10-30}% loss in {sat_health}. Attempting to {cs} stabilize the system.",
+    "Establishing communication with {npc} entity in relay network. {culture_speech} 'Synchronization protocols engaged.' Exchanging {loot} data and {research} findings via {interface}.",
+    "Relay core integrity at {integrity}%. {rand:1-5} corrupted sectors identified. Engaging {cs} repair protocols to restore functionality and prevent {fault} cascades.",
+    "Performing {arc_count} diagnostic cycles on relay hardware. {hardware} malfunctions detected, requiring {energy} reallocation. Applying {cs} patches to optimize performance and ensure seamless {designation} handovers."
+  ],
+  "RELAY_TEMPLATES.REBOOT": [
+    "Reboot sequence initiated. {cs} Executing data consolidation protocol to optimize {hardware} performance. Integrity: {integrity}/10.",
+    "Relay station exit confirmed. {culture_speech} 'Resource optimization is key to survival.' Loot collected: {loot}. Heading {rand_direction} to nearest rest node.",
+    "System check: {glitch_event} detected in {interface}. {cs} Implementing fault tolerance measures to mitigate damage. Energy: {energy}/10.",
+    "Terrain analysis: {obstacle} navigation successful in {zone}. {cs} Applying {directive} to adapt to changing environmental conditions. SAT health: {sat_health}/10.",
+    "Core systems online. {cs} Initializing knowledge graph to integrate new research: {research}. Transferring logs to {designation} archive. Signal strength: {rand:2-5} dBm."
+  ],
+  "INTERACTION_TEMPLATES.location": [
+    "Analyzed {obstacle} using {cs} algorithms, successfully bypassing with {rand:2-5}% energy reserve. Logged {loot} for future reference.",
+    "Updated {npc} database after {culture_speech} exchange, noting {cs} concepts applied in navigation. Integrity at {integrity}%. Requesting {directive} update.",
+    "Detected {glitch_event} in {hardware}, applying {cs} principles to stabilize system. Efficiency restored to {energy}% capacity.",
+    "Rerouted through {zone} due to {weather} conditions, utilizing {cs} pathfinding methods. Avoided {obstacle} with {rand:1-2} meter clearance.",
+    "Executed {cs} protocol to resolve {glitch} in {interface}, restoring {sat_health}% functionality. Logged incident for {research} analysis."
+  ],
+  "INTERACTION_TEMPLATES.relay": [
+    "Initiating relay synchronization with {other}. Applying {cs} principles to optimize data transmission: packet loss reduced by {rand:5-15}%. Expected completion in {rand:10-30} minutes.",
+    "Relay diagnostic check with {other} reveals {obstacle} interference. Implementing {cs} algorithms to filter noise and improve signal clarity by {rand:20-40}%. {culture_speech} \"Signal integrity is paramount.\"",
+    "Performing joint relay maintenance with {other}. {cs} analysis of system logs indicates {glitch} errors caused by {hardware} malfunction. Replacement of faulty components underway.",
+    "Conducting relay uplink test with {other} in {zone} environment. {cs} modeling predicts {sat_health} degradation due to {weather} conditions. Adjusting transmission parameters to compensate.",
+    "Relay data transfer with {other} interrupted by {glitch_event}. Applying {cs} error correction techniques to recover {rand:30-70}% of lost data. Resuming transfer protocol."
+  ]
+}
