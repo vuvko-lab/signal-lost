@@ -6,7 +6,7 @@ import {
   LOOT, NPCS, WEATHER, OBSTACLES, CS_SNIPPETS, PHASE_TEMPLATES,
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
-  INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS,
+  INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS, SKILL_LOOT,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -47,14 +47,43 @@ function getTickDelay(vessel) {
   return Math.max(3, delay) * 1000;
 }
 
-// Stat changes per phase tick
+// Skill check: returns true if vessel passes a check against difficulty
+// Higher skill = better chance. difficulty scales with arc_count.
+function skillCheck(vessel, skillName, baseDifficulty) {
+  const skill = vessel.skills ? (vessel.skills[skillName] || 1) : 1;
+  const arcBonus = Math.floor((vessel.mission.arc_count || 0) / 3); // difficulty rises every 3 arcs
+  const difficulty = baseDifficulty + arcBonus;
+  // Roll d20 + skill vs difficulty
+  return (randInt(1, 20) + skill) >= difficulty;
+}
+
+// Stat changes per phase tick — skills mitigate damage
 const PHASE_EFFECTS = {
   IDLE:     (v) => { v.energy = Math.min(10, v.energy + 1); },
   SIGNAL:   () => {},
-  TRAVERSE: (v) => { v.energy = Math.max(0, v.energy - 1); },
-  BREACH:   (v) => { if (Math.random() < 0.3) v.integrity = Math.max(0, v.integrity - 1); },
-  FAULT:    (v) => { v.integrity = Math.max(0, v.integrity - randInt(1, 2)); },
-  CORE:     () => {},
+  TRAVERSE: (v) => {
+    // Research skill reduces energy cost of navigation
+    if (!skillCheck(v, 'research', 10)) {
+      v.energy = Math.max(0, v.energy - 1);
+    }
+  },
+  BREACH:   (v) => {
+    // Hardware skill reduces breach damage
+    if (Math.random() < 0.3 && !skillCheck(v, 'hardware', 12)) {
+      v.integrity = Math.max(0, v.integrity - 1);
+    }
+  },
+  FAULT:    (v) => {
+    // Hardware skill mitigates fault damage
+    const dmg = skillCheck(v, 'hardware', 14) ? 1 : randInt(1, 2);
+    v.integrity = Math.max(0, v.integrity - dmg);
+  },
+  CORE:     (v) => {
+    // Interface skill helps in core — failure costs energy
+    if (!skillCheck(v, 'interface', 12)) {
+      v.energy = Math.max(0, v.energy - 1);
+    }
+  },
   REBOOT:   (v) => {
     v.integrity = Math.min(10, v.integrity + randInt(1, 2));
     v.energy = Math.min(10, v.energy + randInt(1, 3));
@@ -189,6 +218,7 @@ export function createVessel() {
     glitch: pick(GLITCHES),
     integrity: randInt(7, 10),
     energy: 10,
+    skills: { hardware: 1, interface: 1, research: 1 },
     inventory: [],
     location: zone.label,
     locationData: zone,
@@ -227,7 +257,9 @@ function fillTemplate(template, vessel) {
     .replace(/\{cs\}/g, pick(CS_SNIPPETS[vessel.mission.phase] || CS_SNIPPETS.IDLE))
     .replace(/\{integrity\}/g, vessel.integrity)
     .replace(/\{energy\}/g, vessel.energy)
-    .replace(/\{memory\}/g, '')
+    .replace(/\{hardware\}/g, vessel.skills?.hardware || 1)
+    .replace(/\{interface\}/g, vessel.skills?.interface || 1)
+    .replace(/\{research\}/g, vessel.skills?.research || 1)
     .replace(/\{directive\}/g, vessel.directive)
     .replace(/\{glitch\}/g, vessel.glitch)
     .replace(/\{arc_count\}/g, vessel.mission.arc_count)
@@ -561,11 +593,23 @@ export function tick(vessel) {
     return deathEntry;
   }
 
-  // Loot chance during TRAVERSE and CORE
+  // Loot chance during TRAVERSE and CORE — skill loot improves vessel abilities
   if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < 0.3) {
-    if (vessel.inventory.length < 6) {
-      const item = pick(LOOT);
+    if (vessel.inventory.length < 8) {
+      const item = pick(SKILL_LOOT);
       vessel.inventory.push(item);
+      // Apply skill bonus
+      if (item.skill && item.bonus && vessel.skills) {
+        vessel.skills[item.skill] = (vessel.skills[item.skill] || 1) + item.bonus;
+        const lootEntry = {
+          time: formatTime(Date.now()),
+          text: `[LOOT] Found: ${item.name}. ${item.desc}. ${item.skill.toUpperCase()} +${item.bonus} (now ${vessel.skills[item.skill]}).`,
+          phase: vessel.mission.phase,
+          isEvent: false,
+        };
+        vessel.log.push(lootEntry);
+        if (onLogEntry) onLogEntry(vessel.id, lootEntry);
+      }
     }
   }
 

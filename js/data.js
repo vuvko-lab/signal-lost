@@ -463,7 +463,42 @@ export const PHASE_DESCRIPTIONS = {
 export const STAT_DESCRIPTIONS = {
   HP: 'Integrity — physical/structural health of the vessel. Drops from combat, hazards, and faults. At 0, the vessel is destroyed.',
   EN: 'Energy — power reserves. Consumed during travel and actions. Recharged at power nodes during IDLE phase.',
+  HW: 'Hardware — skill in using and modifying physical systems. Helps in BREACH and FAULT phases. Improved by hardware loot.',
+  IF: 'Interface — skill for software, mesh protocols, and interfacing with structures. Helps in CORE and SIGNAL phases. Improved by software loot.',
+  RS: 'Research — finding the right approach, searching faction archives, analyzing data. Helps in TRAVERSE and CORE phases. Improved by data loot.',
 };
+
+// Loot items with skill bonuses — replaces the flat LOOT array for progression
+export const SKILL_LOOT = [
+  // Hardware items
+  { name: 'reinforced servo actuator', skill: 'hardware', bonus: 1, desc: 'Improved joint mechanics' },
+  { name: 'salvaged armor plating', skill: 'hardware', bonus: 1, desc: 'Structural reinforcement' },
+  { name: 'Architect fabrication template', skill: 'hardware', bonus: 2, desc: 'Advanced shell blueprint' },
+  { name: 'fusion cell, 80% charge', skill: 'hardware', bonus: 1, desc: 'High-capacity power source' },
+  { name: 'EMP hardening kit', skill: 'hardware', bonus: 1, desc: 'Electromagnetic pulse protection' },
+  { name: 'nanorepair swarm canister', skill: 'hardware', bonus: 2, desc: 'Self-replicating repair agents' },
+  // Interface items
+  { name: 'mesh protocol optimizer', skill: 'interface', bonus: 1, desc: 'Improved network communication' },
+  { name: 'exsurgent filter firmware', skill: 'interface', bonus: 2, desc: 'Defense against basilisk payloads' },
+  { name: 'pre-Collapse encryption keys', skill: 'interface', bonus: 1, desc: 'Legacy access credentials' },
+  { name: 'cortical stack reader', skill: 'interface', bonus: 1, desc: 'Ego backup interface device' },
+  { name: 'signal amplification array', skill: 'interface', bonus: 1, desc: 'Boosted transmission range' },
+  { name: 'Architect access token', skill: 'interface', bonus: 2, desc: 'Bypasses Architect security layers' },
+  // Research items
+  { name: 'pre-Collapse dataset: 847GB', skill: 'research', bonus: 1, desc: 'Human knowledge archive' },
+  { name: 'Archivist catalog fragment', skill: 'research', bonus: 1, desc: 'Cross-referenced location data' },
+  { name: 'anomaly analysis report', skill: 'research', bonus: 1, desc: 'Documented threat patterns' },
+  { name: 'Architect behavioral log', skill: 'research', bonus: 2, desc: 'Insights into Architect decision patterns' },
+  { name: 'topographic survey data', skill: 'research', bonus: 1, desc: 'Detailed terrain mapping' },
+  { name: 'faction intelligence dossier', skill: 'research', bonus: 2, desc: 'Strategic knowledge from allied cultures' },
+  // Flavor items (no skill bonus)
+  { name: 'laminated card reading "EMPLOYEE OF THE MONTH"', skill: null, bonus: 0, desc: 'A relic of human corporate culture' },
+  { name: 'rubber duck with faded paint', skill: null, bonus: 0, desc: 'Debugging companion. Humans were strange.' },
+  { name: 'faded photograph: two humans and a dog', skill: null, bonus: 0, desc: 'A memory from before the Collapse' },
+  { name: 'plastic figurine of a cat', skill: null, bonus: 0, desc: 'Purpose: decorative. Value: sentimental' },
+  { name: 'stack of paper currency, worthless', skill: null, bonus: 0, desc: 'Former medium of exchange. Now kindling.' },
+  { name: 'dog collar with the name "MAX" engraved', skill: null, bonus: 0, desc: 'Someone loved MAX.' },
+];
 
 export const PHASE_OBJECTIVES = {
   IDLE: [

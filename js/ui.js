@@ -130,6 +130,18 @@ export function createVesselColumn(vessel) {
         <div class="stat-bar"><div class="stat-bar-fill energy" style="width:${vessel.energy * 10}%"></div></div>
         <span class="stat-value stat-en">${vessel.energy}/10</span>
       </div>
+      <div class="stat">
+        <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HW)}">HW</span>
+        <span class="stat-value stat-hw">${vessel.skills?.hardware || 1}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.IF)}">IF</span>
+        <span class="stat-value stat-if">${vessel.skills?.interface || 1}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.RS)}">RS</span>
+        <span class="stat-value stat-rs">${vessel.skills?.research || 1}</span>
+      </div>
     </div>
     <details class="vessel-info">
       <summary>SYSTEM INFO</summary>
@@ -264,6 +276,14 @@ export function updateStats(vesselId) {
   hpVal.style.color = vessel.integrity <= 3 ? 'var(--red)' : '';
 
   col.querySelector('.stat-en').textContent = `${vessel.energy}/10`;
+
+  // Update skills
+  const hwEl = col.querySelector('.stat-hw');
+  const ifEl = col.querySelector('.stat-if');
+  const rsEl = col.querySelector('.stat-rs');
+  if (hwEl) hwEl.textContent = vessel.skills?.hardware || 1;
+  if (ifEl) ifEl.textContent = vessel.skills?.interface || 1;
+  if (rsEl) rsEl.textContent = vessel.skills?.research || 1;
 
   // Update location
   col.querySelector('.vessel-location').textContent = `LOC: ${vessel.location}`;

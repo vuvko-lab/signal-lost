@@ -402,6 +402,9 @@ html, body {
 .stat-bar-fill.hp { background: #00cc33; }
 .stat-bar-fill.energy { background: #3399ff; }
 
+.stat-skill { color: var(--purple); }
+.stat-hw, .stat-if, .stat-rs { color: var(--purple); font-weight: 700; }
+
 .vessel-location {
   padding: 4px 12px;
   font-size: var(--fs-base);
