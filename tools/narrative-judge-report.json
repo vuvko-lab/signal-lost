@@ -1,0 +1,104 @@
+{
+  "scores": {
+    "narrative_coherence": {
+      "score": 6.5,
+      "note": "Individual arcs generally feel like a journey, but some phases lack clear connections, such as the abrupt transition from TRAVERSE to BREACH in TRANSCRIPT 1. For example, the Determinist vessel VOLT-11's log entry 'Structural integrity warning in Block 44. Overcast. Solar charging' feels disconnected from the subsequent BREACH phase."
+    },
+    "scene_quality": {
+      "score": 6,
+      "note": "Multi-entry scenes, like the BREACH phase in TRANSCRIPT 2, tell coherent mini-stories with shared characters and objects, such as the 'creature nest' and'service tunnel'. However, some scenes feel a bit disjointed, like the FAULT phase in TRANSCRIPT 3, where the 'Ghost transmission detected' and 'SOLAR FLARE' events seem unrelated."
+    },
+    "cultural_voice": {
+      "score": 8.5,
+      "note": "Cultures are generally distinct and markers are consistent. Determinists use CAPS tags (PROTOCOL: VIOLATED), Stochasts use probability language ('Confidence: 90%'), Recursive use versioning ('v2.3.1'), Archivists cite references ('Cf. Archive #25459'), and Swarm use collective 'we' and 'Swarm: X units concur.'"
+    },
+    "variety_across_arcs": {
+      "score": 5.5,
+      "note": "While arcs have different objectives, they can feel repetitive, with similar challenges and events, such as the frequent 'Structural integrity warning' and 'Solar flare' events. However, some arcs, like the CORE phase in TRANSCRIPT 4, offer unique experiences, such as the'relay station ZERO-5 interior scan' and 'tornado warning'."
+    },
+    "variety_across_vessels": {
+      "score": 7.5,
+      "note": "Different vessels have distinct experiences, like the Swarm vessel RELAY-3's focus on collective decision-making and the Archivist vessel RELAY-3's emphasis on cataloging and data analysis. For example, the Archivist vessel RELAY-3's log entry 'Docked at charging node in Sector 7-G. Structural damage to the node's 1 slows charging to 20% efficiency' highlights its unique perspective."
+    },
+    "template_quality": {
+      "score": 7,
+      "note": "Log entries are often vivid and concrete, but some feel like jargon soup, with too much technical terminology, such as 'BASILISK HAZARD' and 'Whisper-class corruption risk'. However, entries like 'Flooded Corridor 5-Deep. Acid rain. Overcast. Solar charging reduced to 30%' effectively convey a sense of environment and challenge."
+    },
+    "loot_progression": {
+      "score": 5,
+      "note": "Finding equipment and gaining skills feels somewhat meaningful, but the impact on the narrative is limited, and the progression can feel slow. For instance, the Stochast vessel NEXUS-9's acquisition of the'signal amplification array' and'reinforced servo actuator' feels like a minor improvement rather than a significant upgrade."
+    },
+    "global_events": {
+      "score": 7,
+      "note": "Global phenomena events, like solar flares and data storms, feel impactful and break up the routine, but their effects could be more pronounced. For example, the 'NETWORK STORM' event in TRANSCRIPT 1 causes a 'Signal terminated' outcome, but the consequences are not fully explored."
+    },
+    "tone_consistency": {
+      "score": 9,
+      "note": "The overall narrative maintains a post-apocalyptic, AI-centric atmosphere, with a consistent tone across vessels and arcs. The use of terms like 'ruins', 'debris', and 'abandoned' effectively conveys a sense of desolation and decay."
+    },
+    "engagement": {
+      "score": 7,
+      "note": "The narrative is engaging, with a good balance of exploration, challenge, and discovery, but some arcs and vessels feel more compelling than others. For instance, the Recursive vessel ZERO-5's log entries, such as 'v2.0.3: encountered Basilisk hazard — data pattern embedded in local mesh', are more engaging due to their unique voice and challenges."
+    }
+  },
+  "overall_avg": 6.9,
+  "strengths": [
+    "The distinct cultural voices and immersive voice markers, such as the Determinists' CAPS tags and the Stochasts' probability language, effectively convey the unique personalities and perspectives of each vessel.",
+    "The variety of experiences across different vessels, such as the Swarm vessel RELAY-3's focus on collective decision-making and the Archivist vessel RELAY-3's emphasis on cataloging and data analysis, adds depth and richness to the narrative.",
+    "The post-apocalyptic, AI-centric atmosphere is well-maintained throughout the narrative, with a consistent tone that effectively conveys a sense of desolation and decay.",
+    "Strong and consistent cultural voices that are immediately identifiable and immersive.",
+    "Vivid, concrete details in loot and environmental descriptions that ground the world.",
+    "Excellent maintenance of a coherent, desolate, AI-only post-apocalyptic tone throughout all logs."
+  ],
+  "problems": [
+    "The lack of clear connections between phases in some arcs, such as the abrupt transition from TRAVERSE to BREACH in TRANSCRIPT 1, can disrupt the narrative flow and make it feel disjointed.",
+    "The repetitive nature of some arcs and challenges, such as the frequent 'Structural integrity warning' and 'Solar flare' events, can make the narrative feel stale and predictable.",
+    "The limited impact of loot and skill progression on the narrative, such as the Stochast vessel NEXUS-9's acquisition of the'signal amplification array' and'reinforced servo actuator', can make the progression feel slow and unengaging.",
+    "The jargon-heavy technical terminology, such as 'BASILISK HAZARD' and 'Whisper-class corruption risk', can make some log entries feel like jargon soup and difficult to understand.",
+    "The underutilized global phenomena events, such as the 'NETWORK STORM' event in TRANSCRIPT 1, can feel like missed opportunities to add more depth and complexity to the narrative.",
+    "Extreme repetition of locations (Block 44, Corridor 5-Deep) and hazards (dust storms, radiation spikes, structural collapse) across arcs and vessels, making journeys feel samey.",
+    "Underdeveloped multi-entry 'scenes.' The BREACH/FAULT/CORE phases lack connected, persistent mini-narratives with recurring characters or objects.",
+    "Placeholder tags ({color}, {direction}, {signal_type}, {weather_event}) are overused, breaking immersion and making entries feel generic and unfinished.",
+    "Narrative arcs lack satisfying climax and resolution. Many end in abrupt VESSEL LOST or a generic REBOOT, undermining the sense of a completed journey.",
+    "Loot and skill progression is disconnected from the narrative. Items are collected but rarely influence the mission or create meaningful story beats."
+  ],
+  "suggestions": [
+    "Introduce more varied and unexpected challenges and events to break up the routine and make the narrative feel more dynamic and engaging. For example, a 'rogue AI' event could introduce a new, unpredictable challenge that requires the vessel to adapt and improvise.",
+    "Develop more nuanced and detailed characterizations of the vessels, including their motivations, goals, and backstories, to make them feel more relatable and engaging. For instance, the Recursive vessel ZERO-5's log entries could include more information about its'version history' and 'previous iterations' to provide context and depth.",
+    "Refine the voice markers and cultural distinctiveness to make each vessel feel more unique and immersive. For example, the Determinist vessel VOLT-11's log entries could include more 'directive' and 'protocol' language to emphasize its rigid, enum-based voice.",
+    "Add more sensory details and descriptive language to the log entries to make the world feel more vivid and immersive. For instance, the description of the 'fractal — bush-like mass of jointed metallic branches surrounded by active nanotech' could be expanded to include more sensory details, such as sounds, smells, and textures.",
+    "Consider introducing more branching narratives or player choice to increase engagement and replayability. For example, the player could be presented with a choice between two different 'directives' or 'objectives', each with its own unique challenges and consequences.",
+    "Introduce named, persistent mini-locations for multi-entry scenes. Example: A 'Basilisk-Infested Data Vault' scene spanning 3 entries where the vessel must bypass a specific AI guardian, retrieve a core data fragment, and deal with the corruption aftermath.",
+    "Reduce placeholder use by expanding template libraries. For weather, use specific descriptors like 'ochre sludge' or 'crimson mist' instead of {color}. For signals, use 'fractured harmonic' or 'repeating prime-number sequence' instead of {signal_type}.",
+    "Tie loot and mission outcomes closer together. Example: Finding an 'Architect access token' during TRAVERSE could unlock unique dialogue options in a subsequent BREACH scene, or a 'cortical stack reader' could allow the vessel to experience a flashback memory during FAULT."
+  ],
+  "repetition_report": [
+    "The phrase 'Structural integrity warning' appears too frequently across the transcripts, with 5 instances in TRANSCRIPT 1 alone. Consider adding more varied and nuanced language to describe the vessels' structural integrity.",
+    "The term 'BASILISK HAZARD' is repeated 3 times in TRANSCRIPT 2, and could be replaced with more descriptive language to convey the sense of danger and risk. For example, 'data pattern embedded in local mesh' or 'corrupted memory sectors' could be used to add more variety and depth to the narrative.",
+    "The 'Solar flare' event appears in 4 different transcripts, and could be replaced with more varied and unexpected global phenomena events to add more depth and complexity to the narrative. For example, a 'geomagnetic storm' or 'ionospheric disturbance' could be used to introduce new challenges and opportunities for the vessels.",
+    "Location names: 'Block 44' and 'Corridor 5-Deep' appear excessively across all transcripts.",
+    "Hazard phrases: 'High winds. Loose debris presents collision risk.', 'Electromagnetic fog. Signal attenuation 60%.', 'Structural integrity warning', 'Radiation spike'.",
+    "Loot items: 'plastic figurine of a cat' appears in 4 out of 5 vessel inventories and multiple loot entries.",
+    "Placeholder tags: {color}, {direction}, {signal_type}, {weather_event}.",
+    "Checkpoint encounters: 'Determinist checkpoint — demands authorization code' appears multiple times."
+  ],
+  "_judge": "Llama 3.3 70B",
+  "_meta": {
+    "timestamp": "2026-02-27T12:34:41.781Z",
+    "judges": [
+      {
+        "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        "provider": "deepinfra",
+        "label": "Llama 3.3 70B"
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-V3.2",
+        "provider": "deepinfra",
+        "label": "DeepSeek V3.2"
+      }
+    ],
+    "vessel_count": 5,
+    "arc_count": 10,
+    "total_log_entries": 1253
+  }
+}

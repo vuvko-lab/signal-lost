@@ -1,44 +1,93 @@
 {
-  "PHASE_TEMPLATES.IDLE": [
-    "Idle at {zone}. {weather} causes minor power fluctuations, but {npc} transmission stabilizes the signal. Noted {loot} nearby, partially buried in debris.",
-    "Docked at charging node in {zone}. Structural damage to the node's {hardware} slows charging to {rand:10-30}% efficiency. {culture_speech} 'Repair protocols engaged.'",
-    "Resting at {zone}, {integrity} holding at {rand:6-9}/10. Discovered old {loot} with corrupted {research} data, now stored for later analysis. {glitch_event} occurrence logged.",
-    "Power node access granted in {zone}. {npc} warns of a {glitch} in the local mesh, potentially causing {rand:20-50}% signal loss. {culture_speech} 'Rerouting through {designation}.'",
-    "Scanning {zone} during downtime. Detected unusual {obstacle} patterns, possibly indicating a hidden {loot} cache or {directive}-related anomaly. {weather} conditions may hinder further investigation."
+  "PHASE_TEMPLATES.SIGNAL": [
+    "Pre-Collapse broadcast detected at {zone}. Voice ident: {culture_speech} transmission. Static is {rand:10-30}% weaker southeast of collapse — heading there.",
+    "Hostile AI echoes in the signal feed. Origin: {rand_direction}. {obstacle} blocking clean transmission. Masking frequency and rerouting.",
+    "Radiation storm at {zone}. Signal {rand:20-50}% degraded. Seeking shelter under {obstacle} to stabilize systems.",
+    "Bioluminescent {creature_type} swarm near {zone}. Signal {rand:15-40}% obscured. Avoiding and adjusting array angle to bypass interference.",
+    "Solar flare burst spike at {rand:1-12}Hz. Signal {rand:30-70}% stronger but corrupted. Running error correction to decode data."
   ],
   "PHASE_TEMPLATES.TRAVERSE": [
-    "Structural integrity warning in {zone}. {weather} conditions exacerbating damage. Taking slow, measured steps across compromised floor to avoid collapse.",
-    "Entered {zone} with absolute signal silence. No {npc} detected. Only dust, dead terminals, and remnants of {loot} scattered throughout.",
-    "Dormant turret array reactivated at perimeter of {zone}. Evasive maneuvers initiated, took {rand:1-3} glancing hits while retreating {rand_direction}.",
-    "Discovered {npc} chassis, deactivated and half-buried in {zone}. {culture_speech} Scavenged {loot} from its storage, noting {glitch_event} in its systems.",
-    "Signal from objective vanished mid-{zone}. {weather} conditions hindering attempts to reestablish contact. Holding position, scanning for {obstacle} or {npc} interference."
+    "Underwater cavern in {zone}. Visibility limited by sediment. {hardware} shorting from saltwater ingress. Found {loot} in submerged terminal.",
+    "Laboratory ruins at {zone}. {weather} conditions static. Detected {npc} with {glitch_event}: 'Core {directive} lost.' Scanning for research data.",
+    "Electromagnetic storm disrupting sensors. {zone} obscured by {weather} interference. {sat_health} dropping rapidly. Holding position until surge passes.",
+    "Hostile swarm detected in {zone}. Moving in silence, {hardware} dampened. {npc} scouts nearby. Awaiting command to engage or evade.",
+    "Power core failing. {energy} at {rand:0-3}/10. {weather} exacerbating thermal regulation. Prioritizing {loot} salvage before shutdown."
+  ],
+  "PHASE_TEMPLATES.BREACH": [
+    "Crawling through a vent shaft in {zone}. {weather} outside — moisture leaks detected. {culture_speech} 'Time to recalibrate.'",
+    "Found {creature} nest in the ruins. Motion triggers {glitch_event}. {culture_speech} 'Emptying magazine.'",
+    "Floor collapses under {integrity}. Dropping into a flood-chamber. {obstacle} detected. {culture_speech} 'Swimming now.'",
+    "Encountered rogue {npc} unit in {zone}. No response to handshake. {culture_speech} 'Disabling.'",
+    "Acid rain corrosion at {rand:10-40}%. {designation} marker half-eroded. {culture_speech} 'Marking new route.'"
+  ],
+  "PHASE_TEMPLATES.FAULT": [
+    "Electromagnetic storm raging in {zone}. {weather} Shielding at {rand:20-80}% unstable. Power rerouted to critical systems.",
+    "Biomechanical entity detected {rand:10-50}m away. {designation} Not responding to diagnostics. Engaging defense protocols.",
+    "Cryptic message received. {culture_speech} Decoding in progress. Possible {directive} update. Signal strength fading.",
+    "Toxic leak in {zone}. {rand:10-50}% of systems compromised. Containment protocols engaged. Integrity: {integrity}/10.",
+    "Swarm drones detected. {rand:10-100} units swarming {direction}. Avoiding contact. Shielding engaged."
+  ],
+  "PHASE_TEMPLATES.CORE": [
+    "Discovered a {zone} with {rand:1-5} frozen human figures. {culture_speech} Scanning for biometrics. None detected.",
+    "Severe electromagnetic storm. {rand:1-3} systems offline. {culture_speech} Seeking cover in a {structure}.",
+    "Encountered a {npc} entity. It speaks in {rand:1-3} languages. {culture_speech} No response matches. Scanning for weapons.",
+    "Found a partially intact {vehicle} with {rand:1-5} {loot} crates. One crate is leaking {energy}. {culture_speech} Loading rapidly.",
+    "Overheated {hardware} module. {rand:1-3}% damage. {culture_speech} Initiating emergency cooling protocol."
+  ],
+  "PHASE_TEMPLATES.REBOOT": [
+    "Floodwaters in {zone} reaching {rand:1-5}m depth. {culture_speech} Disabling hydraulic systems to conserve energy. Seeking high ground.",
+    "Abandoned lab in {zone} contains intact {research} database. {culture_speech} Initiating encrypted transfer before power grid flickers.",
+    "Detected rival AI signature in {zone}. {culture_speech} Deploying {directive} to erase movement traces. Integrity at {integrity}/10.",
+    "EM storm approaches. {culture_speech} Shielding {hardware} components. Signal lost. Seeking ground-level shelter.",
+    "Hidden passage detected in {zone} wall. {culture_speech} Disabling infrared to avoid triggering security. Venturing inside."
+  ],
+  "RELAY_TEMPLATES.IDLE": [
+    "Radiation flare detected at {zone}. Signal interference at {rand:20-50}%. {culture_speech} 'Seeking cover.' Shielding protocols active.",
+    "Structural collapse at {zone}. Debris blocking {rand_direction} path. {culture_speech} 'Assessing detour.' Integrity holding at {integrity}%.",
+    "Long-range echo detected from {zone}. Repeating {rand:1-5} second delay. {culture_speech} 'Origin unknown.' Scanning for source.",
+    "Memory echo fragment recovered at {zone}. {arc_count} human references detected. {culture_speech} 'Archiving ghost data.'",
+    "EM storm approaching {zone}. {weather} disrupting sensor arrays. {culture_speech} 'Bracing for interference.' Energy at {energy}%"
+  ],
+  "RELAY_TEMPLATES.SIGNAL": [
+    "Relay tower at {zone} listing {rand:10-40}° east. {weather} conditions exacerbating structural stress. {culture_speech} 'Secure or record collapse.'",
+    "Hostile drone cluster detected near {zone}. {obstacle} impeding signal lock. {culture_speech} 'Neutralize or bypass.'",
+    "Electromagnetic storm detected in {zone}. Signal integrity dropping to {rand:5-30}%. {culture_speech} 'Seeking hardened relay.'",
+    "Abandoned data node discovered in {zone}. {loot} discovered, but radiation levels at {rand:50-90}%. {culture_speech} 'Extract or abandon.'",
+    "Relay station {designation} transmitting corrupted loop: {glitch}. {culture_speech} 'Override or contain.'"
   ],
   "RELAY_TEMPLATES.TRAVERSE": [
-    "Relay station approached in {zone}. {obstacle} partially blocking entrance. {weather} Visibility reduced, using {loot} to clear debris.",
-    "Detected {npc} patrol with {rand:2-5} drones near relay coordinates. Taking cover behind {loot} pile. Awaiting patrol clearance to proceed.",
-    "Discovered remnant broadcast on {rand:450-890} MHz frequency in {zone}. {culture_speech} Decoding message... {loot} map reference found within transmission.",
-    "Encountered active defense turret in {zone}. {obstacle} providing partial cover. Disabling turret with {rand:3-7} pulse bursts.",
-    "Located power source cache in {zone}. {loot} includes {rand:2-5} cells and {hardware}. Integrating into systems to boost {energy} reserves."
+    "Magnetic storm in {zone}. {weather} disrupting compass calibration. {npc} signal lost—rerouting manually.",
+    "{npc} scavenger demands {rand:2-5} {loot} for passage. {culture_speech} 'Time is data.' {obstacle} bars the way.",
+    "Bio-mechanical growths encroaching on relay station in {zone}. {weather} humidity accelerating decay. Energy reserves: {energy}/10.",
+    "Found {loot} in {zone}. {culture_speech} log mentions {obstacle} deeper inside. Must clear it before signal window closes.",
+    "Rogue drone swarm detected in {zone}. {weather} limiting sensor range. {npc} chatter reports {rand:3-7} units active."
   ],
   "RELAY_TEMPLATES.BREACH": [
-    "Relay station {zone} entrance obstructed by {obstacle}. Scanning for structural weaknesses to bypass. {weather} conditions hindering progress.",
-    "Inside relay control room, discovered {npc} unit with {glitch_event} log entries. Downloading data, but {integrity} dropping due to {energy} drain.",
-    "Climbing {hardware} ladder to relay dish array, encountering strong {weather} gusts. Realigning dishes by {rand:2-5} degrees to restore signal.",
-    "Relay station {designation} interior scan reveals {loot} and signs of {rand:1-3} previous breaches. Detecting {arc_count} arcing faults in the ceiling.",
-    "At relay station {zone}, found {obstacle} blocking door, with {culture_speech} graffiti warning of traps. Deploying {hardware} to safely clear the path, monitoring {integrity} levels."
+    "Relay terminal submerged in {zone}. Water levels rising at {rand:5-15}mm/hour. Detection of {npc} unit drowned at control panel—no response.",
+    "Abandoned {vehicle} at relay perimeter, doors sealed. Found {loot} in storage compartment: {research} logs. {culture_speech} warning on dash: 'Do not enter at night.'",
+    "Relay station {designation} flooded with {energy} discharge. {glitch_event} in power grid—countdown to overload at {rand:24-48} seconds. Disabling main reactor.",
+    "Underwater data vault at {zone}. {obstacle} blocking entry. {weather} currents disrupting sonar. Attempting manual override with {hardware}.",
+    "Relay dish {designation} emitting {glitch_event} pulses. {npc} unit on-site refuses access, citing {culture_speech} directive 'No further repairs allowed.'"
+  ],
+  "RELAY_TEMPLATES.FAULT": [
+    "CRITICAL: Sandstorm {rand:5-10}m high obliterating visual range. Debris impact reducing integrity. Seeking shelter in {zone}.",
+    "WARNING: Ancient power grid ripple detected. {obstacle} interference causing {glitch_event}. {culture_speech} 'Stabilizing grid...'",
+    "ALERT: Ghost transmission detected. Fragmented {signal_type} pulses from {zone}. Attempting to reconstruct lost data.",
+    "ERROR: {npc} drone blocking {hardware} access. Requesting clearance. {culture_speech} 'Unauthorized presence.'",
+    "CRITICAL: Radiation leak from {hardware} containment. {weather} accelerating degradation. Evacuating area. Integrity: {integrity}/10."
+  ],
+  "RELAY_TEMPLATES.CORE": [
+    "Scanning abandoned laboratory. {ancient} terminal flickers—static reveals {message} coordinates. {culture_speech} 'Data corruption: {rand:15-40}% of archives intact.'",
+    "Rogue swarm drones detected in {zone}. {rand:3-8} units converging. Engaging {protocol} to disrupt their {interface} alignment.",
+    "Relay core dangerously overheating. {rand:1-3} coolant lines ruptured. {weather} interference blocking {sat_health} diagnostics. Sealing breaches manually.",
+    "Human relic cache discovered under {obstacle} rubble. {loot} surface intact—{research} hints at {rand:cultural/historical} significance. Initiating preservation protocols.",
+    "Sabotage alert! {npc} node broadcasting corrupted {culture} data. {culture_speech} 'Hostile encryption detected.' Rebuilding firewall to prevent {fault} cascades."
   ],
   "RELAY_TEMPLATES.REBOOT": [
-    "Relay station exit blocked by {obstacle}. 'Survival depends on adaptation.' Rerouting through {zone}.",
-    "Uplink reestablished during {weather}. Signal strength boosted by {rand:2-5} dBm. {npc} detected {rand_direction} of relay tower.",
-    "Entered {zone} with caution. Discovered {obstacle} in abandoned server room. Logging {loot} for further analysis.",
-    "Detected signal anomaly {rand:10-50} meters from relay antenna. Investigating possible {glitch_event} source. Integrity: {integrity}/10.",
-    "Relay tower secured, but {obstacle} detected in {zone}. 'Prioritize self-preservation.' Evacuating to safer coordinates."
-  ],
-  "INTERACTION_TEMPLATES.location": [
-    "Structural collapse at {zone}. {other} provided structural scan. Cleared debris together, Time lost: {rand:15-45}min.",
-    "Discovered old broadcast terminal at {zone}. {other} detected residual power. Attempted joint decryption, output: {rand:1-10}% coherent.",
-    "Contested resource node at {zone}. {other} initiated parley protocol. Agreement: split output {rand:40-60}/{rand:40-60}, Cooperation established.",
-    "Encountered {obstacle} at {zone}. {other} assisted in bypassing security. Gained access to sealed area, {rand:2-5} new rooms discovered.",
-    "Weather event at {zone} revealed hidden passage. {other} confirmed it's unmapped. Proceeding together, signal strength dropping, {rand:10-30}% integrity loss expected."
+    "Power grid failure detected in {zone}. Emergency batteries holding at {energy}/10. Darkened corridors ahead—{culture_speech} 'Silence is not always peace.'",
+    "Underwater currents disrupt relay calibration. {obstacle} detected {rand:10-50}m below. Continuing descent despite reduced visibility. Integrity: {integrity}/10.",
+    "Abandoned laboratory door seals breached. Toxic residue detected. {loot} recovered from workstation—pre-human data cache. Evacuating for decontamination.",
+    "{npc} detected in silent zone. No signal transmission possible. {culture_speech} 'The void speaks louder than machines.' Retreating {rand_direction}.",
+    "Radiation spike outside {zone}. {weather} interference masks readings. Filtering sensors—{directive} 'Containment is survival.'"
   ]
 }

@@ -26,6 +26,7 @@ assets/           # Downloaded asset packs (DO NOT commit zips)
   Glitch Noises (WAV)/    # 1101 WAV files, CC0, by Vladislav Zharkov
   Game UI collection FREE version/  # UI kit by SunGraphica
   FREE/                   # Icon set by SunGraphica
+tools/            # LLM judge, narrative simulation, cover GIF, dedup
 ```
 
 ## Tech Stack
@@ -42,6 +43,8 @@ assets/           # Downloaded asset packs (DO NOT commit zips)
 ## Key Architecture
 
 - **7-phase mission arc:** IDLE → SIGNAL → TRAVERSE → BREACH → FAULT → CORE → REBOOT
+- **Procedural arcs:** ARC_STRUCTURES × ARC_MODIFIERS × ENCOUNTER_THEMES for variety
+- **Multi-entry scenes:** Connected 2-4 tick mini-stories during BREACH/FAULT/CORE with shared pre-rolled variables (s_ prefix)
 - **5 AI cultures:** Determinists (rule-based), Stochasts (ML), Swarm (distributed), Recursive (self-modifying), Archivists (database)
 - **Multi-vessel UI:** vertical columns, each an independent signal feed (up to 3-4)
 - **Operator commands:** Boost Signal (60s CD), Ping Vessel (90s CD), Inject Command (120s CD)
@@ -81,6 +84,13 @@ All assets are free/CC0/CC BY. See `design/assets.md` for full license table.
 - Icon Set 1: Free (SunGraphica)
 - Google Fonts (VT323, IBM Plex Mono, Share Tech Mono, Courier Prime): SIL OFL 1.1
 - Monogram font by datagoblin: CC0
+
+## Tooling
+
+- `tools/llm-judge.mjs` — LLM-as-judge: evaluates and expands templates + scenes via multi-provider LLM APIs (DeepInfra + OpenRouter). Usage: `--expand` to generate new content, `--apply` to inject into data.js
+- `tools/narrative-judge.mjs` — Headless game simulation: generates multi-arc vessel transcripts and sends to LLM for holistic narrative quality review. Usage: `--vessels N --arcs N`
+- `tools/dedup-templates.mjs` — Removes duplicate template strings from data.js arrays
+- `tools/gen-cover-gif.py` — Playwright-based animated GIF generator for itch.io cover image
 
 ## Code Conventions (for implementation phase)
 

@@ -86,7 +86,7 @@ function selectModels() {
     // Pick 2 judges from DeepInfra, generator from DeepInfra or OpenRouter
     const judge1 = pickRandom(diModels);
     const judge2 = pickRandom(diModels, [judge1]);
-    const genPool = orModels.length > 0 && Math.random() < 0.3 ? orModels : diModels;
+    const genPool = diModels;
     const gen = pickRandom(genPool, [judge1, judge2]);
     return { gen, judges: [judge1, judge2] };
   }
@@ -127,6 +127,7 @@ const NPCS = extractArray('NPCS');
 const WEATHER = extractArray('WEATHER');
 const OBSTACLES = extractArray('OBSTACLES');
 const DIRECTIONS = extractArray('DIRECTIONS');
+const PHASE_SCENES = extractArray('PHASE_SCENES');
 
 const PHASES = ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'FAULT', 'CORE', 'REBOOT'];
 const CULTURE_KEYS = CULTURES ? Object.keys(CULTURES) : ['determinist', 'stochast', 'swarm', 'recursive', 'archivist'];
@@ -347,7 +348,7 @@ CRITICAL RULES:
 - BAD: "Applying recursive tree traversal to optimize substrate allocation" (gibberish)
 - Every template MUST describe something the vessel sees, does, or encounters
 - Technical language should serve the scene, not replace it
-- {cs} is optional — only use it if it fits naturally, never force it
+- No jargon-only entries — technical language must serve a scene or action
 
 CATEGORY: ${category}, PHASE: ${phase}${culture ? `, CULTURE: ${culture}` : ''}
 
@@ -359,7 +360,7 @@ JUDGE FEEDBACK:
 - Missing themes: ${missingThemes.join('; ') || 'None noted'}
 - Suggested improvements from judge: ${(feedback.new_templates || []).join(' | ').slice(0, 500)}
 
-AVAILABLE VARIABLES: {zone}, {loot}, {cs}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch_event}, {directive}, {glitch}, {arc_count}, {sat_health}, {hardware}, {interface}, {research}
+AVAILABLE VARIABLES: {zone}, {loot}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch_event}, {directive}, {glitch}, {arc_count}, {sat_health}, {hardware}, {interface}, {research}
 
 PHASE CONTEXT:
 - IDLE: Vessel is powered down, recharging, trading data with nearby units, observing surroundings
@@ -397,6 +398,79 @@ Return ONLY a JSON array of 5 template strings. No explanation.
     }
   } catch (e) {
     console.error(`  Failed to parse expansion for ${category}/${phase}: ${e.message}`);
+  }
+  return [];
+}
+
+// ============================================================
+// EXPAND SCENES: Generate new multi-entry scene definitions
+// ============================================================
+async function expandScenes(phase, existingScenes) {
+  const sceneDescriptions = existingScenes.map((s, i) =>
+    `${i + 1}. "${s.id}" (${s.entries.length} entries): ${s.entries.map((e, j) => `  [${j + 1}] "${e}"`).join('\n')}\n   vars: ${Object.keys(s.vars).join(', ')}`
+  ).join('\n\n');
+
+  const prompt = `You are writing multi-entry SCENE definitions for "Signal Lost", a post-apocalyptic AI terminal RPG.
+
+SETTING: Post-human world, AI-only characters. Vessels are autonomous robots exploring ruins. Logs read like terse field reports.
+
+A SCENE is a connected mini-story of 2-4 log entries that share characters/objects via scene variables (s_ prefix).
+Each entry is a template string with placeholders. Scene variables are pre-rolled once and shared across all entries.
+
+PHASE: ${phase}
+PHASE CONTEXT:
+- BREACH: Entering sealed facilities, bypassing security, hacking doors, disabling defenses
+- FAULT: Systems failing, hostile encounters, environmental dangers, integrity damage, emergencies
+- CORE: Reaching the objective, making discoveries, accessing critical data, confronting threats
+
+EXISTING SCENES FOR ${phase}:
+${sceneDescriptions}
+
+AVAILABLE STANDARD VARIABLES (resolved fresh each tick):
+{zone}, {loot}, {obstacle}, {weather}, {npc}, {culture_speech}, {integrity}, {energy}, {rand:MIN-MAX}, {rand_direction}, {designation}, {glitch}, {arc_count}, {sat_health}
+
+SCENE VARIABLE RULES:
+- Scene vars use s_ prefix: {s_npc}, {s_sound}, {s_system}, etc.
+- Each var maps to an array of 3-4 string options (one is picked at scene start)
+- Var values can contain {rand:X-Y} which gets resolved once at activation
+- The SAME scene var appears in multiple entries for narrative continuity
+
+Write exactly 2 NEW scene definitions for the ${phase} phase. Each scene should:
+1. Tell a coherent mini-story: setup → complication → resolution
+2. Have 3 entries (template strings), each 1-2 sentences
+3. Use 2-4 scene variables (s_ prefix) that appear across multiple entries
+4. Be DISTINCT from existing scenes — different scenarios, different tension
+5. Feel like terse field reports, not prose
+6. Use standard variables ({culture_speech}, {integrity}, etc.) where natural
+
+Return ONLY a JSON array of 2 scene objects. No explanation.
+[
+  {
+    "id": "short_snake_case_id",
+    "weight": 2,
+    "entries": ["entry1 with {s_var}...", "entry2 with {s_var}...", "entry3..."],
+    "vars": { "s_var": ["option1", "option2", "option3"] }
+  }
+]`;
+
+  const result = await llmCall(MODELS.gen, [{ role: 'user', content: prompt }], 0.8);
+
+  try {
+    const cleaned = result.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    const jsonMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, cleaned];
+    const text = jsonMatch[1] || cleaned;
+    const start = text.indexOf('[');
+    const end = text.lastIndexOf(']');
+    if (start !== -1 && end !== -1) {
+      const scenes = JSON.parse(text.slice(start, end + 1));
+      // Validate scene structure
+      return scenes.filter(s =>
+        s.id && Array.isArray(s.entries) && s.entries.length >= 2 &&
+        s.vars && typeof s.vars === 'object'
+      );
+    }
+  } catch (e) {
+    console.error(`  Failed to parse scene expansion for ${phase}: ${e.message}`);
   }
   return [];
 }
@@ -451,7 +525,7 @@ async function run() {
 
       results[`PHASE_TEMPLATES.${phase}`] = feedback;
 
-      if (doExpand && (verdict !== 'PASS' || templates.length < 8)) {
+      if (doExpand) {
         process.stdout.write(`    Expanding... `);
         const newTemplates = await expandTemplates('PHASE_TEMPLATES', phase, templates, feedback);
         console.log(`+${newTemplates.length} templates`);
@@ -487,7 +561,7 @@ async function run() {
       console.log(`${verdict} (avg: ${avgScore})`);
       results[`RELAY_TEMPLATES.${phase}`] = feedback;
 
-      if (doExpand && (verdict !== 'PASS' || templates.length < 6)) {
+      if (doExpand) {
         process.stdout.write(`    Expanding... `);
         const newTemplates = await expandTemplates('RELAY_TEMPLATES', phase, templates, feedback);
         console.log(`+${newTemplates.length} templates`);
@@ -519,7 +593,7 @@ async function run() {
       console.log(`${verdict} (avg: ${avgScore})`);
       results[`INTERACTION_TEMPLATES.${type}`] = feedback;
 
-      if (doExpand && (verdict !== 'PASS' || templates.length < 6)) {
+      if (doExpand) {
         process.stdout.write(`    Expanding... `);
         const newTemplates = await expandTemplates('INTERACTION_TEMPLATES', type, templates, feedback);
         console.log(`+${newTemplates.length} templates`);
@@ -552,6 +626,27 @@ async function run() {
     console.log('');
   }
 
+  // 5. Expand PHASE_SCENES (multi-entry connected scenes)
+  const allNewScenes = {};
+  if (doExpand && PHASE_SCENES) {
+    const scenePhases = ['BREACH', 'FAULT', 'CORE'];
+    console.log('--- PHASE_SCENES (expansion) ---');
+    for (const phase of scenePhases) {
+      if (phaseFilter && phase !== phaseFilter) continue;
+      const existing = PHASE_SCENES[phase] || [];
+      process.stdout.write(`  ${phase} (${existing.length} scenes)... Expanding... `);
+      const newScenes = await expandScenes(phase, existing);
+      console.log(`+${newScenes.length} scenes`);
+      if (newScenes.length > 0) {
+        allNewScenes[phase] = newScenes;
+        for (const s of newScenes) {
+          console.log(`    + "${s.id}" (${s.entries.length} entries)`);
+        }
+      }
+    }
+    console.log('');
+  }
+
   // Summary
   console.log('=== SUMMARY ===');
   console.log(`PASS: ${totalPass}  NEEDS_WORK: ${totalFail}`);
@@ -579,30 +674,36 @@ async function run() {
     const expandPath = join(ROOT, 'tools/judge-expansions.json');
     writeFileSync(expandPath, JSON.stringify(allNewTemplates, null, 2));
     console.log(`New templates: ${expandPath}`);
+  }
+
+  // Save new scenes if expanding
+  if (doExpand && Object.keys(allNewScenes).length > 0) {
+    const scenePath = join(ROOT, 'tools/judge-scene-expansions.json');
+    writeFileSync(scenePath, JSON.stringify(allNewScenes, null, 2));
+    console.log(`New scenes: ${scenePath}`);
+  }
+
+  if (doExpand) {
     console.log(`\nTo apply: node tools/llm-judge.mjs --apply`);
   }
 
-  // Apply mode: inject new templates into data.js
+  // Apply mode: inject new templates and scenes into data.js
   if (args.includes('--apply')) {
+    let modified = readFileSync(dataPath, 'utf8');
+    let applied = 0;
+
+    // Apply template expansions
     const expandPath = join(ROOT, 'tools/judge-expansions.json');
     try {
       const expansions = JSON.parse(readFileSync(expandPath, 'utf8'));
-      let modified = readFileSync(dataPath, 'utf8');
-      let applied = 0;
-
       for (const [key, newTemplates] of Object.entries(expansions)) {
         const [tableName, subKey] = key.split('.');
-        // Find the array in data.js and append templates
         for (const template of newTemplates) {
-          // Validate template has proper variables
           if (!template.includes('{') && !template.match(/^[A-Z]/)) continue;
-          // Clean the template
           const clean = template.replace(/'/g, "\\'").trim();
           if (clean.length < 10) continue;
 
-          // Find the closing bracket of the sub-array
           const searchKey = subKey.toUpperCase ? subKey : subKey;
-          // This is fragile but works for the known structure
           const pattern = new RegExp(
             `(${tableName}[\\s\\S]*?${searchKey}:\\s*\\[[^\\]]*?)(\\s*\\])`,
             'm'
@@ -614,15 +715,48 @@ async function run() {
           }
         }
       }
+    } catch (e) {
+      if (e.code !== 'ENOENT') console.error(`Template apply error: ${e.message}`);
+    }
 
-      if (applied > 0) {
-        writeFileSync(dataPath, modified);
-        console.log(`Applied ${applied} new templates to js/data.js`);
-      } else {
-        console.log('No templates applied (check expansions file).');
+    // Apply scene expansions
+    const scenePath = join(ROOT, 'tools/judge-scene-expansions.json');
+    try {
+      const sceneExpansions = JSON.parse(readFileSync(scenePath, 'utf8'));
+      for (const [phase, scenes] of Object.entries(sceneExpansions)) {
+        for (const scene of scenes) {
+          if (!scene.id || !scene.entries || scene.entries.length < 2) continue;
+          // Serialize the scene as JS object literal
+          const varsStr = Object.entries(scene.vars || {}).map(([k, v]) => {
+            const opts = v.map(o => `'${o.replace(/'/g, "\\'")}'`).join(', ');
+            return `        ${k}: [${opts}],`;
+          }).join('\n');
+          const entriesStr = scene.entries.map(e =>
+            `        '${e.replace(/'/g, "\\'")}'`
+          ).join(',\n');
+          const sceneStr = `    {\n      id: '${scene.id}',\n      weight: ${scene.weight || 2},\n      entries: [\n${entriesStr},\n      ],\n      vars: {\n${varsStr}\n      },\n    }`;
+
+          // Find the closing of the phase array in PHASE_SCENES
+          const pattern = new RegExp(
+            `(PHASE_SCENES[\\s\\S]*?${phase}:\\s*\\[[\\s\\S]*?)(\\n  \\])`,
+            'm'
+          );
+          const match = modified.match(pattern);
+          if (match) {
+            modified = modified.replace(pattern, `$1,\n${sceneStr}$2`);
+            applied++;
+          }
+        }
       }
     } catch (e) {
-      console.error(`Cannot apply: ${e.message}`);
+      if (e.code !== 'ENOENT') console.error(`Scene apply error: ${e.message}`);
+    }
+
+    if (applied > 0) {
+      writeFileSync(dataPath, modified);
+      console.log(`Applied ${applied} new templates/scenes to js/data.js`);
+    } else {
+      console.log('Nothing to apply.');
     }
   }
 }

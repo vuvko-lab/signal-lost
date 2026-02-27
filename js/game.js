@@ -9,6 +9,7 @@ import {
   INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS, SKILL_LOOT,
   ARC_STRUCTURES, ARC_MODIFIERS, ENCOUNTER_THEMES,
   INJECT_MANIFESTATIONS, INJECT_RELAY_MANIFESTATIONS,
+  PHASE_SCENES,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -386,7 +387,71 @@ function fillTemplate(template, vessel) {
     .replace(/  +/g, ' ').trim();
 }
 
+// === MULTI-ENTRY SCENES ===
+
+const SCENE_CHANCE = {
+  BREACH: 0.50,
+  FAULT:  0.40,
+  CORE:   0.60,
+};
+
+function resolveRandTags(str) {
+  return str.replace(/\{rand:(\d+)-(\d+)\}/g, (_, a, b) =>
+    String(randInt(parseInt(a), parseInt(b)))
+  );
+}
+
+function maybeStartScene(vessel) {
+  const phase = vessel.mission.phase;
+  const chance = SCENE_CHANCE[phase];
+  if (!chance || Math.random() >= chance) return;
+  if (vessel.mission.relay_mission) return;
+
+  const scenes = PHASE_SCENES[phase];
+  if (!scenes || scenes.length === 0) return;
+
+  const scene = pickWeighted(scenes);
+
+  // Ensure phase lasts long enough for the full scene
+  if (scene.entries.length > vessel.mission.target) {
+    vessel.mission.target = scene.entries.length;
+  }
+
+  // Pre-roll all scene variables
+  const rolledVars = {};
+  for (const [key, options] of Object.entries(scene.vars)) {
+    rolledVars[key] = resolveRandTags(pick(options));
+  }
+
+  vessel.mission.scene = {
+    id: scene.id,
+    entries: scene.entries,
+    index: 0,
+    vars: rolledVars,
+  };
+}
+
 function generateLogText(vessel) {
+  // Scene system: if a scene is active, consume the next entry
+  if (vessel.mission.scene && vessel.mission.scene.index < vessel.mission.scene.entries.length) {
+    const scene = vessel.mission.scene;
+    let template = scene.entries[scene.index];
+
+    // Substitute scene-specific variables (s_ prefix) first
+    for (const [key, value] of Object.entries(scene.vars)) {
+      template = template.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+    }
+
+    scene.index++;
+    if (scene.index >= scene.entries.length) {
+      vessel.mission.scene = null;  // scene complete, fall back to random
+    }
+
+    const text = fillTemplate(template, vessel);
+    return applyFactionVoice(text, vessel.culture, vessel);
+  }
+
+  // Standard: pick random template
   const templates = vessel.mission.relay_mission
     ? (RELAY_TEMPLATES[vessel.mission.phase] || PHASE_TEMPLATES[vessel.mission.phase])
     : PHASE_TEMPLATES[vessel.mission.phase];
@@ -876,6 +941,9 @@ export function tick(vessel) {
 }
 
 function advancePhase(vessel) {
+  // Clear any active scene from previous phase
+  vessel.mission.scene = null;
+
   let nextPhase;
 
   if (vessel.mission.arc) {
@@ -906,6 +974,9 @@ function advancePhase(vessel) {
   vessel.mission.phase = nextPhase;
   vessel.mission.progress = 0;
   vessel.mission.target = PHASE_ENTRY_COUNTS[nextPhase]();
+
+  // Try to start a multi-entry scene for dramatic phases
+  maybeStartScene(vessel);
 
   // Generate procedural arc when entering SIGNAL
   if (nextPhase === 'SIGNAL' && !vessel.mission.arc) {
