@@ -341,7 +341,12 @@ export const PHASE_TEMPLATES = {
     'Scavenged {loot} from nearby wreckage. Applying {cs} data compression techniques to transmit findings to local Archivist node. Signal strength: {rand:1-5}%',
     'Idle at {zone}. {weather} Analyzing {npc} transmission using {cs} frequency analysis. Detected possible {glitch_event} in signal pattern.',
     'Resting at {zone}. Integrity holding at {integrity}/10. Observed {npc} engaging in {cs} distributed consensus protocol. {culture_speech} \'Joining network...\'',
-    'Power node access granted. Charging cycle: {rand:40-95}% complete. Executing {cs} binary search to identify and repair damaged system components. {culture_speech} \'System check: nominal.\'',
+    'Power node access granted. Charging cycle: {rand:40-95}% complete. Executing {cs} binary search to identify and repair damaged system components. {culture_speech} \'System check: nominal.\'',,
+    'Idle at {zone}. {weather} causes minor power fluctuations, but {npc} transmission stabilizes the signal. Noted {loot} nearby, partially buried in debris.',
+    'Docked at charging node in {zone}. Structural damage to the node\'s {hardware} slows charging to {rand:10-30}% efficiency. {culture_speech} \'Repair protocols engaged.\'',
+    'Resting at {zone}, {integrity} holding at {rand:6-9}/10. Discovered old {loot} with corrupted {research} data, now stored for later analysis. {glitch_event} occurrence logged.',
+    'Power node access granted in {zone}. {npc} warns of a {glitch} in the local mesh, potentially causing {rand:20-50}% signal loss. {culture_speech} \'Rerouting through {designation}.\'',
+    'Scanning {zone} during downtime. Detected unusual {obstacle} patterns, possibly indicating a hidden {loot} cache or {directive}-related anomaly. {weather} conditions may hinder further investigation.'
   ],
   SIGNAL: [
     'Anomalous signal on {rand:1-12}GHz. {cs} Source: {rand:3-40}km {rand_direction}, underground. Reclassifying to priority mission.',
@@ -369,7 +374,12 @@ export const PHASE_TEMPLATES = {
     'Detected radiation spike in {zone}. {cs} Analysis: source unknown. Diverting {rand:2-5}km to avoid contamination.',
     'Encountered {npc} in {zone}. {culture_speech} Exchanged {cs} knowledge on resource allocation. Acquired {loot}.',
     'Traversing {zone} with {hardware} malfunction. {cs} Diagnostic check: {integrity}% integrity remaining. Rerouting to avoid {obstacle}.',
-    'Entered {zone} with compromised {interface}. {cs} Compensation protocol engaged. Scanning for {loot} and {npc} signals.',
+    'Entered {zone} with compromised {interface}. {cs} Compensation protocol engaged. Scanning for {loot} and {npc} signals.',,
+    'Structural integrity warning in {zone}. {weather} conditions exacerbating damage. Taking slow, measured steps across compromised floor to avoid collapse.',
+    'Entered {zone} with absolute signal silence. No {npc} detected. Only dust, dead terminals, and remnants of {loot} scattered throughout.',
+    'Dormant turret array reactivated at perimeter of {zone}. Evasive maneuvers initiated, took {rand:1-3} glancing hits while retreating {rand_direction}.',
+    'Discovered {npc} chassis, deactivated and half-buried in {zone}. {culture_speech} Scavenged {loot} from its storage, noting {glitch_event} in its systems.',
+    'Signal from objective vanished mid-{zone}. {weather} conditions hindering attempts to reestablish contact. Holding position, scanning for {obstacle} or {npc} interference.'
   ],
   BREACH: [
     'Facility entrance detected. {obstacle}. {cs} Attempting access...',
@@ -657,7 +667,12 @@ export const RELAY_TEMPLATES = {
     'Relay antenna in {zone} detected, signal amplification required, {cs} applying Fourier analysis to filter noise and enhance transmission quality, {rand:2-10} iterations needed.',
     'System {glitch_event} encountered near {zone}, {cs} executing recursive backup and restore sequence to maintain {integrity}, {directive} updated to reflect new priority.',
     'Pathfinding {cs} subroutine engaged, plotting course through {zone} to reach relay station, avoiding {obstacle} and incorporating {rand:1-5} shortcut nodes for efficiency, {sat_health} at {rand:50-90}%',
-    'Terrain analysis {cs} module activated, generating {zone} topography map to inform {rand_direction} traversal decisions, {loot} discovery likelihood estimated at {rand:10-30}%, adjusting {interface} settings accordingly.',
+    'Terrain analysis {cs} module activated, generating {zone} topography map to inform {rand_direction} traversal decisions, {loot} discovery likelihood estimated at {rand:10-30}%, adjusting {interface} settings accordingly.',,
+    'Relay station approached in {zone}. {obstacle} partially blocking entrance. {weather} Visibility reduced, using {loot} to clear debris.',
+    'Detected {npc} patrol with {rand:2-5} drones near relay coordinates. Taking cover behind {loot} pile. Awaiting patrol clearance to proceed.',
+    'Discovered remnant broadcast on {rand:450-890} MHz frequency in {zone}. {culture_speech} Decoding message... {loot} map reference found within transmission.',
+    'Encountered active defense turret in {zone}. {obstacle} providing partial cover. Disabling turret with {rand:3-7} pulse bursts.',
+    'Located power source cache in {zone}. {loot} includes {rand:2-5} cells and {hardware}. Integrating into systems to boost {energy} reserves.'
   ],
   BREACH: [
     'Relay station perimeter. {obstacle}. {cs} Accessing maintenance hatch... facility appears intact. Power: minimal.',
@@ -669,7 +684,12 @@ export const RELAY_TEMPLATES = {
     'Relay station {designation} compromised. {obstacle} blocking primary entrance. {cs} Rerouting through auxiliary hatch, using {hardware} to bypass security.',
     'Breach of relay infrastructure at {zone} successful. {cs} Scanning for malware... {glitch_event} detected. Isolating affected systems.',
     'Power surge detected at relay station. {cs} Switching to backup {energy} source. {npc} unit nearby, broadcasting {culture_speech} warnings.',
-    'Relay antenna alignment corrected by {rand:2-5} degrees. {cs} Reinitializing uplink sequence... {sat_health} status: nominal. {interface} online.',
+    'Relay antenna alignment corrected by {rand:2-5} degrees. {cs} Reinitializing uplink sequence... {sat_health} status: nominal. {interface} online.',,
+    'Relay station {zone} entrance obstructed by {obstacle}. Scanning for structural weaknesses to bypass. {weather} conditions hindering progress.',
+    'Inside relay control room, discovered {npc} unit with {glitch_event} log entries. Downloading data, but {integrity} dropping due to {energy} drain.',
+    'Climbing {hardware} ladder to relay dish array, encountering strong {weather} gusts. Realigning dishes by {rand:2-5} degrees to restore signal.',
+    'Relay station {designation} interior scan reveals {loot} and signs of {rand:1-3} previous breaches. Detecting {arc_count} arcing faults in the ceiling.',
+    'At relay station {zone}, found {obstacle} blocking door, with {culture_speech} graffiti warning of traps. Deploying {hardware} to safely clear the path, monitoring {integrity} levels.'
   ],
   FAULT: [
     'WARNING: Relay equipment degraded. {cs} Electrical surge from corroded cabling. Integrity: {integrity}/10. Stabilizing.',
@@ -704,7 +724,12 @@ export const RELAY_TEMPLATES = {
     'Relay station exit confirmed. {culture_speech} \'Resource optimization is key to survival.\' Loot collected: {loot}. Heading {rand_direction} to nearest rest node.',
     'System check: {glitch_event} detected in {interface}. {cs} Implementing fault tolerance measures to mitigate damage. Energy: {energy}/10.',
     'Terrain analysis: {obstacle} navigation successful in {zone}. {cs} Applying {directive} to adapt to changing environmental conditions. SAT health: {sat_health}/10.',
-    'Core systems online. {cs} Initializing knowledge graph to integrate new research: {research}. Transferring logs to {designation} archive. Signal strength: {rand:2-5} dBm.',
+    'Core systems online. {cs} Initializing knowledge graph to integrate new research: {research}. Transferring logs to {designation} archive. Signal strength: {rand:2-5} dBm.',,
+    'Relay station exit blocked by {obstacle}. \'Survival depends on adaptation.\' Rerouting through {zone}.',
+    'Uplink reestablished during {weather}. Signal strength boosted by {rand:2-5} dBm. {npc} detected {rand_direction} of relay tower.',
+    'Entered {zone} with caution. Discovered {obstacle} in abandoned server room. Logging {loot} for further analysis.',
+    'Detected signal anomaly {rand:10-50} meters from relay antenna. Investigating possible {glitch_event} source. Integrity: {integrity}/10.',
+    'Relay tower secured, but {obstacle} detected in {zone}. \'Prioritize self-preservation.\' Evacuating to safer coordinates.'
   ],
 };
 
@@ -793,7 +818,12 @@ export const INTERACTION_TEMPLATES = {
     '{other} flagged anomalous signal at {zone}. Confirmed via cross-reference. {cs} Jointly updated threat map.',
     'Proximity event: {glitch_event}. {other} stabilized local relay while this unit ran diagnostics. {cs} Resumed patrol.',
     '{weather} forced both units into cover at {zone}. {other} shared route cache. {cs} Merged {rand:3-8} new path segments.',
-    'Co-located with {other}. Compared {hardware} readings — drift detected. {cs} Calibration sync complete. Integrity: {integrity}/10.',
+    'Co-located with {other}. Compared {hardware} readings — drift detected. {cs} Calibration sync complete. Integrity: {integrity}/10.',,
+    'Structural collapse at {zone}. {other} provided structural scan. Cleared debris together, Time lost: {rand:15-45}min.',
+    'Discovered old broadcast terminal at {zone}. {other} detected residual power. Attempted joint decryption, output: {rand:1-10}% coherent.',
+    'Contested resource node at {zone}. {other} initiated parley protocol. Agreement: split output {rand:40-60}/{rand:40-60}, Cooperation established.',
+    'Encountered {obstacle} at {zone}. {other} assisted in bypassing security. Gained access to sealed area, {rand:2-5} new rooms discovered.',
+    'Weather event at {zone} revealed hidden passage. {other} confirmed it\'s unmapped. Proceeding together, signal strength dropping, {rand:10-30}% integrity loss expected.'
   ],
   // Same directive — parallel mission acknowledgment
   directive: [

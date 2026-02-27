@@ -3,7 +3,7 @@
 import {
   pick, randInt, DESIGNATIONS, CHASSIS_SIZES, CHASSIS_LOCOMOTION, CHASSIS_TYPES,
   CULTURES, CULTURE_KEYS, DIRECTIVES, GLITCHES, ZONE_TYPES, ZONE_NAMES,
-  LOOT, NPCS, WEATHER, OBSTACLES, CS_SNIPPETS, PHASE_TEMPLATES,
+  LOOT, NPCS, WEATHER, OBSTACLES, PHASE_TEMPLATES,
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
   INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS, SKILL_LOOT,
@@ -367,7 +367,7 @@ function fillTemplate(template, vessel) {
     .replace(/\{npc\}/g, pick(NPCS))
     .replace(/\{weather\}/g, pick(WEATHER))
     .replace(/\{obstacle\}/g, pick(OBSTACLES))
-    .replace(/\{cs\}/g, pick(CS_SNIPPETS[vessel.mission.phase] || CS_SNIPPETS.IDLE))
+    .replace(/\s*\{cs\}\s*/g, ' ') // CS snippets removed — caused jargon soup
     .replace(/\{integrity\}/g, vessel.integrity)
     .replace(/\{energy\}/g, vessel.energy)
     .replace(/\{hardware\}/g, vessel.skills?.hardware || 1)

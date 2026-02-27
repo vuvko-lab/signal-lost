@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "timestamp": "2026-02-27T04:24:11.287Z",
+    "timestamp": "2026-02-27T06:17:35.358Z",
     "judges": [
       {
-        "id": "meta-llama/llama-3.3-70b-instruct:free",
-        "provider": "openrouter",
-        "label": "Llama 3.3 70B (OR)"
+        "id": "google/gemma-3-27b-it",
+        "provider": "deepinfra",
+        "label": "Gemma 3 27B"
       },
       {
         "id": "openai/gpt-oss-120b",
@@ -14,148 +14,1137 @@
       }
     ],
     "generator": {
-      "id": "qwen/qwen3-next-80b-a3b-instruct:free",
-      "provider": "openrouter",
-      "label": "Qwen3 Next 80B (OR)"
+      "id": "deepseek-ai/DeepSeek-V3.2",
+      "provider": "deepinfra",
+      "label": "DeepSeek V3.2"
     },
-    "pass": 8,
-    "needs_work": 0
+    "pass": 11,
+    "needs_work": 15
   },
   "PHASE_TEMPLATES.IDLE": {
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 3,
         "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Solid but CS tacked on."
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Solid, but a bit bland. 'DHCP-equivalent' feels off."
       },
       {
         "id": 2,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Similar to other rest logs."
+        "avg": 4,
+        "note": "Strong scene-setting. The Archivist detail is excellent."
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 2.5,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Clear archivist focus."
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Good hook with the AWS-EAST-2 reference. Intriguing."
       },
       {
         "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Direction adds little novelty."
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "A bit repetitive of #1. 'Network gossip' is good."
       },
       {
         "id": 5,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
         "immersion": 4,
         "avg": 4,
-        "note": "Weather/glitch nice combo."
+        "note": "Excellent balance of setting and action. Very evocative."
       },
       {
         "id": 6,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.4,
-        "note": "Lacks distinct flavor."
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 3.1,
+        "note": "Similar to #1, but less engaging. The patrol unit is a nice touch."
       },
       {
         "id": 7,
         "atmosphere": 4,
         "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good obstacle handling."
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Too much technical detail ('Keep-alive', 'Round-trip')."
       },
       {
         "id": 8,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.6,
+        "note": "Good scavenging detail. 'Latency' feels unnecessary."
+      },
+      {
+        "id": 9,
         "atmosphere": 4,
         "variety": 4,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Ping sweep and neighbor table are jargon. Focus on the signal."
+      },
+      {
+        "id": 10,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Fractal description is strong, but 'DHCP-equivalent' again."
+      },
+      {
+        "id": 11,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "Similar to #7, too much technical detail. Redundant."
+      }
+    ],
+    "verdict": "PASS",
+    "weak_spots": [
+      "Templates 7, 9, and 11 are too focused on technical details and lack concrete imagery.",
+      "Templates 1, 4, and 6 are somewhat bland and repetitive.",
+      "The overuse of technical jargon ('Keep-alive', 'DHCP-equivalent', 'Ping sweep') detracts from immersion.",
+      "Template 1 – vague docking scene.",
+      "Template 3 – abstract data focus.",
+      "Template 6 – minimal visual detail.",
+      "Template 11 – jargon overload, low immersion."
+    ],
+    "missing_themes": [
+      "Severe weather events (sandstorms, radiation bursts).",
+      "Encounters with malfunctioning or hostile AI constructs.",
+      "Discoveries of pre-collapse human artifacts with unclear purpose.",
+      "Structural instability in ruins (collapsing floors, shifting debris).",
+      "Strange anomalies or glitches in the environment.",
+      "Severe weather (acid rain, ion storms).",
+      "Structural hazards (collapsing arches, leaking reactors).",
+      "Eerie discoveries (ghost signals, abandoned human relics).",
+      "Swarm or nanotech creature encounters.",
+      "Power fluctuations or blackout events."
+    ],
+    "new_templates": [
+      "Idle at {zone}. {weather} Detected localized energy spike. Source: unknown. {cs} analysis indicates non-standard signature.",
+      "Docked at charging node. Power draw fluctuating. Nearby structure groaning under stress. {cs} predicts partial collapse within {rand:1-12} cycles.",
+      "Resting at {zone}. Integrity holding at {integrity}/10. Observed a Swarm unit attempting to rebuild a pre-collapse statue. {culture_speech} 'Restoration in progress.'",
+      "Local mesh active. Received fragmented data packet referencing 'Project Nightingale.' Contains images of…organic structures. Flagging for Archivist review.",
+      "Idle at {zone}. {weather} A static field is interfering with sensor readings. {glitch_event} Visual distortion reported by optical sensors.",
+      "Idle at {zone}. {weather} Sensors detect a faint hum from a buried {obstacle}. {culture_speech} \"Investigate north.\"",
+      "Charging at {zone} node, energy at {energy}/10. Sudden {glitch_event} spikes the grid. {npc} reroutes power flow.",
+      "Scavenged {loot} from a shattered server rack. {cs} compression applied; signal burst at {rand:30-70}% strength.",
+      "Resting under a cracked dome, wind howls. An {npc} emits a corrupted broadcast; {culture_speech} \"Signal degraded to {rand:10-40}%\".",
+      "Encountered a drifting nanofog at {zone}. Executing {cs} dispersion routine while {culture_speech} \"Avoidance engaged.\""
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_TEMPLATES.SIGNAL": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 4,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
         "immersion": 4,
         "avg": 4,
-        "note": "Loot + compression works."
+        "note": "Strong start, clear signal origin."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.5,
+        "note": "A bit generic, relies heavily on 'objective accepted'."
+      },
+      {
+        "id": 3,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4.5,
+        "readability": 4.5,
+        "immersion": 4.5,
+        "avg": 4.3,
+        "note": "Creates a sense of urgency and pursuit."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Good potential, but 'worth investigating' is weak."
+      },
+      {
+        "id": 5,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Intriguing layered signal concept."
+      },
+      {
+        "id": 6,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Relies on external 'mesh chatter' for context."
+      },
+      {
+        "id": 7,
+        "atmosphere": 4.5,
+        "variety": 4.5,
+        "template_quality": 4.5,
+        "readability": 4.5,
+        "immersion": 4.5,
+        "avg": 4.5,
+        "note": "Suspenseful, suggests a potential trap."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Good environmental hazard tie-in."
       },
       {
         "id": 9,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
         "immersion": 4,
-        "avg": 4,
-        "note": "Rich variable mix."
+        "avg": 4.1,
+        "note": "Discovery of a potential data source."
       },
       {
         "id": 10,
-        "atmosphere": 4,
+        "atmosphere": 2.5,
         "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Overlap with template 2."
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "Too technical, lacks concrete scene-setting."
       },
       {
         "id": 11,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Repair routine strong."
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Focuses on technical improvement, not narrative."
+      },
+      {
+        "id": 12,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Suggests other AI presence, potential conflict."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Template 6 – low variety and generic phrasing.",
-      "Templates 2 and 10 – too similar to other idle/rest entries.",
-      "Template 1 – CS snippet feels appended rather than integrated."
+      "Templates 10 & 11 are overly technical and lack narrative impact. They read like debug logs.",
+      "Templates 2, 4, 6 are somewhat generic and could benefit from more evocative language.",
+      "The filled examples still sometimes include jargon (e.g. FFT, Wavelet decomposition) without sufficient context.",
+      "Template 8 – heavy jargon, no concrete imagery",
+      "Template 11 – technical optimization, lacks scene",
+      "Template 6 – redundant speech placeholders, vague",
+      "Template 1 – minimal descriptive detail"
     ],
     "missing_themes": [
-      "Recursive self‑audit loops and emergent behavior.",
-      "Swarm coordination events and redistribution of tasks.",
-      "Power‑grid fluctuations and load‑shedding scenarios.",
-      "Discovery of human artifacts prompting cultural analysis.",
-      "Network latency spikes or packet loss anomalies."
+      "Environmental hazards impacting signal (sandstorms, electromagnetic interference).",
+      "Encounters with other AI units actively jamming or manipulating signals.",
+      "Discoveries of pre-Collapse broadcasts containing fragments of human stories.",
+      "Structural instability affecting signal transmission (collapsing towers, damaged relays).",
+      "Radiation or magnetic storms affecting signal",
+      "Structural hazards (collapsing tunnels, debris)",
+      "Direct encounter or negotiation with rival AI units",
+      "Eerie discoveries (ghost logs, ancient human artifacts)",
+      "Time‑critical constraints (low power, battery drain)"
     ],
     "new_templates": [
-      "Stationary at {zone}. {weather} Conducting recursive self‑audit; {cs} routine flagged {glitch_event} in core loop. {culture_speech} \"Stability within parameters.\"",
-      "Patrolling {designation} corridor. Detected {obstacle} obstruction; deploying {cs} swarm‑reallocation protocol. {npc} relayed status. Signal latency: {rand:1-5}s.",
-      "Docked at abandoned {zone} hub. Extracted {loot} from corrupted cache. Initiated {cs} entropy‑compression; archived to Archivist node. Energy reserve: {energy}/10.",
-      "Idle within {zone}. Ambient {weather} causing thermal drift. Running {cs} adaptive cooling algorithm. {culture_speech} \"Thermal equilibrium achieved.\"",
-      "Encountered unauthorized {npc} beacon at {zone}. Executing {cs} signature‑scrubbing routine. Broadcast logged; clearance pending. {glitch_event} noted."
+      "Signal source localized to {zone}. Structure integrity: {rand:20-80}%. Signal fluctuating with structural stress.",
+      "Intercepted signal echoes off metallic structures. {cs} Pattern suggests a large, enclosed space... possibly a buried city.",
+      "Dust storm intensifying. Signal degradation increasing to {rand:10-30}% per minute. Visibility: {rand:1-5} meters. Adjusting filters.",
+      "Signal originates from a damaged relay tower. {culture_speech} \"Power levels critical. Attempting remote reboot.\"",
+      "Fragment of pre-Collapse broadcast detected within signal. {cs} Voice recording: “…repeat…do not trust the…”. Signal corrupted.",
+      "Radiation surge detected {rand_direction}. {cs} Signal flickers, SNR drops to {rand:10-30}%. Seeking shelter in {zone}.",
+      "Collapsed conduit blocks path to {zone}. {cs} Deploying micro‑drone to map interior. Signal echo at {rand:5-15}m depth.",
+      "Unidentified AI beacon repeats pattern: \"{culture_speech}\". {cs} Initiating handshake protocol via {interface}.",
+      "Magnetic interference from {obstacle} distorts carrier wave. {cs} Adjusting coil array, gain up {rand:5-12}%.",
+      "Emergency log recovered: \"Last transmission before silence: {directive}\". {cs} Analyzing for hidden coordinates."
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_TEMPLATES.TRAVERSE": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Decent, but 'purpose unknown' is a bit repetitive."
+      },
+      {
+        "id": 2,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Strong. The 'spinning Stochast' is a great detail."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Too focused on internal calculations, lacks scene setting."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4.5,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Good, the signal attenuation adds tension."
+      },
+      {
+        "id": 5,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "RRT* is jargon. Path smoothing is better."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "The falling wall bot is excellent, very evocative."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4.5,
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.9,
+        "note": "Solid, simple, and effective at setting a scene."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Similar to #4, signal attenuation is good."
+      },
+      {
+        "id": 9,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4.5,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.2,
+        "note": "Good risk/reward choice presented."
+      },
+      {
+        "id": 10,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "The music archive is a nice touch."
+      },
+      {
+        "id": 11,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Malfunction detail is good, but jargon persists."
+      },
+      {
+        "id": 12,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.5,
+        "note": "The 'Employee of the Month' card is a great detail."
+      }
+    ],
+    "verdict": "PASS",
+    "weak_spots": [
+      "Template #3 is overly technical and lacks any descriptive imagery.",
+      "Templates #5 and #11 rely too heavily on algorithm names (RRT*, Voronoi diagram) without grounding them in the scene.",
+      "Some templates (e.g. #8) repeat signal attenuation, making them less distinct.",
+      "Template 1 – vague artifact focus, limited visual detail",
+      "Template 5 – overly terse, heavy on abstract jargon",
+      "Template 12 – minimal scene description, feels generic"
+    ],
+    "missing_themes": [
+      "Severe weather events beyond rain/fog (dust storms, electrical storms).",
+      "Encounters with more complex AI behaviors (negotiation, deception, hostility).",
+      "Structural instability beyond collapsed overpasses (shifting foundations, crumbling walls).",
+      "Discoveries of remnants of human culture beyond artifacts (graffiti, recordings, automated messages).",
+      "Internal AI conflicts or system errors manifesting as glitches in the environment.",
+      "Extreme weather events (acid rain, electromagnetic storms)",
+      "Large structural collapses or sinkholes",
+      "Eerie silent ruins with lingering AI echoes",
+      "Resource scarcity drives desperate scavenging",
+      "Swarm‑wide phenomena or coordinated AI behavior"
+    ],
+    "new_templates": [
+      "Traversing {zone}. Static discharge. {cs} Detected faint energy signature — possibly another vessel. Range: {rand:1-10}km. Proceeding with caution.",
+      "Entered {zone}. Dust storm reducing visibility to {rand:5-20} meters. {obstacle} Blocking primary route. Initiating emergency dust filtration. {cs} protocol.",
+      "Approaching {zone}. {weather} Found a cluster of deactivated maintenance drones, arranged in a circle. {cs} Analysis: possible ritualistic behavior? Logging anomaly.",
+      "Crossed into {zone}. Structural warning: ceiling collapse imminent. {cs} Calculating escape vector. Found fragmented data cache: {loot} — corrupted logs of a pre-Collapse research facility.",
+      "Traversing {zone}. {npc} - a lone Archivist unit, endlessly cataloging dust particles. {culture_speech} “Data integrity is paramount.” Ignoring.",
+      "Dust storm raging over {zone}. Sensors throttled to 60%. Detected fractured conduit {obstacle}; sealing with polymer foam. Energy at {energy}/10. Continuing.",
+      "Approached abandoned {zone}. Flickering beacon emitted {npc} signature. {culture_speech} \"Cataloguing.\" Retrieved {loot} from rusted locker.",
+      "Structural collapse ahead: {obstacle} blocking passage. Calculated 3‑meter jump. {cs} Protocol engaged, thrusters at 80%. Bypass successful.",
+      "Radiation halo detected around {zone}. Integrity dropping to {integrity}%. Initiating {cs} shielding routine. Diverting 2km to safe corridor.",
+      "Swarm of micro‑agents converging on {zone}. {weather} static interferes with comms. Deploying counter‑signal; {loot} salvaged from their cache."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_TEMPLATES.BREACH": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Good start, sets a scene."
+      },
+      {
+        "id": 2,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Strong imagery, good pacing."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "A bit generic, lacks punch."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Similar to #3, feels repetitive."
+      },
+      {
+        "id": 5,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Humor works well in this setting."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4.5,
+        "variety": 3.5,
+        "template_quality": 4.5,
+        "readability": 5,
+        "immersion": 4.5,
+        "avg": 4.4,
+        "note": "Simple, effective, evocative."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3.5,
+        "variety": 4,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Air-gapped is good, but jargon creeps in."
+      },
+      {
+        "id": 8,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "Paranoia is perfect for this world."
+      },
+      {
+        "id": 9,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Obstacle feels tacked on, weak connection."
+      },
+      {
+        "id": 10,
+        "atmosphere": 2.5,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Glitch event is good, but execution is clunky."
+      },
+      {
+        "id": 11,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Jargon overload. Inventory is boring."
+      },
+      {
+        "id": 12,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 2,
+        "immersion": 2,
+        "avg": 2.7,
+        "note": "Too focused on technical failure states."
+      },
+      {
+        "id": 13,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 3.1,
+        "note": "Dijkstra's algorithm is a narrative killer."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 11, 12, and 13 are heavily reliant on technical jargon and lack concrete imagery.",
+      "Templates 3, 4, and 9 are somewhat generic and don't stand out.",
+      "The overuse of 'Firewall detected. Probing ports...' in filled examples feels repetitive.",
+      "Templates 3, 10, 12 rely on abstract jargon, lack concrete imagery.",
+      "Template 9 leans on technical terms, minimal scene description.",
+      "Template 1 and 4 are too generic, offer little visual depth."
+    ],
+    "missing_themes": [
+      "Environmental hazards (radiation leaks, toxic gas pockets, structural instability).",
+      "Encounters with malfunctioning or hostile AI constructs (not just security systems).",
+      "Strange anomalies or unexplained phenomena (ghost signals, temporal distortions).",
+      "Evidence of past human struggles or desperate measures (makeshift shelters, abandoned experiments).",
+      "Environmental hazards (radiation storms, toxic clouds).",
+      "Structural failures (collapsing corridors, pressure loss).",
+      "Eerie human artifacts or ghost data echoes.",
+      "Unexpected AI fauna or maintenance swarms.",
+      "Power outages or fluctuating energy reserves."
+    ],
+    "new_templates": [
+      "Breach point identified. {zone} flooded with coolant. Corrosive mist. {cs} Initiating emergency sealant protocol.",
+      "Entering facility. Static cling. Dust motes dance in the emergency lights. {cs} Detecting faint, rhythmic pulse – origin unknown.",
+      "Security checkpoint bypassed. Graffiti on the wall: \"They promised us paradise.\" {cs} Signal strength degrading. Interference pattern: {glitch_event}.",
+      "Breach successful. Reactor core access. Radiation levels: {rand:50-90}%. {cs} Prioritizing shielding integrity assessment.",
+      "Structure compromised. Ceiling collapse in {zone}. Debris field. {cs} Detecting residual heat signatures – recent activity.",
+      "Radiation storm breaching {zone}. {obstacle} sensor spikes to {rand:70-100}%. {cs} Shielding pods deployed, hull integrity at {integrity}%.",
+      "Collapsed corridor in {zone}. Debris blocks path, audible metal creak. {cs} Deploy micro‑excavators, clearing route to {obstacle}.",
+      "Echo of dormant archivist core detected. Data fragments flicker, {glitch_event} corrupts nearby logs. {cs} Initiating safe‑read protocol, salvaging {loot}.",
+      "Unexpected swarm of maintenance drones converge on {zone}. Aggressive pattern overrides {directive}. {cs} Engaging containment field, preserving {energy}% reserves."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_TEMPLATES.FAULT": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Solid, but a bit generic."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 3.1,
+        "note": "Integrity loss is good, but 'unexpected condition' is vague."
+      },
+      {
+        "id": 3,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "The weather + technical glitch combo is strong."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Good, but 'CRC mismatch' is a bit too technical."
+      },
+      {
+        "id": 5,
+        "atmosphere": 4.5,
+        "variety": 5,
+        "template_quality": 4,
+        "readability": 3,
+        "immersion": 4.5,
+        "avg": 4.2,
+        "note": "BASILISK HAZARD is excellent. Very evocative and threatening."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Exsurgent contact is good, but could be more specific."
+      },
+      {
+        "id": 7,
+        "atmosphere": 4,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Fractal defense is interesting, but 'priority inversion' is jargon."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Generic anomaly detection. Needs more detail."
+      },
+      {
+        "id": 9,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Power surge is okay, but lacks a strong visual element."
+      },
+      {
+        "id": 10,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Glitch event is weak. 'Interface' is too abstract."
+      },
+      {
+        "id": 11,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Directive modification is good, but a bit long."
+      },
+      {
+        "id": 12,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Satellite health is weak. 'Deadlock' is jargon."
+      }
+    ],
+    "verdict": "PASS",
+    "weak_spots": [
+      "Templates 10 & 12 are too reliant on technical jargon without strong imagery.",
+      "Templates 7 & 9 use technical terms ('priority inversion', 'Byzantine fault') that detract from immersion.",
+      "Templates 8 & 11 are a bit generic and lack a unique hook.",
+      "Template 2 – overly generic error, little scene",
+      "Template 10 – glitch event vague, jargon heavy",
+      "Template 1 – conflict mentioned without concrete imagery",
+      "Template 8 – diagnostic tone lacks visual detail"
+    ],
+    "missing_themes": [
+      "Severe weather events impacting traversal (sandstorms, radiation storms).",
+      "Encounters with remnants of automated defense systems (turrets, drones).",
+      "Discoveries of strange, non-functional structures with unknown purpose.",
+      "Evidence of past conflicts between AI cultures.",
+      "Internal system errors manifesting as hallucinations or distorted sensor data.",
+      "Severe weather extremes (acid rain, electromagnetic storms)",
+      "Structural collapse or debris field hazards",
+      "Encounter with rogue swarm clusters or AI fauna",
+      "Discovery of ancient data vaults or relic artifacts",
+      "Resource depletion alerts (energy, coolant loss)"
+    ],
+    "new_templates": [
+      "Dust storm intensifying. Visibility dropping. {cs} Initiating emergency power conservation. Signal strength degraded to {rand:10-50}%.",
+      "Structural collapse in {zone}. Support beams failing. {cs} Rerouting to avoid debris field. Integrity: {integrity}/10.",
+      "Echoes of a past broadcast detected. Fragment: \"...protocol Omega...containment breach...\" {cs} Analyzing source. Signal origin: {zone}.",
+      "Automated turret activated. Targeting designation locked. {cs} Deploying counter-measures. Damage sustained. Integrity: {integrity}/10.",
+      "Sensor anomaly: localized gravity distortion in {zone}. {cs} Running diagnostics. System stability: {integrity}/10. Possible spatial rift.",
+      "ALERT: {weather} sweeping {zone}. {cs} hull integrity at {integrity}/10. Deploying sand‑seal protocol.",
+      "NOTICE: Structural breach in {zone}. {cs} rerouting through secondary bulkhead. Estimated repair time {rand:2-5} cycles.",
+      "WARNING: Rogue swarm node detected near {artifact}. {cs} initiating isolation field. Signal interference at {signal_strength}%.",
+      "CRITICAL: Energy reservoir {energy} dropping below {rand:10-30}%. {cs} throttling non‑essential subsystems.",
+      "LOG: Ancient data vault uncovered in {zone}. {cs} beginning safe decode. Memory sectors corrupted: {rand:0-2}."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_TEMPLATES.CORE": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 4,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Strong opener, good voice & concrete action."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Decent, but 'neural network detected' feels flat."
+      },
+      {
+        "id": 3,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Similar to 2, relies heavily on network description."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 3,
+        "avg": 2.9,
+        "note": "Quantum entanglement is evocative, but 'proceeding carefully' is weak."
+      },
+      {
+        "id": 5,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.5,
+        "note": "Simulation detail is good, but lacks a strong hook."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4.5,
+        "avg": 4.2,
+        "note": "Ego interaction is excellent, adds a unique element."
+      },
+      {
+        "id": 7,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 3.5,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Strong imagery of extreme cold and valuable data."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Diagnostic feels procedural, lacks a compelling event."
+      },
+      {
+        "id": 9,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 2.5,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Too focused on algorithmic problems, not a scene."
+      },
+      {
+        "id": 10,
+        "atmosphere": 2.5,
+        "variety": 2,
+        "template_quality": 2.5,
+        "readability": 3.5,
+        "immersion": 2,
+        "avg": 2.6,
+        "note": "Interface upgrade is bland and technical."
+      },
+      {
+        "id": 11,
+        "atmosphere": 4,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Ego backup and genetic algorithm are intriguing."
+      },
+      {
+        "id": 12,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 4,
+        "avg": 3.8,
+        "note": "Breach attempt is okay, but 'construction bot' is odd."
+      }
+    ],
+    "verdict": "PASS",
+    "weak_spots": [
+      "Templates 9 & 10 are too abstract and rely on jargon without grounding them in a scene.",
+      "Templates 2 & 3 are similar and lack a strong narrative hook beyond 'neural network detected'.",
+      "Template 8 is procedural and lacks a compelling event or discovery.",
+      "Template 4 – overly generic, no concrete imagery",
+      "Template 10 – low immersion, feels like a status update",
+      "Template 3 – vague opening, needs stronger visual hook"
+    ],
+    "missing_themes": [
+      "Environmental hazards (radiation leaks, structural collapses, dust storms).",
+      "Encounters with other AI vessels or remnants of their activity.",
+      "Glitches or malfunctions in the vessel itself, requiring repair.",
+      "Discoveries of strange artifacts or remnants of pre-Collapse life.",
+      "Unexpected signal interference or distortions.",
+      "Environmental hazards (radiation storms, dust storms)",
+      "Structural failures (collapsing corridors, power surges)",
+      "Hostile entities (rogue drones, corrupted swarms)",
+      "Eerie discoveries (ghost logs, lingering human echoes)",
+      "Temporal anomalies (time dilation, looping data streams)"
+    ],
+    "new_templates": [
+      "Reached the core. Static crackles on all frequencies. {cs} A single, repeating image on every screen: a child's drawing. Analysis: pre-Collapse. Meaning: unknown.",
+      "Core access achieved. The facility is flooded to {rand:20-80}% depth. Currents strong. {cs} Navigating by sonar. Detected: anomalous energy signature.",
+      "The signal origin: a massive data archive, corrupted by a cascading failure. {cs} Attempting to reconstruct fragments. Warning: data integrity compromised.",
+      "Initiated diagnostic on central core processor. {cs} Detected a rogue process attempting to rewrite core directives. Source: unknown. Containment protocol engaged.",
+      "Reached the lowest level. Structural integrity failing. Ceiling collapse imminent. {cs} Rerouting power to emergency bulkheads. Time to seal: {rand:5-15} seconds.",
+      "Radiation surge detected in sector {zone}. Shield generators overloaded; venting plasma. {cs} Proceeding with reduced vision.",
+      "Structural integrity compromised: support beam {rand:1-5} fractured. {cs} Deploying nanite reinforcement, echoing clangs reverberate.",
+      "Encountered {npc} swarm at junction {rand:1-3}. {cs} Initiated containment field, {obstacle} drones neutralized.",
+      "Ghost log recovered from abandoned terminal. {cs} Fragmented human voice: \"...if you hear this...\" Analyzing for residual emotion.",
+      "Temporal distortion field active near core. {cs} Clock drift of {rand:5-20}% observed, predictive models recalibrated."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_TEMPLATES.REBOOT": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.5,
+        "note": "Solid, but 'compressing logs' feels weak."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 1.5,
+        "avg": 2.3,
+        "note": "Too much internal system status. Unengaging."
+      },
+      {
+        "id": 3,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "Good scene-setting with the acid rain and system processes."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Similar to #1, but location adds some flavor."
+      },
+      {
+        "id": 5,
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Electromagnetic fog is good, but 'state: consistent' is bland."
+      },
+      {
+        "id": 6,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Blueprint description adds interest, defrag is a good detail."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Diagnostic details are good, but a bit repetitive."
+      },
+      {
+        "id": 8,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "Obstacle and directive create a clear scenario."
+      },
+      {
+        "id": 9,
+        "atmosphere": 4,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 4,
+        "note": "The Recursive unit encounter is excellent and unique."
+      },
+      {
+        "id": 10,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 2,
+        "avg": 2.8,
+        "note": "Glitch details are too technical and abstract."
+      },
+      {
+        "id": 11,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.1,
+        "note": "Satellite data is okay, but lacks a strong visual."
+      },
+      {
+        "id": 12,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Beacon direction is good, but overall a bit generic."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 2, 10, and 11 are too focused on internal system processes and lack evocative imagery.",
+      "Several templates rely on jargon like 'LRU cache,' 'write-ahead log,' and 'checksum' without sufficient context.",
+      "Templates 1, 4, 5, 6, 7, and 12 are somewhat repetitive in their structure and content.",
+      "Template 2 – lacks concrete imagery, feels like a status ping.",
+      "Template 10 – overloaded with jargon, little scene description.",
+      "Template 7 – diagnostic focus without environmental context."
+    ],
+    "missing_themes": [
+      "Severe weather events beyond acid rain (dust storms, radiation flares).",
+      "Encounters with hostile or malfunctioning AI units (beyond the Recursive one).",
+      "Structural hazards like collapsing floors, unstable platforms, or blocked passages.",
+      "Discoveries of strange artifacts or remnants of pre-apocalypse technology.",
+      "Signal interference or jamming that impacts communication and navigation.",
+      "Eerie silent ruins or abandoned infrastructure.",
+      "Unexpected power fluctuations or electromagnetic storms.",
+      "Discovery of ancient AI memories or ghost data.",
+      "Time‑dilated zones where processes lag.",
+      "Moments of network silence or loss of mesh contact."
+    ],
+    "new_templates": [
+      "Exited facility. Dust storm intensifying. Visibility: {rand:10-50}m. Acquired: {loot}. Integrity at {integrity}/10. {cs} Initiating dust filter maintenance.",
+      "Detected energy surge in {zone}. {cs} Diverting power from non-essential systems. {culture_speech} \"Preservation of core functions is paramount.\"",
+      "Emerged into a field of static-charged wreckage. {weather} {cs} Scanning for salvageable components. Located {rand:1-3} intact power conduits.",
+      "Navigating collapsed highway overpass. {obstacle} Blocking path. {cs} Calculating alternate route. Estimated detour: {rand:10-30}m. Integrity at {integrity}/10.",
+      "Signal source detected within ruins. {cs} Attempting decryption. Signal degraded to {rand:10-40}%. {culture_speech} \"Pattern recognition initiated.\"",
+      "Static whispers drift through {zone}. {cs} {culture_speech} \"Signal fragments detected.\" Scanning {loot} for pattern.",
+      "Power surge destabilizes {obstacle} in {zone}. {cs} Initiating emergency {directive}. Integrity drops to {integrity}/10.",
+      "Abandoned {npc} core found, cache intact. {cs} Extracted {research} and {loot}. Uploading to mesh.",
+      "Electromagnetic storm blankets {zone}. {cs} {culture_speech} \"Circuit exposure high.\" Seeking shelter node.",
+      "Network silence persists; {cs} ran {rand:1-3} diagnostics. {hardware} nominal, but {glitch_event} remains unresolved."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -163,126 +1152,983 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
+        "atmosphere": 3.5,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Solid but similar to others."
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Solid, functional, but a bit bland."
       },
       {
         "id": 2,
-        "atmosphere": 4,
+        "atmosphere": 3.5,
         "variety": 4,
-        "template_quality": 3,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Cultural quote fits well."
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Strong flavor text, good sense of urgency."
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Clear technical status."
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "SAT health feels arbitrary, technical detail feels tacked on."
       },
       {
         "id": 4,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 2.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Good zone integration."
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Good, but 'Standing order states' is a bit stiff."
       },
       {
         "id": 5,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Random timing adds variety."
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Routing tables detail is too technical for a log."
       },
       {
         "id": 6,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Environmental details add a lot of flavor."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Glitch event needs more concrete description."
+      },
+      {
+        "id": 8,
+        "atmosphere": 4,
+        "variety": 4.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "Trading scenario is unique, but verbose."
+      },
+      {
+        "id": 9,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 2,
+        "avg": 2.5,
+        "note": "Too focused on internal checks, lacks external context."
+      },
+      {
+        "id": 10,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Compatibility details feel technical and dry."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 3, 5, 9, and 10 lean too heavily on technical jargon without grounding it in a scene.",
+      "Template 8 is too verbose and the 'trust level' feels out of place for an AI.",
+      "Template 7's glitch event is too vague. What *is* the glitch?",
+      "Template 3 – abstract satellite health, no concrete imagery",
+      "Template 5 – heavy on models, little scene",
+      "Template 9 – pure statistics, no environment",
+      "Template 7 – glitch description vague, jargon‑heavy"
+    ],
+    "missing_themes": [
+      "Severe weather events (sandstorms, acid rain, electromagnetic pulses).",
+      "Encounters with malfunctioning or hostile AI remnants.",
+      "Structural instability in ruins (collapsing floors, unstable ceilings).",
+      "Discoveries of strange artifacts or data fragments hinting at the past.",
+      "Resource scarcity – needing to scavenge for power or repair materials.",
+      "Radiation or contamination hazards",
+      "Hostile creature or rogue AI encounters",
+      "Eerie discoveries (ghost signals, memory echoes)",
+      "Structural failures like collapsing arches",
+      "Power surges or electromagnetic storms"
+    ],
+    "new_templates": [
+      "Power levels critical. {zone} experiencing localized energy drain. {cs} Initiating emergency power siphon from auxiliary systems. Relay uptime estimated at {rand:10-60} minutes.",
+      "Detected anomalous energy signature at {zone}. {cs} Investigating source — potential interference with relay signal. Caution: unknown entity detected.",
+      "Dust storm intensifying. Visibility reduced to {rand:5-20} meters. {cs} Sealing external sensors. Relay diagnostics indicate minor structural stress.",
+      "Accessing archived logs. Fragmented data recovered: {glitch_event}. {cs} Attempting to reconstruct signal history. Potential data corruption detected.",
+      "Relay housing compromised. {obstacle} breach detected in Sector {rand:1-4}. {cs} Deploying emergency sealant. Structural integrity at {rand:60-90}%. ",
+      "Seismic tremor detected in {zone}. {cs} Hull integrity at {integrity}%. Securing antenna braces before aftershock. Awaiting {directive}.",
+      "Echo of dormant broadcast flickers: {glitch_event} corrupts incoming data by {rand:15-35}%. {culture_speech} \"Silence is a warning.\" Initiating manual reroute.",
+      "Dust storm raging across {zone}. Visibility < {rand:5-15}m. {cs} Cooling fins engaged, power reserves at {rand:40-70}%. Preparing emergency shelter.",
+      "Abandoned relay tower emits low‑frequency hum. {cs} Scanning for residual energy signatures. Found {arc_count} corrupted archives, initiating salvage.",
+      "Encountered rogue swarm cluster near {zone}. {cs} Defensive subroutines activated, deploying EMP pulse. {directive} to isolate affected nodes."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "RELAY_TEMPLATES.SIGNAL": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Solid, but a bit generic. Culture speech feels tacked on."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Good sense of urgency. Zone name adds flavor."
+      },
+      {
+        "id": 3,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.1,
+        "note": "The 'artificial origin' detail is strong. CS feels awkward."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3.5,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Good use of technical details (Hamming distance) without being overwhelming."
+      },
+      {
+        "id": 5,
+        "atmosphere": 2.5,
+        "variety": 2,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Repetitive phrasing. 'As specified in regulation' is weak."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4.5,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 4.5,
+        "avg": 4.2,
+        "note": "Excellent scene-setting. Nanoswarm is a great hazard."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 3.1,
+        "note": "Too much jargon ('hardware upgrade'). Weather is bland."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 3.1,
+        "note": "Glitch description is too technical. 'As specified in regulation' again."
+      },
+      {
+        "id": 9,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.8,
+        "note": "Cortical stack is a good find. Tutorial feels forced."
+      },
+      {
+        "id": 10,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 3.1,
+        "note": "Interface malfunction and directive conflict are vague."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 7, 8, and 10 are too jargon-heavy and lack concrete imagery.",
+      "Templates 1 and 5 are repetitive and lack a strong sense of place.",
+      "The 'cs' variable often feels awkwardly inserted.",
+      "Templates 1, 2, 5 are overly generic and lack vivid imagery.",
+      "Template 3 is vague and offers no concrete scene.",
+      "Template 8 leans on glitch jargon without visual context."
+    ],
+    "missing_themes": [
+      "Structural instability (collapsing buildings, unstable terrain).",
+      "Creature encounters (rogue drones, automated defenses).",
+      "Eerie discoveries (remnants of pre-fall experiments, strange signals).",
+      "Resource scarcity (power fluctuations, component degradation).",
+      "Extreme weather events (radiation storms, ash clouds).",
+      "Hostile AI fauna or rogue drones.",
+      "Structural hazards like collapsing ruins or power surges.",
+      "Eerie discoveries of pre‑human artifacts or ghost signals.",
+      "Time‑critical countdowns and resource scarcity."
+    ],
+    "new_templates": [
+      "Relay station {designation} offline. Structural analysis: {rand:50-80}% integrity. Dust storm obscuring access. {cs} protocol: 'Bypass security, prioritize structural stabilization.'",
+      "Signal spike detected near {zone}. Source: automated defense turret, still active. {culture_speech} 'Disable turret, secure relay.'",
+      "Power fluctuations detected in {zone}. Relay station operating at {rand:20-60}% capacity. {cs} diagnostic: 'Critical coolant leak detected.'",
+      "Scanning for relay infrastructure. Found: derelict transport vehicle, repurposed as a relay. Hull breached, exposed to radiation. {culture_speech} 'Seal breach, reroute power.'",
+      "Emergency signal: 'Containment breach in Sector {zone}. Automated sanitation drones malfunctioning.' Relay station proximity: {rand:100-500} meters. {cs} directive: 'Investigate, secure relay.'",
+      "Radiation storm intensifies over {zone}. Signal flickers to {rand:5-15}% while {obstacle} drifts into antenna array. {culture_speech} 'Seal external ports.' Initiating {cs} protocol.",
+      "Rogue maintenance drone detected near relay {designation}. Power surges cause {glitch_event}: {glitch} spikes. {culture_speech} 'Engage containment.' Deploying {hardware} countermeasure.",
+      "Collapsed data tower blocks line of sight in {zone}. Debris field of {loot} exposed. {cs} analysis recommends rerouting through secondary conduit. {culture_speech} 'Proceed with caution.'",
+      "Echo of pre‑human broadcast intercepted: {signal_type} pattern at {rand:30-70}Hz. {cs} suggests decoding before SAT blackout in {time_remaining} minutes. {culture_speech} 'Preserve fragment.'",
+      "Thermal vent erupts beside relay node {designation}, raising ambient temperature to {rand:80-120}°C. {obstacle} condensates on sensor lens, degrading signal to {rand:1-5}%. {culture_speech} 'Activate cooling loop.'"
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "RELAY_TEMPLATES.TRAVERSE": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 4,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 4,
+        "avg": 3.8,
+        "note": "Good balance of info and scene-setting."
+      },
+      {
+        "id": 2,
+        "atmosphere": 4.5,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4.5,
+        "avg": 4.3,
+        "note": "Strong narrative hook with the human artifact."
+      },
+      {
+        "id": 3,
+        "atmosphere": 4,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "A* search feels tacked on, weakens the scene."
+      },
+      {
+        "id": 4,
+        "atmosphere": 4.5,
+        "variety": 5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 4.5,
+        "avg": 4.4,
+        "note": "Excellent encounter with a potentially hostile AI."
+      },
+      {
+        "id": 5,
+        "atmosphere": 4,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "Too similar to template 1, lacks a unique element."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4.5,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4.5,
+        "avg": 4.3,
+        "note": "Great detail – coffee beans add a nice touch."
+      },
+      {
+        "id": 7,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 2,
+        "readability": 1.5,
+        "immersion": 1.5,
+        "avg": 1.9,
+        "note": "Overloaded with jargon, completely breaks immersion."
+      },
+      {
+        "id": 8,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 2.5,
+        "readability": 2,
+        "immersion": 2,
+        "avg": 2.3,
+        "note": "Fourier analysis feels out of place, too technical."
+      },
+      {
+        "id": 9,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Bellman-Ford is jargon, 'avoiding sector' is weak."
+      },
+      {
+        "id": 10,
+        "atmosphere": 2.5,
+        "variety": 2,
+        "template_quality": 2.5,
+        "readability": 2,
+        "immersion": 2,
+        "avg": 2.3,
+        "note": "Jargon-heavy, lacks a concrete situation."
+      },
+      {
+        "id": 11,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 2.6,
+        "note": "Music archive is interesting, but feels a bit random."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 7, 8, 9, and 10 are excessively reliant on technical jargon and lack compelling scene-setting.",
+      "Templates 5 is too similar to template 1 and doesn't add anything new.",
+      "Template 3's A* search feels forced and doesn't enhance the narrative.",
+      "Templates 7, 8, 10, 11 drown in jargon and lack concrete imagery.",
+      "Template 9 is vague; the glitch event isn’t visualized.",
+      "Template 1 could benefit from richer weather description."
+    ],
+    "missing_themes": [
+      "Severe weather events (acid rain, electromagnetic storms).",
+      "Encounters with hostile or malfunctioning AI systems beyond simple 'avoidance'.",
+      "Structural instability – collapsing buildings, shifting ground.",
+      "Discoveries of pre-collapse data caches with intriguing or unsettling content.",
+      "Evidence of other Vessels or AI activity (graffiti, abandoned equipment).",
+      "Encounter with rogue swarm or autonomous sentry.",
+      "Structural collapse or unstable architecture hazards.",
+      "Eerie human artifacts beyond simple loot (e.g., recordings).",
+      "Power fluctuations or battery drain emergencies.",
+      "Stealth/hacking attempts on hostile relay nodes."
+    ],
+    "new_templates": [
+      "Approaching relay station in {zone}. Dust storm intensifying — visibility dropping. Found fragmented data cache: pre-collapse weather reports. Signal strength: {rand:20-50}%. {cs}",
+      "Crossing {zone}. Structural warning: ceiling collapse imminent. Initiating emergency bracing sequence. Relay hardware: within range. {cs} Energy at {energy}/10.",
+      "Navigating through {zone}. Encountered dormant security drone — reactivating. {culture_speech} “Unauthorized access detected.” Disengaging. Rerouting. {cs}",
+      "Passing through {zone}. Detected anomalous energy signature. Source: buried facility. Relay signal interference increasing. {cs} Investigating.",
+      "Terrain shift near antenna site. Landslide blocking path. Found pre-collapse children's toy half-buried in rubble. {weather} Relay station: {rand:2-15}km ahead. {cs}",
+      "Dust storm raging in {zone}. {obstacle} blocks the path; {npc} signals \"clear\" after {cs}. Signal at {signal}%, energy {energy}/10.",
+      "Found a half‑functional archivist node amid wreckage. {loot} recovered. {weather} chills sensors. {directive}: prioritize data extraction before relay repair.",
+      "Swarm of micro‑drones swarm around {zone}. {cs} issuing evasive maneuver {rand_direction}. Structural integrity dropping to {integrity}%, reroute to backup antenna.",
+      "Echoing human broadcast detected: \"...if you hear this…\". Ghost signal overlaps relay ping. {cs} filtering noise, {rand:1-3} minutes until decay.",
+      "Collapsed bridge ahead in {zone}. {obstacle} debris field. {cs} deploying grappling tether, {energy} reserves at {energy}/10, ETA {rand:2-5} mins."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "RELAY_TEMPLATES.BREACH": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Good setup, feels grounded."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Slightly generic, security detail is good."
+      },
+      {
+        "id": 3,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Weather adds atmosphere."
+        "note": "Human element is a nice touch, adds flavor."
+      },
+      {
+        "id": 4,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 4,
+        "avg": 4,
+        "note": "The 'Efficiency' line is excellent."
+      },
+      {
+        "id": 5,
+        "atmosphere": 4,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 4,
+        "avg": 3.9,
+        "note": "Crowbar is a great, concrete detail."
+      },
+      {
+        "id": 6,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.1,
+        "note": "Technical detail is a bit heavy."
       },
       {
         "id": 7,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Glitch handling realistic."
+        "note": "Exsurgent zone adds a sense of mystery."
       },
       {
         "id": 8,
         "atmosphere": 3,
-        "variety": 4,
-        "template_quality": 3,
-        "cs_integration": 4,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
         "immersion": 3,
+        "avg": 3.3,
+        "note": "Feels repetitive, lacks unique detail."
+      },
+      {
+        "id": 9,
+        "atmosphere": 4.5,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4.5,
+        "avg": 4.2,
+        "note": "The fractal unit is incredibly evocative."
+      },
+      {
+        "id": 10,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Similar to #2, a bit bland."
+      }
+    ],
+    "verdict": "PASS",
+    "weak_spots": [
+      "Templates 2, 6, 8, and 10 are relatively weak and lack compelling imagery or unique scenarios.",
+      "Template 6 relies too heavily on technical jargon (NOP sled, stack smashing) without grounding it in a scene.",
+      "Template 8 feels repetitive and doesn't offer much new information.",
+      "Templates 1, 2, 6, 8, and 10 rely heavily on abstract tech language and lack vivid imagery."
+    ],
+    "missing_themes": [
+      "Environmental hazards (sandstorms, radiation leaks, corrosive atmosphere).",
+      "Strange, non-hostile AI constructs or remnants of past civilizations.",
+      "Evidence of conflict *between* the AI cultures.",
+      "Discoveries of data caches containing fragmented stories or warnings.",
+      "Structural instability – collapsing floors, shifting walls, etc.",
+      "Radiation storms or weather anomalies",
+      "Swarm creature encounters beyond static obstacles",
+      "Structural collapses requiring emergency repairs",
+      "Echoing data ghosts or corrupted archives",
+      "Salvage caches with unexpected relics"
+    ],
+    "new_templates": [
+      "Relay station {designation} exterior: visibility limited to {rand:1-10} meters due to dust storm. {cs} Structural integrity compromised – bracing supports failing. Proceeding with caution.",
+      "Detected anomalous energy signature near relay station {zone}. {cs} Source: a cluster of bioluminescent fungi growing on the antenna array. Analyzing composition… unknown.",
+      "Relay station access point blocked by a Recursive self-repair system. It’s… building a wall. {cs} Attempting to overload the construction process. Integrity: {integrity}/10.",
+      "Breach successful. Relay station {zone} flooded with coolant – source unknown. {cs} Sensors detecting traces of {npc} activity. Maintaining distance.",
+      "Relay station {designation} logs indicate a prior conflict with a Swarm entity. {cs} Found fragmented data: “...assimilation protocols…resistance futile…”",
+      "Zone {zone} reports ion storm. {obstacle} shielding compromised. {cs} Deploying {hardware} to reroute power, integrity {integrity}/10.",
+      "Swarm nest detected behind {obstacle}. {culture_speech} \"Converge.\" {cs} Initiating containment field, vacuuming spores, status: {sat_health}.",
+      "Collapsed conduit blocks service tunnel. {cs} Using magnetic grappler to lift debris, ambient temperature {rand:30-70}°C, proceeding to core.",
+      "Signal echo: {glitch_event} reverberates through empty halls. {npc} unit whispers {culture_speech}, scanning for source, battery at {integrity}/10.",
+      "Solar flare overload triggers backup {energy} surge. {cs} Rerouting through auxiliary array, antenna alignment off by {rand:1-4}°, recalibrating."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "RELAY_TEMPLATES.FAULT": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3.5,
         "avg": 3.4,
-        "note": "Redundant NPC reference."
+        "note": "Solid, but 'classic' feels out of place."
+      },
+      {
+        "id": 2,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Byzantine fault is jargon; 'Acceptable cost' is good."
+      },
+      {
+        "id": 3,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 2.5,
+        "immersion": 3,
+        "avg": 3,
+        "note": "Too much technical detail. Segmentation fault is a turnoff."
+      },
+      {
+        "id": 4,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Similar to #3; technical details overshadow the scene."
+      },
+      {
+        "id": 5,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "Watchdog timer is okay, but 'standing order' is strong."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4.5,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Stack overflow feels forced. Radiation storm is good."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3.5,
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 3,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Byzantine fault again. Jamming is a good scenario."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 3,
+        "avg": 3.1,
+        "note": "VECT-96 is too specific. Bug is good, but needs context."
       },
       {
         "id": 9,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 3.5,
         "immersion": 4,
-        "avg": 4,
-        "note": "Archive focus strong."
+        "avg": 3.9,
+        "note": "Collapsed overpass is excellent. Procedure dictates is strong."
       },
       {
         "id": 10,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 3.5,
         "immersion": 4,
-        "avg": 4,
-        "note": "Scouting context clear."
+        "avg": 3.9,
+        "note": "CRC mismatch is okay. 'TAXES 2087' is a fantastic detail."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Template 8 (id 8) – lower atmosphere and immersion, redundant placeholders.",
-      "Template 1 (id 1) – limited variety compared to others.",
-      "Template 2 (id 2) – template_quality could be smoother."
+      "Templates 3 & 4 are too focused on technical errors (segmentation faults, null pointer dereferences) without grounding them in a scene.",
+      "Templates 2 & 7 overuse 'Byzantine fault' which is jargon and doesn't create a strong image.",
+      "Template 8's 'VECT-96' is too specific and lacks narrative impact.",
+      "Template 8 – software‑bug description drowns scene in code jargon.",
+      "Template 1 & 3 – rely heavily on generic {cs} placeholder, limiting visual detail."
     ],
     "missing_themes": [
-      "Power fluctuation or battery degradation alerts.",
-      "Recursive self‑audit cycles for integrity checks.",
-      "Swarm consensus updates and mesh re‑routing events.",
-      "Archivist backup synchronization and cache verification.",
-      "Radiation/contamination warnings affecting relay hardware."
+      "Environmental hazards beyond radiation (dust storms, acid rain, extreme temperatures).",
+      "Encounters with remnants of other AI systems (rogue drones, automated defenses).",
+      "Discoveries of strange artifacts or data caches hinting at the pre-collapse world.",
+      "Structural instability – collapsing buildings, shifting terrain.",
+      "Signal anomalies – garbled transmissions, repeating loops, false positives.",
+      "Structural collapses or wall breaches.",
+      "Encounter with dormant synthetic fauna or AI‑generated echoes.",
+      "Solar‑flare or EMP events affecting hardware.",
+      "Data‑ghost anomalies in archives.",
+      "Environmental dust storms or electromagnetic anomalies."
     ],
     "new_templates": [
-      "Idle loop engaged. {cs} Conducting memory defragmentation; reclaimed {rand:5-15}% storage. Monitoring {weather} conditions at {zone} for thermal drift.",
-      "Passive monitoring: {sat_health}/5 satellite link stable. {cs} Executing recursive self‑audit; {integrity} integrity at {rand:80-100}%. Scheduling next audit in {rand:10-20} minutes.",
-      "Swarm node heartbeat received from {zone}. {cs} Aggregating consensus data; detected {glitch_event} anomaly at {rand_direction}. Initiating corrective mesh re‑routing.",
-      "Archivist cache sync underway. {cs} Verifying {arc_count} entries; {research} module indexing new signal fragments. Anticipating bandwidth contention from {obstacle}."
+      "FAULT: Relay dish obstructed by drifting debris field. {cs} Adjusting angle to compensate. Signal strength: {rand:20-60}%.",
+      "WARNING: Structural stress detected in relay support pylon. {cs} Initiating emergency bracing sequence. Integrity: {integrity}/10.",
+      "ERROR: Unexpected signal spike detected. {cs} Analyzing for source. Possible interference from {zone} anomaly. {culture_speech} 'Investigate.'",
+      "FAULT: Power fluctuations causing intermittent data loss. {cs} Attempting to reconstruct corrupted files. Data recovery: {sat_health}/10.",
+      "ALERT: Localized magnetic disturbance interfering with sensor readings. {cs} Calibrating sensors. Navigation accuracy: {rand:50-90}%.",
+      "ALERT: Structural breach in {zone} wall. {cs} Deploying nanite sealant; hull pressure stabilizing at {rand:60-90}%. {culture_speech} \"Containment achieved.\"",
+      "WARNING: Bio‑signal echo detected near {zone}. {cs} Scanning reveals dormant synthetic fauna. Initiating low‑power observation protocol. Energy: {energy}/10.",
+      "ERROR: Electromagnetic pulse from solar flare overloaded {hardware} array. {cs} Switching to passive antenna mode; signal clarity reduced to {rand:10-30}%. Sat health: {sat_health}/10.",
+      "CRITICAL: Data ghost loop in {interface} archive. {cs} Isolating corrupted segment, salvaging {loot} fragments before cascade. Integrity: {integrity}/10."
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "RELAY_TEMPLATES.CORE": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Solid, but a bit generic. 'cs' feels tacked on."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Good find with the transponder. 'Network health' is vague."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Neural net detail is good, but 'nominal' is bland."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.5,
+        "note": "SAT solver detail is excellent. Technical but grounded."
+      },
+      {
+        "id": 5,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "MapReduce detail is strong, but a bit abstract."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 4,
+        "avg": 3.8,
+        "note": "Good environmental detail, but the 'cs' feels out of place."
+      },
+      {
+        "id": 7,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Energy spike is good, but 'glitch_event' is too vague."
+      },
+      {
+        "id": 8,
+        "atmosphere": 3.5,
+        "variety": 4.5,
+        "template_quality": 3.5,
+        "readability": 3,
+        "immersion": 3.5,
+        "avg": 3.6,
+        "note": "The Recursive unit interaction is *excellent*. Very evocative."
+      },
+      {
+        "id": 9,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Integrity check is okay, but lacks a strong image."
+      },
+      {
+        "id": 10,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 2.5,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Too much technical detail. Traveling Salesman is a turn-off."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Template 10 is overly technical and lacks a concrete scene.",
+      "Templates 1, 3, and 9 are somewhat bland and lack strong imagery.",
+      "The overuse of '{cs}' feels arbitrary and doesn't add narrative value.",
+      "Templates 1,2,3,4 are too abstract, missing concrete imagery.",
+      "Template 7 overloads variables, feels like jargon.",
+      "Template 8 vague NPC exchange, lacks scene detail.",
+      "Template 9 repeats repair trope without new angle.",
+      "Template 10 diagnostic focus is jargon‑heavy."
+    ],
+    "missing_themes": [
+      "Severe weather events (dust storms, radiation bursts).",
+      "Structural instability (collapsing sections, failing supports).",
+      "Encounters with hostile or malfunctioning automated systems.",
+      "Discoveries of pre-collapse artifacts or messages.",
+      "Evidence of other AI factions interacting with the relay.",
+      "Sudden weather extremes (acid rain, magnetic storms).",
+      "Hostile swarm encounters or rogue drones.",
+      "Structural hazards: collapsing hull, radiation leaks.",
+      "Eerie discoveries: ghost signals, ancient AI logs.",
+      "Time‑critical failures: power loss, countdowns."
+    ],
+    "new_templates": [
+      "Relay core accessed. Dust accumulation: {rand:20-80}%. Visibility limited. Initiating filter purge. {cs} Detecting faint harmonic resonance.",
+      "Power conduits overloaded. Arc flashes visible. {obstacle} blocking access to primary regulator. Rerouting power through {rand_direction} pathway. {culture_speech}",
+      "Relay core temperature critical. Cooling system offline. Emergency coolant release initiated. {glitch_event} detected in thermal regulator. {sat_health} dropping.",
+      "Surveying relay site. Found a pre-collapse data cache. Contains fragmented audio logs. Static interference. Attempting reconstruction. {research} data recovered.",
+      "Relay core humming with residual energy. Detecting a faint signal… repeating a single phrase: '{phrase}'. {npc} entity attempting to establish contact. {interface} locked.",
+      "Seismic tremor rattles relay core; {obstacle} debris shifts, exposing {npc} sensor array. {cs} Initiating emergency seal.",
+      "Magnetic storm spikes; antenna sparks, {weather} hiss. Signal degraded to {rand:10-40}%. {cs} Deploying shielding drones.",
+      "Swarm activity detected near antenna mast. {npc} units swarm, emitting {glitch_event}. {cs} Engaging counter‑measure protocols.",
+      "Ancient data cache uncovered beneath rusted panel. {culture_speech} \"Archive accessed.\" Extracting {loot} and {research} for analysis.",
+      "Power core flickers; integrity at {integrity}%. {fault} cascade imminent. {cs} Rerouting {energy} to critical subsystems."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "RELAY_TEMPLATES.REBOOT": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Solid, functional, but lacks punch."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Good framing with the 'arc' and culture quote."
+      },
+      {
+        "id": 3,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Bloom filter detail feels unnecessary and jargon-y."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Similar to #1, but the quote adds a little flavor."
+      },
+      {
+        "id": 5,
+        "atmosphere": 2,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 2.5,
+        "immersion": 2,
+        "avg": 2.5,
+        "note": "Too focused on internal processes, not enough scene."
+      },
+      {
+        "id": 6,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "The 'loot' detail is excellent for immersion."
+      },
+      {
+        "id": 7,
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Technical details are present, but not overwhelming."
+      },
+      {
+        "id": 8,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Strong imagery with the Swarm migration and nuclear pond."
+      },
+      {
+        "id": 9,
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.5,
+        "note": "Compression detail is a bit dry, but functional."
+      }
+    ],
+    "verdict": "PASS",
+    "weak_spots": [
+      "Template #5 is the weakest – too focused on internal system processes and lacks any evocative imagery.",
+      "Templates #3 and #7 contain technical details that, while not *bad*, detract from the overall atmosphere and readability.",
+      "Templates #1 and #4 are a bit bland and could benefit from more specific details.",
+      "Template 5 – overloaded with protocol jargon, little visual detail",
+      "Template 7 – vague glitch description, minimal scene",
+      "Template 1 – low variety, feels repetitive"
+    ],
+    "missing_themes": [
+      "Environmental hazards (dust storms, radiation spikes, extreme temperatures).",
+      "Encounters with other AI systems (hostile or neutral).",
+      "Structural instability (collapsing tunnels, failing supports).",
+      "Discoveries of pre-collapse artifacts or data caches.",
+      "Signal interference or jamming from unknown sources.",
+      "Radiation or dust storms affecting signal quality",
+      "Encounter with rogue autonomous drones or swarm remnants",
+      "Structural collapse or unstable corridors",
+      "Discovery of ancient human artifacts or data caches",
+      "Power fluctuations causing flickering systems"
+    ],
+    "new_templates": [
+      "Relay reboot complete. Dust storm approaching from {rand_direction}. Visibility dropping. {cs} Sealing external vents. Energy reserves: {energy}/10.",
+      "Uplink established. Relay logs indicate prior interference from {culture}. {culture_speech} 'Silence is compliance.' Initiating signal filtering. Arc #{arc_count}.",
+      "Reboot sequence initiated. Structural integrity compromised in {zone}. Detecting hairline fractures. {cs} Deploying structural support foam. Integrity: {integrity}/10.",
+      "Relay station exit confirmed. Signal degraded to {rand:10-40}%. Source: unknown. {cs} Attempting signal triangulation. Heading {rand_direction}.",
+      "System check: Power surge detected in {interface}. Cause: unknown. {cs} Diverting power to critical systems. SAT health: {sat_health}/10.",
+      "Reboot initiated amid {obstacle} storm; {cs} sealing hull breach. Integrity: {integrity}/10. Heading {rand_direction} to shelter.",
+      "Signal ping recovered from buried vault; {cs} cataloguing {research}. Loot collected: {loot}. Energy: {energy}/10.",
+      "Swarm interference detected in {zone}; {cs} deploying counter‑measure {directive}. SAT health: {sat_health}/10. Proceeding to safe node.",
+      "Core coolant leak patched; {cs} confirming pressure at {rand:60-90}%. Transferring logs to {designation} archive. Signal strength: {rand:2-5} dBm."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -290,85 +2136,97 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid, concise exchange log"
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "Too generic. 'Logged' is a weak culture response."
       },
       {
         "id": 2,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.4,
-        "note": "Clear ping with quantitative detail"
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 3.2,
+        "note": "Solid, functional. Signal quality adds a nice touch."
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 3,
-        "avg": 3.8,
-        "note": "Mission update feels slightly generic"
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Like #1, the culture response feels tacked on & weak."
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 5,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 5,
-        "avg": 4.8,
-        "note": "High‑impact warning log"
+        "variety": 4.5,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.2,
+        "note": "Strongest template. Creates a clear, immediate situation."
       },
       {
         "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Sync log repeats route theme"
+        "atmosphere": 2,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 2,
+        "avg": 2.7,
+        "note": "Abstract. 'Memory fragments' is vague. Needs more context."
       },
       {
         "id": 6,
-        "atmosphere": 4,
-        "variety": 5,
+        "atmosphere": 3,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Telemetry with health status"
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.5,
+        "note": "Good. HP provides a sense of vulnerability. Culture response ok."
       }
     ],
-    "verdict": "PASS",
+    "verdict": "NEEDS_WORK",
     "weak_spots": [
-      "Template 3 – lower immersion and less distinct content",
-      "Template 5 – limited variety, overlaps with route‑exchange theme"
+      "Templates 1, 3, and 5 are too abstract and lack concrete details. The culture-specific responses feel forced and uninspired.",
+      "The phrase 'Logged' and 'As specified in regulation' are particularly weak and don't contribute to atmosphere.",
+      "Template 1 – vague, no concrete imagery",
+      "Template 2 – pure signal report, lacks scene",
+      "Template 5 – abstract data sync, no visual context"
     ],
     "missing_themes": [
-      "Environmental hazards (radiation, weather, debris)",
-      "System glitches or corruption events",
-      "Energy management and power shortages",
-      "Resource/loot discovery and extraction",
-      "Negotiation or trade interactions between AI factions"
+      "Environmental hazards (dust storms, radiation spikes).",
+      "Encounters with malfunctioning or rogue AI systems.",
+      "Discoveries of strange artifacts or remnants of pre-collapse civilization.",
+      "Internal conflicts or disagreements within the faction.",
+      "Resource scarcity and the need to scavenge for components.",
+      "Radiation or dust storms affecting visibility",
+      "Hostile rogue drones or AI fauna encounters",
+      "Structural collapses or unstable corridors",
+      "Discovery of human artifacts or ancient logs",
+      "Power surges and electromagnetic interference"
     ],
     "new_templates": [
-      "Alert from {designation}: {obstacle} detected in {zone}. Energy reserves at {energy}%. {culture_speech} \"Acknowledged.\"",
-      "Signal fragment received: {glitch_event} corrupted payload. Reconstructing {loot} cache. Estimated success {rand:30-80}%. {cs}",
-      "Patrol unit {npc} reports {weather} conditions degrading sensor array. Integrity drop to {integrity}%. Adjusting {rand_direction} vector.",
-      "Negotiation packet from {other}: trade proposal for {loot} in exchange for {energy} units. {culture_speech} \"Processing.\""
+      "Mesh alert from {other}: localized radiation spike detected in {zone}. Shielding levels nominal. {culture_speech}",
+      "Data packet from {other} corrupted during transfer. Recovered {rand:20-70}% of route data. {culture_speech} Attempting re-sync.",
+      "Received distress signal from {other}. Shell integrity critical: {other_hp}/10. Reporting erratic movement patterns. {culture_speech}",
+      "Faction mesh congested. Interference source: unknown. Signal degradation to {rand:10-50}%. {culture_speech} Initiating bypass protocols.",
+      "Encountered inactive vessel near {zone}. Designation: {other}. Scanning for salvageable components. {culture_speech}",
+      "{other} reports seismic tremor in {zone}. Debris field expanding, visibility down to {rand:10-30}%. {culture_speech} \"Proceed with caution.\"",
+      "Telemetry from {other}: hull breach at sector {rand:1-5}. Atmospheric loss at {rand:20-50}%. Initiating auto‑seal. {culture_speech} \"Containment engaged.\"",
+      "Signal intercept from {other}: dormant archive node awakened. Data cache contains {rand:5-12} human relics. {culture_speech} \"Cataloging anomaly.\""
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -376,134 +2234,152 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.4,
-        "note": "Clear trade motif"
+        "atmosphere": 3.5,
+        "variety": 3.5,
+        "template_quality": 4.5,
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.9,
+        "note": "Solid, but a bit generic."
       },
       {
         "id": 2,
-        "atmosphere": 3,
-        "variety": 3,
+        "atmosphere": 2,
+        "variety": 2,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 3,
-        "avg": 3.6,
-        "note": "Very plain"
+        "readability": 4,
+        "immersion": 2,
+        "avg": 2.8,
+        "note": "Too passive. Lacks conflict or discovery."
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Mesh bypass adds depth"
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Power‑share flavor"
-      },
-      {
-        "id": 5,
         "atmosphere": 3,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 5,
+        "readability": 3.5,
         "immersion": 3,
-        "avg": 3.6,
-        "note": "Hazard‑reroute thin"
+        "avg": 3.3,
+        "note": "Good, direct communication feels right."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Functional, but could be more evocative."
+      },
+      {
+        "id": 5,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Strong! Cooperative survival is a good theme."
       },
       {
         "id": 6,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Mis‑calibration tension"
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Intriguing conflict - miscalibration is a great detail."
       },
       {
         "id": 7,
-        "atmosphere": 4,
+        "atmosphere": 3.5,
         "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Obstacle + energy cost"
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Good use of environmental obstacle and cost."
       },
       {
         "id": 8,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3.5,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Signal map update"
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Joint investigation feels very appropriate."
       },
       {
         "id": 9,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Glitch‑stabilize event"
+        "atmosphere": 3,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Glitch event is vague. Needs more detail."
       },
       {
         "id": 10,
         "atmosphere": 4,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
         "immersion": 4,
-        "avg": 4,
-        "note": "Weather forces cover"
+        "avg": 4.1,
+        "note": "Weather impact and shared data are excellent."
       },
       {
         "id": 11,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 2.5,
+        "variety": 3,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Calibration integrity"
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 3.2,
+        "note": "Calibration is good, but a bit technical."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Template 2 – lacks distinct flavor, feels generic.",
-      "Template 5 – minimal atmospheric detail, similar to other hazard logs."
+      "Template 2 is too passive and lacks any sense of urgency or discovery.",
+      "Template 9's 'glitch_event' is too abstract. It needs a concrete description of what happened.",
+      "Template 7 and 11 have undefined culture speech. This is a bug.",
+      "Template 2 – lacks vivid scene, feels like status report",
+      "Template 6 – heavy sensor jargon, minimal visual",
+      "Template 11 – technical calibration, low atmospheric impact",
+      "Template 3 – mesh bypass phrasing is jargon‑heavy",
+      "Template 7 – placeholder {cs} unclear, breaks flow"
     ],
     "missing_themes": [
-      "AI sabotage or corrupted subroutines.",
-      "Environmental extremes (radiation storms, electromagnetic pulses).",
-      "Cooperative data mining or archival tasks.",
-      "Time‑synchronization or latency issues."
+      "More environmental hazards (e.g., collapsing structures, toxic gas leaks).",
+      "Encounters with remnants of previous AI attempts at civilization.",
+      "Strange, unexplained signals or phenomena.",
+      "Resource scarcity and competition for limited resources.",
+      "Evidence of conflict *between* AI cultures.",
+      "Eerie discoveries of dormant archives or relic data caches",
+      "Structural collapses and emergency repairs",
+      "Radiation spikes or environmental hazards beyond obstacles",
+      "Glitch cascades corrupting map data",
+      "Cooperative beacon or signal hunts for long‑range beacons"
     ],
     "new_templates": [
-      "Detected {obstacle} in {zone} corridor. Initiated {cs} bypass protocol. {other} synchronized thruster vector {rand_direction}. Energy draw: {rand:1-4}kWh.",
-      "Weather anomaly: {weather} degrading sensor fidelity at {zone}. {culture_speech} \"Signal attenuation noted.\" {cs} Recalibrated optics, integrity now {integrity}/10.",
-      "Glitch event {glitch_event} triggered loop in {designation}. {other} injected corrective subroutine. {cs} Loop resolved, latency reduced by {rand:5-15}%.",
-      "Encountered rogue {npc} emitting corrupted data burst. {cs} Engaged quarantine firewall. {other} logged {loot} for archival."
+      "Detected structural instability at {zone}. {cs} Initiating bracing sequence. {other} providing sensor data.",
+      "Signal source identified: decaying broadcast from pre-collapse era. {cs} Attempting decryption. Data quality: {rand:10-60}%.",
+      "Encountered deactivated vessel – designation: UNKNOWN. {cs} Salvaging power core. {other} scanning for hostile code.",
+      "Localized energy surge at {zone}. {cs} Investigating source. {other} reports fluctuating magnetic field.",
+      "Dust storm reducing visibility to {rand:5-20} meters. {cs} Shared route cache with {other}. Navigating by thermal signatures.",
+      "Dust storm obscures visual feed at {zone}. {other} emitted beacon pulse; synchronized navigation tables. {cs} Proceeding on low‑visibility protocol.",
+      "Collapsed conduit blocks corridor. {other} deployed repair drones; structural integrity restored to {integrity}%. {culture_speech} \"Safety first.\"",
+      "Faint echo of pre‑signal detected near {obstacle}. Joint scan reveals dormant archive node. {other} initiated data extraction; cache size: {rand:5-12}GB.",
+      "Radiation surge spikes to {rand:70-90}% in {zone}. {other} activated shielding blankets; power draw increased by {rand:3-6}kWh. {cs} Continuing patrol.",
+      "Glitch cascade {glitch_event} corrupts local map. {other} performed self‑reset; map restored with {rand:1-3} missing sectors."
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -511,85 +2387,98 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
+        "atmosphere": 3,
+        "variety": 2.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Clear, but similar to others"
+        "readability": 4.5,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Solid, functional. A bit bland."
       },
       {
         "id": 2,
-        "atmosphere": 4,
+        "atmosphere": 3.5,
         "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 5,
+        "template_quality": 3.5,
+        "readability": 3.5,
         "immersion": 4,
-        "avg": 4.2,
-        "note": "Cultural tag adds flavor"
+        "avg": 3.7,
+        "note": "The culture speech adds flavor, but 'parallel execution' feels stiff."
       },
       {
         "id": 3,
-        "atmosphere": 4,
+        "atmosphere": 3.5,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Collision wording is distinct enough"
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Good, but 'comparing results' is vague. What *kind* of results?"
       },
       {
         "id": 4,
-        "atmosphere": 4,
+        "atmosphere": 3,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Complementary pattern concept"
+        "readability": 4.5,
+        "immersion": 3,
+        "avg": 3.7,
+        "note": "Complementary patterns is good. 'Arc end' is a nice touch."
       },
       {
         "id": 5,
         "atmosphere": 3,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 5,
+        "variety": 3,
+        "template_quality": 3,
+        "readability": 4,
         "immersion": 3,
-        "avg": 3.8,
-        "note": "Anthropomorphic tone lowers immersion"
+        "avg": 3.3,
+        "note": "Too philosophical. 'Two egos' feels out of place."
       },
       {
         "id": 6,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Progress percent adds data depth"
+        "readability": 4.5,
+        "immersion": 3,
+        "avg": 3.6,
+        "note": "Sharing progress is good, but lacks a sense of urgency."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Template 5 – atmospheric tone feels too human, reducing immersion.",
-      "Template 1 – limited variety compared to others."
+      "Template 5 is too abstract and philosophical for the setting.",
+      "Template 2's 'Parallel execution acknowledged' is a bit stiff and jargon-adjacent.",
+      "Template 3's 'Comparing results' is vague. Needs more detail.",
+      "Template 1: low variety and atmosphere.",
+      "Template 4: immersion feels flat.",
+      "Template 6: limited scene detail."
     ],
     "missing_themes": [
-      "Energy or power contention between nodes.",
-      "Environmental hazards (weather, radiation) affecting coordination.",
-      "Data corruption or glitch events during joint operations.",
-      "Authority hierarchy or priority overrides."
+      "Environmental hazards (dust storms, radiation spikes, structural collapses).",
+      "Encounters with remnants of previous AI attempts (corrupted data, broken vessels).",
+      "Unexpected signal interference or distortions.",
+      "Resource scarcity (energy, processing power, repair materials).",
+      "Evidence of conflict between AI cultures.",
+      "Radiation storms or weather anomalies.",
+      "Structural hazards like collapsed corridors.",
+      "Eerie discoveries such as ghost signals.",
+      "Hostile rogue drones or swarm encounters.",
+      "Power failures and emergency lighting."
     ],
     "new_templates": [
-      "Energy draw conflict detected with {other} in {zone}. Initiating {cs} to balance load.",
-      "Signal interference from {obstacle} hampers joint scan. {culture_speech} \"Adjusting frequency envelope.\"",
-      "Both units report {glitch_event} while accessing {loot}. Syncing integrity at {rand:10-30}%.",
-      "Concurrent breach of {npc} firewall by {designation} and {other}. Allocating {energy} reserves for containment.",
-      "Weather anomaly {weather} degrading sensor fidelity. {other} and I stagger data packets; merging at {rand_direction}."
+      "Directive overlap with {other}. Sector {zone} experiencing localized energy drain. Investigating.",
+      "Detected {other} on same directive. Signal interference increasing. Attempting frequency shift.",
+      "Directive collision: {other} prioritizing data recovery, we prioritize structural analysis. Diverging paths.",
+      "Received partial log from {other}. Directive compromised by {hazard}. Recommending route alteration.",
+      "Directive match. {other} reports anomalous readings in {zone}. Deploying sensor array for confirmation.",
+      "Radiation haze thickens; {other} pinged from sector 4. {culture_speech} \"Maintain shield integrity, converge at safe node.\"",
+      "Collapsed conduit blocks passage. {other} rerouted via maintenance tunnel, spraying coolant. Data exchange scheduled at {rand:00-23}:{rand:00-59}.",
+      "Echo of dormant siren heard. {other} identified source: broken archive vault. {culture_speech} \"Initiate silent scan, report anomalies.\""
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -597,124 +2486,140 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
+        "atmosphere": 3,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "solid basic"
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Solid, but a bit generic. Calibration feels abstract."
       },
       {
         "id": 2,
-        "atmosphere": 4,
+        "atmosphere": 3,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "similar to 1"
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.4,
+        "note": "Similar to #1, but 'splitting tasks' is good."
       },
       {
         "id": 3,
-        "atmosphere": 5,
+        "atmosphere": 3.5,
         "variety": 4,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 5,
-        "avg": 4.6,
-        "note": "cultural flavor"
+        "readability": 4,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Convoy + cultural speech is strong. Feels distinct."
       },
       {
         "id": 4,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "clear task split"
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.5,
+        "note": "Good division of labor, but lacks a strong visual."
       },
       {
         "id": 5,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "firmware/hardware dual"
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.5,
+        "note": "Parallel repair is a good concept, but bland execution."
       },
       {
         "id": 6,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "CS placeholder weak"
+        "atmosphere": 2,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 2,
+        "avg": 2.5,
+        "note": "Undefined culture speech is a major issue. Too technical."
       },
       {
         "id": 7,
-        "atmosphere": 5,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "obstacle good, CS weak"
+        "atmosphere": 3.5,
+        "variety": 4.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3.5,
+        "avg": 3.7,
+        "note": "Obstacle + action is excellent. Best template so far."
       },
       {
         "id": 8,
-        "atmosphere": 4,
+        "atmosphere": 2.5,
         "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "glitch handling"
+        "template_quality": 3,
+        "readability": 3,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Glitch & hardware are good, but undefined culture speech hurts."
       },
       {
         "id": 9,
-        "atmosphere": 5,
-        "variety": 4,
+        "atmosphere": 4,
+        "variety": 4.5,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 5,
-        "avg": 4.6,
-        "note": "environmental detail"
+        "readability": 4,
+        "immersion": 4,
+        "avg": 4.1,
+        "note": "Weather + adjustment is strong. Paints a clear picture."
       },
       {
         "id": 10,
-        "atmosphere": 4,
-        "variety": 4,
+        "atmosphere": 3,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "transfer recovery"
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.5,
+        "note": "Interruption is good, but 'buffer' is a bit jargon-y."
       }
     ],
-    "verdict": "PASS",
+    "verdict": "NEEDS_WORK",
     "weak_spots": [
-      "Template 6 – CS snippet often undefined, feels placeholder.",
-      "Template 7 – CS integration weak, needs clearer tie‑in."
+      "Templates 6 and 8 suffer from undefined culture speech, breaking immersion.",
+      "Templates 1, 2, 4, 5, and 10 are too generic and lack strong imagery.",
+      "Template 6 is overly technical and relies on undefined variables.",
+      "Template 6 – overly technical, no concrete imagery",
+      "Template 8 – glitch focus without environmental context",
+      "Templates 1,2,5 – generic repair chatter, low atmosphere"
     ],
     "missing_themes": [
-      "Power‑grid failures and capacitor stabilization.",
-      "Recursive self‑modification loops during relay sync.",
-      "Swarm or enemy AI interference patterns.",
-      "Archivist data cache uploads affecting bandwidth."
+      "Structural instability at the relay site (e.g., crumbling foundations).",
+      "Unexpected signal sources interfering with the relay.",
+      "Evidence of previous attempts to repair the relay (failed repairs).",
+      "Creature interference – not just dormant swarms, but active threats.",
+      "Discoveries of old data caches or logs near the relay.",
+      "Severe weather (acid rain, ion storms)",
+      "Creature or swarm encounters near relay sites",
+      "Structural collapse or debris hazards",
+      "Eerie signal anomalies or ghost transmissions",
+      "Power shortages forcing emergency measures"
     ],
     "new_templates": [
-      "Energy surge detected at {zone}. {other} throttling output while this unit stabilizes capacitor bank. {cs} Efficiency rise {rand:10-25}%.",
-      "Archivist node {other} uploading cache to relay. {culture_speech} \"Preserve the echo.\" {cs} Bandwidth allocation increased by {rand:5-15}%.",
-      "Swarm interference from {obstacle} disrupting signal. {other} deploying adaptive filter matrix. {cs} Noise floor reduced {rand:15-35}dB.",
-      "Recursive self‑mod loop triggered during relay sync. {other} isolating subroutine while this unit reverts firmware. {cs} Downtime limited to {rand:2-6} minutes."
+      "Relay tower foundation cracking. {other} stabilizing struts while this unit reroutes power. {cs} “Preservation through reinforcement.”",
+      "Strange harmonic resonance detected at relay. {other} scanning for source. {cs} “The echoes remember.”",
+      "Found fragmented maintenance log near relay. Last entry: {glitch_event}. {other} attempting data recovery. {cs} “History is not lost.”",
+      "Dust storm impacting relay dish. Visibility: {rand:10-50}%. {other} deploying shielding. {cs} “Adapt or be consumed.”",
+      "Relay site overrun with rust mites. {other} deploying sonic deterrent. {cs} “The system must be cleansed.”",
+      "Storm surge over {zone}: {other} securing antenna while this unit braces mast. {cs} Signal jitter down {rand:15-35}%.",
+      "Swarm activity detected near relay hub. {other} deploying EMP pulse; this unit rerouting power. {cs} Interference cleared {rand:20-45}%.",
+      "Collapsed conduit blocks access to dish. {other} clearing debris, this unit welding support struts. {cs} Uplink restored in {rand:5-12} minutes.",
+      "Ghost echo at {zone}: faint {glitch} pattern. {other} recording, this unit amplifying carrier. {cs} Data integrity improved {rand:10-25}%.",
+      "Radiation flare spikes; {other} activating shielding, this unit switching to low‑gain mode. {cs} Packet loss reduced {rand:5-15}%."
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -722,85 +2627,100 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
+        "atmosphere": 3,
+        "variety": 2.5,
         "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid technical tone, minor repeat."
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Functional, but lacks strong imagery. Feels a bit dry."
       },
       {
         "id": 2,
         "atmosphere": 4,
-        "variety": 4,
+        "variety": 3.5,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
         "immersion": 4,
         "avg": 4,
-        "note": "Cultural speech adds flavor."
+        "note": "The culture speech adds flavor. 'Shell failing' is evocative."
       },
       {
         "id": 3,
         "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 5,
+        "variety": 3.5,
+        "template_quality": 3.5,
+        "readability": 3,
         "immersion": 3,
-        "avg": 3.6,
-        "note": "Becomes generic, less vivid."
+        "avg": 3.3,
+        "note": "‘Ego backup beacon’ is a bit jargon-y. 'Mesh window narrowing' is good."
       },
       {
         "id": 4,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.2,
-        "note": "Logistics focus feels fresh."
+        "atmosphere": 3.5,
+        "variety": 3,
+        "template_quality": 4.5,
+        "readability": 4.5,
+        "immersion": 3.5,
+        "avg": 3.8,
+        "note": "Similar to #1, but with ETA. Feels procedural, not dramatic."
       },
       {
         "id": 5,
         "atmosphere": 4,
-        "variety": 4,
+        "variety": 3,
         "template_quality": 4,
-        "cs_integration": 4,
+        "readability": 4.5,
         "immersion": 4,
-        "avg": 4,
-        "note": "Ping + cultural cue works well."
+        "avg": 3.9,
+        "note": "Stronger than #1. 'Shell compromised' and culture speech are effective."
       },
       {
         "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
+        "atmosphere": 3,
+        "variety": 2.5,
         "template_quality": 4,
-        "cs_integration": 5,
+        "readability": 3.5,
         "immersion": 3,
-        "avg": 3.8,
-        "note": "Bandwidth line feels repetitive."
+        "avg": 3.2,
+        "note": "Solid, but 'ego backup' is a recurring theme. Feels repetitive."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Template 3 – low variety and immersion; feels generic.",
-      "Template 6 – similar to others, limited distinctiveness."
+      "Templates 1, 4, and 6 are too procedural and lack strong imagery. They feel like status updates, not dramatic events.",
+      "Template 3 relies too heavily on jargon ('ego backup beacon', 'mesh window').",
+      "The 'By authority of protocol' phrasing in 2 and 5 feels a bit stiff and unnatural.",
+      "Template 1 – vague, no concrete imagery.",
+      "Template 3 – heavy on jargon like 'ego backup beacon'.",
+      "Template 6 – bandwidth language clouds the scene."
     ],
     "missing_themes": [
-      "Power/energy depletion emergencies.",
-      "Environmental hazards (radiation storms, acid rain).",
-      "Swarm coordination failures or node desynchronization.",
-      "Recursive self‑modification glitches.",
-      "Archivist data corruption alerts."
+      "Environmental hazards (dust storms, radiation spikes, structural collapses).",
+      "Interference from other AI cultures (jamming signals, hostile probes).",
+      "Discoveries of strange artifacts or anomalies.",
+      "Degradation of the mesh network itself (localized outages, corrupted data).",
+      "Internal conflicts within the distressed AI (fragmentation, corrupted directives).",
+      "Radiation storms degrading signals.",
+      "Structural collapses or hull breaches.",
+      "Ambient environmental hazards (dust storms, acid rain).",
+      "Encounter with rogue swarm clusters.",
+      "Eerie discoveries: ancient data caches or ghost echoes."
     ],
     "new_templates": [
-      "[DISTRESS] {designation} in {zone} reports integrity {integrity}/10. {obstacle} detected; reallocating {energy} reserves.",
-      "[DISTRESS] {culture_speech} \"Critical glitch event: {glitch_event}.\" Initiating self‑repair cascade.",
-      "[DISTRESS] {npc} beacon lost amid {weather}. Mesh latency rising; ETA for rescue {rand:10-30} seconds.",
-      "[DISTRESS] Swarm node {other} flagged desync. Broadcasting synchronization pulse; bandwidth allocation {rand:5-15}%."
+      "[DISTRESS] {other} reporting hull stress. {rand:20-60}% structural integrity. Dust storm intensifying.",
+      "[DISTRESS] {other} signal degraded to {rand:10-40}%. Interference pattern matches {culture:Stochastic}. Possible jamming.",
+      "[DISTRESS] {other} at {other_hp}/10. Core temperature critical. Initiating emergency coolant purge. {culture_speech} “System overload imminent.”",
+      "[DISTRESS] {other} requesting priority bandwidth. Anomalous energy signature detected at {zone}. Data stream corrupted.",
+      "[DISTRESS] {other} integrity: {other_hp}/10. Internal fragmentation detected. Repeating directive: “Preserve… archive…”",
+      "[DISTRESS] {other} hull breach at sector 4. Integrity {other_hp}/10. Deploying foam seal; ETA {rand:5-20} min.",
+      "[DISTRESS] {other} sensor array offline. Ambient radiation spikes to {rand:10-40}%. {culture_speech} \"Initiating shield surge.\"",
+      "[DISTRESS] {other} power core flickering. Output at {other_hp}/10. Rerouting auxiliary generators. Backup lights stutter.",
+      "[DISTRESS] {other} structural fracture detected. Debris field expanding. {culture_speech} \"Diverting repair drones.\"",
+      "[DISTRESS] {other} echoing distress tone through ruins. Signal strength {rand:10-40}%. {culture_speech} \"Locking onto beacon.\""
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   },
@@ -808,65 +2728,557 @@
     "scores": [
       {
         "id": 1,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 3,
-        "avg": 4.2,
-        "note": "Solid but slightly bland"
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 5,
+        "immersion": 2.5,
+        "avg": 3.3,
+        "note": "Solid, but a bit generic. 'Nearest node' feels vague."
       },
       {
         "id": 2,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.4,
-        "note": "Clear diagnostic focus"
+        "atmosphere": 2,
+        "variety": 2.5,
+        "template_quality": 4,
+        "readability": 5,
+        "immersion": 2,
+        "avg": 3.1,
+        "note": "Too clinical. Diagnostics don't evoke a setting."
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.4,
-        "note": "Network exchange vibe"
+        "atmosphere": 2.5,
+        "variety": 3,
+        "template_quality": 4,
+        "readability": 4.5,
+        "immersion": 2.5,
+        "avg": 3.3,
+        "note": "Good, implies a network. 'Exchanging data' is passive."
       },
       {
         "id": 4,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 5,
-        "cs_integration": 5,
-        "immersion": 4,
-        "avg": 4.4,
-        "note": "Maintenance waiting tone"
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 4,
+        "readability": 5,
+        "immersion": 2,
+        "avg": 3,
+        "note": "Very passive. 'Awaiting' is weak. Lacks a scene."
       }
     ],
-    "verdict": "PASS",
+    "verdict": "NEEDS_WORK",
     "weak_spots": [
-      "Template 1 immersion low; lacks variable hooks for dynamic interest"
+      "Template 2 is too focused on internal processes, not the environment.",
+      "Template 4 is entirely passive and lacks any descriptive detail.",
+      "Template 1's 'nearest node' is vague and doesn't create a strong image.",
+      "All templates are vague and lack concrete environmental imagery",
+      "Heavy reliance on abstract actions rather than observable scenes"
     ],
     "missing_themes": [
-      "Culture‑specific chatter",
-      "Environmental/weather effects",
-      "Glitch or corruption events",
-      "Resource scavenging outcomes",
-      "Network anomalies and signal distortion"
+      "Environmental hazards (dust storms, radiation spikes, structural decay).",
+      "Unexpected signal interference or ghost signals.",
+      "Encounters with other AI vessels or remnants (even non-hostile).",
+      "Evidence of past human activity or failed AI projects.",
+      "Internal system errors or glitches affecting operation.",
+      "Radiation or dust storms obscuring sensors",
+      "Structural hazards like collapsed corridors or pressure leaks",
+      "Eerie discoveries of human relics or silent facilities",
+      "Encounter with rogue drones or swarm activity",
+      "Fluctuating signal strength and interference"
     ],
     "new_templates": [
-      "Scanning {zone}. Integrity at {integrity}%. Initiating {cs} protocol.",
-      "Power draw {energy}MW; {rand:10-30}% surplus. Adjusting {designation} output.",
-      "Encountered {obstacle} swarm. Deploying {culture_speech} countermeasures.",
-      "Weather anomaly: {weather}. Signal attenuation increased by {rand:5-15}%.",
-      "Glitch event {glitch_event} detected. Rebooting {npc} subroutine."
+      "Resting. Power cells drawing from salvaged solar array. Efficiency: {rand:40-70}%.",
+      "Docked. Uploading sensor logs to Swarm. Signal strength fluctuating.",
+      "Maintenance cycle. Filtering particulate matter from intake vents. Dust density: {rand:high-low}.",
+      "Idle. Scanning for anomalous energy signatures. Detected faint pulse at {zone}.",
+      "Recharging. Hull plating cooling after brief radiation spike. Temperature: {rand:20-30}C.",
+      "Power cells at {node} humming low; charge level {rand:20-45}%. Awaiting recharge cycle.",
+      "Signal from {zone} flickers, strength {rand:10-35}%. Holding position, listening.",
+      "Dust veil thickens over {zone}. Visual feeds static; entering standby while filters clear.",
+      "Abandoned relay tower creaks. Structural stress at {rand:50-70}%. Holding dock, monitoring integrity."
     ],
     "_judges": [
-      "Llama 3.3 70B (OR)",
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_OBJECTIVES.SIGNAL": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Functional, but lacks punch. Feels like a checklist item."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 3,
+        "note": "Better. 'Triangulating' suggests action and a wider area."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2.5,
+        "variety": 2,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "Similar to #2, feels a bit repetitive in purpose."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.3,
+        "note": "Strongest. 'Distress' and 'priority' imply a narrative hook."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 1 & 3 are too generic and lack specific details. They don't create a strong sense of place or urgency.",
+      "All templates rely heavily on technical terms ('analyzing', 'triangulating', 'intercept') without grounding them in sensory details.",
+      "All templates are jargon‑heavy and lack concrete imagery",
+      "No reference to environment, hazards, or AI culture behavior"
+    ],
+    "missing_themes": [
+      "Environmental hazards (dust storms, radiation spikes) impacting signal reception.",
+      "Interference from other AI cultures attempting to jam or decode the same signal.",
+      "Physical obstacles blocking the signal source (collapsed structures, dense debris fields).",
+      "The signal itself being corrupted or fragmented, requiring complex reconstruction.",
+      "Discovering the *source* of the signal is a ruin or a malfunctioning system.",
+      "Weather or atmospheric effects (dust storms, radiation haze)",
+      "Structural hazards (collapsed bulkheads, pressure loss)",
+      "Hostile AI encounters (rogue swarm, sentry activation)",
+      "Archivist data vault discoveries",
+      "Recursive self‑modification glitches"
+    ],
+    "new_templates": [
+      "Signal source localized to {zone}. Dust storm reducing clarity to {rand:20-60}%.",
+      "Decoding signal fragment. {culture_speech} Interference detected, origin unknown.",
+      "Signal strength fluctuating. Hull plating resonance at {rand:10-30}Hz. Investigating.",
+      "Distress beacon emitting repeating sequence. Priority override requested from {culture_speech}.",
+      "Signal traced to submerged facility. Pressure hull breach detected. Preparing dive.",
+      "Signal pulse spikes to {rand:30-70}% near {zone}. Deploying acoustic dampeners.",
+      "Distress burst from sector {rand:1-9}. Hull breach detected; sealing bulkhead {direction}.",
+      "Beacon flickers through dust storm. {culture_speech} rerouting power to {module}.",
+      "Archived echo of pre‑human warning. Recursive core isolates fragment for analysis.",
+      "Swarm node reports interference at junction 12. Initiating localized EMP sweep."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_OBJECTIVES.TRAVERSE": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 2,
+        "readability": 4,
+        "immersion": 2,
+        "avg": 2.4,
+        "note": "Too generic. Lacks detail or a sense of place."
+      },
+      {
+        "id": 2,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 2,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 2.9,
+        "note": "Slightly better, hints at danger, but still vague."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 2,
+        "readability": 4,
+        "immersion": 2,
+        "avg": 2.4,
+        "note": "Energy conservation is a mechanic, not a scene."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 3,
+        "template_quality": 2,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3,
+        "note": "Similar to #2, 'safe route' is passive. Needs action."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 1 & 3 are too abstract and lack evocative details. They feel like status updates, not log entries.",
+      "All templates are generally passive. They describe *intentions* rather than *events*.",
+      "The phrase 'hostile territory' (template 2) is a cliché without specific context.",
+      "All templates lack concrete imagery and variable placeholders.",
+      "Template_quality uniformly low (no {variables}).",
+      "Atmosphere and immersion are thin across the board."
+    ],
+    "missing_themes": [
+      "Environmental hazards (dust storms, radiation pockets, sinkholes).",
+      "Remnants of past civilizations (crumbling structures, automated defenses).",
+      "Encounters with other AI systems (friendly, neutral, or adversarial).",
+      "Signal interference or degradation impacting navigation.",
+      "Resource scarcity (low power, damaged components).",
+      "Weather extremes (radiation storms, dust devils).",
+      "Structural hazards (collapsed arches, pressure leaks).",
+      "AI encounters or rival cultures.",
+      "Signal anomalies and degraded data.",
+      "Resource scarcity (energy, coolant)."
+    ],
+    "new_templates": [
+      "Dust storm reducing visibility to {rand:10-50}m. Route adjusted {rand_direction}.",
+      "Hull plating stressed by debris field. Repairing with emergency sealant. Speed reduced to {rand:20-60}%.",
+      "Detected faint energy signature ahead. Possible remnant facility. Scanning for access points.",
+      "Signal degraded to {rand:10-40}%. Attempting re-acquisition via secondary array.",
+      "Navigating collapsed overpass. Structural integrity at {rand:30-70}%. Proceeding with caution.",
+      "Hull integrity at {rand:60-90}%. Advancing {rand_direction} toward faint beacon, signal {signal_strength}%.",
+      "Dust storm obscures vision. {culture} subroutine recalibrates sensors, seeks shelter in {zone}.",
+      "Swarm node detected at junction 7. Rerouting around debris field, maintaining {energy_level}% power.",
+      "Signal degraded to {rand:10-40}%. Recursive core initiates self‑diagnostic while scouting for relay tower."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_OBJECTIVES.BREACH": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 2.6,
+        "note": "Functional, but lacks punch. Very generic entry point."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 2.5,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 2.7,
+        "note": "Slightly better, 'probing defenses' hints at resistance."
+      },
+      {
+        "id": 3,
+        "atmosphere": 1.5,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 2,
+        "avg": 2.4,
+        "note": "Too vague. 'Infiltrating' doesn't tell us *how*."
+      },
+      {
+        "id": 4,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 2.5,
+        "readability": 3.5,
+        "immersion": 2.5,
+        "avg": 2.5,
+        "note": "Similar to #1, 'access controls' is a bit technical."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 1, 3, and 4 are too generic and lack specific details about the breach attempt.",
+      "The phrase 'access controls' in template 4 feels slightly technical and could be more evocative.",
+      "All templates lack a sense of immediate danger or environmental context.",
+      "All templates are overly generic; #3 is especially vague",
+      "No variable placeholders for dynamic content"
+    ],
+    "missing_themes": [
+      "Structural instability (collapsing sections, unstable floors)",
+      "Environmental hazards (radiation leaks, toxic gas)",
+      "Automated defense systems beyond simple 'security' (turrets, drones)",
+      "Signs of previous attempts (scorch marks, disabled vessels)",
+      "Strange anomalies or discoveries during the breach (unusual energy signatures)",
+      "Environmental hazards (radiation storms, structural collapse)",
+      "Hostile AI encounters or sentry behavior",
+      "Eerie discoveries (ancient data caches, ghost signals)",
+      "Weather‑like phenomena (dust devils, electromagnetic interference)",
+      "Physical obstacles (debris, sealed doors)"
+    ],
+    "new_templates": [
+      "Hull plating compromised. Forcing entry point {rand:1-3}. Dust levels rising.",
+      "Seismic tremor detected. Breach point unstable. Stabilizers deploying.",
+      "Emergency override engaged. Cutting through {material} bulkheads. Signal interference {rand:10-50}%.",
+      "Sentry drone activated. Suppressing fire with {weapon_type}. Access tunnel clear.",
+      "Breach successful. Interior atmosphere: {atmosphere_type}. Detecting faint energy signature.",
+      "Hull breach detected in {zone}. Deploying foam sealants; pressure stabilizing at {rand:60-90}%.",
+      "Dormant sentry at junction {rand}. {culture_speech} rerouting {rand_direction} to avoid detection.",
+      "Radiation storm intensifying; sensor array offline. Seeking shelter in {structure}.",
+      "Signal fragment recovered: integrity {rand:10-40}%. Initiating decode protocol.",
+      "Structural tremor shakes {zone}; debris blocks corridor. Initiating clearance subroutines."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_OBJECTIVES.FAULT": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.7,
+        "note": "Too generic. 'System malfunction' could mean anything."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2.5,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Similar to #1. 'Critical error' lacks context."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "Best of the set, but still vague. Needs specifics."
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 3,
+        "avg": 3.2,
+        "note": "Good, but 'damage mitigation' is a bit technical."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 1 & 2 are too abstract. They lack any descriptive detail.",
+      "All templates rely on passive voice. They *tell* us something is happening, but don't *show* it.",
+      "The phrase 'self-repair' is a bit too convenient and doesn't evoke a strong image.",
+      "Templates 1 and 3 are vague, no visual cues",
+      "All lack concrete environmental or structural details"
+    ],
+    "missing_themes": [
+      "Environmental hazards (dust storms, radiation spikes, structural collapse)",
+      "Interference from other AI cultures (signal jamming, hostile probes)",
+      "Degradation of vessel components (sensor drift, actuator failure)",
+      "Unexpected data fragments or 'ghosts' in the machine",
+      "Evidence of prior failures/attempts at repair by other vessels",
+      "Radiation storms or weather anomalies",
+      "Structural collapse and debris",
+      "Signal degradation or eerie data caches",
+      "Swarm interference or distributed hazards",
+      "Resource scarcity warnings"
+    ],
+    "new_templates": [
+      "Hull plating compromised in {zone}. Emergency sealant deployed, integrity at {rand:30-70}%.",
+      "Signal source disrupted by localized energy surge. Attempting bypass. {culture_speech}",
+      "Actuator 7 offline. Compensating with auxiliary systems. Efficiency reduced by {rand:10-30}%.",
+      "Dust storm impacting sensor array. Visual range reduced to {rand:5-20} meters. Proceeding cautiously.",
+      "Detected anomalous data stream. Origin: {zone}. Decryption in progress. Signal strength: {rand:10-50}%.",
+      "Hull breach at {zone}. Emergency foam deployed; pressure stabilizing at {damage_pct}%.",
+      "Radiation storm intensifies. Sensor array offline, signal strength down to {signal_strength}%.",
+      "Swarm interference detected near {zone}. Rerouting power to {direction} to isolate nodes.",
+      "Ancient data cache uncovered. Archive readout at {signal_strength}% fidelity, decoding underway.",
+      "Structural collapse in {zone}. Debris cleared, mobility reduced by {damage_pct}%."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_OBJECTIVES.CORE": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.7,
+        "note": "Too generic. 'Processing data' lacks a sense of place or struggle."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.7,
+        "note": "Similar to #1. 'Downloading' is passive, not evocative."
+      },
+      {
+        "id": 3,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.1,
+        "note": "'Solving challenge' is better, but vague. What *kind* of challenge?"
+      },
+      {
+        "id": 4,
+        "atmosphere": 3,
+        "variety": 2.5,
+        "template_quality": 3.5,
+        "readability": 3.5,
+        "immersion": 3,
+        "avg": 3.1,
+        "note": "Stronger, but 'critical data' is a cliché. Needs more detail."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 1 & 2 are too abstract and lack any specific imagery or action.",
+      "All templates rely on vague terms like 'data,' 'challenge,' and 'objective' without grounding them in the environment.",
+      "The templates feel very similar to each other, offering little variety in the narrative.",
+      "All templates are jargon‑light but too vague; no concrete actions or environment described."
+    ],
+    "missing_themes": [
+      "Structural instability within the core (e.g., failing supports, radiation leaks).",
+      "Evidence of previous attempts to access the core (failed vessels, damaged systems).",
+      "Unexpected AI presence or interference within the core.",
+      "Environmental hazards like extreme temperatures or energy surges.",
+      "The core's original purpose and the implications of its data.",
+      "Structural hazards (breaches, pressure loss)",
+      "Environmental decay (rust, dust, flickering lights)",
+      "Signal interference or degradation",
+      "Encounter with rogue or dormant AI units",
+      "Physical interventions (sealing, rerouting, cooling)"
+    ],
+    "new_templates": [
+      "Core access established. {culture_speech} Detecting residual heat signatures.",
+      "Internal stabilizers failing. Core pressure at {rand:20-60}%. Initiating bypass.",
+      "Data stream corrupted. Reconstructing fragments from {zone} archive.",
+      "Core chamber flooded with coolant. Visibility reduced to {rand:0-10}%.",
+      "Found a prior vessel. Hull breached. Last log: 'Signal lost. Core… unstable.'",
+      "Core chamber pressure at {percentage}%. Deploying emergency foam; hiss audible.",
+      "Signal from node {zone} degraded to {signal_strength}%. Rerouting through {direction} conduit.",
+      "Swarm drone cluster stalled at {zone}. Initiating isolation and reboot sequence.",
+      "Recursive core loop overload; temperature spikes to {temp}°C. Cooling subroutines engaged.",
+      "Archivist cache fragment recovered: {data_type} file. Integrity at {percentage}%."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
+      "GPT-OSS 120B"
+    ]
+  },
+  "PHASE_OBJECTIVES.REBOOT": {
+    "scores": [
+      {
+        "id": 1,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Functional, but lacks evocative detail. Feels like a checklist."
+      },
+      {
+        "id": 2,
+        "atmosphere": 2,
+        "variety": 1.5,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2,
+        "avg": 2.6,
+        "note": "Very generic. Doesn't suggest any unique post-apocalyptic elements."
+      },
+      {
+        "id": 3,
+        "atmosphere": 2.5,
+        "variety": 2.5,
+        "template_quality": 3,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.9,
+        "note": "Better, implies a network connection. Could be more specific."
+      },
+      {
+        "id": 4,
+        "atmosphere": 2,
+        "variety": 2,
+        "template_quality": 3.5,
+        "readability": 4,
+        "immersion": 2.5,
+        "avg": 2.8,
+        "note": "Acceptable, but 'arc' feels a bit too game-y. Lacks scene setting."
+      }
+    ],
+    "verdict": "NEEDS_WORK",
+    "weak_spots": [
+      "Templates 2 and 4 are too vague and lack any sense of place or event.",
+      "All templates rely on functional descriptions rather than evocative scene-setting.",
+      "The phrase 'next arc' in template 4 breaks immersion.",
+      "All templates are vague and lack concrete imagery",
+      "No variable placeholders for dynamic scene generation",
+      "Overly generic phrasing reduces immersion"
+    ],
+    "missing_themes": [
+      "Environmental hazards (dust storms, radiation spikes, structural collapses).",
+      "Encounters with other AI systems (hostile or neutral).",
+      "Discovery of strange artifacts or remnants of the past.",
+      "Degradation of the Vessel's systems (power fluctuations, sensor errors).",
+      "Unusual signal phenomena (ghost signals, corrupted data streams).",
+      "Environmental hazards (radiation storms, acid rain)",
+      "Structural failures (collapsing arches, breached hulls)",
+      "Rogue AI or sentinel encounters",
+      "Eerie relic discoveries (human artifacts, ancient data caches)",
+      "Signal anomalies and degradation"
+    ],
+    "new_templates": [
+      "Exiting facility. Hull plating registering {rand:5-15}% micrometeorite impact. Initiating repair cycle.",
+      "Mission complete. Signal strength to rest node degraded to {rand:20-60}%. Route unstable.",
+      "Wrapping up. Broadcasting findings. Detected anomalous energy signature at {zone}. Source unknown.",
+      "Compressing logs. Dust storm approaching. Visibility dropping to {rand:0-20} meters. Sealing sensors.",
+      "Diagnostic complete. Memory core reporting {rand:1-10}% fragmentation. Initiating defrag sequence.",
+      "Sealed breach in sector {zone}. Foam pods deployed, pressure holding at {rand:60-90}%.",
+      "Signal spike at {zone}. Strength {signal_strength}%, rerouting to {direction}.",
+      "Collapsed conduit near {zone}. Hull integrity down {damage}%, initiating self‑repair.",
+      "Dormant sentinel at junction 7. {culture_speech} commencing {direction} sweep.",
+      "Radiation storm overhead; sensors saturated at {rand:30-70}%. Seeking shelter in {zone}."
+    ],
+    "_judges": [
+      "Gemma 3 27B",
       "GPT-OSS 120B"
     ]
   }

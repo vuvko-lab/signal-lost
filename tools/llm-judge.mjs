@@ -66,7 +66,7 @@ const OPENROUTER_MODELS = [
   { id: 'qwen/qwen3-next-80b-a3b-instruct:free', provider: 'openrouter', label: 'Qwen3 Next 80B (OR)' },
 ];
 
-// Build available pool based on which providers have keys
+// Build available pools — prefer DeepInfra (paid, reliable), OpenRouter as supplement
 const ALL_MODELS = [
   ...(PROVIDERS.deepinfra ? DEEPINFRA_MODELS : []),
   ...(PROVIDERS.openrouter ? OPENROUTER_MODELS : []),
@@ -77,8 +77,20 @@ function pickRandom(arr, exclude = []) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-// Select models: 1 generator, 2 judges (all different)
+// Select models: prefer DeepInfra for reliability, mix in at most 1 OpenRouter
 function selectModels() {
+  const diModels = PROVIDERS.deepinfra ? DEEPINFRA_MODELS : [];
+  const orModels = PROVIDERS.openrouter ? OPENROUTER_MODELS : [];
+
+  if (diModels.length >= 3) {
+    // Pick 2 judges from DeepInfra, generator from DeepInfra or OpenRouter
+    const judge1 = pickRandom(diModels);
+    const judge2 = pickRandom(diModels, [judge1]);
+    const genPool = orModels.length > 0 && Math.random() < 0.3 ? orModels : diModels;
+    const gen = pickRandom(genPool, [judge1, judge2]);
+    return { gen, judges: [judge1, judge2] };
+  }
+  // Fallback: pick from whatever is available
   const gen = pickRandom(ALL_MODELS);
   const judge1 = pickRandom(ALL_MODELS, [gen]);
   const judge2 = pickRandom(ALL_MODELS, [gen, judge1]);
