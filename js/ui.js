@@ -736,6 +736,13 @@ export function setupMobileResize() {
           switchToVesselTab(first.dataset.vesselId);
         }
       }
+    } else {
+      // Desktop: remove mobile-active (no longer needed) and ensure
+      // all vessel columns are visible (CSS handles this, but clean up
+      // the class to avoid stale state)
+      document.querySelectorAll('.vessel-col.mobile-active').forEach(col => {
+        col.classList.remove('mobile-active');
+      });
     }
   });
 }
