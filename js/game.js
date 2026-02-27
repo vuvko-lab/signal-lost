@@ -7,6 +7,7 @@ import {
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
   INTERACTION_TEMPLATES, FACTION_DESIRES, WORLD_THREATS, SKILL_LOOT,
+  ARC_STRUCTURES, ARC_MODIFIERS, ENCOUNTER_THEMES,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -230,6 +231,7 @@ export function createVessel() {
       relay_mission: false,
       relay_pending: false,
       faction_mission: null,  // { label, zone_type, objective } when on faction priority
+      arc: null,  // procedural arc data — generated when entering SIGNAL
     },
     log: [],
     nextTick: Date.now() + randInt(3, 6) * 1000,  // first tick comes faster
@@ -239,6 +241,48 @@ export function createVessel() {
 
   state.vessels.push(vessel);
   return vessel;
+}
+
+// === PROCEDURAL ARC GENERATION ===
+
+function pickWeighted(items) {
+  const total = items.reduce((s, i) => s + (i.weight || 1), 0);
+  let roll = Math.random() * total;
+  for (const item of items) {
+    roll -= (item.weight || 1);
+    if (roll <= 0) return item;
+  }
+  return items[items.length - 1];
+}
+
+function generateArc(vessel) {
+  const structure = pickWeighted(ARC_STRUCTURES);
+  const modifier = pickWeighted(ARC_MODIFIERS);
+  const theme = pickWeighted(ENCOUNTER_THEMES);
+
+  // Higher arc count unlocks harder structures
+  const arcCount = vessel.mission.arc_count || 0;
+  let phases = [...structure.phases];
+
+  // Difficulty scaling: after arc 5, chance of adding extra FAULT
+  if (arcCount >= 5 && Math.random() < 0.3) {
+    const coreIdx = phases.lastIndexOf('CORE');
+    if (coreIdx > 0) {
+      phases.splice(coreIdx, 0, 'FAULT');
+    }
+  }
+
+  return {
+    structure_id: structure.id,
+    structure_name: structure.name,
+    modifier_id: modifier.id,
+    modifier_name: modifier.name,
+    modifier_effect: modifier.effect,
+    theme_id: theme.id,
+    theme_name: theme.name,
+    phases,
+    phase_index: 0,
+  };
 }
 
 // === TEMPLATE ENGINE ===
@@ -594,7 +638,8 @@ export function tick(vessel) {
   }
 
   // Loot chance during TRAVERSE and CORE — skill loot improves vessel abilities
-  if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < 0.3) {
+  const lootBonus = vessel.mission.arc?.modifier_effect?.loot_chance_bonus || 0;
+  if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < (0.3 + lootBonus)) {
     if (vessel.inventory.length < 8) {
       const item = pick(SKILL_LOOT);
       vessel.inventory.push(item);
@@ -676,8 +721,19 @@ export function tick(vessel) {
     }
   }
 
+  // Apply arc modifier effects
+  if (vessel.mission.arc?.modifier_effect) {
+    const fx = vessel.mission.arc.modifier_effect;
+    if (fx.energy_drain) vessel.energy = Math.max(0, vessel.energy - fx.energy_drain);
+    if (fx.integrity_regen) vessel.integrity = Math.min(10, vessel.integrity + fx.integrity_regen);
+  }
+
   // Schedule next tick — delay varies by phase and vessel condition
-  vessel.nextTick = Date.now() + getTickDelay(vessel);
+  let tickDelay = getTickDelay(vessel);
+  if (vessel.mission.arc?.modifier_effect?.tick_delay_mult) {
+    tickDelay = Math.floor(tickDelay * vessel.mission.arc.modifier_effect.tick_delay_mult);
+  }
+  vessel.nextTick = Date.now() + tickDelay;
 
   state.tick_count++;
 
@@ -690,20 +746,52 @@ export function tick(vessel) {
 }
 
 function advancePhase(vessel) {
-  const currentIdx = PHASES.indexOf(vessel.mission.phase);
-  const nextIdx = (currentIdx + 1) % PHASES.length;
-  const nextPhase = PHASES[nextIdx];
+  let nextPhase;
+
+  if (vessel.mission.arc) {
+    // Procedural arc — advance through arc's custom phase sequence
+    vessel.mission.arc.phase_index++;
+    if (vessel.mission.arc.phase_index >= vessel.mission.arc.phases.length) {
+      // Arc complete — loop back to IDLE
+      nextPhase = 'IDLE';
+      vessel.mission.arc = null;
+    } else {
+      nextPhase = vessel.mission.arc.phases[vessel.mission.arc.phase_index];
+    }
+  } else {
+    // No arc yet (IDLE) or fallback — use standard phase progression
+    const currentIdx = PHASES.indexOf(vessel.mission.phase);
+    const nextIdx = (currentIdx + 1) % PHASES.length;
+    nextPhase = PHASES[nextIdx];
+  }
 
   if (nextPhase === 'IDLE') {
     vessel.mission.arc_count++;
     // Reset mission type at end of arc
     vessel.mission.relay_mission = false;
     vessel.mission.faction_mission = null;
+    vessel.mission.arc = null;
   }
 
   vessel.mission.phase = nextPhase;
   vessel.mission.progress = 0;
   vessel.mission.target = PHASE_ENTRY_COUNTS[nextPhase]();
+
+  // Generate procedural arc when entering SIGNAL
+  if (nextPhase === 'SIGNAL' && !vessel.mission.arc) {
+    vessel.mission.arc = generateArc(vessel);
+    // Log arc type if it's not standard
+    if (vessel.mission.arc.structure_id !== 'linear') {
+      const arcEntry = {
+        time: formatTime(Date.now()),
+        text: `[ARC] Mission profile: ${vessel.mission.arc.structure_name}. ${vessel.mission.arc.modifier_name ? `Modifier: ${vessel.mission.arc.modifier_name}.` : ''} Theater: ${vessel.mission.arc.theme_name}.`,
+        phase: 'SIGNAL',
+        isEvent: false,
+      };
+      vessel.log.push(arcEntry);
+      if (onLogEntry) onLogEntry(vessel.id, arcEntry);
+    }
+  }
 
   // Mission assignment: when entering SIGNAL phase, roll for mission type
   // Priority order: player relay > threat containment > SAT relay > faction > exploration

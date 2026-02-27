@@ -296,18 +296,23 @@ export function updatePhase(vesselId) {
   const col = document.getElementById(`col-${vesselId}`);
   if (!col) return;
 
-  const currentIdx = PHASES.indexOf(vessel.mission.phase);
   const phaseLabel = col.querySelector('.phase-label');
   phaseLabel.innerHTML = `<img class="icon" src="${PHASE_ICONS[vessel.mission.phase] || PHASE_ICONS.IDLE}" alt="">${vessel.mission.phase}`;
   phaseLabel.dataset.tooltip = PHASE_DESCRIPTIONS[vessel.mission.phase] || '';
   col.querySelector('.arc-count').textContent = `Arc #${vessel.mission.arc_count}`;
 
-  const segments = col.querySelectorAll('.phase-seg');
-  segments.forEach((seg, i) => {
-    seg.className = 'phase-seg';
-    if (i < currentIdx) seg.classList.add('completed');
-    else if (i === currentIdx) seg.classList.add('active');
-  });
+  // Rebuild phase segments to match procedural arc length
+  const arcPhases = vessel.mission.arc ? vessel.mission.arc.phases : PHASES;
+  const arcIdx = vessel.mission.arc ? vessel.mission.arc.phase_index : PHASES.indexOf(vessel.mission.phase);
+  const segContainer = col.querySelector('.phase-segments');
+  if (segContainer) {
+    segContainer.innerHTML = arcPhases.map((p, i) => {
+      let cls = 'phase-seg';
+      if (i < arcIdx) cls += ' completed';
+      else if (i === arcIdx) cls += ' active';
+      return `<div class="${cls}" data-tooltip="${escAttr(PHASE_DESCRIPTIONS[p] || p)}" title="${p}"></div>`;
+    }).join('');
+  }
 
   // Update objective
   updateObjective(vesselId);

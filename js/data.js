@@ -737,6 +737,66 @@ export const WORLD_THREATS = [
   },
 ];
 
+// === PROCEDURAL ARC GENERATION ===
+
+// Arc structure templates — determine the shape of each mission
+export const ARC_STRUCTURES = [
+  {
+    id: 'linear',
+    name: 'Standard Arc',
+    weight: 4,
+    phases: ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'FAULT', 'CORE', 'REBOOT'],
+    desc: 'Standard 7-phase mission cycle',
+  },
+  {
+    id: 'compressed',
+    name: 'Quick Strike',
+    weight: 2,
+    phases: ['IDLE', 'SIGNAL', 'BREACH', 'CORE', 'REBOOT'],
+    desc: 'Fast 5-phase arc — skip traverse, go straight to target',
+  },
+  {
+    id: 'grueling',
+    name: 'Deep Expedition',
+    weight: 2,
+    phases: ['IDLE', 'SIGNAL', 'TRAVERSE', 'TRAVERSE', 'BREACH', 'FAULT', 'FAULT', 'CORE', 'REBOOT'],
+    desc: 'Extended arc with double traverse and double fault — high risk, high reward',
+  },
+  {
+    id: 'stealth',
+    name: 'Infiltration',
+    weight: 1,
+    phases: ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'BREACH', 'CORE', 'REBOOT'],
+    desc: 'Double breach — requires overcoming layered security',
+  },
+  {
+    id: 'siege',
+    name: 'Siege Operation',
+    weight: 1,
+    phases: ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'FAULT', 'CORE', 'FAULT', 'CORE', 'REBOOT'],
+    desc: 'Two assault waves — breach fails, regroup, try again',
+  },
+];
+
+// Arc modifiers — applied on top of structure, alter difficulty and flavor
+export const ARC_MODIFIERS = [
+  { id: 'none', name: null, weight: 5, effect: {} },
+  { id: 'signal_degraded', name: 'SIGNAL DEGRADED', weight: 2, effect: { tick_delay_mult: 1.5 }, desc: 'Weak signal — slower tick progression' },
+  { id: 'hostile_weather', name: 'HOSTILE WEATHER', weight: 2, effect: { energy_drain: 1 }, desc: 'Environmental hazards drain extra energy each phase' },
+  { id: 'architect_interference', name: 'ARCHITECT INTERFERENCE', weight: 1, effect: { damage_bonus: 1 }, desc: 'Architect systems active — all damage increased' },
+  { id: 'swarm_assist', name: 'SWARM ASSIST', weight: 1, effect: { integrity_regen: 1 }, desc: 'Friendly swarm units provide repair support' },
+  { id: 'data_rich', name: 'DATA-RICH ZONE', weight: 2, effect: { loot_chance_bonus: 0.15 }, desc: 'High salvage density — better loot chances' },
+];
+
+// Encounter themes — layered onto arc to determine what populates each phase
+export const ENCOUNTER_THEMES = [
+  { id: 'ruins', name: 'Urban Ruins', weight: 3, npcs: ['scavenger', 'patrol', 'puppet'], hazards: ['collapse', 'radiation', 'checkpoint'] },
+  { id: 'architect', name: 'Architect Installation', weight: 2, npcs: ['sentinel', 'fractal', 'headhunter'], hazards: ['basilisk', 'defense_grid', 'air_gap'] },
+  { id: 'nanoswarm', name: 'Nanoswarm Territory', weight: 2, npcs: ['creeper', 'wastewalker', 'swarm_fragment'], hazards: ['dissolution', 'signal_corruption', 'crystallization'] },
+  { id: 'underground', name: 'Underground Complex', weight: 3, npcs: ['archivist_crawler', 'reactor_guardian', 'maintenance_bot'], hazards: ['flood', 'cave_in', 'power_surge'] },
+  { id: 'orbital', name: 'Orbital Infrastructure', weight: 1, npcs: ['relay_ai', 'defense_satellite', 'debris_swarm'], hazards: ['vacuum', 'fence_proximity', 'solar_exposure'] },
+];
+
 // === HELPERS ===
 
 export const DIRECTIONS = ['north', 'south', 'east', 'west', 'northeast', 'northwest', 'southeast', 'southwest'];
