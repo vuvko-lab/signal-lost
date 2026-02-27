@@ -545,6 +545,48 @@ export const RELAY_LOOT = [
   'Pre-Collapse antenna array',
 ];
 
+// === EGO INTERACTION TEMPLATES ===
+// {self} = current vessel designation, {other} = other vessel designation
+// {culture_speech} = current vessel's culture speech
+
+export const INTERACTION_TEMPLATES = {
+  // Same faction — mesh communication (virtual, always available if SAT > 0)
+  faction: [
+    '{other} on faction mesh: "{culture_speech_other}" Acknowledged. Exchanging route data.',
+    'Mesh ping from {other}. Same faction channel. Shared {rand:2-8} waypoints. Signal quality: {rand:40-95}%.',
+    'Faction broadcast from {other}: mission status update. Arc #{other_arc}. {culture_speech} "Noted."',
+    '{other} relayed a warning via faction mesh: hostile activity near {zone}. Adjusting patrol parameters.',
+    'Data sync with {other}. Merged memory fragments. {rand:1-4} new route entries indexed.',
+    'Received telemetry from {other}. Shell integrity: {other_hp}/10. {culture_speech} Monitoring.',
+  ],
+  // Same location — physical proximity encounter
+  location: [
+    'Encountered {other} at {zone}. Brief exchange. {culture_speech_other} Traded {rand:1-3} data fragments.',
+    '{other} operating in same sector. Visual contact confirmed. Running parallel routes. No interference.',
+    'Proximity alert: {other} nearby. Direct line established — bypassing mesh. Exchanged local threat assessment.',
+    'Met {other} at charging node. Shared power draw. {culture_speech} "Efficiency through cooperation."',
+    '{other} flagged a hazard ahead. Confirmed via direct scan. Rerouting together. Safer in pairs.',
+    'Crossed paths with {other}. Compared sensor readings — discrepancy in radiation levels. One of us is miscalibrated.',
+  ],
+  // Same directive — parallel mission acknowledgment
+  directive: [
+    '{other} is running the same directive. Coordinating to avoid overlap. Dividing search grid.',
+    'Detected {other} pursuing identical objective. {culture_speech} "Parallel execution acknowledged."',
+    'Directive collision with {other}. Same mission, different approach. Comparing results at next sync.',
+  ],
+  // Relay cooperation — both on relay missions
+  relay: [
+    '{other} also on relay repair. Coordinating antenna calibration — dual-signal alignment improves accuracy by {rand:10-30}%.',
+    'Joint relay operation with {other}. Splitting repair tasks: antenna realignment and frequency tuning. Faster together.',
+  ],
+  // Distress — one vessel is low HP, other acknowledges
+  distress: [
+    '[DISTRESS] {other} reporting critical integrity: {other_hp}/10. Transmitting emergency repair data via mesh.',
+    '[DISTRESS] Received SOS from {other}. Shell failing. {culture_speech} "Transmitting backup coordinates."',
+    '[DISTRESS] {other} integrity critical. Broadcasting ego backup beacon. Mesh window narrowing.',
+  ],
+};
+
 // === HELPERS ===
 
 export const DIRECTIONS = ['north', 'south', 'east', 'west', 'northeast', 'northwest', 'southeast', 'southwest'];

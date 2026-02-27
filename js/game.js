@@ -6,6 +6,7 @@ import {
   LOOT, NPCS, WEATHER, OBSTACLES, CS_SNIPPETS, PHASE_TEMPLATES,
   PHENOMENA, DIRECTIONS, PHASE_OBJECTIVES,
   RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT,
+  INTERACTION_TEMPLATES,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -197,6 +198,99 @@ function generateLogText(vessel) {
   return fillTemplate(template, vessel);
 }
 
+// === EGO INTERACTION ===
+
+function fillInteractionTemplate(template, vessel, other) {
+  const culture = CULTURES[vessel.culture];
+  const otherCulture = CULTURES[other.culture];
+  return template
+    .replace(/\{self\}/g, vessel.designation)
+    .replace(/\{other\}/g, other.designation)
+    .replace(/\{culture_speech\}/g, pick(culture.speech))
+    .replace(/\{culture_speech_other\}/g, pick(otherCulture.speech))
+    .replace(/\{zone\}/g, vessel.location)
+    .replace(/\{other_hp\}/g, other.integrity)
+    .replace(/\{other_arc\}/g, other.mission.arc_count)
+    .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)));
+}
+
+function checkInteraction(vessel) {
+  if (!state || state.vessels.length < 2) return;
+
+  // 25% chance per tick to trigger an interaction
+  if (Math.random() > 0.25) return;
+
+  // Find candidates — other vessels that share something
+  const others = state.vessels.filter(v => v.id !== vessel.id);
+  if (others.length === 0) return;
+
+  // Build weighted candidate list
+  const candidates = [];
+  for (const other of others) {
+    // Distress — other vessel is critically low HP (priority)
+    if (other.integrity <= 3) {
+      candidates.push({ other, type: 'distress', weight: 3 });
+    }
+    // Both on relay missions
+    if (vessel.mission.relay_mission && other.mission.relay_mission) {
+      candidates.push({ other, type: 'relay', weight: 2 });
+    }
+    // Same faction — mesh communication (requires SAT > 0)
+    if (vessel.culture === other.culture && state.world.satellite_health > 0) {
+      candidates.push({ other, type: 'faction', weight: 2 });
+    }
+    // Same location — physical encounter
+    if (vessel.location === other.location) {
+      candidates.push({ other, type: 'location', weight: 3 });
+    }
+    // Same directive
+    if (vessel.directive === other.directive) {
+      candidates.push({ other, type: 'directive', weight: 1 });
+    }
+  }
+
+  if (candidates.length === 0) return;
+
+  // Weighted random selection
+  const totalWeight = candidates.reduce((s, c) => s + c.weight, 0);
+  let roll = Math.random() * totalWeight;
+  let chosen = candidates[0];
+  for (const c of candidates) {
+    roll -= c.weight;
+    if (roll <= 0) { chosen = c; break; }
+  }
+
+  const templates = INTERACTION_TEMPLATES[chosen.type];
+  if (!templates || templates.length === 0) return;
+
+  const template = pick(templates);
+  const time = formatTime(Date.now());
+  const text = fillInteractionTemplate(template, vessel, chosen.other);
+
+  // Log on the current vessel
+  const entry = {
+    time,
+    text: `[MESH] ${text}`,
+    phase: vessel.mission.phase,
+    isEvent: false,
+  };
+  vessel.log.push(entry);
+  if (onLogEntry) onLogEntry(vessel.id, entry);
+
+  // Mirror entry on the other vessel — they see the interaction too
+  const mirrorText = fillInteractionTemplate(
+    pick(templates), chosen.other, vessel
+  );
+  const mirrorEntry = {
+    time,
+    text: `[MESH] ${mirrorText}`,
+    phase: chosen.other.mission.phase,
+    isEvent: false,
+  };
+  chosen.other.log.push(mirrorEntry);
+  if (onLogEntry) onLogEntry(chosen.other.id, mirrorEntry);
+}
+
 // === TICK ===
 
 function formatTime(date) {
@@ -216,6 +310,9 @@ export function tick(vessel) {
 
   vessel.log.push(entry);
   if (vessel.log.length > 100) vessel.log.shift();  // cap log size
+
+  // Ego-to-ego interaction check
+  checkInteraction(vessel);
 
   // Apply stat changes
   const effectFn = PHASE_EFFECTS[vessel.mission.phase];
