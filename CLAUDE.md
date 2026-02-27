@@ -20,12 +20,11 @@ design/           # Game design documents (8 files)
   technical.md    # Tech stack, game state schema, visual direction
   assets.md       # Audio/visual/font inventory and licenses
   scope.md        # MVP priorities, open questions
-assets/           # Downloaded asset packs (DO NOT commit zips)
-  ambient/                # 5 OGG ambient noise loops (~2MB total)
-  GloryToTheMachine/      # 11 MP3 background music tracks (~30MB)
-  Glitch Noises (WAV)/    # 1101 WAV files, CC0, by Vladislav Zharkov
-  Game UI collection FREE version/  # UI kit by SunGraphica
-  FREE/                   # Icon set by SunGraphica
+assets/           # Game assets (only used files tracked)
+  ambient/                # 9 OGG ambient noise loops
+  GloryToTheMachine/      # 3 OGG background music tracks
+  icons/                  # 7 PNG UI icons
+  favicon.png             # Browser tab icon
 tools/            # LLM judge, narrative simulation, cover GIF, dedup
 ```
 
