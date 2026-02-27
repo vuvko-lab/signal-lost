@@ -9,17 +9,9 @@ let noiseTimer = null;
 
 // Background music tracks (one plays at a time, randomly selected)
 const BG_TRACKS = [
-  'assets/GloryToTheMachine/NASOD.ogg',
-  'assets/GloryToTheMachine/CYPHER.ogg',
-  'assets/GloryToTheMachine/WATER_LVL - GLORYTOTHEMACHINE.ogg',
-  'assets/GloryToTheMachine/WALKING_ON_WATER.ogg',
-  "assets/GloryToTheMachine/SATURN'S_RING - GLORYTOTHEMACHINE.ogg",
-  'assets/GloryToTheMachine/NOSTALGIA - GLORYTOTHEMACHINE.ogg',
-  'assets/GloryToTheMachine/UNKNOWN_ENTITY - GLORYTOTHEMACHINE.ogg',
-  'assets/GloryToTheMachine/WATERBENDER - GLORYTOTHEMACHINE.ogg',
-  'assets/GloryToTheMachine/CYBER_CELESTE - GLORYTOTHEMACHINE.ogg',
   'assets/GloryToTheMachine/BIOHAZARD - GLORYTOTHEMACHINE.ogg',
-  'assets/GloryToTheMachine/XTRA001 ; PEACEFUL_FIREWORKS.ogg',
+  'assets/GloryToTheMachine/NASOD.ogg',
+  'assets/GloryToTheMachine/WALKING_ON_WATER.ogg',
 ];
 
 // Ambient noise layers — intermittent, tagged by location keywords
