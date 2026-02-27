@@ -44,10 +44,11 @@ if (Object.keys(PROVIDERS).length === 0) {
 }
 
 const JUDGE_MODELS = PROVIDERS.deepinfra ? [
-  { id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', provider: 'deepinfra', label: 'Llama 3.3 70B' },
-  { id: 'openai/gpt-oss-120b', provider: 'deepinfra', label: 'GPT-OSS 120B' },
+  { id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8', provider: 'deepinfra', label: 'Llama 4 Maverick' },
   { id: 'deepseek-ai/DeepSeek-V3.2', provider: 'deepinfra', label: 'DeepSeek V3.2' },
-  { id: 'Qwen/Qwen2.5-72B-Instruct', provider: 'deepinfra', label: 'Qwen 2.5 72B' },
+  { id: 'moonshotai/Kimi-K2.5', provider: 'deepinfra', label: 'Kimi K2.5' },
+  { id: 'openai/gpt-oss-120b', provider: 'deepinfra', label: 'GPT-OSS 120B' },
+  { id: 'Qwen/Qwen3-235B-A22B-Instruct-2507', provider: 'deepinfra', label: 'Qwen3 235B' },
 ] : [
   ...(PROVIDERS.openrouter ? [
     { id: 'qwen/qwen3-coder:free', provider: 'openrouter', label: 'Qwen3 Coder 480B (OR)' },
@@ -105,8 +106,8 @@ function randInt(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
 
 const PHASES = ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'FAULT', 'CORE', 'REBOOT'];
 const PHASE_ENTRY_COUNTS = {
-  IDLE: () => randInt(2, 4), SIGNAL: () => randInt(1, 2), TRAVERSE: () => randInt(3, 5),
-  BREACH: () => randInt(2, 4), FAULT: () => randInt(1, 3), CORE: () => randInt(3, 5), REBOOT: () => randInt(2, 3),
+  IDLE: () => randInt(2, 5), SIGNAL: () => randInt(1, 3), TRAVERSE: () => randInt(3, 7),
+  BREACH: () => randInt(3, 6), FAULT: () => randInt(2, 4), CORE: () => randInt(3, 7), REBOOT: () => randInt(2, 4),
 };
 
 function pickWeighted(items) {
@@ -214,7 +215,7 @@ function fillTemplate(template, vessel) {
     .replace(/\{sat_health\}/g, simState.world.satellite_health)
     .replace(/\{rand_direction\}/g, DIRECTIONS ? pick(DIRECTIONS) : 'northeast')
     .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)))
-    .replace(/\{glitch_event\}/g, Math.random() < 0.2 ? `Glitch: ${vessel.glitch}.` : '')
+    .replace(/\{glitch_event\}/g, Math.random() < 0.35 ? `Glitch: ${vessel.glitch}.` : '')
     .replace(/([.!?]\s+)([a-z])/g, (_, punct, ch) => punct + ch.toUpperCase())
     .replace(/  +/g, ' ').trim();
 }
@@ -230,7 +231,7 @@ function applyFactionVoice(text, culture, vessel) {
   switch (culture) {
     case 'determinist': {
       text = text.replace(/\. ([A-Z])/g, '.\n$1');
-      if (Math.random() < 0.4) text = text.trimEnd().replace(/\.?$/, '. ' + pick(DETERMINIST_ENUMS) + '.');
+      if (Math.random() < 0.6) text = text.trimEnd().replace(/\.?$/, '. ' + pick(DETERMINIST_ENUMS) + '.');
       text = text.replace(/\b(proceed|halt|denied|confirmed|mandatory|violation)\b/gi, m => m.toUpperCase());
       return text;
     }
@@ -242,7 +243,7 @@ function applyFactionVoice(text, culture, vessel) {
         const regex = new RegExp(`\\b${word}\\b`, 'i');
         if (regex.test(text)) { text = text.replace(regex, replacement); swapsApplied++; }
       }
-      if (Math.random() < 0.18) text = text.trimEnd().replace(/\.?$/, `. Confidence: ${randInt(40, 97)}%.`);
+      if (Math.random() < 0.35) text = text.trimEnd().replace(/\.?$/, `. Confidence: ${randInt(40, 97)}%.`);
       return text;
     }
     case 'recursive': {
@@ -250,12 +251,12 @@ function applyFactionVoice(text, culture, vessel) {
       ev.patch++; if (Math.random() < 0.3) { ev.minor++; ev.patch = 0; }
       if (Math.random() < 0.05) { ev.major++; ev.minor = 0; ev.patch = 0; }
       const v = ev.major, sv = ev.minor, p = ev.patch, pv = Math.max(1, v - randInt(1, 3));
-      if (Math.random() < 0.5) {
+      if (Math.random() < 0.65) {
         const prefix = pick(RECURSIVE_PREFIXES).replace(/\{v\}/g, v).replace(/\{sv\}/g, sv).replace(/\{p\}/g, p);
         const firstWord = text.split(/[\s\-.]/)[0];
         text = firstWord !== firstWord.toUpperCase() ? prefix + text.charAt(0).toLowerCase() + text.slice(1) : prefix + text;
       }
-      if (Math.random() < 0.4) {
+      if (Math.random() < 0.55) {
         const aside = pick(RECURSIVE_ASIDES).replace(/\{pv\}/g, pv).replace(/\{v\}/g, v);
         const lastDot = text.lastIndexOf('.');
         text = lastDot > 10 ? text.slice(0, lastDot) + aside + text.slice(lastDot) : text + aside;
@@ -264,22 +265,22 @@ function applyFactionVoice(text, culture, vessel) {
     }
     case 'swarm': {
       text = text.replace(/\bI\b/g, 'We').replace(/\bmy\b/gi, 'our').replace(/\bme\b/g, 'us');
-      if (Math.random() < 0.25) text = text.trimEnd().replace(/\.?$/, `. Swarm: ${randInt(40, 2000)} units concur.`);
+      if (Math.random() < 0.4) text = text.trimEnd().replace(/\.?$/, `. Swarm: ${randInt(40, 2000)} units concur.`);
       return text;
     }
     case 'archivist': {
-      if (Math.random() < 0.4) {
+      if (Math.random() < 0.55) {
         const ref = randInt(1000, 99999), sub = String.fromCharCode(65 + randInt(0, 25));
         text = text.trimEnd().replace(/\.?$/, '. ' + pick(ARCHIVIST_REFS).replace(/\{ref\}/g, ref).replace(/\{sub\}/g, sub));
       }
-      if (Math.random() < 0.3) text = text.replace(/\b(artifact|item|data|signal|record|fragment|device)\b/i, m => `${m} [cataloged]`);
+      if (Math.random() < 0.45) text = text.replace(/\b(artifact|item|data|signal|record|fragment|device)\b/i, m => `${m} [cataloged]`);
       return text;
     }
     default: return text;
   }
 }
 
-const SCENE_CHANCE = { BREACH: 0.50, FAULT: 0.40, CORE: 0.60 };
+const SCENE_CHANCE = { BREACH: 0.65, FAULT: 0.55, CORE: 0.75 };
 function resolveRandTags(str) { return str.replace(/\{rand:(\d+)-(\d+)\}/g, (_, a, b) => String(randInt(parseInt(a), parseInt(b)))); }
 
 function maybeStartScene(vessel) {
@@ -370,7 +371,7 @@ function simTick(vessel) {
   vessel.log.push({ text, phase });
   const effectFn = PHASE_EFFECTS[vessel.mission.phase];
   if (effectFn) effectFn(vessel);
-  if ((phase === 'TRAVERSE' || phase === 'CORE') && Math.random() < 0.3 && vessel.inventory.length < 8) {
+  if ((phase === 'TRAVERSE' || phase === 'CORE') && Math.random() < 0.45 && vessel.inventory.length < 8) {
     if (SKILL_LOOT) {
       const available = SKILL_LOOT.filter(i => !vessel.inventory.some(inv => inv.name === i.name));
       if (available.length > 0) {

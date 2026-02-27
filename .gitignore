@@ -26,6 +26,8 @@ tools/cover/frames.txt
 tools/narrative-transcripts.txt
 tools/narrative-judge-raw-*.txt
 tools/narrative-judge-report.json
-tools/judge-coherence.md
 tools/judge-judge-report.json
 tools/judge-judge-raw-*.txt
+tools/judge-report.json
+tools/judge-expansions.json
+tools/judge-scene-expansions.json

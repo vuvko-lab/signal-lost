@@ -86,8 +86,16 @@ All assets are free/CC0/CC BY. See `design/assets.md` for full license table.
 
 ## Tooling
 
-- `tools/llm-judge.mjs` — LLM-as-judge: evaluates and expands templates + scenes via multi-provider LLM APIs (DeepInfra + OpenRouter). Usage: `--expand` to generate new content, `--apply` to inject into data.js
-- `tools/narrative-judge.mjs` — Headless game simulation: generates multi-arc vessel transcripts and sends to LLM for holistic narrative quality review. Usage: `--vessels N --arcs N`
+LLM-as-judge pipeline for narrative quality (see `tools/README.md` for full docs):
+
+```text
+judge-judge.mjs  -->  llm-judge.mjs --expand --apply  -->  narrative-judge.mjs
+(pick models)         (expand templates)                    (evaluate full arcs)
+```
+
+- `tools/judge-judge.mjs` — Meta-evaluation: tests which LLM judges are consistent and can discriminate corrupted transcripts. Results in `tools/judge-coherence.md`
+- `tools/llm-judge.mjs` — Template-level evaluation and expansion. `--expand` generates new content, `--apply` injects into data.js
+- `tools/narrative-judge.mjs` — Full simulation review: headless game engine → multi-arc transcripts → LLM holistic scoring (10 criteria)
 - `tools/dedup-templates.mjs` — Removes duplicate template strings from data.js arrays
 - `tools/gen-cover-gif.py` — Playwright-based animated GIF generator for itch.io cover image
 

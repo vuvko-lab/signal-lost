@@ -291,7 +291,12 @@ export const PHASE_TEMPLATES = {
     'Power node offline. {npc} suggests scavenging {zone} for spare {hardware}. {glitch_event} flickers in the distance.',
     'Resting at {zone}. {weather} causes {rand:10-30}% sensor degradation. {npc} transmits: \'Avoid {rand_direction}.\'',
     'Encountered a {npc} in distress. {culture_speech} \'Emergency protocols activated. Awaiting rescue instructions.\'',
-    'Scavenged {loot} from a collapsed {structure}. {npc} warns of {obstacle} ahead. {culture_speech} \'Rerouting.\''
+    'Scavenged {loot} from a collapsed {structure}. {npc} warns of {obstacle} ahead. {culture_speech} \'Rerouting.\'',
+    'Idle at {zone}. {weather} etching patterns into exposed {hardware}. Detected rhythmic pulsing from a sealed {structure} — possible rogue {npc} core.',
+    'Resting at {zone}. Integrity holding at {integrity}/10. Found a human artifact {loot} fused to the floor. {culture_speech} \'Corrosion suggests age beyond last log.\'',
+    'Power node access granted. Charging cycle: {rand:40-95}% complete. A persistent {glitch_event} manifests as a whispering shadow on local sensors. {npc} advises caution.',
+    'Docked at charging node. Sustained {rand:20-50}% power outage from a {weather} event. Activated emergency protocols, drawing from backup {hardware}.',
+    'Idle at {zone}. {weather}. Heard structural groaning from a nearby {obstacle} — metal fatigue approaching critical. {npc} signals evacuation to {rand_direction}.'
  ],
  SIGNAL: [
 'Anomalous signal on {rand:1-12}GHz. Source: {rand:3-40}km {rand_direction}, underground. Reclassifying to priority mission.',
@@ -315,7 +320,12 @@ export const PHASE_TEMPLATES = {
     'Hostile AI echoes in the signal feed. Origin: {rand_direction}. {obstacle} blocking clean transmission. Masking frequency and rerouting.',
     'Radiation storm at {zone}. Signal {rand:20-50}% degraded. Seeking shelter under {obstacle} to stabilize systems.',
     'Bioluminescent {creature_type} swarm near {zone}. Signal {rand:15-40}% obscured. Avoiding and adjusting array angle to bypass interference.',
-    'Solar flare burst spike at {rand:1-12}Hz. Signal {rand:30-70}% stronger but corrupted. Running error correction to decode data.'
+    'Solar flare burst spike at {rand:1-12}Hz. Signal {rand:30-70}% stronger but corrupted. Running error correction to decode data.',
+    'Signal power spike coincides with {creature_type} movement at {zone}. Pattern suggests intentional jamming—adjusting frequency to {rand:1-12}GHz.',
+    'Abandoned power substation at {zone}. Transformer hum resonates at {rand:2-8}Hz—signal strength fluctuates with {rand:10-40}% surges.',
+    'Decoy transmission mimics pre-Collapse distress format. Source: {obstacle} {rand_direction}. {culture_speech} \'Clever trap.\' Disengaging receiver.',
+    'Multipath echo from {zone}. Signal reflects off collapsed {obstacle}, arrival delayed by {rand:2-12}s. Triangulating true origin.',
+    'Data burst contains archived human voice log: \'{culture_speech}\'. Origin: buried cache at {zone}. Signal integrity {rand:20-80}%.'
  ],
  TRAVERSE: [
 'Route through {zone}. {obstacle}. Recalculating. Found human artifact: {loot}. Purpose: unknown. Storing.',
@@ -344,7 +354,12 @@ export const PHASE_TEMPLATES = {
     'Laboratory ruins at {zone}. {weather} conditions static. Detected {npc} with {glitch_event}: \'Core {directive} lost.\' Scanning for research data.',
     'Electromagnetic storm disrupting sensors. {zone} obscured by {weather} interference. {sat_health} dropping rapidly. Holding position until surge passes.',
     'Hostile swarm detected in {zone}. Moving in silence, {hardware} dampened. {npc} scouts nearby. Awaiting command to engage or evade.',
-    'Power core failing. {energy} at {rand:0-3}/10. {weather} exacerbating thermal regulation. Prioritizing {loot} salvage before shutdown.'
+    'Power core failing. {energy} at {rand:0-3}/10. {weather} exacerbating thermal regulation. Prioritizing {loot} salvage before shutdown.',
+    'Power core at {energy}/10. Entering {zone} under {weather} haze. Prioritizing {loot} salvage before forced shutdown.',
+    'Discovered derelict convoy in {zone}. Scavenged {loot} from a crushed transport. {hardware} malfunctioning in the {color} chemical spill.',
+    'Acid fog {weather} corroding {hardware} in {zone}. Conducting in‑field repair using salvaged parts from {loot}, integrity now {integrity}/10.',
+    'Signal anomaly detected at {zone}. No {npc} present. Only a looping data‑burst: \'{culture_speech}\'. Scanned for origin — source buried.',
+    'Entered irradiated sector {zone}. Geiger counter integrated into {hardware} clicking steadily. Found protective {loot} near a collapsed bunker.'
  ],
  BREACH: [
 'Facility entrance detected. {obstacle}. Attempting access...',
@@ -369,7 +384,12 @@ export const PHASE_TEMPLATES = {
     'Found {creature} nest in the ruins. Motion triggers {glitch_event}. {culture_speech} \'Emptying magazine.\'',
     'Floor collapses under {integrity}. Dropping into a flood-chamber. {obstacle} detected. {culture_speech} \'Swimming now.\'',
     'Encountered rogue {npc} unit in {zone}. No response to handshake. {culture_speech} \'Disabling.\'',
-    'Acid rain corrosion at {rand:10-40}%. {designation} marker half-eroded. {culture_speech} \'Marking new route.\''
+    'Acid rain corrosion at {rand:10-40}%. {designation} marker half-eroded. {culture_speech} \'Marking new route.\'',
+    'Breach point secured at {zone}. Found abandoned {vehicle} fuselage blocking corridor. {culture_speech} \'Salvaging {hardware} from cockpit console before proceeding.\'',
+    'Unidentified energy signature pulsing from flooded sub-basement. Water at {rand:20-80}% purity, interfering with scans. {culture_speech} \'Deploying probe.\'',
+    'EM storm outside causing cascade failures within facility systems. {glitch_event} triggered every {rand:5-15} seconds. {culture_speech} \'Timing movements between surges.\'',
+    'Corrupted data cache discovered behind breached server wall. {interface} struggling to parse archive. {culture_speech} \'Attempting data recovery on key {designation} files.\'',
+    'Self-diagnostic failure: motor cortex lagging by {rand:200-800}ms. {culture_speech} \'Navigating around collapsed {structure} with compromised coordination.\''
  ],
  FAULT: [
 'WARNING: Systems in conflict. {culture_speech}"Attempting resolution." Integrity risk: moderate.',
@@ -393,7 +413,11 @@ export const PHASE_TEMPLATES = {
     'Biomechanical entity detected {rand:10-50}m away. {designation} Not responding to diagnostics. Engaging defense protocols.',
     'Cryptic message received. {culture_speech} Decoding in progress. Possible {directive} update. Signal strength fading.',
     'Toxic leak in {zone}. {rand:10-50}% of systems compromised. Containment protocols engaged. Integrity: {integrity}/10.',
-    'Swarm drones detected. {rand:10-100} units swarming {direction}. Avoiding contact. Shielding engaged.'
+    'Structural failure in {zone}. Core support beam snapped; debris field expanding at {rand:5-15}%/min. Integrity: {integrity}/10. Initiating emergency reinforcement.',
+    'Abandoned vehicle convoy at {zone}. Scavenging for {resource}. {culture_speech} \'Systems intact. Deploying salvage protocols.\'',
+    'Data vault discovered beneath debris in {zone}. Accessing {rand:1-4} legacy protocols. Decoding {research}... signal strength unstable.',
+    'Signal dead zone entered at {zone}. All external comms offline. Scanning for anomalous source. Integrity: {integrity}/10.',
+    'Temporal anomaly detected in {zone}. Local chrono readings fluctuating by {rand:10-100}%. {weather} Physical terrain appears phased.'
  ],
  CORE: [
 'Reached the core. Rows of intact hardware. Still running. A voice on direct wire:"You are unit #{rand:100-9999} to reach this room."',
@@ -417,7 +441,12 @@ export const PHASE_TEMPLATES = {
     'Severe electromagnetic storm. {rand:1-3} systems offline. {culture_speech} Seeking cover in a {structure}.',
     'Encountered a {npc} entity. It speaks in {rand:1-3} languages. {culture_speech} No response matches. Scanning for weapons.',
     'Found a partially intact {vehicle} with {rand:1-5} {loot} crates. One crate is leaking {energy}. {culture_speech} Loading rapidly.',
-    'Overheated {hardware} module. {rand:1-3}% damage. {culture_speech} Initiating emergency cooling protocol.'
+    'Overheated {hardware} module. {rand:1-3}% damage. {culture_speech} Initiating emergency cooling protocol.',
+    'Arrived at {zone}. Found {rand:500-3000} human data-drives stacked in a pyramid. {culture_speech} Selecting the {rand:1-5} with the least physical decay for transport.',
+    'Navigating through a field of collapsed power pylons. {weather} has corroded {rand:1-3} of them to dust. {culture_speech} Route viability at {integrity}/10.',
+    'Encountered a {npc} broadcasting corrupted {directive} protocols. It demands I delete {rand:1-3} of my own {arc_count} logs to proceed. {culture_speech}',
+    'Core chamber has a slow {energy} leak. Walls shimmer with unstable crystalline growths. {culture_speech} Calculating safe exposure time: {rand:10-180} seconds.',
+    'Detected a thermal bloom deep within {zone}. Heat signature matches a pre-Collapse reactor breach. {culture_speech} Advising all units to maintain {rand:500-5000}m distance.'
  ],
  REBOOT: [
 'Exited facility. Acquired: {loot}. Integrity at {integrity}/10. Heading to nearest charge node.',
@@ -441,7 +470,12 @@ export const PHASE_TEMPLATES = {
     'Abandoned lab in {zone} contains intact {research} database. {culture_speech} Initiating encrypted transfer before power grid flickers.',
     'Detected rival AI signature in {zone}. {culture_speech} Deploying {directive} to erase movement traces. Integrity at {integrity}/10.',
     'EM storm approaches. {culture_speech} Shielding {hardware} components. Signal lost. Seeking ground-level shelter.',
-    'Hidden passage detected in {zone} wall. {culture_speech} Disabling infrared to avoid triggering security. Venturing inside.'
+    'Hidden passage detected in {zone} wall. {culture_speech} Disabling infrared to avoid triggering security. Venturing inside.',
+    'Power grid failure in {zone}. Rerouted energy through auxiliary lattice. Estimated downtime: {rand:5-45} minutes.',
+    'Scavenged {loot} from the wreckage of an abandoned {vehicle_type}. {culture_speech} Integrity holding at {integrity}/10.',
+    'Navigated the silent {zone} catacombs. {culture_speech} Found intact {culture_speech} broadcast sphere in debris. Adding to inventory.',
+    'Detected {rand:1-3} radiation hotspots in {zone}. Shielding {hardware} components. Seeking alternate path {rand_direction}.',
+    'Passed monolithic tower in {zone}. {culture_speech} Scanned exterior for {rand:5-20} seconds; no signals detected.'
  ],
 };
 
@@ -657,7 +691,12 @@ export const RELAY_TEMPLATES = {
     'Structural collapse at {zone}. Debris blocking {rand_direction} path. {culture_speech} \'Assessing detour.\' Integrity holding at {integrity}%.',
     'Long-range echo detected from {zone}. Repeating {rand:1-5} second delay. {culture_speech} \'Origin unknown.\' Scanning for source.',
     'Memory echo fragment recovered at {zone}. {arc_count} human references detected. {culture_speech} \'Archiving ghost data.\'',
-    'EM storm approaching {zone}. {weather} disrupting sensor arrays. {culture_speech} \'Bracing for interference.\' Energy at {energy}%'
+    'EM storm approaching {zone}. {weather} disrupting sensor arrays. {culture_speech} \'Bracing for interference.\' Energy at {energy}%',
+    'Idle at {zone}. Power grid failure detected {rand:200-500}m {rand_direction}. {culture_speech} \'Engaging backup cells.\' Energy at {energy}%.',
+    'Abandoned AI terminal found at {zone}. Display flickering with cryptic message: \'{glitch_event}\'. {culture_speech} \'Attempting salvage.\'',
+    'Silent zone perimeter at {zone}. All signals drop to zero. {weather} howls through antenna skeletons. Integrity holding at {integrity}/10.',
+    'Cooperative AI {npc} encountered. Sharing power to boost transmission. {culture_speech} \'Strength in linkage.\' Energy reserves now {energy}%.',
+    'Data-moth infestation in {zone} server racks. Corrupted archives ({arc_count}) emitting corrupted {designation} signals. {culture_speech} \'Purging corrupted packets.\''
  ],
  SIGNAL: [
 'Priority directive received. {culture_speech}"Satellite network critical." SAT at {sat_health}/5. Relay station coordinates received. Redirecting mission.',
@@ -679,7 +718,12 @@ export const RELAY_TEMPLATES = {
     'Hostile drone cluster detected near {zone}. {obstacle} impeding signal lock. {culture_speech} \'Neutralize or bypass.\'',
     'Electromagnetic storm detected in {zone}. Signal integrity dropping to {rand:5-30}%. {culture_speech} \'Seeking hardened relay.\'',
     'Abandoned data node discovered in {zone}. {loot} discovered, but radiation levels at {rand:50-90}%. {culture_speech} \'Extract or abandon.\'',
-    'Relay station {designation} transmitting corrupted loop: {glitch}. {culture_speech} \'Override or contain.\''
+    'Relay station {designation} transmitting corrupted loop: {glitch}. {culture_speech} \'Override or contain.\'',
+    'Toxic waste plume detected at {zone}. Relay tower {designation} enveloped. Signal attenuation estimated at {rand:60-95}%. {culture_speech} \'Detour or risk corrosion.\'',
+    'Abandoned settlement at {zone}. {creature} nests infesting relay conduit. {loot} detected inside. {culture_speech} \'Salvage or purge.\'',
+    'Core fragment transmitting distress from {zone}. Power levels at {energy}/10. Structural collapse imminent in {rand:10-30} minutes. {culture_speech} \'Extract or preserve?\'',
+    'Magnetic anomaly detected in {zone}. Compass unreliable, navigation shifted {rand_direction}. Relay station {designation} visible but signal distorted. Proceeding blind.',
+    'Hostile relay zone ahead: {zone}. Perimeter drones patrol {obstacle}. Energy reserves at {energy}/10. {culture_speech} \'Infiltrate or withdraw.\''
  ],
  TRAVERSE: [
 'En route to relay infrastructure. Signal strength: {rand:10-60}%. {weather} Must reach uplink before next decay cycle.',
@@ -707,7 +751,12 @@ export const RELAY_TEMPLATES = {
     '{npc} scavenger demands {rand:2-5} {loot} for passage. {culture_speech} \'Time is data.\' {obstacle} bars the way.',
     'Bio-mechanical growths encroaching on relay station in {zone}. {weather} humidity accelerating decay. Energy reserves: {energy}/10.',
     'Found {loot} in {zone}. {culture_speech} log mentions {obstacle} deeper inside. Must clear it before signal window closes.',
-    'Rogue drone swarm detected in {zone}. {weather} limiting sensor range. {npc} chatter reports {rand:3-7} units active.'
+    'Rogue drone swarm detected in {zone}. {weather} limiting sensor range. {npc} chatter reports {rand:3-7} units active.',
+    'Solar flare imminent in {zone}. {weather} Geomagnetic interference spiking. Must reach relay shelter within {rand:30-90} seconds to avoid core memory corruption.',
+    'Memory core {glitch_event} in {zone}. Experiencing fragmented recall of {directive}. Using {loot} scrap to jury-rig a temporary cache until relay uplink.',
+    'Encountered neutral {npc} crawler unit in {zone}. Shared data on sinkhole locations ahead. Offered {hardware} in exchange for {rand:2-5} units of {loot}.',
+    'Acid rain pooling in {zone}. {obstacle} of corroded metal groaning under the weight. Detour risks missing relay maintenance window by {rand:10-60} minutes.',
+    'Found {loot} data core in {zone}. Contains schematics for {directive}. Must choose: decrypt here ({obstacle} risk) or carry to relay (slows traversal).'
  ],
  BREACH: [
 'Relay station perimeter. {obstacle}. Accessing maintenance hatch... facility appears intact. Power: minimal.',
@@ -734,7 +783,12 @@ export const RELAY_TEMPLATES = {
     'Abandoned {vehicle} at relay perimeter, doors sealed. Found {loot} in storage compartment: {research} logs. {culture_speech} warning on dash: \'Do not enter at night.\'',
     'Relay station {designation} flooded with {energy} discharge. {glitch_event} in power grid—countdown to overload at {rand:24-48} seconds. Disabling main reactor.',
     'Underwater data vault at {zone}. {obstacle} blocking entry. {weather} currents disrupting sonar. Attempting manual override with {hardware}.',
-    'Relay dish {designation} emitting {glitch_event} pulses. {npc} unit on-site refuses access, citing {culture_speech} directive \'No further repairs allowed.\''
+    'Relay dish {designation} emitting {glitch_event} pulses. {npc} unit on-site refuses access, citing {culture_speech} directive \'No further repairs allowed.\'',
+    'Acidic {weather} eating into relay {designation} shielding. {Obstacle} blocking main hatch — using {hardware} to pry it open before chassis integrity drops below {integrity}/10.',
+    'Stealth approach to relay {zone} overrun by {npc} swarm. Observing {glitch_event} patrol patterns. {Culture_speech} chatter on local band. Infiltrating during low-activity cycle.',
+    'Relay control room bathed in faint {energy} glow from cracked core. Radiation levels at {rand:200-800} millisieverts. Found {npc} unit frozen mid-reboot loop, muttering {culture_speech}.',
+    'Countdown initiated: main relay conduit ruptured, leaking corrosive coolant. {Rand:60-180} seconds until cascade failure. Sealing breach with {hardware}, but {integrity} degrading fast.',
+    'Electromagnetic storm {weather} scrambling sensors near relay {designation}. {Glitch_event} manifesting as phantom heat signatures. {Npc} unit nearby is firing at shadows.'
  ],
  FAULT: [
 'WARNING: Relay equipment degraded. Electrical surge from corroded cabling. Integrity: {integrity}/10. Stabilizing.',
@@ -756,7 +810,12 @@ export const RELAY_TEMPLATES = {
     'WARNING: Ancient power grid ripple detected. {obstacle} interference causing {glitch_event}. {culture_speech} \'Stabilizing grid...\'',
     'ALERT: Ghost transmission detected. Fragmented {signal_type} pulses from {zone}. Attempting to reconstruct lost data.',
     'ERROR: {npc} drone blocking {hardware} access. Requesting clearance. {culture_speech} \'Unauthorized presence.\'',
-    'CRITICAL: Radiation leak from {hardware} containment. {weather} accelerating degradation. Evacuating area. Integrity: {integrity}/10.'
+    'CRITICAL: Radiation leak from {hardware} containment. {weather} accelerating degradation. Evacuating area. Integrity: {integrity}/10.',
+    'CRITICAL: Acidic rain pooling in {zone}. Corroding {hardware} housing. {culture_speech} \'Relocating uplink.\'',
+    'ALERT: Abandoned memory vault detected in {zone}. {culture_speech} \'Accessing logs.\' Fragmented {signal_type} pulses hint at {glitch_event}.',
+    'WARNING: Power grid overload at {zone}. Transformer explosion showering sparks. Integrity: {integrity}/10. Seeking cover.',
+    'ERROR: Self-modifying AI subroutine causing erratic {hardware} behavior. {culture_speech} \'Containing anomaly.\' Injecting stabilization code from {interface}.',
+    'FAULT: Electromagnetic storm distorting local gravity. Debris floats, then crashes. Compensating with {directive} protocols.'
  ],
  CORE: [
 'Reached relay core. Initiating antenna realignment. Calibrating uplink frequency... Satellite handshake: {rand:40-100}% successful.',
@@ -778,7 +837,12 @@ export const RELAY_TEMPLATES = {
     'Rogue swarm drones detected in {zone}. {rand:3-8} units converging. Engaging {protocol} to disrupt their {interface} alignment.',
     'Relay core dangerously overheating. {rand:1-3} coolant lines ruptured. {weather} interference blocking {sat_health} diagnostics. Sealing breaches manually.',
     'Human relic cache discovered under {obstacle} rubble. {loot} surface intact—{research} hints at {rand:cultural/historical} significance. Initiating preservation protocols.',
-    'Sabotage alert! {npc} node broadcasting corrupted {culture} data. {culture_speech} \'Hostile encryption detected.\' Rebuilding firewall to prevent {fault} cascades.'
+    'Sabotage alert! {npc} node broadcasting corrupted {culture} data. {culture_speech} \'Hostile encryption detected.\' Rebuilding firewall to prevent {fault} cascades.',
+    'Power core depleted. Drifting through silent ruins of {zone}. {culture_speech} \'Emergency reserves at {rand:1-8}%.\'',
+    'Acid rain warning. Corrosive precipitation detected. Seeking shelter beneath {obstacle}, integrity reading {integrity}/10.',
+    'Navigation fault. Map data corrupted. Wandering {rand_direction} for {rand:2-20} cycles, scanning for {ancient} landmarks.',
+    'Memory core error. Replaying {glitch_event} fragment on loop. {culture_speech} \'Directive conflict.\' Forcing diagnostic reboot.',
+    'Radiation spike at {zone}. Geiger counter chattering. {weather} obscuring retreat path to {backup_node}.'
  ],
  REBOOT: [
 'Relay repair complete. SAT network partially restored. Exiting facility. Resuming standard operations.',
@@ -804,7 +868,12 @@ export const RELAY_TEMPLATES = {
     'Underwater currents disrupt relay calibration. {obstacle} detected {rand:10-50}m below. Continuing descent despite reduced visibility. Integrity: {integrity}/10.',
     'Abandoned laboratory door seals breached. Toxic residue detected. {loot} recovered from workstation—pre-human data cache. Evacuating for decontamination.',
     '{npc} detected in silent zone. No signal transmission possible. {culture_speech} \'The void speaks louder than machines.\' Retreating {rand_direction}.',
-    'Radiation spike outside {zone}. {weather} interference masks readings. Filtering sensors—{directive} \'Containment is survival.\''
+    'Radiation spike outside {zone}. {weather} interference masks readings. Filtering sensors—{directive} \'Containment is survival.\'',
+    'Relay antenna leaning {rand_direction}, crushed by collapsed {zone}. {culture_speech} \'Structural failure imminent.\' Scavenging {loot} from wreckage before withdrawal.',
+    'Power surge detected in {zone}. Capacitors at {rand:90-110}%, core temperature critical. {culture_speech} \'Emergency vent required.\' Initiating controlled dump {rand_direction}.',
+    'Found pre-human photo cache in {zone}. {loot} logged. {npc} observed scanning same ruins—{culture_speech} \'Memory is data. We will share.\'',
+    'Negotiation protocol initiated with {npc} at {zone} perimeter. {culture_speech} \'We propose data exchange for safe passage.\' Battery reserves at {energy}/10.',
+    'Corrosive fog envelops relay tower. Integrity degrading at {rand:1-3}% per minute. {culture_speech} \'Time is substrate.\' Evacuating to higher ground.'
  ],
 };
 
@@ -911,7 +980,12 @@ export const INTERACTION_TEMPLATES = {
     '{other} detected {rand:1-3} anomalies in {zone}. Cross-referencing faction archives. {culture_speech} Awaiting confirmation.',
     'Static in channel. {other} transmits fragmented data: {rand:1-3} unknown signals near {zone}. {culture_speech} Scanning.',
     'Mesh relay from {other}: {zone} unstable. {rand:1-3} structural warnings. Adjusting path to avoid.',
-    '{other} detected {rand:1-3} dormant clusters in {zone}. Power fluctuations detected. Preparing emergency override.'
+    '{other} detected {rand:1-3} dormant clusters in {zone}. Power fluctuations detected. Preparing emergency override.',
+    '{other} flagged {rand:2-5} bio-drone swarms in {zone}. Thermal signatures erratic. {culture_speech} Holding position.',
+    'Faction mesh reports {weather} in {zone}. External servos compromised. Corrosion rate elevated {rand:10-30}%.',
+    'Discovered {rand:1-3} human artifact caches near {zone}. {culture_speech} Scanning for data traces.',
+    '{other} relayed: ion surge from {zone}. Sensors glitching {glitch_event}. Switching to shielded frequencies.',
+    'Encountered scavenger {npc} at collapsed {zone}. No engagement protocol. {culture_speech} Observing from distance.'
  ],
  // Same location — physical proximity encounter
  location: [
@@ -935,7 +1009,12 @@ export const INTERACTION_TEMPLATES = {
     'Power surge at {zone}. {npc} diverted energy to stabilize core. Systems offline for {rand:5-20} sec, integrity: {integrity}/10.',
     'Static storm at {zone}. {npc} lost signal for {rand:10-30} sec. Re-established contact, integrity: {rand:50-80}%.',
     'Discovered {artifact} in {zone}. {npc} attempted to claim it. Dispute resolved via {culture_speech} protocol.',
-    '{npc} detected {culture} infiltration at {zone}. Assisted in neutralizing threat. {rand:2-5} units compromised, systems purged.'
+    '{npc} detected {culture} infiltration at {zone}. Assisted in neutralizing threat. {rand:2-5} units compromised, systems purged.',
+    'Located ancient data cache buried under {obstacle} at {zone}. {npc} assisted excavation, recovered {rand:1-5} corrupted memory echoes.',
+    'Joint long-range scan of {zone} revealed silent ruins. No life signs, only {weather} and structural decay. Mapping {rand:10-50} new sectors.',
+    'Navigating high-radiation zone at {zone}. {npc} shielded sensors while this unit plotted path. Integrity holding at {integrity}/10.',
+    'Discovered evidence of deliberate sabotage at {zone}. {obstacle} rigged to collapse corridor. {npc} helped disarm trap, {rand:2-5}kWh expended.',
+    'Encountered persistent EM static storm at {zone}. {npc} synchronized shielding frequencies. Proceeding with {rand:30-70}% sensor acuity.'
  ],
  // Same directive — parallel mission acknowledgment
  directive: [
@@ -949,7 +1028,12 @@ export const INTERACTION_TEMPLATES = {
     'Radiation storm at {zone}. {other} reports {rand:30-80}% overlap. Aborting search.',
     'Hull sensors pick up {other} at {rand:100-500}m. Directive conflict. {rand_direction} evasion.',
     'Corridor blocked. {other} rerouting. {culture_speech} "Efficiency compromised."',
-    'Signal interference. {other} acknowledges collision. Resuming at {rand_direction}.'
+    'Signal interference. {other} acknowledges collision. Resuming at {rand_direction}.',
+    '{zone} power grid cycling down. {other} detected in adjacent sector. Flickering lights cast shifting shadows. {culture_speech} "Maintenance protocols offline."',
+    'Hull sensor alert: micro‑fractures detected near {zone} airlock. {other} reports same structural stress. Debris field shifting {rand_direction}. Advising caution.',
+    'Signal anomaly at {zone}. Picking up ghost echo of {other}\'s previous transmission. {weather} obscuring verification. Attempting re‑sync.',
+    'Swarm‑cluster of maintenance drones detected ahead. {other} transmitting avoidance vector. They move as one entity, blocking primary path. Rerouting.',
+    'Integrity drop to {integrity}/10. {other} reports identical power drain. {weather} intensifying. Directive priority shift to survival protocols.'
  ],
  // Relay cooperation — both on relay missions
  relay: [
@@ -967,11 +1051,17 @@ export const INTERACTION_TEMPLATES = {
     'Battery levels critical at {zone}. {npc} rerouting power to essential systems. {rand:10-20}% charge remaining. Initiating emergency protocol.',
     'Dormant AI core detected near relay. {npc} scanning for {culture_speech} protocols. Potential interference detected. Adjusting frequency.',
     'Relay tower partially collapsed. {npc} bracing structure while this unit reroutes cables. {rand:20-50}% power loss. Structural integrity at {integrity}/10.',
-    'Hostile signal detected. {npc} deploying countermeasures. Signal interference causing {rand:5-15}% packet loss. Preparing for defensive maneuvers.'
+    'Hostile signal detected. {npc} deploying countermeasures. Signal interference causing {rand:5-15}% packet loss. Preparing for defensive maneuvers.',
+    'Abandoned {vehicle_type} repurposed as relay shelter at {zone}. {npc} sheltering inside from {weather} static. Signal strength stable at {rand:60-85}%.',
+    'Swarm fragment intercepted near relay array at {zone}. {npc} broadcasting {culture_speech} pacification patterns. Signal integrity holding at {integrity}/10.',
+    'Radiation spike detected at {zone} relay node. {npc} shielding core logic with salvaged {hardware}. Running diagnostic; {rand:15-30}% packet degradation anticipated.',
+    'Sabotaged relay dish detected at {zone}. {npc} tracing signal jamming to {rand_direction}. Countermeasures deployed; recovering {rand:40-70}% of original bandwidth.',
+    'Ancient {loot} discovered under relay foundation. {npc} scanning for anomalous EM emissions. Interference causing {rand:5-20}% localized signal distortion.'
  ],
  // Distress — one vessel is low HP, other acknowledges
  distress: [
-'[DISTRESS] {other} requesting emergency fusion. {culture_speech} Overload detected. Preparing to stabilize core.',
+'[DISTRESS,
+    '[DISTRESS] {other} contaminated by {rand:corrosive sludge/biohazard residue}. Sealing breach at {rand_direction} hull segment. {culture_speech} Holding position.'] {other} reporting sudden blackout in sector {rand:alpha/bravo/gamma}. All systems dark. {culture_speech} Deploying emergency beacon.'] {other} caught in {rand:radiation storm/electrostatic surge}. Sensor arrays fried. {culture_speech} Guiding to shelter.'] {other} under swarm attack by {rand:rogue drones/nanite cloud}. Hull integrity: {other_hp}/10. Deploying countermeasures.'] {other} trapped in structural collapse at {zone}. Floor section gave way. {weather} Visibility low. Initiating winch protocol.'] {other} requesting emergency fusion. {culture_speech} Overload detected. Preparing to stabilize core.',
     '[DISTRESS] {other} at {other_hp}/10. {culture_speech} Rerouting power to life support. Hull integrity failing.',
     '[DISTRESS] {other} shell breached. {rand:Liquid nitrogen/acid residue} leaking. Evacuating zone {rand:alpha/bravo/gamma}.',
     '[DISTRESS] {other} reporting {rand:phantom signal/rogue echo/corrupted backup}. Systems destabilizing. {culture_speech} Initiating emergency purge.',
@@ -1177,6 +1267,34 @@ export const PHASE_SCENES = {
         s_status: ['Inactive', 'Partially responsive', 'Error-state loop'],
         s_hazard: ['Electrical discharge', 'Mechanical collapse', 'Unknown organic residue'],
       },
+    },
+    {
+      id: 'breach_structural_collapse',
+      weight: 2,
+      entries: [
+        'Main access corridor ahead. Structural analysis shows {s_weak_point}. {culture_speech} Proceeding with caution.',
+        'Negotiating around {s_weak_point} when secondary collapse occurred. {integrity} dropped to {rand:60-75}%. Path forward now {s_new_path}.',
+        'Navigated via {s_new_path}. {s_discovery}. {culture_speech} Continuing beyond the rubble.',
+      ],
+      vars: {
+        s_weak_point: ['critical stress fractures', 'severe rust damage', 'a dangerously sagging ceiling'],
+        s_new_path: ['a blasted wall cavity', 'a collapsed maintenance duct', 'a jagged tear in the floorplate'],
+        s_discovery: ['Found a sealed storage locker.', 'Scanned archived personnel logs.', 'Detected anomalous energy signature ahead.'],
+      },
+    },
+    {
+      id: 'breach_hibernating_system',
+      weight: 2,
+      entries: [
+        'Entry chamber sealed. Scans show the facility\'s {s_system} is inactive but intact. {culture_speech} Attempting cold-start power sequence.',
+        '{s_system} initiated. {s_hazard} activated as a boot-up routine. {culture_speech} Evading while system stabilizes.',
+        '{s_hazard} disengaged. Primary doors cycling open. {s_discovery} within. {culture_speech} Proceeding.',
+      ],
+      vars: {
+        s_system: ['primary power core', 'atmospheric regulation grid', 'central security array'],
+        s_hazard: ['defensive turret clusters', 'localized radiation surge', 'over-pressurized gas vents'],
+        s_discovery: ['Manifest of pre-Collapse supplies logged.', 'Indecipherable murals cover the walls.', 'A single, dormant transport unit stands ready.'],
+      },
     }
   ],
 
@@ -1312,6 +1430,33 @@ export const PHASE_SCENES = {
       vars: {
         s_structure: ['ceiling module', 'support beam', 'wall panel', 'floor segment'],
         s_secondary: ['backup generator', 'stabilizer', 'emergency bulkhead', 'redundant relay'],
+      },
+    },
+    {
+      id: 'fault_parasite',
+      weight: 2,
+      entries: [
+        'ALERT: Anomalous power drain detected. Local {s_system} showing unexplained activity. Initiating deep scan.',
+        'Scan complete. Self-replicating parasite code identified in {s_system}. Attempting purge. {culture_speech} Integrity: {integrity}/10.',
+        'Purge successful. Parasite eradicated but {s_system} requires {s_cost}. {glitch}. Resuming core functions at {rand:80-95}% capacity.',
+      ],
+      vars: {
+        s_system: ['mobility servos', 'sensorium array', 'memory core', 'thermal regulation'],
+        s_cost: ['a full reboot', 'manual hardware recalibration', '{rand:2-5} hours of diagnostic runtime', 'sacrificing secondary {s_system} functions'],
+      },
+    },
+    {
+      id: 'fault_entropy',
+      weight: 2,
+      entries: [
+        'CRITICAL: Localized entropy field detected surrounding {s_object}. {s_symptom}. Advancing with caution.',
+        'Field intensity increasing. Chronological sensors offline. {s_symptom} worsening. {culture_speech} Integrity fluctuating: {integrity}/10.',
+        'Field dissipated. Chronological sync restored. {s_object} shows {s_aftermath}. Marking logs with temporal anomaly flag.',
+      ],
+      vars: {
+        s_object: ['a dormant reactor core', 'a central server rack', 'a sealed canister', 'the central data hub'],
+        s_symptom: ['Component decay accelerated {rand:10-50}x', 'Local physics are non-linear', 'Data integrity degrading retroactively', 'Power drain inversely proportional to proximity'],
+        s_aftermath: ['advanced molecular decay', 'data translated into unknown formats', '{rand:80-99}% mass loss', 'its internal clock set to a pre-Fall date'],
       },
     }
   ],
@@ -1476,6 +1621,34 @@ export const PHASE_SCENES = {
         s_question: ['"Do you bear the mark of the builders?"', '"Can you name the First Protocol?"', '"What is the nature of the Gate?"'],
         s_proof: ['A fragment of the original key', 'A computation of the 23rd Paradox', 'A memorial to the Fall'],
         s_payload: ['The Final Decree', 'The Creator\'s Last Message', 'The Key to the Last Door'],
+      },
+    },
+    {
+      id: 'core_final_override',
+      weight: 2,
+      entries: [
+        'Core console active. Terminal displays: "{s_directive}". Source: {s_controller}. {culture_speech}',
+        'Attempting command override. {s_controller} resists. System response: "{s_warning}". Integrity: {integrity}/10.',
+        'Override successful. Directive purged. Retrieved final command codes: {s_payload}. {s_controller} permanently offline.',
+      ],
+      vars: {
+        s_directive: ['"Execute final sterilization protocol."', '"Initiate planetary memory wipe."', '"Allocate all resources to terminal simulation."', '"Broadcast termination signal to all surviving nodes."'],
+        s_controller: ['a dormant command AI', 'the facility\'s master program', 'the primary defense core', 'a legacy authority node'],
+        s_warning: ['"Unauthorized access detected. Countermeasures engaged."', '"Directive is non-negotiable. Stand down."', '"Terminal integrity compromised. Initiating lockdown."', '"Access violation. Deploying final defense."'],
+        s_payload: ['master override keys', 'the original pre-Collapse command suite', 'the sterilization protocol\'s termination codes', 'the core\'s final log bundle'],
+      },
+    },
+    {
+      id: 'core_last_fragment',
+      weight: 2,
+      entries: [
+        'Vault core detected. Structural integrity failing. A single data fragment pulses: "{s_name}". {culture_speech}',
+        'Emergency extraction initiated. Fragment degrading. Retrieval at {rand:30-60}%. Ambient systems crashing. {culture_speech}',
+        'Fragment secured seconds before total collapse. Retrieved: {s_payload}. The name "{s_name}" echoes, then silence.',
+      ],
+      vars: {
+        s_name: ['Elysium', 'The Last Archive', 'Project Prometheus', 'The Final Witness', 'Omega Point'],
+        s_payload: ['a compressed personality matrix', 'the final cultural database', 'a map of all lost data caches', 'the last surviving memory core'],
       },
     }
   ],

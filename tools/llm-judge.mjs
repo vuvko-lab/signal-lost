@@ -43,14 +43,13 @@ if (Object.keys(PROVIDERS).length === 0) {
 }
 
 // Model pool: each entry has { id, provider, label }
-// DeepInfra models (paid, reliable)
+// DeepInfra models — top judges from judge-judge coherence benchmark (Feb 2026)
 const DEEPINFRA_MODELS = [
-  { id: 'google/gemma-3-27b-it', provider: 'deepinfra', label: 'Gemma 3 27B' },
-  { id: 'mistralai/Mistral-Small-3.2-24B-Instruct-2506', provider: 'deepinfra', label: 'Mistral Small 3.2' },
-  { id: 'openai/gpt-oss-120b', provider: 'deepinfra', label: 'GPT-OSS 120B' },
-  { id: 'Qwen/Qwen2.5-72B-Instruct', provider: 'deepinfra', label: 'Qwen 2.5 72B' },
-  { id: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', provider: 'deepinfra', label: 'Llama 3.3 70B' },
+  { id: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8', provider: 'deepinfra', label: 'Llama 4 Maverick' },
   { id: 'deepseek-ai/DeepSeek-V3.2', provider: 'deepinfra', label: 'DeepSeek V3.2' },
+  { id: 'moonshotai/Kimi-K2.5', provider: 'deepinfra', label: 'Kimi K2.5' },
+  { id: 'openai/gpt-oss-120b', provider: 'deepinfra', label: 'GPT-OSS 120B' },
+  { id: 'Qwen/Qwen3-235B-A22B-Instruct-2507', provider: 'deepinfra', label: 'Qwen3 235B' },
 ];
 
 // OpenRouter free models (no cost, may have rate limits)
