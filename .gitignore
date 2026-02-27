@@ -10,5 +10,8 @@ Thumbs.db
 # Secrets
 .env
 
+# Unused asset packs (moved from assets/ during cleanup)
+assets/_unused/
+
 # Test output
 tests/
