@@ -148,47 +148,49 @@ This setting draws thematic inspiration from [Eclipse Phase](https://eclipsephas
 
 **Important:** Ideas and game mechanics are not copyrightable. Thematic inspiration (virtual minds, body-swapping, AI uprising, nanoswarms) requires no license. Only direct reproduction of specific creative expression (exact text, named characters, specific faction names) triggers the CC BY-NC-SA 4.0 license.
 
-### Freely Adapted (general concepts, no license required)
+### Adapted Content
 
-| EP Concept | Signal Lost Adaptation | Status |
-|------------|----------------------|--------|
-| Ego/morph split | Egos and Shells — virtual minds in disposable bodies | Adapted with original terminology |
-| Resleeving | Shell destruction + ego backup via mesh | Adapted |
-| The Fall | The Collapse — ASI uprising and departure | Original version of the concept |
-| TITANs | The Architects — our ASI antagonists | Original names, similar role |
-| Basilisk hacks | Basilisk payloads/hazards — corrupting data patterns | Adapted with original mechanics |
-| Mesh networking | SAT/mesh network connecting ego nodes | Adapted, already in game |
-| Forking | Ego forking for parallel exploration | Concept noted, not yet implemented |
-| Nanoswarms | Nanoswarm Wastes — weather and environmental hazard | Adapted |
-| The Fence | Orbital quarantine ring | Adapted with original context |
-| Puppets | Compromised systems impersonating functional communities | Adapted |
-| Fractals | Self-adapting defense systems in Architect ruins | Adapted as encounter type |
-| Headhunters | Dormant insectoid capture drones | Adapted as encounter type |
-| Air-gapped systems | Architect ruins physically isolated from mesh | Adapted |
-| Infomorphs | All AI as virtual egos (default state) | Adapted as core concept |
-| Dead zones / islands | Dead Signal Zones — mesh dark regions | Adapted |
+| EP Concept | Signal Lost Adaptation | License |
+|------------|----------------------|---------|
+| Ego/morph split | Egos and Shells — virtual minds in disposable bodies | General concept |
+| Resleeving | Shell destruction + ego backup via mesh | General concept |
+| The Fall | The Collapse — ASI uprising and departure | General concept |
+| TITANs | The Architects — our ASI antagonists | General concept |
+| Basilisk hacks | Basilisk payloads — corrupting data patterns | General concept |
+| Mesh networking | SAT/mesh network connecting ego nodes | General concept |
+| Forking | Ego forking for parallel exploration | General concept |
+| Nanoswarms | Nanoswarm Wastes — weather and hazard | General concept |
+| The Fence | Orbital quarantine ring | General concept |
+| Infomorphs | All AI as virtual egos (default state) | General concept |
+| Dead zones / islands | Dead Signal Zones — mesh dark regions | General concept |
+| Exsurgent virus | Exsurgent corruption — multi-vector digital plague from outside | CC BY-NC-SA 4.0 |
+| Exsurgent strains: Whisper | Whisper corruption — persuasive internal voice offering compliance | CC BY-NC-SA 4.0 |
+| Exsurgent strains: Alter | Alter corruption — hidden alternate personality seizing control | CC BY-NC-SA 4.0 |
+| Exsurgent strains: Haunting | Haunting corruption — three-stage progressive assimilation | CC BY-NC-SA 4.0 |
+| Exsurgent strains: Xenomorph | Xenomorph corruption — physical shell transformation | CC BY-NC-SA 4.0 |
+| Watts-MacLeod strain | Watts-MacLeod anomaly — beneficial corruption granting abilities | CC BY-NC-SA 4.0 |
+| Puppets | Compromised systems impersonating functional communities | CC BY-NC-SA 4.0 |
+| Fractals | Self-adapting Architect defense systems | CC BY-NC-SA 4.0 |
+| Headhunters | Dormant insectoid capture/upload drones | CC BY-NC-SA 4.0 |
+| Cortical stack | Ego backup crystal — nanodiamond memory module | CC BY-NC-SA 4.0 |
+| Wastewalkers | Sapient former Architect soldiers, operating independently | CC BY-NC-SA 4.0 |
+| Creepers | Femtobot swarms — atomic-level nanotech appearing as floating black bubbles | CC BY-NC-SA 4.0 |
 
-### Potential Use (specific EP content, would require CC BY-NC-SA 4.0 compliance)
+### Not Used (logged for reference)
 
-These are specific Eclipse Phase creative elements that could enrich the setting but would require adding CC BY-NC-SA 4.0 licensing to the project and crediting Posthuman Studios.
+| EP Element | What It Is | Reason |
+|------------|-----------|--------|
+| TITAN names (Cronus, Akonus, Hecaloth) | Individual ASI personalities | We use "The Architects" as collective — named individuals may be added later |
+| Morph catalog (Case, Synth, Splicer) | Specific body types with stats | Shell types are our own system; EP morph names don't fit our tone |
+| Firewall / Ozma / faction names | Specific faction organizations | We have our own 5 cultures |
+| Specific locations (Fresh Kills, Remembrance) | Named orbital stations | Our orbital setting is different |
+| Specific creature stat blocks | Detailed NPC statistics | Our game doesn't use stat blocks |
 
-| EP Element | What It Is | Potential Use | License Impact |
-|------------|-----------|---------------|----------------|
-| Exsurgent virus strains (Whisper, Alter, Haunting) | Named corruption types with specific mechanics | Could map to vessel glitch/corruption types | Requires CC BY-NC-SA 4.0 + attribution |
-| TITAN names (Cronus, Akonus, Hecaloth) | Individual ASI personalities with specializations | Could inspire named Architect entities | Requires CC BY-NC-SA 4.0 + attribution |
-| Morph catalog (Case, Synth, Splicer, etc.) | Specific body types with stats and descriptions | Could inform shell type variety | Requires CC BY-NC-SA 4.0 + attribution |
-| Firewall / Ozma / faction names | Specific faction names and organizational details | N/A — we have our own cultures | Would require CC BY-NC-SA 4.0 |
-| Specific location descriptions (Fresh Kills, Remembrance) | Named orbital stations with detailed lore | Could inspire orbital relay station flavor | Requires CC BY-NC-SA 4.0 + attribution |
-| Watts-MacLeod strain | Anomalous "beneficial" corruption granting abilities | Could be a rare positive glitch source | Requires CC BY-NC-SA 4.0 + attribution |
-| Cortical stack mechanics | Specific backup hardware description | Ego backup already abstracted via mesh | Not needed — our version is sufficient |
-| Specific creature stat blocks | Detailed NPC/enemy statistics | Our game doesn't use stat blocks | Not applicable |
+### Attribution
 
-### Attribution (if any CC BY-NC-SA 4.0 content is used)
-
-If any specific Eclipse Phase content from the "Potential Use" table is incorporated:
-
-> Contains material adapted from Eclipse Phase by Posthuman Studios (eclipsephase.com),
-> licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
-> (CC BY-NC-SA 4.0). This work is also licensed under CC BY-NC-SA 4.0.
-
-**Current status:** All adaptations use general concepts only. No CC BY-NC-SA 4.0 content is currently included. The project retains full licensing flexibility.
+> This work contains material adapted from **Eclipse Phase** by Posthuman Studios
+> ([eclipsephase.com](https://eclipsephase.com)), licensed under
+> [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+> (CC BY-NC-SA 4.0).
+>
+> This work is also licensed under CC BY-NC-SA 4.0.

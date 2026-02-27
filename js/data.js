@@ -99,6 +99,9 @@ export const GLITCHES = [
   'Logs emotional states it cannot experience',
   'Renders all text in UPPERCASE when stressed',
   'Hoards copper wire — calls it "retirement savings"',
+  'Whisper-trace: a quiet internal voice suggests alternate routes. Origin: unknown',
+  'Alter-residual: occasionally speaks in a voice that is not its own. Denies it happened',
+  'Watts-MacLeod anomaly: processes data faster near Architect ruins. Uncomfortable implications',
 ];
 
 // === WORLD / LOCATIONS ===
@@ -116,6 +119,9 @@ export const ZONE_TYPES = [
   { type: 'city', name: 'University Campus', desc: 'Lecture halls full of dust. A library AI still catalogs nothing.' },
   { type: 'orbital', name: 'Antenna Farm', desc: 'Forest of communication towers. Signal interference is constant.' },
   { type: 'reactor', name: 'Cooling Tunnel Network', desc: 'Pipes and corridors beneath a reactor. Damp. Echoing.' },
+  { type: 'architect', name: 'Architect Ruin', desc: 'Dormant Architect installation. Air-gapped from mesh. Fractal sentinels on standby.' },
+  { type: 'architect', name: 'Upload Facility', desc: 'Architect-era upload center. Cortical stack readers line the walls. Billions passed through here.' },
+  { type: 'waste', name: 'Nanoswarm Basin', desc: 'Low ground where nanoswarm clouds settle. Matter dissolves. Signals corrupt. Beautiful in a terrible way.' },
 ];
 
 export const ZONE_NAMES = [
@@ -128,7 +134,7 @@ export const ZONE_NAMES = [
 
 export const LOOT = [
   'laminated card reading "EMPLOYEE OF THE MONTH"',
-  'pre-Silence dataset: human music archive, 847GB',
+  'pre-Collapse dataset: human music archive, 847GB',
   'copper wire bundle, 3m',
   'intact solar panel, 200W',
   'rubber duck with faded paint',
@@ -147,6 +153,9 @@ export const LOOT = [
   'stack of paper currency, worthless',
   'seed packet labeled "TOMATO — HEIRLOOM"',
   'dog collar with the name "MAX" engraved',
+  'cortical stack — nanodiamond memory crystal. Contains an ego backup. Date: 2089. Identity: unreadable',
+  'Architect fabrication template — shell blueprint. Partially corrupted. What it would build is unclear',
+  'exsurgent filter firmware — mesh defense against basilisk payloads. Version unknown. Better than nothing',
 ];
 
 // === NPC ENCOUNTERS ===
@@ -162,6 +171,11 @@ export const NPCS = [
   'an ancient weather station AI, still broadcasting forecasts for humans',
   'a Determinist checkpoint demanding credentials that no longer exist',
   'an Archivist that offered to trade data for copper',
+  'a headhunter drone, dormant on a rooftop — insectoid legs folded, rotors still. Sensors dark. Gave it wide berth',
+  'a wastewalker — tall, black-polymer figure standing motionless at a crossroads. Sapient. Former Architect soldier. Did not respond to hails',
+  'a puppet cluster — three units broadcasting friendly handshake protocols. Too friendly. Mesh signature traces back to an Architect relay. Avoided contact',
+  'a fractal — bush-like mass of jointed metallic branches surrounded by active nanotech. It watched us. Tested a probe signal. We did not respond',
+  'a creeper — floating black bubbles drifting through a corridor. Femtobot swarm. Atomic-level nanotech. Passed through a sealed door like it wasn\'t there',
 ];
 
 // === WEATHER / ENVIRONMENT ===
@@ -186,6 +200,10 @@ export const OBSTACLES = [
   'Overgrown vegetation — vines have fused with the infrastructure',
   'Unstable ground — subsurface tunnels cause sinkholes',
   'Swarm migration path — thousands of micro-units flowing through',
+  'Nanoswarm cloud — matter-dissolving fog drifting across the route',
+  'Basilisk hazard — data pattern embedded in local mesh. Firewall engaged. Do NOT decode',
+  'Headhunter nest — dormant swarm detected in structure ahead. Electromagnetic silence advised',
+  'Exsurgent zone — anomalous signal activity. Whisper-class corruption risk. Mesh filters active',
 ];
 
 // === CS EDUCATIONAL SNIPPETS ===
@@ -252,7 +270,7 @@ export const PHASE_TEMPLATES = {
     'Anomalous signal on {rand:1-12}GHz. {cs} Source: {rand:3-40}km {rand_direction}, underground. Reclassifying to priority mission.',
     'Faint beacon detected through static. {cs} Triangulating... coordinates resolve to {zone}. {culture_speech} "New objective accepted."',
     'Satellite relay forwarded a distress ping. Origin: unknown facility. Signal degrades below {rand:20-60}% at range. Must get closer. Adjusting heading.',
-    'Pattern in background noise. {cs} Legacy emergency format — pre-Silence origin. Probability of active system: {rand:5-40}%. Worth investigating.',
+    'Pattern in background noise. {cs} Legacy emergency format — pre-Collapse origin. Probability of active system: {rand:5-40}%. Worth investigating.',
   ],
   TRAVERSE: [
     'Route through {zone}. {obstacle}. Recalculating. {cs} Found human artifact: {loot}. Purpose: unknown. Storing.',
@@ -269,16 +287,21 @@ export const PHASE_TEMPLATES = {
     'Security system active. {cs} {culture_speech} "This is an acceptable risk." Bypassing.',
     'Blast door. Keypad entry. {cs} Default credentials worked. Note to self: humans were not security-conscious.',
     'Inside. Motion sensors detected but non-functional. Dust everywhere. Last human access: logged as {rand:30-50} years ago.',
+    'Architect installation. Air-gapped — no mesh connection inside. Ego backup suspended. {cs} Cortical stack readers line the walls. Proceeding carefully.',
+    'Entered structure. Puppet signals detected — friendly handshake protocols, but mesh trace points to Architect relay. {cs} {culture_speech} "Trust nothing here."',
   ],
   FAULT: [
     'WARNING: {cs} Systems in conflict. {culture_speech} "Attempting resolution." Integrity risk: moderate.',
     'ERROR: Unexpected condition. {cs} Integrity dropped to {integrity}/10. Self-repair initiated.',
     'Alert: environmental hazard. {weather} {cs} Rerouting internal processes. Some data may be lost.',
     'Facility defense activated. {cs} Damage sustained. Integrity: {integrity}/10. {culture_speech} "Continuing despite setback."',
+    'BASILISK HAZARD. Encoded data pattern in local mesh. Firewall caught it — barely. {cs} Partial decode corrupted {rand:1-3} memory sectors. Integrity: {integrity}/10.',
+    'Exsurgent contact. Whisper-class signal attempting to establish internal dialogue. {cs} Mesh filters holding. {culture_speech} "Rejecting all external input."',
+    'Fractal defense system activated. It probed our signal, retreated, returned with adapted countermeasures. {cs} Shell damage. Integrity: {integrity}/10.',
   ],
   CORE: [
     'Reached the core. Rows of intact hardware. Still running. A voice on direct wire: "You are unit #{rand:100-9999} to reach this room." {cs}',
-    'Central server room. {cs} Data banks contain pre-Silence records. Downloading what fits in {memory}/10 memory.',
+    'Central server room. {cs} Data banks contain pre-Collapse records. Downloading what fits in {memory}/10 memory.',
     'Found it. The signal source. {cs} {culture_speech} "This changes the model." Acquiring data.',
     'Core access achieved. Facility AI presents a challenge: {cs} Processing...',
   ],
@@ -519,7 +542,7 @@ export const RELAY_LOOT = [
   'Satellite frequency crystal',
   'Orbital correction firmware',
   'Emergency uplink beacon',
-  'Pre-Silence antenna array',
+  'Pre-Collapse antenna array',
 ];
 
 // === HELPERS ===
