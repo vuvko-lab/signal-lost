@@ -661,17 +661,37 @@ function advancePhase(vessel) {
   vessel.mission.progress = 0;
   vessel.mission.target = PHASE_ENTRY_COUNTS[nextPhase]();
 
-  // Mission assignment: when entering SIGNAL phase, decide mission type
+  // Mission assignment: when entering SIGNAL phase, roll for mission type
+  // Priority order: player relay > threat containment > SAT relay > faction > exploration
   if (nextPhase === 'SIGNAL') {
     const sat = state.world.satellite_health;
+    let assigned = false;
 
-    // 1. Player-requested relay mission (from Inject command)
+    // 1. Player-requested relay mission (from Inject command) — always honored
     if (vessel.mission.relay_pending) {
       vessel.mission.relay_mission = true;
       vessel.mission.relay_pending = false;
+      assigned = true;
     }
-    // 2. SAT emergency — faction override for relay repair
-    else if (sat <= 3) {
+
+    // 2. Active threat containment — 50% chance to volunteer if threats exist
+    if (!assigned && state.world.active_threats) {
+      const activeThreats = state.world.active_threats.filter(t => !t.contained);
+      if (activeThreats.length > 0 && Math.random() < 0.5) {
+        const threat = pick(activeThreats);
+        vessel.mission.faction_mission = {
+          label: `Contain ${threat.name}`,
+          zone_type: threat.zoneData?.type || 'city',
+          objective: `Containment mission: neutralize ${threat.name} at ${threat.zone}`,
+        };
+        vessel.location = threat.zone;
+        vessel.locationData = threat.zoneData || pick(state.world.zones);
+        assigned = true;
+      }
+    }
+
+    // 3. SAT emergency — faction override for relay repair
+    if (!assigned && sat <= 3) {
       let overrideChance = 0;
       if (sat === 0 || sat === 1) overrideChance = 1.0;
       else if (sat === 2) overrideChance = 0.75;
@@ -685,23 +705,27 @@ function advancePhase(vessel) {
           vessel.location = target.label;
           vessel.locationData = target;
         }
+        assigned = true;
       }
     }
-    // 3. Faction priority mission — 40% chance when no relay override
-    if (!vessel.mission.relay_mission) {
+
+    // 4. Faction priority mission — 40% chance
+    if (!assigned) {
       const factionData = FACTION_DESIRES[vessel.culture];
       if (factionData && Math.random() < 0.4) {
         const mission = pick(factionData.priority_missions);
         vessel.mission.faction_mission = mission;
-        // Route toward matching zone type
         const matchingZones = state.world.zones.filter(z => z.type === mission.zone_type);
         if (matchingZones.length > 0) {
           const target = pick(matchingZones);
           vessel.location = target.label;
           vessel.locationData = target;
         }
+        assigned = true;
       }
     }
+
+    // 5. Free exploration — default (no special mission flags set)
   }
 
   if (onPhaseChange) onPhaseChange(vessel.id, nextPhase);
