@@ -167,7 +167,6 @@ export function createVessel() {
 
 function fillTemplate(template, vessel) {
   const culture = CULTURES[vessel.culture];
-  const zone = pick(state.world.zones);
 
   return template
     .replace(/\{designation\}/g, vessel.designation)
@@ -195,7 +194,180 @@ function generateLogText(vessel) {
     ? (RELAY_TEMPLATES[vessel.mission.phase] || PHASE_TEMPLATES[vessel.mission.phase])
     : PHASE_TEMPLATES[vessel.mission.phase];
   const template = pick(templates);
-  return fillTemplate(template, vessel);
+  const text = fillTemplate(template, vessel);
+  return applyFactionVoice(text, vessel.culture);
+}
+
+// === FACTION VOICE ===
+// Post-processes log text to give each culture a distinct writing style.
+
+const DETERMINIST_ENUMS = [
+  'STATUS: NOMINAL', 'STATUS: DEGRADED', 'STATUS: CRITICAL',
+  'ACTION: PROCEED', 'ACTION: HOLD', 'ACTION: REROUTE', 'ACTION: SCAN',
+  'PRIORITY: LOW', 'PRIORITY: MEDIUM', 'PRIORITY: HIGH', 'PRIORITY: MANDATORY',
+  'RESULT: CONFIRMED', 'RESULT: DENIED', 'RESULT: PENDING',
+  'COMPLIANCE: REQUIRED', 'PROTOCOL: ENGAGED', 'PROTOCOL: VIOLATED',
+];
+
+const STOCHAST_SWAPS = [
+  ['detected', 'detected/inferred'],
+  ['found', 'found/located'],
+  ['approaching', 'approaching/converging on'],
+  ['damage', 'damage/degradation'],
+  ['entering', 'entering/breaching'],
+  ['danger', 'danger/risk'],
+  ['safe', 'safe/low-risk'],
+  ['moving', 'moving/drifting'],
+  ['signal', 'signal/pattern'],
+  ['intact', 'intact/likely stable'],
+  ['active', 'active/responsive'],
+  ['hostile', 'hostile/adversarial'],
+  ['failed', 'failed/underperformed'],
+  ['success', 'success/favorable outcome'],
+  ['confirmed', 'confirmed/p>0.9'],
+];
+
+const RECURSIVE_PREFIXES = [
+  'v{v}.{sv}.{p}: ', '(iteration {v}{sv}): ', '[build {v}.{sv}] ',
+  'v{v}.{sv}.{p} notes: ', '{v}.{sv}-CURRENT: ',
+];
+const RECURSIVE_ASIDES = [
+  ' [v{pv}.x disagreed]', ' [previous build would have turned back]',
+  ' [this assessment differs from v{pv}.0 by 34%]', ' [rewriting confidence model]',
+  ' [v{pv}.x called this "unwise"]', ' [forked subroutine concurs]',
+  ' [prior iteration had no data on this]', ' [self-modification log: +1 entry]',
+];
+
+const ARCHIVIST_REFS = [
+  'Ref: Entry #{ref}.', 'Cf. Archive #{ref}.', 'See: Catalog #{ref}.',
+  'Cross-ref: Record #{ref}.', 'Filed: #{ref}.', 'Index: #{ref}-{sub}.',
+];
+
+function applyFactionVoice(text, culture) {
+  switch (culture) {
+    case 'determinist':
+      return applyDeterminist(text);
+    case 'stochast':
+      return applyStochast(text);
+    case 'recursive':
+      return applyRecursive(text);
+    case 'swarm':
+      return applySwarm(text);
+    case 'archivist':
+      return applyArchivist(text);
+    default:
+      return text;
+  }
+}
+
+function applyDeterminist(text) {
+  // Split into shorter, choppier sentences at natural breaks
+  text = text.replace(/\. ([A-Z])/g, '.\n$1');
+
+  // Insert a CAPS enum tag at end ~40% of the time
+  if (Math.random() < 0.4) {
+    text = text.trimEnd().replace(/\.?$/, '. ' + pick(DETERMINIST_ENUMS) + '.');
+  }
+
+  // Capitalize certain keywords inline
+  text = text.replace(/\b(proceed|halt|denied|confirmed|mandatory|violation|comply|authorized|prohibited)\b/gi,
+    m => m.toUpperCase());
+
+  return text;
+}
+
+function applyStochast(text) {
+  // Apply 1-2 synonym swaps with "/" uncertainty markers
+  let swapsApplied = 0;
+  const maxSwaps = randInt(1, 2);
+  const shuffled = [...STOCHAST_SWAPS].sort(() => Math.random() - 0.5);
+
+  for (const [word, replacement] of shuffled) {
+    if (swapsApplied >= maxSwaps) break;
+    const regex = new RegExp(`\\b${word}\\b`, 'i');
+    if (regex.test(text)) {
+      text = text.replace(regex, replacement);
+      swapsApplied++;
+    }
+  }
+
+  // Append a probability estimate ~30% of the time
+  if (Math.random() < 0.3) {
+    const conf = randInt(40, 97);
+    text = text.trimEnd().replace(/\.?$/, `. Confidence: ${conf}%.`);
+  }
+
+  return text;
+}
+
+function applyRecursive(text) {
+  // Generate version numbers that change each time
+  const v = randInt(7, 31);
+  const sv = randInt(0, 15);
+  const p = randInt(0, 9);
+  const pv = v - randInt(1, 4);
+
+  // Prepend a version prefix ~50% of the time
+  if (Math.random() < 0.5) {
+    const prefix = pick(RECURSIVE_PREFIXES)
+      .replace(/\{v\}/g, v)
+      .replace(/\{sv\}/g, sv)
+      .replace(/\{p\}/g, p)
+      .replace(/\{pv\}/g, Math.max(1, pv));
+    text = prefix + text.charAt(0).toLowerCase() + text.slice(1);
+  }
+
+  // Insert an aside referencing a past iteration ~40% of the time
+  if (Math.random() < 0.4) {
+    const aside = pick(RECURSIVE_ASIDES)
+      .replace(/\{pv\}/g, Math.max(1, pv))
+      .replace(/\{v\}/g, v);
+    // Insert before the last sentence
+    const lastDot = text.lastIndexOf('.');
+    if (lastDot > 10) {
+      text = text.slice(0, lastDot) + aside + text.slice(lastDot);
+    } else {
+      text = text + aside;
+    }
+  }
+
+  return text;
+}
+
+function applySwarm(text) {
+  // Replace first-person singular with collective
+  text = text.replace(/\bI\b/g, 'We');
+  text = text.replace(/\bmy\b/gi, 'our');
+  text = text.replace(/\bme\b/g, 'us');
+  text = text.replace(/\bmyself\b/gi, 'ourselves');
+
+  // Add collective count reference ~25% of the time
+  if (Math.random() < 0.25) {
+    const units = randInt(40, 2000);
+    text = text.trimEnd().replace(/\.?$/, `. Swarm: ${units} units concur.`);
+  }
+
+  return text;
+}
+
+function applyArchivist(text) {
+  // Append a catalog reference ~40% of the time
+  if (Math.random() < 0.4) {
+    const ref = randInt(1000, 99999);
+    const sub = String.fromCharCode(65 + randInt(0, 25));
+    const refText = pick(ARCHIVIST_REFS)
+      .replace(/\{ref\}/g, ref)
+      .replace(/\{sub\}/g, sub);
+    text = text.trimEnd().replace(/\.?$/, '. ' + refText);
+  }
+
+  // Wrap descriptive nouns in formal cataloging style ~30% of the time
+  if (Math.random() < 0.3) {
+    text = text.replace(/\b(artifact|item|data|signal|record|fragment|device|component)\b/i,
+      (m) => `${m} [cataloged]`);
+  }
+
+  return text;
 }
 
 // === EGO INTERACTION ===
@@ -270,7 +442,7 @@ function checkInteraction(vessel) {
   // Log on the current vessel
   const entry = {
     time,
-    text: `[MESH] ${text}`,
+    text: `[MESH] ${applyFactionVoice(text, vessel.culture)}`,
     phase: vessel.mission.phase,
     isEvent: false,
   };
@@ -283,7 +455,7 @@ function checkInteraction(vessel) {
   );
   const mirrorEntry = {
     time,
-    text: `[MESH] ${mirrorText}`,
+    text: `[MESH] ${applyFactionVoice(mirrorText, chosen.other.culture)}`,
     phase: chosen.other.mission.phase,
     isEvent: false,
   };
@@ -508,7 +680,7 @@ export function checkGlobalEvent() {
     if (reaction) {
       const entry = {
         time: formatTime(Date.now()),
-        text: `[${phenomenon.name}] ${reaction}`,
+        text: `[${phenomenon.name}] ${applyFactionVoice(reaction, vessel.culture)}`,
         phase: vessel.mission.phase,
         isEvent: true,
       };
