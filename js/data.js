@@ -536,9 +536,9 @@ export const PHASE_DESCRIPTIONS = {
 export const STAT_DESCRIPTIONS = {
   HP: 'Integrity — physical/structural health of the vessel. Drops from combat, hazards, and faults. At 0, the vessel is destroyed.',
   EN: 'Energy — power reserves. Consumed during travel and actions. Recharged at power nodes during IDLE phase.',
-  HW: 'Hardware — skill in using and modifying physical systems. Helps in BREACH and FAULT phases. Improved by hardware loot.',
-  IF: 'Interface — skill for software, mesh protocols, and interfacing with structures. Helps in CORE and SIGNAL phases. Improved by software loot.',
-  RS: 'Research — finding the right approach, searching faction archives, analyzing data. Helps in TRAVERSE and CORE phases. Improved by data loot.',
+  HW: 'Hardware — physical systems, structural repair, brute-force breaching. Used in BREACH, FAULT, and TRAVERSE.',
+  IF: 'Interface — software protocols, mesh access, signal analysis. Used in SIGNAL, BREACH, and CORE.',
+  RS: 'Research — data analysis, pathfinding, archive searches. Used in SIGNAL, TRAVERSE, FAULT, and CORE.',
 };
 
 // Loot items with skill bonuses — replaces the flat LOOT array for progression

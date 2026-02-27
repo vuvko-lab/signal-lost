@@ -237,27 +237,31 @@ export function createVesselColumn(vessel) {
     <div class="vessel-details-toggle" data-expanded="true"><span class="toggle-arrow">&#9660;</span> DETAILS</div>
     <div class="vessel-details-panel">
     <div class="vessel-stats">
-      <div class="stat">
-        <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HP)}">HP</span>
-        <div class="stat-bar"><div class="stat-bar-fill hp" style="width:${vessel.integrity * 10}%"></div></div>
-        <span class="stat-value stat-hp">${vessel.integrity}/10</span>
+      <div class="stat-row stat-row-bars">
+        <div class="stat">
+          <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HP)}">HP</span>
+          <div class="stat-bar"><div class="stat-bar-fill hp" style="width:${vessel.integrity * 10}%"></div></div>
+          <span class="stat-value stat-hp">${vessel.integrity}/10</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.EN)}">EN</span>
+          <div class="stat-bar"><div class="stat-bar-fill energy" style="width:${vessel.energy * 10}%"></div></div>
+          <span class="stat-value stat-en">${vessel.energy}/10</span>
+        </div>
       </div>
-      <div class="stat">
-        <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.EN)}">EN</span>
-        <div class="stat-bar"><div class="stat-bar-fill energy" style="width:${vessel.energy * 10}%"></div></div>
-        <span class="stat-value stat-en">${vessel.energy}/10</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HW)}">HW</span>
-        <span class="stat-value stat-hw">${vessel.skills?.hardware || 1}</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.IF)}">IF</span>
-        <span class="stat-value stat-if">${vessel.skills?.interface || 1}</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.RS)}">RS</span>
-        <span class="stat-value stat-rs">${vessel.skills?.research || 1}</span>
+      <div class="stat-row stat-row-skills">
+        <div class="stat">
+          <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.HW)}">HW</span>
+          <span class="stat-value stat-hw">${vessel.skills?.hardware || 1}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.IF)}">IF</span>
+          <span class="stat-value stat-if">${vessel.skills?.interface || 1}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label stat-skill" data-tooltip="${escAttr(STAT_DESCRIPTIONS.RS)}">RS</span>
+          <span class="stat-value stat-rs">${vessel.skills?.research || 1}</span>
+        </div>
       </div>
     </div>
     <div class="vessel-location">LOC: ${vessel.location}</div>

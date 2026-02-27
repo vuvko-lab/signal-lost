@@ -48,40 +48,48 @@ function getTickDelay(vessel) {
   return Math.max(3, delay) * 1000;
 }
 
-// Skill check: returns true if vessel passes a check against difficulty
-// Higher skill = better chance. difficulty scales with arc_count.
-function skillCheck(vessel, skillName, baseDifficulty) {
-  const skill = vessel.skills ? (vessel.skills[skillName] || 1) : 1;
-  const arcBonus = Math.floor((vessel.mission.arc_count || 0) / 3); // difficulty rises every 3 arcs
+// Skill check: uses the best of the listed skills against difficulty
+// Higher skill = better chance. Difficulty scales with arc_count.
+function skillCheck(vessel, skillNames, baseDifficulty) {
+  const skills = vessel.skills || {};
+  // Use the highest relevant skill
+  const best = Array.isArray(skillNames)
+    ? Math.max(...skillNames.map(s => skills[s] || 1))
+    : (skills[skillNames] || 1);
+  const arcBonus = Math.floor((vessel.mission.arc_count || 0) / 3);
   const difficulty = baseDifficulty + arcBonus;
-  // Roll d20 + skill vs difficulty
-  return (randInt(1, 20) + skill) >= difficulty;
+  return (randInt(1, 20) + best) >= difficulty;
 }
 
-// Stat changes per phase tick — skills mitigate damage
+// Stat changes per phase tick — multiple skills can apply per phase
 const PHASE_EFFECTS = {
   IDLE:     (v) => { v.energy = Math.min(10, v.energy + 1); },
-  SIGNAL:   () => {},
+  SIGNAL:   (v) => {
+    // Interface or research helps detect signals — failure wastes energy
+    if (!skillCheck(v, ['interface', 'research'], 10)) {
+      v.energy = Math.max(0, v.energy - 1);
+    }
+  },
   TRAVERSE: (v) => {
-    // Research skill reduces energy cost of navigation
-    if (!skillCheck(v, 'research', 10)) {
+    // Research or hardware helps navigate terrain
+    if (!skillCheck(v, ['research', 'hardware'], 10)) {
       v.energy = Math.max(0, v.energy - 1);
     }
   },
   BREACH:   (v) => {
-    // Hardware skill reduces breach damage
-    if (Math.random() < 0.3 && !skillCheck(v, 'hardware', 12)) {
+    // Hardware or interface helps bypass security
+    if (Math.random() < 0.3 && !skillCheck(v, ['hardware', 'interface'], 12)) {
       v.integrity = Math.max(0, v.integrity - 1);
     }
   },
   FAULT:    (v) => {
-    // Hardware skill mitigates fault damage
-    const dmg = skillCheck(v, 'hardware', 14) ? 1 : randInt(1, 2);
+    // Hardware or research helps handle faults
+    const dmg = skillCheck(v, ['hardware', 'research'], 14) ? 1 : randInt(1, 2);
     v.integrity = Math.max(0, v.integrity - dmg);
   },
   CORE:     (v) => {
-    // Interface skill helps in core — failure costs energy
-    if (!skillCheck(v, 'interface', 12)) {
+    // Interface or research helps process core data
+    if (!skillCheck(v, ['interface', 'research'], 12)) {
       v.energy = Math.max(0, v.energy - 1);
     }
   },
