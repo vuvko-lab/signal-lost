@@ -509,6 +509,7 @@ export function updateDarkMode() {
 // === GLOBAL EVENTS ===
 
 let globalEventDismissWired = false;
+let globalEventAutoTimer = null;
 
 export function showGlobalEvent(phenomenon) {
   const banner = document.getElementById('global-event');
@@ -518,11 +519,19 @@ export function showGlobalEvent(phenomenon) {
   text.textContent = `[${phenomenon.name}] ${phenomenon.banner}`;
   banner.classList.remove('hidden');
 
+  // Auto-dismiss after 15 seconds
+  if (globalEventAutoTimer) clearTimeout(globalEventAutoTimer);
+  globalEventAutoTimer = setTimeout(() => {
+    banner.classList.add('hidden');
+    globalEventAutoTimer = null;
+  }, 15000);
+
   // Wire dismiss button (once)
   if (!globalEventDismissWired) {
     globalEventDismissWired = true;
     document.getElementById('global-event-dismiss').addEventListener('click', () => {
       banner.classList.add('hidden');
+      if (globalEventAutoTimer) { clearTimeout(globalEventAutoTimer); globalEventAutoTimer = null; }
     });
   }
 
