@@ -15,14 +15,37 @@ const PHASES = ['IDLE', 'SIGNAL', 'TRAVERSE', 'BREACH', 'FAULT', 'CORE', 'REBOOT
 
 // How many entries per phase before advancing
 const PHASE_ENTRY_COUNTS = {
-  IDLE:     () => randInt(1, 2),
-  SIGNAL:   () => 1,
-  TRAVERSE: () => randInt(2, 4),
-  BREACH:   () => randInt(1, 2),
-  FAULT:    () => 1,
-  CORE:     () => randInt(1, 2),
-  REBOOT:   () => randInt(1, 2),
+  IDLE:     () => randInt(2, 4),
+  SIGNAL:   () => randInt(1, 2),
+  TRAVERSE: () => randInt(3, 5),
+  BREACH:   () => randInt(2, 4),
+  FAULT:    () => randInt(1, 3),
+  CORE:     () => randInt(3, 5),
+  REBOOT:   () => randInt(2, 3),
 };
+
+// Tick delay ranges per phase (seconds) — [min, max]
+const PHASE_TICK_DELAYS = {
+  IDLE:     [12, 25],
+  SIGNAL:   [6, 12],
+  TRAVERSE: [5, 10],
+  BREACH:   [4, 9],
+  FAULT:    [3, 7],
+  CORE:     [5, 10],
+  REBOOT:   [8, 15],
+};
+
+function getTickDelay(vessel) {
+  const [min, max] = PHASE_TICK_DELAYS[vessel.mission.phase] || [8, 15];
+  let delay = randInt(min, max);
+  // Damaged vessels idle longer — recovery takes time
+  if (vessel.mission.phase === 'IDLE' && vessel.integrity <= 5) {
+    delay += Math.floor((10 - vessel.integrity) * 2);
+  }
+  // Small random jitter ±2s to prevent synchronization
+  delay += randInt(-2, 2);
+  return Math.max(3, delay) * 1000;
+}
 
 // Stat changes per phase tick
 const PHASE_EFFECTS = {
@@ -581,8 +604,8 @@ export function tick(vessel) {
     }
   }
 
-  // Schedule next tick
-  vessel.nextTick = Date.now() + randInt(8, 15) * 1000;
+  // Schedule next tick — delay varies by phase and vessel condition
+  vessel.nextTick = Date.now() + getTickDelay(vessel);
 
   state.tick_count++;
 
