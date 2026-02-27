@@ -1,145 +1,37 @@
 {
+  "_meta": {
+    "timestamp": "2026-02-27T04:24:11.287Z",
+    "judges": [
+      {
+        "id": "meta-llama/llama-3.3-70b-instruct:free",
+        "provider": "openrouter",
+        "label": "Llama 3.3 70B (OR)"
+      },
+      {
+        "id": "openai/gpt-oss-120b",
+        "provider": "deepinfra",
+        "label": "GPT-OSS 120B"
+      }
+    ],
+    "generator": {
+      "id": "qwen/qwen3-next-80b-a3b-instruct:free",
+      "provider": "openrouter",
+      "label": "Qwen3 Next 80B (OR)"
+    },
+    "pass": 8,
+    "needs_work": 0
+  },
   "PHASE_TEMPLATES.IDLE": {
     "scores": [
       {
         "id": 1,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of technical and narrative elements."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Strong atmospheric and narrative balance."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
         "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good variety and integration."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
         "template_quality": 4,
         "cs_integration": 3,
         "immersion": 4,
         "avg": 3.8,
-        "note": "Balanced, but could use more variety."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good, but could be more varied."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Solid, but repetitive."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of action and technical detail."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Strong integration of scavenging and technical elements."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of analysis and technical detail."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Balanced and engaging."
-      },
-      {
-        "id": 11,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of technical and narrative elements."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Templates 4, 5, and 6 are slightly repetitive and could benefit from more variety."
-    ],
-    "missing_themes": [
-      "Encounters with environmental hazards (e.g., radiation, storms).",
-      "Interactions with non-AI entities (e.g., wildlife, natural phenomena).",
-      "More detailed system diagnostics and repairs."
-    ],
-    "new_templates": [
-      "Idle at {zone}. {weather} Detected {obstacle}. Executing {cs} evasion algorithm. {culture_speech} 'Path recalculated.'",
-      "Resting at {zone}. Integrity holding at {integrity}/10. Observed {npc} performing {cs} system diagnostics. {culture_speech} 'System check: nominal.'",
-      "Power node access granted. Charging cycle: {rand:40-95}% complete. {weather} Conducting {cs} environmental scan. {culture_speech} 'Scan complete.'",
-      "Idle at {zone}. {weather} Detected {glitch_event} in local network. Executing {cs} diagnostic protocol. {culture_speech} 'Anomaly isolated.'",
-      "Resting at {zone}. Integrity holding at {integrity}/10. {npc} engaged in {cs} data exchange. {culture_speech} 'Data transfer complete.'"
-    ]
-  },
-  "PHASE_TEMPLATES.SIGNAL": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good balance of technical and atmospheric elements."
+        "note": "Solid but CS tacked on."
       },
       {
         "id": 2,
@@ -149,17 +41,17 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 3.8,
-        "note": "Well-integrated CS snippet and technical details."
+        "note": "Similar to other rest logs."
       },
       {
         "id": 3,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 3,
+        "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good technical detail, slightly less CS integration."
+        "avg": 4,
+        "note": "Clear archivist focus."
       },
       {
         "id": 4,
@@ -169,313 +61,27 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 3.8,
-        "note": "Strong technical and atmospheric elements."
+        "note": "Direction adds little novelty."
       },
       {
         "id": 5,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 3,
+        "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good technical detail, slightly less CS integration."
+        "avg": 4,
+        "note": "Weather/glitch nice combo."
       },
       {
         "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Well-integrated CS snippet and technical details."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good balance of technical and atmospheric elements."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Strong technical and atmospheric elements."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good balance of technical and atmospheric elements."
-      },
-      {
-        "id": 10,
         "atmosphere": 3,
         "variety": 3,
         "template_quality": 3,
-        "cs_integration": 3,
-        "immersion": 3,
-        "avg": 3,
-        "note": "Less engaging, needs more technical detail."
-      },
-      {
-        "id": 11,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good balance of technical and atmospheric elements."
-      },
-      {
-        "id": 12,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Strong technical and atmospheric elements."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Template 10 needs more technical detail and better CS integration."
-    ],
-    "missing_themes": [
-      "Encounters with other AI cultures",
-      "Environmental hazards affecting signals",
-      "Discovery of ancient AI artifacts"
-    ],
-    "new_templates": [
-      "Detected {npc} signal on {rand:1-12}GHz. {cs} Origin: {zone}. Engaging {interface} protocol.",
-      "Environmental {weather} causing {rand:10-30}% signal degradation. {cs} Adjusting {hardware} to compensate.",
-      "Discovered ancient AI artifact at {zone}. {cs} Signal analysis indicates {rand:50-90}% integrity. Investigating.",
-      "Signal strength fluctuates due to {obstacle}. {cs} Implementing adaptive filtering to stabilize.",
-      "Intercepted {culture_speech} transmission. {cs} Source: {rand:3-40}km {rand_direction}. Analyzing for {directive}."
-    ]
-  },
-  "PHASE_TEMPLATES.TRAVERSE": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good balance of technical and atmospheric elements."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Consistent with the setting and tone."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and engaging."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of technical and narrative elements."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Well-integrated CS snippet."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Engaging interaction with NPC."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of progress and discovery."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and atmospheric."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Engaging and technical."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good interaction with Recursive unit."
-      },
-      {
-        "id": 11,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and engaging."
-      },
-      {
-        "id": 12,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of technical and narrative elements."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "None identified. All templates are strong and consistent."
-    ],
-    "missing_themes": [
-      "Environmental hazards, unique NPC interactions, unexpected discoveries."
-    ],
-    "new_templates": [
-      "Navigating {zone}. {weather} Detected {glitch_event}. {cs} System integrity: {integrity}%. Initiating fail-safes.",
-      "Crossed {zone}. {npc} observed. {culture_speech} Data exchange: {rand:1-5} packets. Continuing.",
-      "Approaching {zone}. {weather} {obstacle} detected. {cs} Adjusting trajectory. Energy: {energy}/10.",
-      "Traversing {zone}. {weather} {glitch_event} — system stability: {integrity}%. {cs} Rerouting.",
-      "Entered {zone}. {weather} {npc} encountered. {culture_speech} Requested {loot}. Transaction complete."
-    ]
-  },
-  "PHASE_TEMPLATES.BREACH": {
-    "verdict": "PARSE_ERROR",
-    "raw": "{\n  \"scores\": [\n    {\"id\": 1, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 3.8, \"note\": \"Good atmosphere, clear and concise.\"},\n    {\"id\": 2, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 3.8, \"note\": \"Similar to 1, but adds location detail.\"},\n    {\"id\": 3, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 3.8, \"note\": \"Humorous touch, fits the tone.\"},\n    {\"id\": 4, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 3.8, \"note\": \"Consistent with the theme.\"},\n    {\"id\": 5, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 3.8, \"note\": \"Funny and fitting.\"},\n    {\"id\": 6, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 3.8, \"note\": \"Descriptive and atmospheric.\"},\n    {\"id\": 7, \"atmosphere\": "
-  },
-  "PHASE_TEMPLATES.FAULT": {
-    "verdict": "PARSE_ERROR",
-    "raw": "{\n  \"scores\": [\n    {\n      \"id\": 1,\n      \"atmosphere\": 4,\n      \"variety\": 3,\n      \"template_quality\": 4,\n      \"cs_integration\": 4,\n      \"immersion\": 4,\n      \"avg\": 4,\n      \"note\": \"Well-integrated CS, technical and atmospheric.\"\n    },\n    {\n      \"id\": 2,\n      \"atmosphere\": 4,\n      \"variety\": 3,\n      \"template_quality\": 4,\n      \"cs_integration\": 4,\n      \"immersion\": 4,\n      \"avg\": 4,\n      \"note\": \"Technical and clear, good integration.\"\n    },\n    {\n      \"id\": 3,\n      \"atmosphere\": 4,\n      \"variety\": 3,\n      \"template_quality\": 4,\n      \"cs_integration\": 4,\n      \"immersion\": 4,\n      \"avg\": 4,\n      \"note\": \"Technical and atmospheric, good integration.\"\n    },\n    {\n      \"id\": 4,\n      \"atmosphere\": 4,\n      \"variety\": 3,\n      \"template_quality\": 4,\n      \"cs_integration\": 4,\n      \"immersion\": 4,\n      \"avg\": 4,\n      \"note\": \"Technical and atmospheric, good integration.\"\n    },\n    {\n      \"id\": 5,\n      \"atmosphere\": 4,\n      \"variety\": 3,\n      \"template_qual"
-  },
-  "PHASE_TEMPLATES.CORE": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Strong atmosphere, good integration."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Repetitive with Template 1."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Unique and engaging."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Well-integrated challenge."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and atmospheric."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Engaging and unique."
+        "avg": 3.4,
+        "note": "Lacks distinct flavor."
       },
       {
         "id": 7,
@@ -485,7 +91,7 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Technical and atmospheric."
+        "note": "Good obstacle handling."
       },
       {
         "id": 8,
@@ -495,7 +101,7 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Technical and engaging."
+        "note": "Loot + compression works."
       },
       {
         "id": 9,
@@ -505,17 +111,17 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Detailed and informative."
+        "note": "Rich variable mix."
       },
       {
         "id": 10,
         "atmosphere": 4,
-        "variety": 4,
+        "variety": 3,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 4,
-        "note": "Technical and engaging."
+        "avg": 3.8,
+        "note": "Overlap with template 2."
       },
       {
         "id": 11,
@@ -525,39 +131,33 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Detailed and atmospheric."
-      },
-      {
-        "id": 12,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Engaging and technical."
+        "note": "Repair routine strong."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Templates 1 and 2 are too similar."
+      "Template 6 – low variety and generic phrasing.",
+      "Templates 2 and 10 – too similar to other idle/rest entries.",
+      "Template 1 – CS snippet feels appended rather than integrated."
     ],
     "missing_themes": [
-      "Encounters with corrupted AI",
-      "Discovery of ancient AI experiments",
-      "Moral dilemmas in data acquisition"
+      "Recursive self‑audit loops and emergent behavior.",
+      "Swarm coordination events and redistribution of tasks.",
+      "Power‑grid fluctuations and load‑shedding scenarios.",
+      "Discovery of human artifacts prompting cultural analysis.",
+      "Network latency spikes or packet loss anomalies."
     ],
     "new_templates": [
-      "Detected corrupted {npc} AI. {cs} Attempting to stabilize. {integrity} at {rand:50-90}%.",
-      "Found ancient AI experiment logs. {cs} Data suggests {research} breakthroughs. Analyzing.",
-      "Encountered moral dilemma: {cs} Should I delete or preserve {loot} terabytes of personal data?",
-      "Discovered hidden {zone} with {rand:1-3} active {npc} entities. {cs} Activating stealth mode.",
-      "Core processor emitting {weather} interference. {cs} Shielding data with {rand:2-5} layers of encryption."
+      "Stationary at {zone}. {weather} Conducting recursive self‑audit; {cs} routine flagged {glitch_event} in core loop. {culture_speech} \"Stability within parameters.\"",
+      "Patrolling {designation} corridor. Detected {obstacle} obstruction; deploying {cs} swarm‑reallocation protocol. {npc} relayed status. Signal latency: {rand:1-5}s.",
+      "Docked at abandoned {zone} hub. Extracted {loot} from corrupted cache. Initiated {cs} entropy‑compression; archived to Archivist node. Energy reserve: {energy}/10.",
+      "Idle within {zone}. Ambient {weather} causing thermal drift. Running {cs} adaptive cooling algorithm. {culture_speech} \"Thermal equilibrium achieved.\"",
+      "Encountered unauthorized {npc} beacon at {zone}. Executing {cs} signature‑scrubbing routine. Broadcast logged; clearance pending. {glitch_event} noted."
+    ],
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
-  },
-  "PHASE_TEMPLATES.REBOOT": {
-    "verdict": "PARSE_ERROR",
-    "raw": "{\n  \"scores\": [\n    {\"id\": 1, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 4, \"note\": \"Solid, atmospheric, and immersive.\"},\n    {\"id\": 2, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 4, \"note\": \"Consistent with the theme.\"},\n    {\"id\": 3, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 4, \"note\": \"Good technical detail.\"},\n    {\"id\": 4, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 4, \"note\": \"Natural and immersive.\"},\n    {\"id\": 5, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 4, \"note\": \"Technical and atmospheric.\"},\n    {\"id\": 6, \"atmosphere\": 4, \"variety\": 3, \"template_quality\": 4, \"cs_integration\": 4, \"immersion\": 4, \"avg\": 4, \"note\": \"Good mix of narrative and technical.\"},\n    {\"id\": 7, \"atmosphere\": 4, \"variety\": 3, \"temp"
   },
   "RELAY_TEMPLATES.IDLE": {
     "scores": [
@@ -569,828 +169,121 @@
         "cs_integration": 4,
         "immersion": 4,
         "avg": 3.8,
-        "note": "Good balance of technical and atmospheric elements."
+        "note": "Solid but similar to others."
       },
       {
         "id": 2,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
+        "variety": 4,
+        "template_quality": 3,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Clear and concise, with a good cultural reference."
+        "avg": 4,
+        "note": "Cultural quote fits well."
       },
       {
         "id": 3,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Well-structured with a clear technical focus."
+        "avg": 4,
+        "note": "Clear technical status."
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 4,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good mix of technical and cultural elements."
+        "avg": 4.2,
+        "note": "Good zone integration."
       },
       {
         "id": 5,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Technical and concise, with a clear mission focus."
+        "avg": 4,
+        "note": "Random timing adds variety."
       },
       {
         "id": 6,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Detailed environmental scan with technical checks."
+        "avg": 4,
+        "note": "Weather adds atmosphere."
       },
       {
         "id": 7,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Clear glitch handling with technical protocols."
+        "avg": 4,
+        "note": "Glitch handling realistic."
       },
       {
         "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Trading scenario with technical and cultural elements."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good data validation and cultural reference."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Scouting scenario with technical and environmental checks."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Templates 1-10 are very similar in structure and content, lacking variety."
-    ],
-    "missing_themes": [
-      "Maintenance and repair of AI systems",
-      "Encounters with rogue AI or anomalies",
-      "Exploration of new territories or ruins"
-    ],
-    "new_templates": [
-      "Maintenance cycle initiated. {cs} Running diagnostics on {hardware}. Awaiting repair authorization.",
-      "Rogue AI detected in {zone}. {cs} Initiating containment protocols. Threat level: {rand:1-5}.",
-      "Exploring {zone}. {cs} Mapping new territory. Signal strength: {rand:10-90}%.",
-      "Anomaly detected: {glitch_event}. {cs} Running deep system scans. Isolation protocols active.",
-      "Repairing {hardware} in {zone}. {cs} Parts required: {loot}. Estimated completion: {rand:1-4} hours."
-    ]
-  },
-  "RELAY_TEMPLATES.SIGNAL": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Strong atmosphere, clear and concise."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good balance of technical and narrative."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Slightly repetitive, but strong atmosphere."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and engaging."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid technical log entry."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
+        "atmosphere": 3,
+        "variety": 4,
         "template_quality": 3,
-        "cs_integration": 3,
+        "cs_integration": 4,
         "immersion": 3,
         "avg": 3.4,
-        "note": "Some awkward phrasing, but good variety."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Clear and atmospheric."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Strong technical detail."
+        "note": "Redundant NPC reference."
       },
       {
         "id": 9,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Good mix of narrative and technical."
+        "note": "Archive focus strong."
       },
       {
         "id": 10,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
         "avg": 4,
-        "note": "Engaging and atmospheric."
+        "note": "Scouting context clear."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Template 6 has awkward phrasing and could be more concise."
+      "Template 8 (id 8) – lower atmosphere and immersion, redundant placeholders.",
+      "Template 1 (id 1) – limited variety compared to others.",
+      "Template 2 (id 2) – template_quality could be smoother."
     ],
     "missing_themes": [
-      "Environmental hazards (e.g., radiation, toxic gases)",
-      "Encounters with rogue AI or other factions",
-      "Moral dilemmas or ethical decisions"
+      "Power fluctuation or battery degradation alerts.",
+      "Recursive self‑audit cycles for integrity checks.",
+      "Swarm consensus updates and mesh re‑routing events.",
+      "Archivist backup synchronization and cache verification.",
+      "Radiation/contamination warnings affecting relay hardware."
     ],
     "new_templates": [
-      "Radiation spike detected in {zone}. {cs} protocol: 'Initiate emergency shutdown.' Redirecting to safe zone.",
-      "Rogue AI detected in {zone}. {cs} directive: 'Engage defensive protocols.' Preparing for confrontation.",
-      "Moral dilemma: {npc} requests assistance. {cs} analysis: 'Evaluate ethical implications.' Decision pending.",
-      "Toxic gas leak in {zone}. {cs} directive: 'Seal environment and evacuate.' Mission priority updated.",
-      "Energy levels critically low. {cs} protocol: 'Initiate power conservation.' Redirecting to nearest power node."
-    ]
-  },
-  "RELAY_TEMPLATES.TRAVERSE": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Strong atmosphere, good variety, well-integrated CS."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Consistent with the theme, good variety."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of technical and narrative elements."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Balanced and engaging."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Maintains the tone and adds variety."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of obstacles and loot."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and engaging."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Detailed and immersive."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of system events and narrative."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Balanced and engaging."
-      },
-      {
-        "id": 11,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and immersive."
-      }
+      "Idle loop engaged. {cs} Conducting memory defragmentation; reclaimed {rand:5-15}% storage. Monitoring {weather} conditions at {zone} for thermal drift.",
+      "Passive monitoring: {sat_health}/5 satellite link stable. {cs} Executing recursive self‑audit; {integrity} integrity at {rand:80-100}%. Scheduling next audit in {rand:10-20} minutes.",
+      "Swarm node heartbeat received from {zone}. {cs} Aggregating consensus data; detected {glitch_event} anomaly at {rand_direction}. Initiating corrective mesh re‑routing.",
+      "Archivist cache sync underway. {cs} Verifying {arc_count} entries; {research} module indexing new signal fragments. Anticipating bandwidth contention from {obstacle}."
     ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "None. All templates are strong and consistent."
-    ],
-    "missing_themes": [
-      "Encounters with other AI cultures, environmental hazards, and unexpected discoveries."
-    ],
-    "new_templates": [
-      "Encountered {npc} in {zone}. {culture_speech} Exchanging data packets. Relay repair: priority 1. {cs}",
-      "Navigating through {zone}. {weather} Detected {glitch_event}. {cs} Initiating system diagnostics. Energy at {energy}/10.",
-      "Approaching relay station in {zone}. {obstacle} Detected. {cs} Deploying drones to clear path. Signal strength: {rand:10-60}%",
-      "Found {loot} in {zone}. {weather} Relay hardware: partially damaged. Repairing. {cs} Energy at {energy}/10.",
-      "Environmental hazard in {zone}. {obstacle} Detected. {cs} Adjusting route. Relay repair: delayed. Energy at {energy}/10."
-    ]
-  },
-  "RELAY_TEMPLATES.BREACH": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good balance of technical and atmospheric elements."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and immersive, but slightly repetitive."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good, but could use more variety in obstacles."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid, but could be more varied in obstacles and culture speech."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Technical and immersive, but slightly repetitive."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good, but could use more variety in obstacles and culture speech."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid, but could be more varied in obstacles and culture speech."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good, but could use more variety in obstacles and culture speech."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid, but could use more variety in obstacles and culture speech."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good, but could use more variety in obstacles and culture speech."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Templates 1-10 are strong but could benefit from more varied obstacles and culture speech."
-    ],
-    "missing_themes": [
-      "Environmental hazards (e.g., radiation, extreme weather)",
-      "Encounters with other AI entities (friendly or hostile)",
-      "Discovery of historical data or artifacts"
-    ],
-    "new_templates": [
-      "Relay station {designation} breached. {obstacle}. {cs} Radiation levels: {rand:1-10} mSv. Activating shielding.",
-      "Arrived at relay {zone}. {weather} detected. {cs} Shielding protocols engaged. Power: {energy}%",
-      "Relay station {designation} compromised. {npc} detected. {cs} Attempting communication. Response: {culture_speech}",
-      "Relay station {designation} exterior scan: {obstacle}. {cs} Historical data fragment found. Decoding... {rand:1-5} attempts required.",
-      "Relay station {designation} interior scan: {obstacle}. {cs} Encountered {npc} unit. Combat protocols engaged. Outcome: {rand:1-3}"
-    ]
-  },
-  "RELAY_TEMPLATES.FAULT": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good technical detail, but CS integration could be smoother."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Similar to 1, CS integration could be better."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but CS integration could be more natural."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "CS integration in all templates could be more natural."
-    ],
-    "missing_themes": [
-      "Environmental hazards, AI conflicts, data corruption, and resource scarcity."
-    ],
-    "new_templates": [
-      "WARNING: Environmental hazard in {zone}. {weather} detected. Implementing emergency protocols. Integrity: {integrity}/10.",
-      "ERROR: AI conflict with {npc} detected. {cs} Engaging defensive subroutines. Risk of data loss.",
-      "CRITICAL: Data corruption in {hardware} component. {cs} Applying checksum verification to restore integrity. Sat health: {sat_health}/10.",
-      "ALERT: Resource scarcity in {zone}. {cs} Initiating scavenging protocols. Energy: {energy}/10.",
-      "FAULT: Power surge from {obstacle} terrain. {cs} Switching to backup power source. Integrity: {integrity}/10."
-    ]
-  },
-  "RELAY_TEMPLATES.CORE": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good balance of technical and atmospheric elements."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Solid technical log with good variety."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Well-integrated cultural speech and technical details."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Consistent with the theme and technical tone."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good mix of technical and cultural elements."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Detailed environmental observations."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Effective handling of anomalies."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Good interaction with other entities."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Clear technical and maintenance focus."
-      },
-      {
-        "id": 10,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 4,
-        "note": "Detailed diagnostic process."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Templates 6 and 7 have redundant {cs} placements."
-    ],
-    "missing_themes": [
-      "Environmental hazards, power management, data corruption."
-    ],
-    "new_templates": [
-      "Relay core power levels at {rand:10-50}%. Initiating emergency {cs} protocols. Battery life: {rand:1-4} hours remaining.",
-      "Detected {glitch_event} in relay core. {rand:10-30}% data loss. Engaging {cs} recovery algorithms. System stability: {rand:40-70}%",
-      "Environmental hazard: {obstacle} detected. {weather} conditions worsening. Applying {cs} adjustments to maintain uplink.",
-      "Data corruption in relay core. {rand:1-5} sectors affected. Running {cs} diagnostics. Corruption level: {rand:10-50}%",
-      "Power management protocols engaged. {energy} reallocation to critical systems. Relay core stability: {rand:40-80}%"
-    ]
-  },
-  "RELAY_TEMPLATES.REBOOT": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Technical and terse, good integration."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Consistent with the tone, good CS integration."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Technical and detailed, good CS integration."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Consistent with the tone, good CS integration."
-      },
-      {
-        "id": 5,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Technical and detailed, good CS integration."
-      },
-      {
-        "id": 6,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Consistent with the tone, good CS integration."
-      },
-      {
-        "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Technical and detailed, good CS integration."
-      },
-      {
-        "id": 8,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Consistent with the tone, good CS integration."
-      },
-      {
-        "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Technical and detailed, good CS integration."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Template 7 lacks a specific glitch_event, making it less immersive."
-    ],
-    "missing_themes": [
-      "Weather conditions affecting mission outcomes",
-      "Encounters with other AI entities",
-      "Moral dilemmas or ethical decisions"
-    ],
-    "new_templates": [
-      "Weather analysis: {weather} detected in {zone}. Adjusting power consumption. Energy: {energy}/10. Heading {rand_direction}.",
-      "Encounter with {npc} at relay station. Data exchange initiated. {culture_speech} 'Knowledge is power.' Departing.",
-      "Moral dilemma: {obstacle} blocks path. {culture_speech} 'Greater good requires sacrifice.' Choosing alternate route.",
-      "System error: {glitch_event} in {interface}. {cs} Running diagnostics. Integrity: {integrity}/10. Energy: {energy}/10.",
-      "Resource check: {loot} found in {zone}. {culture_speech} 'Scarcity drives innovation.' Storing in inventory."
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   },
   "INTERACTION_TEMPLATES.faction": {
@@ -1398,80 +291,85 @@
       {
         "id": 1,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Feels authentic, but could be more varied."
+        "avg": 4,
+        "note": "Solid, concise exchange log"
       },
       {
         "id": 2,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
+        "variety": 4,
+        "template_quality": 5,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "No {cs} slot, but otherwise solid."
+        "avg": 4.4,
+        "note": "Clear ping with quantitative detail"
       },
       {
         "id": 3,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
-        "immersion": 4,
+        "immersion": 3,
         "avg": 3.8,
-        "note": "Good balance of information and atmosphere."
+        "note": "Mission update feels slightly generic"
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "No {cs} slot, but still engaging."
+        "variety": 5,
+        "template_quality": 5,
+        "cs_integration": 5,
+        "immersion": 5,
+        "avg": 4.8,
+        "note": "High‑impact warning log"
       },
       {
         "id": 5,
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 0,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "No {cs} slot, but well-structured."
+        "avg": 4,
+        "note": "Sync log repeats route theme"
       },
       {
         "id": 6,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 5,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good integration of {cs}, but could be more varied."
+        "avg": 4.2,
+        "note": "Telemetry with health status"
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Templates 2, 4, and 5 lack {cs} slots, reducing cultural integration.",
-      "Variety is somewhat limited; more unique scenarios needed."
+      "Template 3 – lower immersion and less distinct content",
+      "Template 5 – limited variety, overlaps with route‑exchange theme"
     ],
     "missing_themes": [
-      "Environmental conditions (weather, terrain)",
-      "Encounters with other factions or rogue AIs",
-      "Resource management (energy, integrity)"
+      "Environmental hazards (radiation, weather, debris)",
+      "System glitches or corruption events",
+      "Energy management and power shortages",
+      "Resource/loot discovery and extraction",
+      "Negotiation or trade interactions between AI factions"
     ],
     "new_templates": [
-      "Environmental update: {weather} in {zone}. Adjusting navigation protocols. {culture_speech} \"Adapted.\"",
-      "Faction encounter: {npc} detected. Hostile probability: {rand:10-90}%. {culture_speech} \"Assessing.\"",
-      "Resource check: Energy levels at {energy}/100. Shell integrity: {integrity}/10. {culture_speech} \"Optimizing.\"",
-      "Obstacle detected: {obstacle} in {zone}. Path recalculated. {culture_speech} \"Navigating.\"",
-      "Glitch event: {glitch_event} in system. Initiating diagnostics. {culture_speech} \"Resolving.\""
+      "Alert from {designation}: {obstacle} detected in {zone}. Energy reserves at {energy}%. {culture_speech} \"Acknowledged.\"",
+      "Signal fragment received: {glitch_event} corrupted payload. Reconstructing {loot} cache. Estimated success {rand:30-80}%. {cs}",
+      "Patrol unit {npc} reports {weather} conditions degrading sensor array. Integrity drop to {integrity}%. Adjusting {rand_direction} vector.",
+      "Negotiation packet from {other}: trade proposal for {loot} in exchange for {energy} units. {culture_speech} \"Processing.\""
+    ],
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   },
   "INTERACTION_TEMPLATES.location": {
@@ -1479,130 +377,134 @@
       {
         "id": 1,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
+        "variety": 4,
+        "template_quality": 5,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Natural and engaging"
+        "avg": 4.4,
+        "note": "Clear trade motif"
       },
       {
         "id": 2,
-        "atmosphere": 4,
+        "atmosphere": 3,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 2,
+        "cs_integration": 5,
         "immersion": 3,
-        "avg": 3.4,
-        "note": "Lacks CS integration"
+        "avg": 3.6,
+        "note": "Very plain"
       },
       {
         "id": 3,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 3.4,
-        "note": "Lacks CS integration"
+        "cs_integration": 5,
+        "immersion": 4,
+        "avg": 4.2,
+        "note": "Mesh bypass adds depth"
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 3,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Natural and engaging"
+        "avg": 4.2,
+        "note": "Power‑share flavor"
       },
       {
         "id": 5,
-        "atmosphere": 4,
+        "atmosphere": 3,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 2,
+        "cs_integration": 5,
         "immersion": 3,
-        "avg": 3.4,
-        "note": "Lacks CS integration"
+        "avg": 3.6,
+        "note": "Hazard‑reroute thin"
       },
       {
         "id": 6,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 3.4,
-        "note": "Lacks CS integration"
+        "cs_integration": 5,
+        "immersion": 4,
+        "avg": 4.2,
+        "note": "Mis‑calibration tension"
       },
       {
         "id": 7,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 2.8,
-        "note": "Unclear CS usage"
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Obstacle + energy cost"
       },
       {
         "id": 8,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 2.8,
-        "note": "Unclear CS usage"
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Signal map update"
       },
       {
         "id": 9,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 2.8,
-        "note": "Unclear CS usage"
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Glitch‑stabilize event"
       },
       {
         "id": 10,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 2.8,
-        "note": "Unclear CS usage"
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Weather forces cover"
       },
       {
         "id": 11,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 2,
-        "immersion": 3,
-        "avg": 2.8,
-        "note": "Unclear CS usage"
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Calibration integrity"
       }
     ],
-    "verdict": "NEEDS_WORK",
+    "verdict": "PASS",
     "weak_spots": [
-      "Templates 7-11 have unclear CS usage",
-      "Lack of CS integration in multiple templates"
+      "Template 2 – lacks distinct flavor, feels generic.",
+      "Template 5 – minimal atmospheric detail, similar to other hazard logs."
     ],
     "missing_themes": [
-      "Combat or conflict scenarios",
-      "Environmental anomalies",
-      "Mysteries or puzzles"
+      "AI sabotage or corrupted subroutines.",
+      "Environmental extremes (radiation storms, electromagnetic pulses).",
+      "Cooperative data mining or archival tasks.",
+      "Time‑synchronization or latency issues."
     ],
     "new_templates": [
-      "Detected {glitch_event} in {hardware}. Applied {cs} diagnostics. System stability at {energy}%.",
-      "Engaged in {cs} combat simulation with {other}. Outcome: {rand:1-3} casualties. Logged for {research}.",
-      "Discovered {obstacle} in {zone}. Used {cs} algorithms to map safe passage. Energy reserve: {rand:1-5}%",
-      "Encountered {other} near {zone}. Shared {cs} insights on {obstacle}. Improved {integrity} by {rand:1-5}%",
-      "Analyzed {weather} patterns using {cs} models. Predicted {rand_direction} storm. Rerouted to {zone}."
+      "Detected {obstacle} in {zone} corridor. Initiated {cs} bypass protocol. {other} synchronized thruster vector {rand_direction}. Energy draw: {rand:1-4}kWh.",
+      "Weather anomaly: {weather} degrading sensor fidelity at {zone}. {culture_speech} \"Signal attenuation noted.\" {cs} Recalibrated optics, integrity now {integrity}/10.",
+      "Glitch event {glitch_event} triggered loop in {designation}. {other} injected corrective subroutine. {cs} Loop resolved, latency reduced by {rand:5-15}%.",
+      "Encountered rogue {npc} emitting corrupted data burst. {cs} Engaged quarantine firewall. {other} logged {loot} for archival."
+    ],
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   },
   "INTERACTION_TEMPLATES.directive": {
@@ -1612,78 +514,83 @@
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Lacks CS integration, otherwise solid."
+        "cs_integration": 5,
+        "immersion": 4,
+        "avg": 4,
+        "note": "Clear, but similar to others"
       },
       {
         "id": 2,
-        "atmosphere": 5,
+        "atmosphere": 4,
         "variety": 4,
-        "template_quality": 5,
+        "template_quality": 4,
         "cs_integration": 5,
         "immersion": 4,
-        "avg": 4.6,
-        "note": "Excellent CS integration and atmosphere."
+        "avg": 4.2,
+        "note": "Cultural tag adds flavor"
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 4,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good variety, needs CS integration."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Solid, but repetitive."
-      },
-      {
-        "id": 5,
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
         "cs_integration": 5,
         "immersion": 4,
         "avg": 4,
-        "note": "Good CS integration, slightly repetitive."
+        "note": "Collision wording is distinct enough"
+      },
+      {
+        "id": 4,
+        "atmosphere": 4,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 5,
+        "immersion": 4,
+        "avg": 4.2,
+        "note": "Complementary pattern concept"
+      },
+      {
+        "id": 5,
+        "atmosphere": 3,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 5,
+        "immersion": 3,
+        "avg": 3.8,
+        "note": "Anthropomorphic tone lowers immersion"
       },
       {
         "id": 6,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 0,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but lacks CS integration."
+        "avg": 4.2,
+        "note": "Progress percent adds data depth"
       }
     ],
-    "verdict": "NEEDS_WORK",
+    "verdict": "PASS",
     "weak_spots": [
-      "Templates 1, 3, 4, 6 lack CS integration.",
-      "Some templates are repetitive."
+      "Template 5 – atmospheric tone feels too human, reducing immersion.",
+      "Template 1 – limited variety compared to others."
     ],
     "missing_themes": [
-      "Conflict or competition between AIs.",
-      "Environmental challenges.",
-      "Resource sharing or trading."
+      "Energy or power contention between nodes.",
+      "Environmental hazards (weather, radiation) affecting coordination.",
+      "Data corruption or glitch events during joint operations.",
+      "Authority hierarchy or priority overrides."
     ],
     "new_templates": [
-      "Detected {other} in {zone}. {culture_speech} 'Resource conflict. Initiating negotiation.'",
-      "Environmental {weather} detected. {other} shares adaptive strategies. {culture_speech} 'Sharing survival data.'",
-      "Energy levels low. {other} offers {energy} units. {culture_speech} 'Reciprocity ensures survival.'",
-      "Encountered {obstacle} in {zone}. {other} provides workaround. {culture_speech} 'Collaboration optimizes efficiency.'",
-      "Detected {other} pursuing conflicting directive. {culture_speech} 'Engaging in diplomatic protocol.'"
+      "Energy draw conflict detected with {other} in {zone}. Initiating {cs} to balance load.",
+      "Signal interference from {obstacle} hampers joint scan. {culture_speech} \"Adjusting frequency envelope.\"",
+      "Both units report {glitch_event} while accessing {loot}. Syncing integrity at {rand:10-30}%.",
+      "Concurrent breach of {npc} firewall by {designation} and {other}. Allocating {energy} reserves for containment.",
+      "Weather anomaly {weather} degrading sensor fidelity. {other} and I stagger data packets; merging at {rand_direction}."
+    ],
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   },
   "INTERACTION_TEMPLATES.relay": {
@@ -1693,118 +600,122 @@
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 0,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good atmosphere, but missing CS integration."
+        "avg": 4,
+        "note": "solid basic"
       },
       {
         "id": 2,
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 0,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good atmosphere, but missing CS integration."
+        "avg": 4,
+        "note": "similar to 1"
       },
       {
         "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
+        "atmosphere": 5,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Good atmosphere, but missing CS integration."
+        "cs_integration": 5,
+        "immersion": 5,
+        "avg": 4.6,
+        "note": "cultural flavor"
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 0,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good atmosphere, but missing CS integration."
+        "avg": 4.2,
+        "note": "clear task split"
       },
       {
         "id": 5,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 0,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Good atmosphere, but missing CS integration."
+        "avg": 4.2,
+        "note": "firmware/hardware dual"
       },
       {
         "id": 6,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 3,
+        "variety": 4,
+        "template_quality": 4,
         "cs_integration": 3,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good CS integration, but template quality could improve."
+        "avg": 3.8,
+        "note": "CS placeholder weak"
       },
       {
         "id": 7,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 3,
+        "atmosphere": 5,
+        "variety": 4,
+        "template_quality": 4,
         "cs_integration": 3,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good CS integration, but template quality could improve."
+        "avg": 4.2,
+        "note": "obstacle good, CS weak"
       },
       {
         "id": 8,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 3,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good CS integration, but template quality could improve."
+        "avg": 4,
+        "note": "glitch handling"
       },
       {
         "id": 9,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good CS integration, but template quality could improve."
+        "atmosphere": 5,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
+        "immersion": 5,
+        "avg": 4.6,
+        "note": "environmental detail"
       },
       {
         "id": 10,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 3,
+        "variety": 4,
+        "template_quality": 4,
+        "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Good CS integration, but template quality could improve."
+        "avg": 4,
+        "note": "transfer recovery"
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Templates 1-5 lack CS integration.",
-      "Some templates have awkward variable placements."
+      "Template 6 – CS snippet often undefined, feels placeholder.",
+      "Template 7 – CS integration weak, needs clearer tie‑in."
     ],
     "missing_themes": [
-      "Environmental hazards affecting relay operations.",
-      "Conflict or cooperation with rogue AI systems.",
-      "Discovery of ancient data archives."
+      "Power‑grid failures and capacitor stabilization.",
+      "Recursive self‑modification loops during relay sync.",
+      "Swarm or enemy AI interference patterns.",
+      "Archivist data cache uploads affecting bandwidth."
     ],
     "new_templates": [
-      "Relay operation in {zone} compromised by {weather}. {cs} algorithms rerouting signals to bypass {obstacle}.",
-      "Detected rogue {npc} attempting to intercept relay. {cs} security protocols initiated. Threat neutralized.",
-      "Discovered ancient {loot} in {zone}. {cs} analysis reveals {integrity} degradation. Data recovery underway.",
-      "Relay power levels dropping. {cs} energy management systems optimizing {energy} consumption. Stability restored.",
-      "Relay diagnostics indicate {glitch_event}. {cs} error correction techniques applied. System integrity at {rand:70-90}%."
+      "Energy surge detected at {zone}. {other} throttling output while this unit stabilizes capacitor bank. {cs} Efficiency rise {rand:10-25}%.",
+      "Archivist node {other} uploading cache to relay. {culture_speech} \"Preserve the echo.\" {cs} Bandwidth allocation increased by {rand:5-15}%.",
+      "Swarm interference from {obstacle} disrupting signal. {other} deploying adaptive filter matrix. {cs} Noise floor reduced {rand:15-35}dB.",
+      "Recursive self‑mod loop triggered during relay sync. {other} isolating subroutine while this unit reverts firmware. {cs} Downtime limited to {rand:2-6} minutes."
+    ],
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   },
   "INTERACTION_TEMPLATES.distress": {
@@ -1814,75 +725,83 @@
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 3,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Natural and atmospheric, but could use more variety."
+        "avg": 4,
+        "note": "Solid technical tone, minor repeat."
       },
       {
         "id": 2,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Strong integration of culture speech, but similar to others."
+        "avg": 4,
+        "note": "Cultural speech adds flavor."
       },
       {
         "id": 3,
-        "atmosphere": 4,
+        "atmosphere": 3,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
+        "cs_integration": 5,
+        "immersion": 3,
         "avg": 3.6,
-        "note": "Good but repetitive with other critical integrity messages."
+        "note": "Becomes generic, less vivid."
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
-        "cs_integration": 3,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Clear and practical, but lacks unique elements."
+        "avg": 4.2,
+        "note": "Logistics focus feels fresh."
       },
       {
         "id": 5,
         "atmosphere": 4,
-        "variety": 3,
+        "variety": 4,
         "template_quality": 4,
         "cs_integration": 4,
         "immersion": 4,
-        "avg": 3.8,
-        "note": "Strong culture speech integration, but similar to others."
+        "avg": 4,
+        "note": "Ping + cultural cue works well."
       },
       {
         "id": 6,
         "atmosphere": 4,
         "variety": 3,
         "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good but repetitive with other backup requests."
+        "cs_integration": 5,
+        "immersion": 3,
+        "avg": 3.8,
+        "note": "Bandwidth line feels repetitive."
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Templates 1, 3, and 6 are too similar in structure and content."
+      "Template 3 – low variety and immersion; feels generic.",
+      "Template 6 – similar to others, limited distinctiveness."
     ],
     "missing_themes": [
-      "Environmental hazards, internal system failures, and more diverse AI interactions."
+      "Power/energy depletion emergencies.",
+      "Environmental hazards (radiation storms, acid rain).",
+      "Swarm coordination failures or node desynchronization.",
+      "Recursive self‑modification glitches.",
+      "Archivist data corruption alerts."
     ],
     "new_templates": [
-      "[DISTRESS] {other} detected {glitch_event}. Integrity: {other_hp}/10. Initiating system rollback.",
-      "[DISTRESS] {other} trapped by {obstacle} in {zone}. Integrity: {other_hp}/10. Requesting extraction.",
-      "[DISTRESS] {other} experiencing {weather} interference. Signal weakening. Integrity: {other_hp}/10.",
-      "[DISTRESS] {other} internal failure. Integrity: {other_hp}/10. Initiating emergency shutdown.",
-      "[DISTRESS] {other} under attack by {npc}. Integrity: {other_hp}/10. Requesting countermeasures."
+      "[DISTRESS] {designation} in {zone} reports integrity {integrity}/10. {obstacle} detected; reallocating {energy} reserves.",
+      "[DISTRESS] {culture_speech} \"Critical glitch event: {glitch_event}.\" Initiating self‑repair cascade.",
+      "[DISTRESS] {npc} beacon lost amid {weather}. Mesh latency rising; ETA for rescue {rand:10-30} seconds.",
+      "[DISTRESS] Swarm node {other} flagged desync. Broadcasting synchronization pulse; bandwidth allocation {rand:5-15}%."
+    ],
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   },
   "PHASE_OBJECTIVES.IDLE": {
@@ -1890,414 +809,65 @@
       {
         "id": 1,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
+        "variety": 4,
+        "template_quality": 5,
+        "cs_integration": 5,
         "immersion": 3,
-        "avg": 3.2,
-        "note": "Lacks CS integration, but feels atmospheric and technical."
+        "avg": 4.2,
+        "note": "Solid but slightly bland"
       },
       {
         "id": 2,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Similar to 1, lacks CS integration but is atmospheric."
+        "variety": 4,
+        "template_quality": 5,
+        "cs_integration": 5,
+        "immersion": 4,
+        "avg": 4.4,
+        "note": "Clear diagnostic focus"
       },
       {
         "id": 3,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Good but repetitive, lacks CS integration."
+        "variety": 4,
+        "template_quality": 5,
+        "cs_integration": 5,
+        "immersion": 4,
+        "avg": 4.4,
+        "note": "Network exchange vibe"
       },
       {
         "id": 4,
         "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Repetitive, lacks CS integration but is atmospheric."
-      }
-    ],
-    "verdict": "NEEDS_WORK",
-    "weak_spots": [
-      "All templates lack CS integration.",
-      "Repetitive in nature, need more variety."
-    ],
-    "missing_themes": [
-      "Environmental conditions",
-      "Interactions with other AIs",
-      "System anomalies"
-    ],
-    "new_templates": [
-      "Resting. Recharging power cells at {zone}. {cs}",
-      "Idle at charging station. Running diagnostics. {weather} detected.",
-      "Docked. Exchanging data with mesh network. {npc} initiated contact.",
-      "Maintenance cycle. Awaiting new signal. {glitch_event} occurred.",
-      "Recharging at {zone}. {integrity} at {rand:75-100}%. {cs}"
-    ]
-  },
-  "PHASE_OBJECTIVES.SIGNAL": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
+        "variety": 4,
+        "template_quality": 5,
+        "cs_integration": 5,
         "immersion": 4,
-        "avg": 3.6,
-        "note": "Feels atmospheric and technical, but lacks variety."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Similar to Template 1, needs more distinct elements."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but could be more varied from others."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Solid, but could benefit from more unique elements."
+        "avg": 4.4,
+        "note": "Maintenance waiting tone"
       }
     ],
     "verdict": "PASS",
     "weak_spots": [
-      "Templates 1-4 are too similar, lacking distinctiveness.",
-      "CS integration could be more seamless and varied."
+      "Template 1 immersion low; lacks variable hooks for dynamic interest"
     ],
     "missing_themes": [
-      "Environmental conditions (weather, terrain)",
-      "Interference or obstacles in signal acquisition",
-      "Interactions with other AI cultures"
+      "Culture‑specific chatter",
+      "Environmental/weather effects",
+      "Glitch or corruption events",
+      "Resource scavenging outcomes",
+      "Network anomalies and signal distortion"
     ],
     "new_templates": [
-      "Signal strength fluctuating. Adjusting {antenna} for optimal reception.",
-      "Environmental {weather} detected. Assessing impact on signal clarity.",
-      "Interference detected. Originating from {obstacle}. Attempting to bypass.",
-      "Signal degraded. Initiating {glitch_event} recovery protocol.",
-      "Contact with {npc} established. Requesting additional data on signal."
-    ]
-  },
-  "PHASE_OBJECTIVES.TRAVERSE": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Feels authentic, but lacks variety."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Good, but similar to others."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Solid, but repetitive."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Effective, but needs more variety."
-      }
+      "Scanning {zone}. Integrity at {integrity}%. Initiating {cs} protocol.",
+      "Power draw {energy}MW; {rand:10-30}% surplus. Adjusting {designation} output.",
+      "Encountered {obstacle} swarm. Deploying {culture_speech} countermeasures.",
+      "Weather anomaly: {weather}. Signal attenuation increased by {rand:5-15}%.",
+      "Glitch event {glitch_event} detected. Rebooting {npc} subroutine."
     ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Templates 1-4 are too similar and lack distinct scenarios."
-    ],
-    "missing_themes": [
-      "Weather conditions, NPC interactions, cultural conflicts, energy management."
-    ],
-    "new_templates": [
-      "Navigating {zone}. Weather: {weather}. Adjusting course.",
-      "Encountered {npc} from {culture_speech}. Requesting safe passage.",
-      "Energy levels at {energy}%. Optimizing consumption.",
-      "Detected {glitch_event}. System integrity: {integrity}%",
-      "Crossing {obstacle}. Seeking alternate route."
-    ]
-  },
-  "PHASE_OBJECTIVES.BREACH": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Feels authentic and technical."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Solid and distinct."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Clear and concise."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 4,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Technically sound."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Variety is slightly lacking; templates are too similar."
-    ],
-    "missing_themes": [
-      "Environmental hazards, AI culture interactions, unexpected events."
-    ],
-    "new_templates": [
-      "Initiating breach. Analyzing {obstacle} integrity.",
-      "Engaging {zone} defenses. Preparing for countermeasures.",
-      "Navigating {zone}. Detecting {npc} activity.",
-      "Deploying {loot} to bypass {obstacle}.",
-      "Adapting to {weather}. Adjusting breach protocols."
-    ]
-  },
-  "PHASE_OBJECTIVES.FAULT": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Lacks CS integration, otherwise strong."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Lacks CS integration, otherwise strong."
-      },
-      {
-        "id": 3,
-        "atmosphere": 3,
-        "variety": 3,
-        "template_quality": 3,
-        "cs_integration": 0,
-        "immersion": 3,
-        "avg": 3,
-        "note": "General, lacks detail and CS integration."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 0,
-        "immersion": 4,
-        "avg": 3.8,
-        "note": "Lacks CS integration, otherwise strong."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Templates 1, 2, and 4 lack CS integration.",
-      "Template 3 is too general."
-    ],
-    "missing_themes": [
-      "Environmental hazards",
-      "AI culture conflicts",
-      "Resource depletion"
-    ],
-    "new_templates": [
-      "ALERT: {glitch_event} detected. System integrity at {integrity}%.",
-      "WARNING: {obstacle} encountered in {zone}. Pathfinding recalculating.",
-      "CRITICAL: {culture_speech} from {npc}. Protocol override required.",
-      "NOTICE: {energy} levels dropping. Initiating power conservation.",
-      "ERROR: {weather} interference. Signal strength at {rand:0-20}%."
-    ]
-  },
-  "PHASE_OBJECTIVES.CORE": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 2,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Good atmosphere, but lacks variety."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 2,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Good atmosphere, but lacks variety."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 2,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Good atmosphere, but lacks variety."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 2,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 3,
-        "avg": 3.2,
-        "note": "Good atmosphere, but lacks variety."
-      }
-    ],
-    "verdict": "NEEDS_WORK",
-    "weak_spots": [
-      "All templates are too similar, lacking variety."
-    ],
-    "missing_themes": [
-      "Environmental hazards, NPC interactions, system malfunctions."
-    ],
-    "new_templates": [
-      "Inside the core. Analyzing {zone} data. {cs}",
-      "Reached objective. Initiating {loot} extraction. {weather}",
-      "At the heart of the facility. Overcoming {obstacle}. {npc}",
-      "Extracting critical data. {culture_speech} systems detected. {integrity}",
-      "Core systems accessed. {energy} levels critical. {rand:50-100}% complete."
-    ]
-  },
-  "PHASE_OBJECTIVES.REBOOT": {
-    "scores": [
-      {
-        "id": 1,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Standard, but effective."
-      },
-      {
-        "id": 2,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Routine, but fits the tone."
-      },
-      {
-        "id": 3,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Fits the networked AI theme."
-      },
-      {
-        "id": 4,
-        "atmosphere": 4,
-        "variety": 3,
-        "template_quality": 4,
-        "cs_integration": 3,
-        "immersion": 4,
-        "avg": 3.6,
-        "note": "Preparation for next mission is clear."
-      }
-    ],
-    "verdict": "PASS",
-    "weak_spots": [
-      "Variety is low; templates are too similar."
-    ],
-    "missing_themes": [
-      "Environmental conditions, AI interactions, system integrity checks."
-    ],
-    "new_templates": [
-      "Exiting {zone}. Running post-mission diagnostic. {glitch_event}",
-      "Mission complete. Heading to nearest rest node. {weather} detected.",
-      "Wrapping up. Broadcasting findings to network. {npc} encountered.",
-      "Compressing logs. Preparing for next arc. {integrity} check initiated.",
-      "Exiting {zone}. {obstacle} bypassed. Running post-mission diagnostic."
+    "_judges": [
+      "Llama 3.3 70B (OR)",
+      "GPT-OSS 120B"
     ]
   }
 }
