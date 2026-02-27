@@ -41,9 +41,9 @@
   --text-dim: #337a33;
   --glow: rgba(0, 255, 65, 0.4);
   --glow-amber: rgba(255, 176, 0, 0.4);
-  --font-terminal: 'VT323', monospace;
-  --font-ui: 'IBM Plex Mono', monospace;
-  --font-pixel: 'Monogram Extended', 'Monogram', monospace;
+  --font-terminal: 'Monogram Extended', 'Monogram', 'IBM Plex Mono', monospace;
+  --font-ui: 'Monogram Extended', 'Monogram', 'IBM Plex Mono', monospace;
+  --font-pixel: 'Monogram Extended', 'Monogram', 'IBM Plex Mono', monospace;
   --font-scale: 1;
 }
 
