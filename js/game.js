@@ -710,7 +710,9 @@ export function tick(vessel) {
   // Ego-to-ego interaction check
   checkInteraction(vessel);
 
-  // Apply stat changes
+  // Apply stat changes — track integrity/energy to detect changes
+  const hpBefore = vessel.integrity;
+  const enBefore = vessel.energy;
   const effectFn = PHASE_EFFECTS[vessel.mission.phase];
   if (effectFn) effectFn(vessel);
 
@@ -718,6 +720,26 @@ export function tick(vessel) {
   if (vessel.boosted) {
     vessel.integrity = Math.min(10, vessel.integrity + 1);
     vessel.boosted = false;
+  }
+
+  // Subtle damage/recovery note in log
+  const hpDelta = vessel.integrity - hpBefore;
+  const enDelta = vessel.energy - enBefore;
+  if (hpDelta !== 0 || enDelta !== 0) {
+    const parts = [];
+    if (hpDelta < 0) parts.push(`hull ${hpDelta}`);
+    if (hpDelta > 0) parts.push(`hull +${hpDelta}`);
+    if (enDelta < 0) parts.push(`energy ${enDelta}`);
+    if (enDelta > 0) parts.push(`energy +${enDelta}`);
+    const dmgEntry = {
+      time: formatTime(Date.now()),
+      text: `— ${parts.join(', ')} (${vessel.integrity}/10 hull, ${vessel.energy}/10 energy)`,
+      phase: vessel.mission.phase,
+      isEvent: false,
+      isDmg: true,
+    };
+    vessel.log.push(dmgEntry);
+    if (onLogEntry) onLogEntry(vessel.id, dmgEntry);
   }
 
   // Vessel destruction check

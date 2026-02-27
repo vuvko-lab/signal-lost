@@ -511,8 +511,16 @@ html, body {
 .hl-stat { color: var(--cyan); }
 .hl-bonus { color: var(--purple); font-weight: 700; }
 .hl-item { color: #ffd966; }
+.hl-dmg { color: var(--red); }
 .hl-speech { color: #66aa77; }
 .hl-vessel { color: var(--cyan); font-weight: 700; }
+
+/* Subtle damage/recovery notes — dim, smaller, doesn't break narrative flow */
+.dmg-entry {
+  font-size: calc(var(--fs-base) * 0.8);
+  opacity: 0.45;
+  padding-left: 1em;
+}
 
 
 @keyframes fade-in {

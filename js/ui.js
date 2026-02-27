@@ -268,7 +268,7 @@ export function createVesselColumn(vessel) {
     </div><!-- /vessel-details-panel -->
     <div class="vessel-log" id="log-${vessel.id}"></div>
     <div class="vessel-phase">
-      <span class="phase-label" data-tooltip="${escAttr(PHASE_DESCRIPTIONS[vessel.mission.phase] || '')}"><img class="icon" src="${PHASE_ICONS[vessel.mission.phase] || PHASE_ICONS.IDLE}" alt="">${vessel.mission.phase}</span>
+      <span class="phase-label" data-tooltip="${escAttr(PHASE_DESCRIPTIONS[vessel.mission.phase] || '')}">${vessel.mission.phase}</span>
       <div class="phase-segments">
         ${PHASES.map((p, i) => {
           const currentIdx = PHASES.indexOf(vessel.mission.phase);
@@ -352,6 +352,7 @@ function highlightLogText(text) {
   text = text.replace(/(\d+)\/10/g, '<span class="hl-stat">$1/10</span>');
   text = text.replace(/(\d+)\/5/g, '<span class="hl-stat">$1/5</span>');
   text = text.replace(/\+(\d+)/g, '<span class="hl-bonus">+$1</span>');
+  text = text.replace(/(?<!\d)-(\d+)/g, '<span class="hl-dmg">-$1</span>');
 
   // Items after "Found:" up to the next period
   text = text.replace(/Found: ([^.]+)\./g, 'Found: <span class="hl-item">$1</span>.');
@@ -373,6 +374,7 @@ function appendLogEntryDOM(container, entry) {
   const div = document.createElement('div');
   let cls = 'log-entry';
   if (entry.isEvent) cls += ' event-entry glitch-entry';
+  if (entry.isDmg) cls += ' dmg-entry';
   div.className = cls;
   div.innerHTML = `<span class="timestamp">[${entry.time}]</span> ${highlightLogText(entry.text)}`;
   container.appendChild(div);
