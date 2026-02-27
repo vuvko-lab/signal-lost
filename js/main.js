@@ -221,24 +221,6 @@ function startCooldownDisplay(btn, seconds) {
   }, 1000);
 }
 
-// === CRT TOGGLE ===
-
-function setupCRTToggle() {
-  const btn = document.getElementById('crt-toggle-btn');
-  const overlay = document.getElementById('crt-overlay');
-
-  // Restore saved preference
-  if (localStorage.getItem('signal_lost_crt') === 'off') {
-    overlay.classList.add('crt-off');
-    btn.classList.add('crt-off');
-  }
-
-  btn.addEventListener('click', () => {
-    overlay.classList.toggle('crt-off');
-    btn.classList.toggle('crt-off');
-    localStorage.setItem('signal_lost_crt', overlay.classList.contains('crt-off') ? 'off' : 'on');
-  });
-}
 
 // === FONT SIZE ===
 
@@ -525,7 +507,6 @@ async function init() {
     setupVesselSelection();
     setupCommands();
     setupAddVessel();
-    setupCRTToggle();
     setupFontSize();
     setupConfigScreen();
     setupAboutScreen();
@@ -569,7 +550,6 @@ async function init() {
     setupVesselSelection();
     setupCommands();
     setupAddVessel();
-    setupCRTToggle();
     setupFontSize();
     setupConfigScreen();
     setupAboutScreen();
