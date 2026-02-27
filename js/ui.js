@@ -12,13 +12,13 @@ function escAttr(str) {
 
 // Phase icon mapping
 const PHASE_ICONS = {
-  IDLE: 'assets/icons/power.png',
-  SIGNAL: 'assets/icons/signal-alert.png',
-  TRAVERSE: 'assets/icons/network.png',
-  BREACH: 'assets/icons/lock.png',
+  IDLE: 'assets/icons/danger.png',
+  SIGNAL: 'assets/icons/danger.png',
+  TRAVERSE: 'assets/icons/danger.png',
+  BREACH: 'assets/icons/danger.png',
   FAULT: 'assets/icons/danger.png',
-  CORE: 'assets/icons/star.png',
-  REBOOT: 'assets/icons/wrench.png',
+  CORE: 'assets/icons/danger.png',
+  REBOOT: 'assets/icons/danger.png',
 };
 
 // === IN-GAME DIALOG ===
@@ -219,27 +219,16 @@ export function createVesselColumn(vessel) {
   const area = document.getElementById('vessels-area');
   const addCol = document.getElementById('add-vessel-col');
 
-  // Map culture keys to font names for the label indicator
-  // Fonts from: gridsagegames.com/blog/2015/07/readable-text-fonts-roguelikes/
-  const CULTURE_FONTS = {
-    determinist: 'Terminus',
-    stochast: 'ProggyClean',
-    swarm: 'Dina',
-    recursive: 'Fira Mono (Input alt)',
-    archivist: 'Courier Prime (X11 alt)',
-  };
-
   const col = document.createElement('div');
   col.className = `vessel-col culture-${vessel.culture}`;
   col.id = `col-${vessel.id}`;
   col.dataset.vesselId = vessel.id;
 
   const objective = getObjective(vessel.id);
-  const fontName = CULTURE_FONTS[vessel.culture] || 'VT323';
 
   col.innerHTML = `
     <div class="vessel-header">
-      <span class="vessel-name"><img class="icon" src="assets/icons/network.png" alt="">${vessel.designation}</span>
+      <span class="vessel-name">${vessel.designation}</span>
       <span class="vessel-header-right">
         <span class="culture-tag" data-tooltip="${escAttr(CULTURE_DESCRIPTIONS[vessel.culture] || '')}">${culture.name}</span>
         <button class="vessel-disconnect" data-vessel-id="${vessel.id}" title="Disconnect from vessel signal">&times;</button>

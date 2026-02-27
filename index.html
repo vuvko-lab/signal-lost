@@ -6,7 +6,7 @@
   <title>SIGNAL LOST</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;700&family=Share+Tech+Mono&family=Courier+Prime&family=Fira+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -35,7 +35,7 @@
         <button id="config-btn" title="Table configuration">CFG</button>
         <button id="crt-toggle-btn" title="Toggle CRT effect">CRT</button>
         <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
-        <span id="sat-status" data-tooltip="Satellite network health. Degrades naturally over time and from phenomena. Below 3: factions override vessel missions to repair relays. Below 3: operator commands may fail. At 0: all commands disabled (DARK MODE). Vessels completing relay missions restore +1 SAT."><img class="icon icon-cyan" src="assets/icons/signal-alert.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
+        <span id="sat-status" data-tooltip="Satellite network health. Degrades naturally over time and from phenomena. Below 3: factions override vessel missions to repair relays. Below 3: operator commands may fail. At 0: all commands disabled (DARK MODE). Vessels completing relay missions restore +1 SAT."><img class="icon icon-cyan" src="assets/icons/sat.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
       </div>
     </header>
 
@@ -66,9 +66,9 @@
     <!-- Bottom operator commands -->
     <footer id="bottom-bar">
       <span id="cmd-target" class="dim">TARGET: none</span>
-      <button class="cmd-btn" id="cmd-boost" title="Improve next tick outcome for selected vessel"><img class="icon" src="assets/icons/power.png" alt="">Boost</button>
-      <button class="cmd-btn" id="cmd-ping" title="Force a scan — may find loot"><img class="icon" src="assets/icons/scan.png" alt="">Ping</button>
-      <button class="cmd-btn" id="cmd-inject" title="Send a message to the vessel"><img class="icon" src="assets/icons/message.png" alt="">Inject</button>
+      <button class="cmd-btn" id="cmd-boost" title="Improve next tick outcome for selected vessel"><img class="icon" src="assets/icons/boost.png" alt="">Boost</button>
+      <button class="cmd-btn" id="cmd-ping" title="Force a scan — may find loot"><img class="icon" src="assets/icons/ping.png" alt="">Ping</button>
+      <button class="cmd-btn" id="cmd-inject" title="Send a message to the vessel"><img class="icon" src="assets/icons/inject.png" alt="">Inject</button>
     </footer>
 
     <!-- Tooltip overlay -->
@@ -128,13 +128,7 @@
           </div>
           <div class="about-section">
             <span class="about-section-title">FONTS</span>
-            <ul class="about-thanks">
-              <li>Monogram by datagoblin — CC0</li>
-              <li>Terminus by Dimitar Zhekov / Tilman Blumenbach — SIL OFL 1.1</li>
-              <li>ProggyClean by Tristan Grimmer — MIT</li>
-              <li>Dina (TTF Remaster) by zshoals — free</li>
-              <li>VT323, IBM Plex Mono, Courier Prime, Fira Mono — Google Fonts, SIL OFL 1.1</li>
-            </ul>
+            <p>Courier Prime — Google Fonts, SIL OFL 1.1</p>
           </div>
           <div class="about-section">
             <span class="about-section-title">AI TEXT GENERATION</span>

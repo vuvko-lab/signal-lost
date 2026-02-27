@@ -1,46 +1,4 @@
 /* === FONTS === */
-@font-face {
-  font-family: 'Monogram';
-  src: url('../assets/font/monogram/monogram.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Monogram Extended';
-  src: url('../assets/font/monogram/monogram-extended.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Italic variant removed — using color differentiation instead */
-
-/* Article fonts: https://www.gridsagegames.com/blog/2015/07/readable-text-fonts-roguelikes/ */
-@font-face {
-  font-family: 'Terminus';
-  src: url('../assets/font/article-fonts/Terminus.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'ProggyClean';
-  src: url('../assets/font/article-fonts/ProggyClean.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Dina';
-  src: url('../assets/font/article-fonts/Dina.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* === RESET & BASE === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -61,7 +19,7 @@
   --glow: rgba(0, 255, 65, 0.4);
   --glow-amber: rgba(255, 176, 0, 0.4);
   --font-terminal: 'Courier Prime', monospace;
-  --font-ui: 'Courier New', monospace;
+  --font-ui: 'Courier Prime', monospace;
   --font-pixel: 'Courier Prime', monospace;
   --font-scale: 1;
   --fs-base: calc(16px * var(--font-scale));
@@ -556,30 +514,6 @@ html, body {
 .hl-speech { color: #66aa77; }
 .hl-vessel { color: var(--cyan); font-weight: 700; }
 
-/* Culture-specific log fonts — article fonts for comparison
-   Source: https://www.gridsagegames.com/blog/2015/07/readable-text-fonts-roguelikes/
-   Terminus: "natural readability with sci-fi flavor" — Determinists (rigid, rule-based)
-   ProggyClean: programming font, good character recognition — Stochasts (ML/code)
-   Dina: compact, lots of data on screen — Swarm (distributed, dense data streams)
-   Fira Mono: (stands in for Input) customizable coding font — Recursive (self-modifying)
-   Courier Prime: (stands in for X11) traditional, most readable — Archivists (old records)
-*/
-/* .culture-determinist .vessel-log { font-family: 'Terminus', monospace; }
-.culture-stochast .vessel-log    { font-family: 'ProggyClean', monospace; font-size: calc(var(--fs-title) * 1.15); }
-.culture-swarm .vessel-log       { font-family: 'Dina', monospace; font-size: calc(var(--fs-title) * 1.1); }
-.culture-recursive .vessel-log   { font-family: 'Fira Mono', monospace; }
-.culture-archivist .vessel-log   { font-family: 'Courier Prime', 'Courier New', monospace; } */
-
-/* Font label indicator — shows which font is in use per vessel */
-.vessel-font-label {
-  padding: 2px 12px;
-  font-size: calc(11px * var(--font-scale));
-  color: var(--text-dim);
-  opacity: 0.5;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--font-ui);
-  letter-spacing: 1px;
-}
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
@@ -1483,7 +1417,6 @@ html, body {
   50% { opacity: 0.4; }
 }
 .vessel-dead .vessel-log {
-  max-height: 200px;
   overflow-y: auto;
   opacity: 0.5;
 }
