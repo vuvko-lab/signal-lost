@@ -146,8 +146,6 @@ Real CS/AI concepts woven naturally into the world:
 
 This setting draws thematic inspiration from [Eclipse Phase](https://eclipsephase.com/) by Posthuman Studios. Eclipse Phase is licensed under **CC BY-NC-SA 4.0** — the concepts below are categorized by adaptation status.
 
-**Important:** Ideas and game mechanics are not copyrightable. Thematic inspiration (virtual minds, body-swapping, AI uprising, nanoswarms) requires no license. Only direct reproduction of specific creative expression (exact text, named characters, specific faction names) triggers the CC BY-NC-SA 4.0 license.
-
 ### Adapted Content
 
 | EP Concept | Signal Lost Adaptation | License |
