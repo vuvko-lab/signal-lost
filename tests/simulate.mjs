@@ -52,7 +52,7 @@ function createTrialStats() {
     relayLootDrops: 0,
     phenomenaCounts: {},
     satTimeBuckets: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, // seconds at each level
-    snapshots: [],             // { time, alive, sat, avgHp, avgEn, avgMem, totalArcs, relayActive }
+    snapshots: [],             // { time, alive, sat, avgHp, avgEn, totalArcs, relayActive }
   };
 }
 
@@ -166,7 +166,6 @@ function takeSnapshot(state, sec) {
   const alive = vessels.length;
   const avgHp = alive > 0 ? vessels.reduce((s, v) => s + v.integrity, 0) / alive : 0;
   const avgEn = alive > 0 ? vessels.reduce((s, v) => s + v.energy, 0) / alive : 0;
-  const avgMem = alive > 0 ? vessels.reduce((s, v) => s + v.memory, 0) / alive : 0;
   const totalArcs = vessels.reduce((s, v) => s + v.mission.arc_count, 0);
   const relayActive = vessels.filter(v => v.mission.relay_mission).length;
 
@@ -176,7 +175,6 @@ function takeSnapshot(state, sec) {
     sat: state.world.satellite_health,
     avgHp: round2(avgHp),
     avgEn: round2(avgEn),
-    avgMem: round2(avgMem),
     totalArcs,
     relayActive,
   };
@@ -239,7 +237,6 @@ function aggregate(allTrials) {
         sat: round2(snaps.reduce((s, x) => s + x.sat, 0) / snaps.length),
         avgHp: round2(snaps.reduce((s, x) => s + x.avgHp, 0) / snaps.length),
         avgEn: round2(snaps.reduce((s, x) => s + x.avgEn, 0) / snaps.length),
-        avgMem: round2(snaps.reduce((s, x) => s + x.avgMem, 0) / snaps.length),
         totalArcs: round2(snaps.reduce((s, x) => s + x.totalArcs, 0) / snaps.length),
         relayActive: round2(snaps.reduce((s, x) => s + x.relayActive, 0) / snaps.length),
       };
@@ -315,14 +312,14 @@ function printReport(agg) {
 
   console.log('');
   console.log('--- TIMELINE (avg across trials) ---');
-  console.log(` ${w('Time', 6)} | ${wr('Alive', 5)} | ${wr('SAT', 4)} | ${wr('HP', 5)} | ${wr('EN', 5)} | ${wr('MEM', 5)} | ${wr('Arcs', 5)} | ${wr('Relay', 5)}`);
-  console.log(' ' + '-'.repeat(58));
+  console.log(` ${w('Time', 6)} | ${wr('Alive', 5)} | ${wr('SAT', 4)} | ${wr('HP', 5)} | ${wr('EN', 5)} | ${wr('Arcs', 5)} | ${wr('Relay', 5)}`);
+  console.log(' ' + '-'.repeat(52));
 
   const timelineKeys = [1800, 3600, 7200, 14400, 28800];
   for (const key of timelineKeys) {
     const row = agg.timeline[key];
     if (!row) continue;
-    console.log(` ${w(formatTime(key), 6)} | ${wr(row.alive, 5)} | ${wr(row.sat, 4)} | ${wr(row.avgHp, 5)} | ${wr(row.avgEn, 5)} | ${wr(row.avgMem, 5)} | ${wr(row.totalArcs, 5)} | ${wr(row.relayActive, 5)}`);
+    console.log(` ${w(formatTime(key), 6)} | ${wr(row.alive, 5)} | ${wr(row.sat, 4)} | ${wr(row.avgHp, 5)} | ${wr(row.avgEn, 5)} | ${wr(row.totalArcs, 5)} | ${wr(row.relayActive, 5)}`);
   }
 
   console.log('');

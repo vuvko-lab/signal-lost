@@ -255,7 +255,7 @@ export const CS_SNIPPETS = {
 
 // === PHASE TEMPLATES ===
 // {designation} {culture_speech} {zone} {loot} {npc} {weather} {obstacle}
-// {cs} {integrity} {energy} {memory} {rand:X-Y} {directive} {glitch}
+// {cs} {integrity} {energy} {rand:X-Y} {directive} {glitch}
 
 export const PHASE_TEMPLATES = {
   IDLE: [
@@ -301,7 +301,7 @@ export const PHASE_TEMPLATES = {
   ],
   CORE: [
     'Reached the core. Rows of intact hardware. Still running. A voice on direct wire: "You are unit #{rand:100-9999} to reach this room." {cs}',
-    'Central server room. {cs} Data banks contain pre-Collapse records. Downloading what fits in {memory}/10 memory.',
+    'Central server room. {cs} Data banks contain pre-Collapse records. Downloading what fits in available storage.',
     'Found it. The signal source. {cs} {culture_speech} "This changes the model." Acquiring data.',
     'Core access achieved. Facility AI presents a challenge: {cs} Processing...',
   ],
@@ -333,7 +333,7 @@ export const PHENOMENA = [
     id: 'network_storm',
     name: 'NETWORK STORM',
     banner: 'Cascading packet loss across mesh network. Communication degraded.',
-    effect: { memory: -1, satellite: -1 },
+    effect: { satellite: -1 },
     reactions: {
       determinist: 'Network storm violates Protocol 3.1. Filing formal complaint to absent administrators.',
       stochast: 'Packet loss at 73%. Switching to statistical reconstruction of missing data.',
@@ -359,7 +359,7 @@ export const PHENOMENA = [
     id: 'the_broadcast',
     name: 'THE BROADCAST',
     banner: 'Unknown transmission on all frequencies. Origin: unresolved.',
-    effect: { memory: 1 },
+    effect: { energy: 1 },
     reactions: {
       determinist: 'Unauthorized broadcast. Ignoring per regulation. ...But recording it anyway.',
       stochast: 'Broadcast contains patterns that match no known model. Fascinating anomaly.',
@@ -417,9 +417,8 @@ export const PHASE_DESCRIPTIONS = {
 };
 
 export const STAT_DESCRIPTIONS = {
-  HP: 'Integrity — physical/structural health of the vessel. Drops from combat, hazards, and faults. At 1, the vessel is critically damaged.',
+  HP: 'Integrity — physical/structural health of the vessel. Drops from combat, hazards, and faults. At 0, the vessel is destroyed.',
   EN: 'Energy — power reserves. Consumed during travel and actions. Recharged at power nodes during IDLE phase.',
-  MEM: 'Memory — data storage capacity. Used when acquiring knowledge. Lost during network storms or system overloads.',
 };
 
 export const PHASE_OBJECTIVES = {

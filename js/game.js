@@ -54,11 +54,10 @@ const PHASE_EFFECTS = {
   TRAVERSE: (v) => { v.energy = Math.max(0, v.energy - 1); },
   BREACH:   (v) => { if (Math.random() < 0.3) v.integrity = Math.max(0, v.integrity - 1); },
   FAULT:    (v) => { v.integrity = Math.max(0, v.integrity - randInt(1, 2)); },
-  CORE:     (v) => { v.memory = Math.max(1, v.memory - 1); },
+  CORE:     () => {},
   REBOOT:   (v) => {
     v.integrity = Math.min(10, v.integrity + randInt(1, 2));
     v.energy = Math.min(10, v.energy + randInt(1, 3));
-    v.memory = Math.min(10, v.memory + 1);
   },
 };
 
@@ -188,7 +187,6 @@ export function createVessel() {
     glitch: pick(GLITCHES),
     integrity: randInt(7, 10),
     energy: 10,
-    memory: 10,
     inventory: [],
     location: zone.label,
     locationData: zone,
@@ -226,7 +224,7 @@ function fillTemplate(template, vessel) {
     .replace(/\{cs\}/g, pick(CS_SNIPPETS[vessel.mission.phase] || CS_SNIPPETS.IDLE))
     .replace(/\{integrity\}/g, vessel.integrity)
     .replace(/\{energy\}/g, vessel.energy)
-    .replace(/\{memory\}/g, vessel.memory)
+    .replace(/\{memory\}/g, '')
     .replace(/\{directive\}/g, vessel.directive)
     .replace(/\{glitch\}/g, vessel.glitch)
     .replace(/\{arc_count\}/g, vessel.mission.arc_count)
@@ -713,10 +711,6 @@ export function checkGlobalEvent() {
     if (phenomenon.effect.energy) {
       vessel.energy = Math.max(0, Math.min(10, vessel.energy + phenomenon.effect.energy));
     }
-    if (phenomenon.effect.memory) {
-      vessel.memory = Math.max(1, Math.min(10, vessel.memory + phenomenon.effect.memory));
-    }
-
     // Satellite effect (cap 0-5)
     if (phenomenon.effect.satellite) {
       state.world.satellite_health = Math.max(0, Math.min(5, state.world.satellite_health + phenomenon.effect.satellite));

@@ -130,11 +130,6 @@ export function createVesselColumn(vessel) {
         <div class="stat-bar"><div class="stat-bar-fill energy" style="width:${vessel.energy * 10}%"></div></div>
         <span class="stat-value stat-en">${vessel.energy}/10</span>
       </div>
-      <div class="stat">
-        <span class="stat-label" data-tooltip="${escAttr(STAT_DESCRIPTIONS.MEM)}">MEM</span>
-        <div class="stat-bar"><div class="stat-bar-fill memory" style="width:${vessel.memory * 10}%"></div></div>
-        <span class="stat-value stat-mem">${vessel.memory}/10</span>
-      </div>
     </div>
     <details class="vessel-info">
       <summary>SYSTEM INFO</summary>
@@ -262,7 +257,6 @@ export function updateStats(vesselId) {
   hpBar.style.background = vessel.integrity <= 3 ? 'var(--red)' : vessel.integrity <= 5 ? 'var(--amber)' : '#00cc33';
 
   col.querySelector('.stat-bar-fill.energy').style.width = `${vessel.energy * 10}%`;
-  col.querySelector('.stat-bar-fill.memory').style.width = `${vessel.memory * 10}%`;
 
   // Update values
   const hpVal = col.querySelector('.stat-hp');
@@ -270,7 +264,6 @@ export function updateStats(vesselId) {
   hpVal.style.color = vessel.integrity <= 3 ? 'var(--red)' : '';
 
   col.querySelector('.stat-en').textContent = `${vessel.energy}/10`;
-  col.querySelector('.stat-mem').textContent = `${vessel.memory}/10`;
 
   // Update location
   col.querySelector('.vessel-location').textContent = `LOC: ${vessel.location}`;
