@@ -31,4 +31,6 @@ tools/judge-judge-raw-*.txt
 tools/judge-report.json
 tools/judge-expansions.json
 tools/judge-scene-expansions.json
+tools/*-expansions.json
+tools/*-report.json
 tools/tournament-report.json
