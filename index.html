@@ -117,9 +117,8 @@
             </ul>
           </div>
           <div class="about-section">
-            <span class="about-section-title">SFX &amp; VISUALS</span>
+            <span class="about-section-title">VISUALS</span>
             <ul class="about-thanks">
-              <li>Glitch Noises (WAV) by Vladislav Zharkov — CC0</li>
               <li>Game UI Collection &amp; Icon Set by SunGraphica — Free</li>
             </ul>
           </div>
@@ -129,8 +128,8 @@
           </div>
           <div class="about-section">
             <span class="about-section-title">AI TEXT GENERATION</span>
-            <p>Narrative templates are iteratively expanded and validated using an LLM-as-judge pipeline. Each cycle randomly selects one generator and two independent judges from a diverse model pool for cross-validation.</p>
-            <p>Pool: Gemma 3, Mistral Small, GPT-OSS, Qwen 2.5/3, Llama 3.3, DeepSeek V3, Hermes 405B, Nemotron, Step 3.5 Flash</p>
+            <p>Narrative templates are generated and validated using an LLM-as-judge tournament pipeline. Five models each generate candidate template sets at high temperature. Each set is simulated with a headless game engine (20 vessels, 5 arcs), then scored by two independent judges on 10 criteria. An anchor judge (Kimi K2.5) ensures consistency; per-model calibration offsets correct for scoring bias. Only the top-scoring templates are merged and applied to the game.</p>
+            <p>Pool: Llama 4 Maverick, DeepSeek V3.2, Kimi K2.5, GPT-OSS 120B, Qwen3 235B</p>
             <p>Served via <a href="https://deepinfra.com" target="_blank" rel="noopener">DeepInfra</a> and <a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter</a>.</p>
           </div>
           <div class="about-section">
