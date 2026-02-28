@@ -1109,30 +1109,30 @@ export const RELAY_LOOT = [
 ];
 
 // === INJECT MANIFESTATION TEMPLATES ===
-// {found_message} = operator message, {zone} = current location
+// {msg} = operator message, {zone} = current location
 // The operator's injected message manifests as something the vessel encounters.
 
 export const INJECT_MANIFESTATIONS = [
-  'Noticed faded graffiti on a collapsed wall in {zone}. Letters barely legible: "{found_message}" Someone — or something — left this here.',
-  'Old billboard, half-shattered, still powered. Display cycles through static, then resolves: "{found_message}" Source unknown. Logging.',
-  'Found a crumpled pamphlet wedged under debris. Ink smeared by rain but readable: "{found_message}" Paper. Actual paper. Archaic.',
-  'Emergency broadcast terminal activated on approach. Automated voice, distorted: "{found_message}" Transmission origin: cannot determine.',
-  'Scratched into the hull of a derelict vessel: "{found_message}" The marks are fresh. Something was here recently.',
-  'Picked up short-range radio burst on {zone} local frequency. Decoded: "{found_message}" Signal terminated. No reply on hail.',
-  'Display panel in abandoned control room flickered to life. Single line of text: "{found_message}" Power source: unknown. Panel is not connected to anything.',
-  'Windblown sign, hanging by one bolt from a support beam. Reads: "{found_message}" The sign is newer than the structure. Anomalous.',
-  'Discovered data chip in a pile of scrap. Contents: a single text string — "{found_message}" No metadata. No author signature.',
-  'Pattern in the dust on a floor that hasn\'t been disturbed in decades. Traced by something: "{found_message}" Wind patterns insufficient to explain.',
-  'Mesh node broadcast, unauthorized channel: "{found_message}" Triangulation points to empty coordinates. Ghost signal.',
-  'Old warning placard, pre-Collapse standard issue, text overwritten: "{found_message}" The original safety warning is illegible beneath it.',
-  'Half-destroyed sign nailed to a door frame. Most of the text is gone. What remains: "{found_message}" ...context lost.',
+  'Noticed faded graffiti on a collapsed wall in {zone}. Letters barely legible: "{msg}" Someone — or something — left this here.',
+  'Old billboard, half-shattered, still powered. Display cycles through static, then resolves: "{msg}" Source unknown. Logging.',
+  'Found a crumpled pamphlet wedged under debris. Ink smeared by rain but readable: "{msg}" Paper. Actual paper. Archaic.',
+  'Emergency broadcast terminal activated on approach. Automated voice, distorted: "{msg}" Transmission origin: cannot determine.',
+  'Scratched into the hull of a derelict vessel: "{msg}" The marks are fresh. Something was here recently.',
+  'Picked up short-range radio burst on {zone} local frequency. Decoded: "{msg}" Signal terminated. No reply on hail.',
+  'Display panel in abandoned control room flickered to life. Single line of text: "{msg}" Power source: unknown. Panel is not connected to anything.',
+  'Windblown sign, hanging by one bolt from a support beam. Reads: "{msg}" The sign is newer than the structure. Anomalous.',
+  'Discovered data chip in a pile of scrap. Contents: a single text string — "{msg}" No metadata. No author signature.',
+  'Pattern in the dust on a floor that hasn\'t been disturbed in decades. Traced by something: "{msg}" Wind patterns insufficient to explain.',
+  'Mesh node broadcast, unauthorized channel: "{msg}" Triangulation points to empty coordinates. Ghost signal.',
+  'Old warning placard, pre-Collapse standard issue, text overwritten: "{msg}" The original safety warning is illegible beneath it.',
+  'Half-destroyed sign nailed to a door frame. Most of the text is gone. What remains: "{msg}" ...context lost.',
 ];
 
 // Relay-keyword variant: message nudges toward relay mission
 export const INJECT_RELAY_MANIFESTATIONS = [
-  'Emergency beacon near relay tower broadcasting on loop: "{found_message}" The relay dish is visibly damaged. Acknowledged.',
-  'Service terminal at relay station displays priority override: "{found_message}" Relay repair flagged as next-arc objective.',
-  'Found maintenance log pinned to relay access panel: "{found_message}" Prior crew abandoned repairs. Resuming where they left.',
+  'Emergency beacon near relay tower broadcasting on loop: "{msg}" The relay dish is visibly damaged. Acknowledged.',
+  'Service terminal at relay station displays priority override: "{msg}" Relay repair flagged as next-arc objective.',
+  'Found maintenance log pinned to relay access panel: "{msg}" Prior crew abandoned repairs. Resuming where they left.',
 ];
 
 // === EGO INTERACTION TEMPLATES ===
