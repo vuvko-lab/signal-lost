@@ -265,10 +265,10 @@ function applyFontScale(scale) {
 function setupAddVessel() {
   document.getElementById('add-vessel-btn').addEventListener('click', async () => {
     const state = getState();
-    if (state.vessels.length >= 8) {
-      await gameAlert('Maximum 8 vessel feeds.');
-      return;
-    }
+    // if (state.vessels.length >= 8) {
+    //   await gameAlert('Maximum 8 vessel feeds.');
+    //   return;
+    // }
     const vessel = createVessel();
     createVesselColumn(vessel);
     addVesselTab(vessel);

@@ -244,7 +244,7 @@ html, body {
 
 /* Vessel column */
 .vessel-col {
-  min-width: 280px;
+  min-width: 400px;
   max-width: 360px;
   flex: 1;
   background: var(--panel);
