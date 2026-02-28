@@ -10,6 +10,7 @@ import {
   ARC_STRUCTURES, ARC_MODIFIERS, ENCOUNTER_THEMES,
   INJECT_MANIFESTATIONS, INJECT_RELAY_MANIFESTATIONS,
   PHASE_SCENES,
+  CREATURES, VEHICLES, STRUCTURES, FOUND_MESSAGES,
 } from './data.js';
 
 const SAVE_KEY = 'signal_lost_save';
@@ -379,7 +380,12 @@ function fillTemplate(template, vessel) {
     .replace(/\{arc_count\}/g, vessel.mission.arc_count)
     .replace(/\{sat_health\}/g, state.world.satellite_health)
     .replace(/\{rand_direction\}/g, pick(DIRECTIONS))
+    .replace(/\{creature\}/g, pick(CREATURES))
+    .replace(/\{vehicle\}/g, pick(VEHICLES))
+    .replace(/\{structure\}/g, pick(STRUCTURES))
+    .replace(/\{found_message\}/g, pick(FOUND_MESSAGES))
     .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)))
+    .replace(/\{rand:([^}]+)\}/g, (_, choices) => pick(choices.split('/')))
     .replace(/\{glitch_event\}/g, Math.random() < 0.2 ? `Glitch: ${vessel.glitch}.` : '')
     // Fix: capitalize first letter after sentence-ending punctuation (handles lowercase NPC/weather inserts)
     .replace(/([.!?]\s+)([a-z])/g, (_, punct, ch) => punct + ch.toUpperCase())
@@ -670,17 +676,15 @@ function applyArchivist(text) {
 // === EGO INTERACTION ===
 
 function fillInteractionTemplate(template, vessel, other) {
-  const culture = CULTURES[vessel.culture];
   const otherCulture = CULTURES[other.culture];
-  return template
+  // First fill interaction-specific variables, then delegate to fillTemplate for the rest
+  const partial = template
     .replace(/\{self\}/g, vessel.designation)
     .replace(/\{other\}/g, other.designation)
-    .replace(/\{culture_speech\}/g, pick(culture.speech))
     .replace(/\{culture_speech_other\}/g, pick(otherCulture.speech))
-    .replace(/\{zone\}/g, vessel.location)
     .replace(/\{other_hp\}/g, other.integrity)
-    .replace(/\{other_arc\}/g, other.mission.arc_count)
-    .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)));
+    .replace(/\{other_arc\}/g, other.mission.arc_count);
+  return fillTemplate(partial, vessel);
 }
 
 function checkInteraction(vessel) {
@@ -1208,7 +1212,8 @@ export function checkGlobalEvent() {
     }
 
     // Culture-specific reaction entry
-    const reaction = phenomenon.reactions[vessel.culture];
+    const reactionPool = phenomenon.reactions[vessel.culture];
+    const reaction = Array.isArray(reactionPool) ? pick(reactionPool) : reactionPool;
     if (reaction) {
       const entry = {
         time: formatTime(Date.now()),

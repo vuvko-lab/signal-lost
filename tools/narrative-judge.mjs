@@ -102,6 +102,10 @@ const ARC_MODIFIERS = extractArray('ARC_MODIFIERS');
 const ENCOUNTER_THEMES = extractArray('ENCOUNTER_THEMES');
 const PHASE_SCENES = extractArray('PHASE_SCENES');
 const PHENOMENA = extractArray('PHENOMENA');
+const CREATURES = extractArray('CREATURES');
+const VEHICLES = extractArray('VEHICLES');
+const STRUCTURES = extractArray('STRUCTURES');
+const FOUND_MESSAGES = extractArray('FOUND_MESSAGES');
 
 // ============================================================
 // HEADLESS GAME ENGINE (simplified port of game.js)
@@ -254,6 +258,10 @@ function fillTemplate(template, vessel) {
     .replace(/\{npc\}/g, NPCS ? pick(NPCS) : 'a dormant sentry turret')
     .replace(/\{weather\}/g, WEATHER ? pick(WEATHER) : 'Static interference.')
     .replace(/\{obstacle\}/g, OBSTACLES ? pick(OBSTACLES) : 'Collapsed tunnel.')
+    .replace(/\{creature\}/g, CREATURES ? pick(CREATURES) : 'rad-roach swarm')
+    .replace(/\{vehicle\}/g, VEHICLES ? pick(VEHICLES) : 'cargo hauler')
+    .replace(/\{structure\}/g, STRUCTURES ? pick(STRUCTURES) : 'cooling tower')
+    .replace(/\{found_message\}/g, FOUND_MESSAGES ? pick(FOUND_MESSAGES) : 'KEEP GOING')
     .replace(/\{integrity\}/g, vessel.integrity)
     .replace(/\{energy\}/g, vessel.energy)
     .replace(/\{hardware\}/g, vessel.skills?.hardware || 1)
@@ -265,6 +273,7 @@ function fillTemplate(template, vessel) {
     .replace(/\{sat_health\}/g, simState.world.satellite_health)
     .replace(/\{rand_direction\}/g, DIRECTIONS ? pick(DIRECTIONS) : 'northeast')
     .replace(/\{rand:(\d+)-(\d+)\}/g, (_, min, max) => randInt(parseInt(min), parseInt(max)))
+    .replace(/\{rand:([^}]+)\}/g, (_, choices) => pick(choices.split('/')))
     .replace(/\{glitch_event\}/g, Math.random() < 0.35 ? `Glitch: ${vessel.glitch}.` : '')
     .replace(/([.!?]\s+)([a-z])/g, (_, punct, ch) => punct + ch.toUpperCase())
     .replace(/  +/g, ' ').trim();
@@ -570,7 +579,8 @@ function simGlobalEvent() {
     if (phenomenon.effect.satellite) {
       simState.world.satellite_health = Math.max(0, Math.min(5, simState.world.satellite_health + phenomenon.effect.satellite));
     }
-    const reaction = phenomenon.reactions?.[vessel.culture];
+    const reactionPool = phenomenon.reactions?.[vessel.culture];
+    const reaction = Array.isArray(reactionPool) ? pick(reactionPool) : reactionPool;
     if (reaction) {
       vessel.log.push({
         text: `[${phenomenon.name}] ${applyFactionVoice(reaction, vessel.culture, vessel)}`,
