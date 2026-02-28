@@ -856,7 +856,7 @@ const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const vesselCount = parseInt(args[args.indexOf('--vessels') + 1]) || 20;
 const arcCount = parseInt(args[args.indexOf('--arcs') + 1]) || 5;
-const BASELINE = 5.8;
+const BASELINE = 6.8;
 
 async function run() {
   console.log('=== SIGNAL LOST — TEMPLATE TOURNAMENT ===');

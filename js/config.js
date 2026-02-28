@@ -4,7 +4,7 @@
 
 const TABLE_STORE_KEY = 'signal_lost_custom_tables';
 const TABLE_VERSION_KEY = 'signal_lost_table_version';
-const CURRENT_VERSION = '1.0.0';
+const CURRENT_VERSION = '1.1.2';
 
 // Table registry — maps table names to their default values from data.js
 let tableRegistry = {};
