@@ -152,12 +152,7 @@ function pickContestableZone(vessel, zones) {
 // === STATE CREATION ===
 
 export function createWorld(operatorId) {
-  const factions = [];
-  const available = [...CULTURE_KEYS];
-  for (let i = 0; i < 3; i++) {
-    const idx = randInt(0, available.length - 1);
-    factions.push(available.splice(idx, 1)[0]);
-  }
+  const factions = [...CULTURE_KEYS];
 
   const zones = [];
   const zonePool = [...ZONE_TYPES];
