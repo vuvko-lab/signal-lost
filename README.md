@@ -23,7 +23,6 @@ Each vessel carries an ego shaped by its faction, directive, and glitches. Missi
 - Vanilla HTML/CSS/JS — no framework, no build step
 - HTML5 Audio API — background music + layered ambient noise
 - All content generated client-side from template tables in `js/data.js`
-- CSS-only CRT effects (scanlines, phosphor glow, text-shadow)
 - Ships as a single HTML5 zip to itch.io
 
 ## Project Structure
