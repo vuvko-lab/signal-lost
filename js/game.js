@@ -876,6 +876,27 @@ export function tick(vessel) {
     }
   }
 
+  // Loot callback — occasionally reference a previously found item
+  if (vessel.inventory.length > 0 && Math.random() < 0.12) {
+    const callbackItem = pick(vessel.inventory);
+    const callbacks = callbackItem.skill ? [
+      `${callbackItem.name} proving useful — ${callbackItem.skill.toUpperCase()} response time noticeably faster since installation.`,
+      `Ran diagnostics on ${callbackItem.name}. ${callbackItem.desc}. Still operational. ${callbackItem.skill.toUpperCase()} holding at ${vessel.skills?.[callbackItem.skill] || '?'}.`,
+      `Field note: ${callbackItem.name} integration stable after ${vessel.mission.arc_count} arcs. No degradation.`,
+    ] : [
+      `Still carrying ${callbackItem.name}. ${callbackItem.desc}. No clear use yet. Feels wrong to discard it.`,
+      `Checked ${callbackItem.name} in inventory. Intact. Something about it resists cataloging.`,
+    ];
+    const callbackEntry = {
+      time: formatTime(Date.now()),
+      text: applyFactionVoice(pick(callbacks), vessel.culture),
+      phase: vessel.mission.phase,
+      isEvent: false,
+    };
+    vessel.log.push(callbackEntry);
+    if (onLogEntry) onLogEntry(vessel.id, callbackEntry);
+  }
+
   // Relay loot chance: finding relay components restores +1 SAT
   if ((vessel.mission.phase === 'TRAVERSE' || vessel.mission.phase === 'CORE') && Math.random() < 0.08) {
     const relayItem = pick(RELAY_LOOT);

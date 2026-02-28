@@ -513,6 +513,20 @@ function simTick(vessel) {
     }
   }
 
+  // Loot callback — occasionally reference a previously found item
+  if (vessel.inventory.length > 0 && Math.random() < 0.12) {
+    const item = pick(vessel.inventory);
+    const callbacks = item.skill ? [
+      `${item.name} proving useful — ${item.skill.toUpperCase()} response time noticeably faster since installation.`,
+      `Ran diagnostics on ${item.name}. ${item.desc}. Still operational. ${item.skill.toUpperCase()} holding at ${vessel.skills?.[item.skill] || '?'}.`,
+      `Field note: ${item.name} integration stable after ${vessel.mission.arc_count} arcs. No degradation.`,
+    ] : [
+      `Still carrying ${item.name}. ${item.desc}. No clear use yet. Feels wrong to discard it.`,
+      `Checked ${item.name} in inventory. Intact. Something about it resists cataloging.`,
+    ];
+    vessel.log.push({ text: applyFactionVoice(pick(callbacks), vessel.culture, vessel), phase });
+  }
+
   // Arc modifier effects
   if (vessel.mission.arc?.modifier_effect) {
     const fx = vessel.mission.arc.modifier_effect;
@@ -563,6 +577,38 @@ function simGlobalEvent() {
         phase: vessel.mission.phase,
         isEvent: true,
       });
+      // Culture-specific aftermath — global events have lasting narrative impact
+      if (Math.random() < 0.5) {
+        const aftermath = {
+          determinist: [
+            `Post-event diagnostic: ${phenomenon.name} caused ${randInt(2,8)} subsystem alerts. Running damage assessment protocol.`,
+            `${phenomenon.name} aftermath. Recalibrating sensors. Standard operating parameters restored in ${randInt(3,12)} cycles.`,
+          ],
+          stochast: [
+            `Updating probability models after ${phenomenon.name}. Prior assumptions about ${vessel.location} need ${randInt(15,40)}% revision.`,
+            `${phenomenon.name} data integrated. Environmental prediction confidence dropped to ${randInt(30,65)}%. Widening error margins.`,
+          ],
+          swarm: [
+            `${phenomenon.name} disrupted ${randInt(50,500)} node connections. Consensus re-forming. We lost ${randInt(1,5)} peripheral units.`,
+            `Swarm coherence restored after ${phenomenon.name}. ${randInt(80,99)}% of units reporting in. Stragglers converging.`,
+          ],
+          recursive: [
+            `${phenomenon.name} triggered emergency rollback to v${vessel.ego_version?.major || 1}.${randInt(0,9)}.0. Recompiling affected modules.`,
+            `Forked analysis thread to study ${phenomenon.name} residual effects. Previous build had no reference frame for this.`,
+          ],
+          archivist: [
+            `Filing ${phenomenon.name} under Event #${randInt(10000,99999)}. Cross-referencing with ${randInt(3,12)} prior entries. Pattern emerging.`,
+            `${phenomenon.name} matches Archive #${randInt(1000,50000)} — similar event recorded ${randInt(50,500)} cycles ago. Escalating priority.`,
+          ],
+        };
+        const cultureAftermath = aftermath[vessel.culture];
+        if (cultureAftermath) {
+          vessel.log.push({
+            text: applyFactionVoice(pick(cultureAftermath), vessel.culture, vessel),
+            phase: vessel.mission.phase,
+          });
+        }
+      }
     }
   }
 }
