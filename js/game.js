@@ -30,13 +30,13 @@ const PHASE_ENTRY_COUNTS = {
 
 // Tick delay ranges per phase (seconds) — [min, max]
 const PHASE_TICK_DELAYS = {
-  IDLE:     [20, 40],
-  SIGNAL:   [12, 20],
-  TRAVERSE: [10, 18],
-  BREACH:   [8, 15],
-  FAULT:    [6, 12],
-  CORE:     [10, 18],
-  REBOOT:   [15, 25],
+  IDLE:     [10, 18],
+  SIGNAL:   [6, 10],
+  TRAVERSE: [6, 10],
+  BREACH:   [5, 9],
+  FAULT:    [4, 8],
+  CORE:     [6, 10],
+  REBOOT:   [8, 14],
 };
 
 function getTickDelay(vessel) {
