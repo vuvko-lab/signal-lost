@@ -30,7 +30,9 @@
         <button id="font-down-btn" title="Decrease font size">A-</button>
         <button id="font-up-btn" title="Increase font size">A+</button>
         <button id="about-btn" title="About this game">?</button>
-        <button id="config-btn" title="Table configuration">CFG</button>
+        <button id="speed-down-btn" title="Slower ticks">-</button>
+        <span id="speed-label" title="Tick speed multiplier">1x</span>
+        <button id="speed-up-btn" title="Faster ticks">+</button>
         <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
         <span id="sat-status" data-tooltip="Satellite network health. Degrades naturally over time and from phenomena. Below 3: factions override vessel missions to repair relays. Below 3: operator commands may fail. At 0: all commands disabled (DARK MODE). Vessels completing relay missions restore +1 SAT."><img class="icon icon-cyan" src="assets/icons/sat.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
       </div>
@@ -144,36 +146,6 @@
       </div>
     </div>
 
-    <!-- Config screen overlay -->
-    <div id="config-overlay" class="hidden">
-      <div id="config-panel">
-        <div id="config-header">
-          <span>TABLE CONFIGURATION</span>
-          <span id="config-version" class="dim"></span>
-          <button id="config-close">&times;</button>
-        </div>
-        <div id="config-actions">
-          <button id="config-export" class="config-action-btn">EXPORT ALL</button>
-          <button id="config-import" class="config-action-btn">IMPORT</button>
-          <button id="config-reset-all" class="config-action-btn config-danger-btn">RESET ALL</button>
-          <input type="file" id="config-import-file" accept=".json" class="hidden">
-        </div>
-        <div id="config-table-list"></div>
-        <!-- Table editor (shown when editing a table) -->
-        <div id="config-editor" class="hidden">
-          <div id="config-editor-header">
-            <span id="config-editor-name"></span>
-            <button id="config-editor-close" class="config-action-btn">BACK</button>
-          </div>
-          <textarea id="config-editor-textarea" spellcheck="false"></textarea>
-          <div id="config-editor-actions">
-            <button id="config-editor-save" class="config-action-btn">SAVE</button>
-            <button id="config-editor-reset" class="config-action-btn config-danger-btn">RESET TO DEFAULT</button>
-            <span id="config-editor-status" class="dim"></span>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Attribution link -->

@@ -88,6 +88,16 @@ Full benchmark data: [`tools/judge-coherence.md`](tools/judge-coherence.md)
 
 **Release v1.1.2.** MIT license, README with LLM pipeline documentation, updated About screen, shipped 6.5MB zip.
 
+## Session 7 — UX Polish (Mar 2, 2026)
+
+**Tick speed controls.** Replaced the table configuration (CFG) button with tick speed controls (0.5x–3x). Default speed reduced to 0.5x — the previous pace was too fast for reading. Removed the entire config panel system (js/config.js, CSS, HTML overlay).
+
+**Smart auto-scroll.** Log feeds no longer force-scroll to the bottom when the user is reading earlier entries. A clickable "NEW" indicator appears at the bottom of the feed when new messages arrive while scrolled up.
+
+**Audio volume increase.** Background music volume raised from 0.3 to 0.5. Ambient noise layers raised ~4x (0.008–0.015 → 0.035–0.06) so they're actually audible as atmosphere.
+
+**Template variable fix.** The `{msg}` placeholder in INJECT_MANIFESTATIONS (operator's typed message) had been incorrectly renamed to `{found_message}` during a batch rename. Restored so injected commands display the operator's actual message.
+
 ## Architecture Decisions
 
 **No build step.** Vanilla HTML/CSS/JS ships directly as a zip. No bundler, no transpiler.

@@ -20,11 +20,6 @@ import {
 import { initAudio, preloadAudio } from './audio.js';
 
 import {
-  initTableConfig, getTable, setTable, resetTable, resetAllTables,
-  exportTables, importTables, getTableList, getTableVersion,
-} from './config.js';
-
-import {
   DESIGNATIONS, CHASSIS_SIZES, CHASSIS_LOCOMOTION, CHASSIS_TYPES,
   CULTURES, CULTURE_KEYS, FACTION_DESIRES, DIRECTIVES, GLITCHES,
   ZONE_TYPES, ZONE_NAMES, LOOT, NPCS, WEATHER, OBSTACLES,
@@ -78,6 +73,7 @@ function scheduleSatDecay() {
 // === CALLBACKS ===
 
 setCallbacks({
+  speedMultiplier: () => getSpeedMultiplier(),
   onLog: (vesselId, entry) => {
     appendLogEntry(vesselId, entry);
   },
@@ -319,161 +315,39 @@ function setupAboutScreen() {
   }
 }
 
-// === TABLE CONFIG ===
+// === TICK SPEED ===
 
-function registerTables() {
-  initTableConfig({
-    DESIGNATIONS, CHASSIS_SIZES, CHASSIS_LOCOMOTION, CHASSIS_TYPES,
-    CULTURES, CULTURE_KEYS, FACTION_DESIRES, DIRECTIVES, GLITCHES,
-    ZONE_TYPES, ZONE_NAMES, LOOT, NPCS, WEATHER, OBSTACLES,
-    PHASE_TEMPLATES, PHENOMENA, CULTURE_DESCRIPTIONS,
-    PHASE_DESCRIPTIONS, STAT_DESCRIPTIONS, SKILL_LOOT, PHASE_OBJECTIVES,
-    RELAY_TEMPLATES, RELAY_OBJECTIVES, RELAY_LOOT, INTERACTION_TEMPLATES,
-    WORLD_THREATS, ARC_STRUCTURES, ARC_MODIFIERS, ENCOUNTER_THEMES, DIRECTIONS,
-    INJECT_MANIFESTATIONS, INJECT_RELAY_MANIFESTATIONS,
-  });
-}
+const SPEED_LEVELS = [0.5, 1, 1.5, 2, 3];
+let speedIndex = 0; // default: 0.5x (slowest)
 
-function setupConfigScreen() {
-  const overlay = document.getElementById('config-overlay');
-  const closeBtn = document.getElementById('config-close');
-  const exportBtn = document.getElementById('config-export');
-  const importBtn = document.getElementById('config-import');
-  const importFile = document.getElementById('config-import-file');
-  const resetAllBtn = document.getElementById('config-reset-all');
-  const tableList = document.getElementById('config-table-list');
-  const versionEl = document.getElementById('config-version');
-  const editor = document.getElementById('config-editor');
-  const editorName = document.getElementById('config-editor-name');
-  const editorClose = document.getElementById('config-editor-close');
-  const editorTextarea = document.getElementById('config-editor-textarea');
-  const editorSave = document.getElementById('config-editor-save');
-  const editorReset = document.getElementById('config-editor-reset');
-  const editorStatus = document.getElementById('config-editor-status');
+export function getSpeedMultiplier() { return SPEED_LEVELS[speedIndex]; }
 
-  let currentEditTable = null;
+function setupTickSpeed() {
+  const label = document.getElementById('speed-label');
+  const downBtn = document.getElementById('speed-down-btn');
+  const upBtn = document.getElementById('speed-up-btn');
 
-  // Open config
-  document.getElementById('config-btn').addEventListener('click', () => {
-    overlay.classList.remove('hidden');
-    renderTableList();
-    versionEl.textContent = `v${getTableVersion()}`;
-    editor.classList.add('hidden');
-    tableList.classList.remove('hidden');
-  });
-
-  // Close config
-  closeBtn.addEventListener('click', () => {
-    overlay.classList.add('hidden');
-  });
-
-  // Close on overlay background click
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.classList.add('hidden');
-  });
-
-  // Export
-  exportBtn.addEventListener('click', () => {
-    const json = exportTables();
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `signal-lost-tables-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  // Import
-  importBtn.addEventListener('click', () => importFile.click());
-  importFile.addEventListener('change', () => {
-    const file = importFile.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const result = importTables(reader.result);
-      if (result.success) {
-        renderTableList();
-        await gameAlert(`Imported ${result.imported} tables (version: ${result.version})`);
-      } else {
-        await gameAlert(`Import failed: ${result.error}`);
-      }
-    };
-    reader.readAsText(file);
-    importFile.value = '';
-  });
-
-  // Reset all
-  resetAllBtn.addEventListener('click', async () => {
-    if (!await gameConfirm('Reset ALL tables to defaults? Custom changes will be lost.')) return;
-    resetAllTables();
-    renderTableList();
-  });
-
-  // Render table list
-  function renderTableList() {
-    const tables = getTableList();
-    tableList.innerHTML = tables.map(t => `
-      <div class="config-table-row">
-        <span class="config-table-name">${t.name}</span>
-        <span class="config-table-meta">${t.itemCount} items</span>
-        ${t.isCustom ? '<span class="config-table-custom">CUSTOM</span>' : ''}
-        <button class="config-table-edit" data-table="${t.name}">EDIT</button>
-      </div>
-    `).join('');
-
-    // Wire edit buttons
-    tableList.querySelectorAll('.config-table-edit').forEach(btn => {
-      btn.addEventListener('click', () => openEditor(btn.dataset.table));
-    });
+  function updateLabel() {
+    label.textContent = `${SPEED_LEVELS[speedIndex]}x`;
   }
 
-  // Open editor for a table
-  function openEditor(name) {
-    currentEditTable = name;
-    editorName.textContent = name;
-    editorTextarea.value = JSON.stringify(getTable(name), null, 2);
-    editorStatus.textContent = '';
-    tableList.classList.add('hidden');
-    editor.classList.remove('hidden');
-  }
-
-  // Close editor
-  editorClose.addEventListener('click', () => {
-    editor.classList.add('hidden');
-    tableList.classList.remove('hidden');
-    renderTableList();
+  downBtn.addEventListener('click', () => {
+    if (speedIndex > 0) speedIndex--;
+    updateLabel();
   });
 
-  // Save editor
-  editorSave.addEventListener('click', () => {
-    try {
-      const data = JSON.parse(editorTextarea.value);
-      setTable(currentEditTable, data);
-      editorStatus.textContent = 'Saved.';
-      editorStatus.style.color = 'var(--green)';
-      setTimeout(() => { editorStatus.textContent = ''; }, 2000);
-    } catch (e) {
-      editorStatus.textContent = `Error: ${e.message}`;
-      editorStatus.style.color = 'var(--red)';
-    }
+  upBtn.addEventListener('click', () => {
+    if (speedIndex < SPEED_LEVELS.length - 1) speedIndex++;
+    updateLabel();
   });
 
-  // Reset single table
-  editorReset.addEventListener('click', async () => {
-    if (!await gameConfirm(`Reset ${currentEditTable} to default?`)) return;
-    resetTable(currentEditTable);
-    editorTextarea.value = JSON.stringify(getTable(currentEditTable), null, 2);
-    editorStatus.textContent = 'Reset to default.';
-    editorStatus.style.color = 'var(--amber)';
-    setTimeout(() => { editorStatus.textContent = ''; }, 2000);
-  });
+  updateLabel();
 }
+
 
 // === INIT ===
 
 async function init() {
-  registerTables();
   const savedState = load();
 
   if (savedState) {
@@ -510,7 +384,7 @@ async function init() {
     setupCommands();
     setupAddVessel();
     setupFontSize();
-    setupConfigScreen();
+    setupTickSpeed();
     setupAboutScreen();
     setupTooltips();
     setupMobileResize();
@@ -553,7 +427,7 @@ async function init() {
     setupCommands();
     setupAddVessel();
     setupFontSize();
-    setupConfigScreen();
+    setupTickSpeed();
     setupAboutScreen();
     setupTooltips();
     setupMobileResize();

@@ -30,13 +30,13 @@ const PHASE_ENTRY_COUNTS = {
 
 // Tick delay ranges per phase (seconds) — [min, max]
 const PHASE_TICK_DELAYS = {
-  IDLE:     [12, 25],
-  SIGNAL:   [6, 12],
-  TRAVERSE: [5, 10],
-  BREACH:   [4, 9],
-  FAULT:    [3, 7],
-  CORE:     [5, 10],
-  REBOOT:   [8, 15],
+  IDLE:     [20, 40],
+  SIGNAL:   [12, 20],
+  TRAVERSE: [10, 18],
+  BREACH:   [8, 15],
+  FAULT:    [6, 12],
+  CORE:     [10, 18],
+  REBOOT:   [15, 25],
 };
 
 function getTickDelay(vessel) {
@@ -103,6 +103,7 @@ const PHASE_EFFECTS = {
 };
 
 let state = null;
+let getSpeedMult = () => 1;  // speed multiplier from UI
 let onLogEntry = null;  // callback: (vesselId, entry) => void
 let onPhaseChange = null;  // callback: (vesselId, phase) => void
 let onStatsChange = null;  // callback: (vesselId) => void
@@ -966,11 +967,12 @@ export function tick(vessel) {
     if (fx.integrity_regen) vessel.integrity = Math.min(10, vessel.integrity + fx.integrity_regen);
   }
 
-  // Schedule next tick — delay varies by phase and vessel condition
+  // Schedule next tick — delay varies by phase, vessel condition, and UI speed
   let tickDelay = getTickDelay(vessel);
   if (vessel.mission.arc?.modifier_effect?.tick_delay_mult) {
     tickDelay = Math.floor(tickDelay * vessel.mission.arc.modifier_effect.tick_delay_mult);
   }
+  tickDelay = Math.floor(tickDelay / getSpeedMult());
   vessel.nextTick = Date.now() + tickDelay;
 
   state.tick_count++;
@@ -1598,8 +1600,9 @@ export function getObjective(vesselId) {
   return pick(PHASE_OBJECTIVES[vessel.mission.phase] || PHASE_OBJECTIVES.IDLE);
 }
 
-export function setCallbacks({ onLog, onPhase, onStats, onEvent, onDestroyed }) {
+export function setCallbacks({ onLog, onPhase, onStats, onEvent, onDestroyed, speedMultiplier }) {
   onLogEntry = onLog || null;
+  if (speedMultiplier) getSpeedMult = speedMultiplier;
   onPhaseChange = onPhase || null;
   onStatsChange = onStats || null;
   onGlobalEvent = onEvent || null;

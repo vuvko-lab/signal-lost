@@ -374,6 +374,29 @@ function highlightLogText(text) {
   return text;
 }
 
+function isNearBottom(container) {
+  return container.scrollHeight - container.scrollTop - container.clientHeight < 60;
+}
+
+function showNewMessageIndicator(container) {
+  let indicator = container.parentElement.querySelector('.new-msg-indicator');
+  if (!indicator) {
+    indicator = document.createElement('div');
+    indicator.className = 'new-msg-indicator';
+    indicator.textContent = 'NEW';
+    indicator.addEventListener('click', () => {
+      container.scrollTop = container.scrollHeight;
+      indicator.classList.add('hidden');
+    });
+    container.parentElement.appendChild(indicator);
+    // Hide indicator when user scrolls to bottom
+    container.addEventListener('scroll', () => {
+      if (isNearBottom(container)) indicator.classList.add('hidden');
+    });
+  }
+  indicator.classList.remove('hidden');
+}
+
 function appendLogEntryDOM(container, entry) {
   const div = document.createElement('div');
   let cls = 'log-entry';
@@ -381,8 +404,13 @@ function appendLogEntryDOM(container, entry) {
   if (entry.isDmg) cls += ' dmg-entry';
   div.className = cls;
   div.innerHTML = `<span class="timestamp">[${entry.time}]</span> ${highlightLogText(entry.text)}`;
+  const wasAtBottom = isNearBottom(container);
   container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+  if (wasAtBottom) {
+    container.scrollTop = container.scrollHeight;
+  } else {
+    showNewMessageIndicator(container);
+  }
 }
 
 export function appendLogEntry(vesselId, entry) {
