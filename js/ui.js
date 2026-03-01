@@ -510,6 +510,10 @@ export function updateSatelliteHealth() {
   const statusEl = document.getElementById('sat-status');
   healthEl.textContent = sat;
 
+  // Update signal bar icon to match current SAT level
+  const iconEl = statusEl.querySelector('.icon');
+  if (iconEl) iconEl.src = `assets/icons/sat-${sat}.png`;
+
   statusEl.className = '';
   if (sat === 0) statusEl.className = 'dark-mode';
   else if (sat <= 2) statusEl.className = 'critical';
