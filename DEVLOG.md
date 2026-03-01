@@ -98,6 +98,12 @@ Full benchmark data: [`tools/judge-coherence.md`](tools/judge-coherence.md)
 
 **Template variable fix.** The `{msg}` placeholder in INJECT_MANIFESTATIONS (operator's typed message) had been incorrectly renamed to `{found_message}` during a batch rename. Restored so injected commands display the operator's actual message.
 
+**Dynamic SAT signal icons.** Generated 6 PNG icons (sat-0 through sat-5) showing filled/empty signal bars. The icon now updates in real-time as satellite health changes — full bars at SAT 5, empty outlines at SAT 0.
+
+**Mobile header layout.** Reorganized the top banner into a two-row CSS grid on mobile. Title wraps to two lines; font/about controls on top row, speed controls on bottom; VOL and SAT stacked on the right spanning both rows. Fits cleanly within mobile viewport width.
+
+**Version display.** Added version identifier (`v1.2.1` + commit hash) to the About screen header.
+
 ## Architecture Decisions
 
 **No build step.** Vanilla HTML/CSS/JS ships directly as a zip. No bundler, no transpiler.
