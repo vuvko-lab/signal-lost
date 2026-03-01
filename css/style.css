@@ -1143,6 +1143,13 @@ html, body {
   text-shadow: 0 0 8px var(--glow);
 }
 
+.about-version {
+  font-size: var(--fs-base);
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-shadow: none;
+}
+
 #about-close {
   background: transparent;
   border: 1px solid var(--border);
