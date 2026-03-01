@@ -27,14 +27,20 @@
     <header id="top-banner">
       <div id="title">SIGNAL LOST <span class="dim">- OPERATOR CONSOLE</span></div>
       <div id="banner-right">
-        <button id="font-down-btn" title="Decrease font size">A-</button>
-        <button id="font-up-btn" title="Increase font size">A+</button>
-        <button id="about-btn" title="About this game">?</button>
-        <button id="speed-down-btn" title="Slower ticks">-</button>
-        <span id="speed-label" title="Tick speed multiplier">1x</span>
-        <button id="speed-up-btn" title="Faster ticks">+</button>
-        <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
-        <span id="sat-status" data-tooltip="Satellite network health. Degrades naturally over time and from phenomena. Below 3: factions override vessel missions to repair relays. Below 3: operator commands may fail. At 0: all commands disabled (DARK MODE). Vessels completing relay missions restore +1 SAT."><img class="icon icon-cyan" src="assets/icons/sat-5.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
+        <span class="banner-row banner-row-top">
+          <button id="font-down-btn" title="Decrease font size">A-</button>
+          <button id="font-up-btn" title="Increase font size">A+</button>
+          <button id="about-btn" title="About this game">?</button>
+        </span>
+        <span class="banner-row banner-row-bottom">
+          <button id="speed-down-btn" title="Slower ticks">-</button>
+          <span id="speed-label" title="Tick speed multiplier">1x</span>
+          <button id="speed-up-btn" title="Faster ticks">+</button>
+        </span>
+        <span class="banner-status">
+          <button id="mute-btn" title="Toggle audio"><img class="icon" src="assets/icons/volume.png" alt="">VOL</button>
+          <span id="sat-status" data-tooltip="Satellite network health. Degrades naturally over time and from phenomena. Below 3: factions override vessel missions to repair relays. Below 3: operator commands may fail. At 0: all commands disabled (DARK MODE). Vessels completing relay missions restore +1 SAT."><img class="icon icon-cyan" src="assets/icons/sat-5.png" alt="">SAT: <span id="sat-health">5</span>/5</span>
+        </span>
       </div>
     </header>
 
@@ -86,7 +92,7 @@
     <div id="about-overlay" class="hidden">
       <div id="about-panel">
         <div id="about-header">
-          <span>SIGNAL LOST <span class="about-version">v1.2.0 (5f1cf99)</span></span>
+          <span>SIGNAL LOST <span class="about-version">v1.2.1</span></span>
           <button id="about-close">&times;</button>
         </div>
         <div id="about-body">
