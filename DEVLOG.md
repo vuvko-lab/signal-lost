@@ -104,6 +104,18 @@ Full benchmark data: [`tools/judge-coherence.md`](tools/judge-coherence.md)
 
 **Version display.** Added version identifier (`v1.2.1` + commit hash) to the About screen header.
 
+## Session 8 — Dark Mode Overlay, Speed & Screenshots (Mar 2, 2026)
+
+**Dark mode overlay.** Moved the "DARK MODE — COMMANDS OFFLINE" indicator from a `::after` pseudo-element on the top banner to a proper overlay div inside the bottom command bar. The overlay covers the command buttons with a semi-transparent background, red pulsing text, and a tooltip explaining why commands are offline ("Satellite link lost — no uplink to relay commands").
+
+**Speed levels up to 20x.** Extended tick speed from [0.5, 1, 1.5, 2, 3] to [0.5, 1, 1.5, 2, 3, 5, 10, 20]. SAT decay timer now scales with speed multiplier — at 20x, decay fires every ~9-15s instead of 3-5 minutes.
+
+**Background music volume.** Raised `BG_VOLUME` from 0.5 to 1.0.
+
+**CLAUDE.md rewrite.** Restructured the project guide for Claude Code with development commands, module responsibility table, data flow diagram, template/scene system docs, and faction voice processing details. Fixed outdated font and audio info.
+
+**Mobile screenshots.** Created `tools/take-screenshots.py` — Playwright script that boots the game at 320x600, triggers a phenomenon and dark mode + vessel memorial, and captures two PNGs for itch.io.
+
 ## Architecture Decisions
 
 **No build step.** Vanilla HTML/CSS/JS ships directly as a zip. No bundler, no transpiler.

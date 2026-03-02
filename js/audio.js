@@ -27,7 +27,7 @@ const NOISE_LAYERS = [
   { src: 'assets/ambient/radio-loop.ogg', volume: 0.035, label: 'Radio Static', tags: ['relay', 'signal', 'antenna', 'zone'] },
 ];
 
-const BG_VOLUME = 0.5;
+const BG_VOLUME = 1.0;
 
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];

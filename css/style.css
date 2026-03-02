@@ -187,14 +187,26 @@ html, body {
 }
 
 /* SAT Dark Mode — commands disabled overlay */
-.sat-dark-mode .cmd-btn { opacity: 0.2; pointer-events: none; }
-#top-banner.sat-dark-mode::after {
-  content: 'DARK MODE — COMMANDS OFFLINE';
+.sat-dark-mode .cmd-btn { opacity: 0.15; pointer-events: none; }
+#bottom-bar.sat-dark-mode { position: relative; }
+#dark-mode-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.75);
+  cursor: help;
+}
+#bottom-bar.sat-dark-mode #dark-mode-overlay { display: flex; }
+#dark-mode-overlay span {
   color: var(--red);
   font-family: var(--font-pixel);
-  font-size: var(--fs-base);
+  font-size: var(--fs-title);
   animation: sat-dark-pulse 1.5s ease-in-out infinite;
-  margin-left: 12px;
+  text-shadow: 0 0 8px rgba(255, 51, 51, 0.5);
+  letter-spacing: 2px;
 }
 
 /* Global event banner — floating overlay */

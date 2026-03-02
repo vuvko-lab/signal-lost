@@ -526,14 +526,11 @@ export function updateDarkMode() {
   if (!state) return;
 
   const sat = state.world.satellite_health;
-  const banner = document.getElementById('top-banner');
   const bottomBar = document.getElementById('bottom-bar');
 
   if (sat === 0) {
-    banner.classList.add('sat-dark-mode');
     bottomBar.classList.add('sat-dark-mode');
   } else {
-    banner.classList.remove('sat-dark-mode');
     bottomBar.classList.remove('sat-dark-mode');
   }
 }

@@ -61,12 +61,13 @@ function startGameLoop() {
 }
 
 function scheduleSatDecay() {
-  const delay = (180 + Math.random() * 120) * 1000; // 180-300s (3-5 min)
+  const baseDelay = (180 + Math.random() * 120) * 1000; // 180-300s (3-5 min)
+  const delay = baseDelay / getSpeedMultiplier();
   satDecayInterval = setTimeout(() => {
     checkSatDecay();
     updateSatelliteHealth();
     updateDarkMode();
-    scheduleSatDecay(); // schedule next
+    scheduleSatDecay(); // schedule next (re-reads current speed)
   }, delay);
 }
 
@@ -317,7 +318,7 @@ function setupAboutScreen() {
 
 // === TICK SPEED ===
 
-const SPEED_LEVELS = [0.5, 1, 1.5, 2, 3];
+const SPEED_LEVELS = [0.5, 1, 1.5, 2, 3, 5, 10, 20];
 let speedIndex = 0; // default: 0.5x (slowest)
 
 export function getSpeedMultiplier() { return SPEED_LEVELS[speedIndex]; }
